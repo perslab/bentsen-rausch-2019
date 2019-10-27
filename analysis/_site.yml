@@ -1,7 +1,7 @@
-name: "fgf_alldata"
+name: fgf_alldata
 output_dir: ../docs
 navbar:
-  title: "fgf_alldata"
+  title: fgf_alldata
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/perslab/fgf_alldata
 output:
   workflowr::wflow_html:
     toc: yes
