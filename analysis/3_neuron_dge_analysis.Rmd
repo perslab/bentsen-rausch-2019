@@ -1,0 +1,109 @@
+---
+title: "Neuron DGE Analysis"
+output: html_notebook
+---
+
+# Load Libraries
+```{r,  message=F, warning=FALSE}
+library(Seurat)
+library(tidyverse)
+library(DESeq2)
+library(future)
+library(future.apply)
+library(cowplot)
+library(here)
+library(reshape2)
+library(ggpubr)
+library(ggsci)
+library(ggrepel)
+plan("multiprocess", workers = 40)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+# Load functions and data
+```{r load}
+source(here("code/sc_functions.R"))
+fgf.neur.sub<-readRDS(here("data/neuron/neurons_seur_filtered.RDS"))
+DimPlot(fgf.neur.sub, reduction="tsne")
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+
+# Look at neuron data
+```{r tsne plots, fig.width=10, fig.height=5}
+tsne_embed<-data.frame(Embeddings(fgf.neur.sub, reduction = "tsne"))
+tsne_embed$group<-fgf.neur.sub$group
+tsne_embed$celltype<-Idents(fgf.neur.sub)
+tsne_embed<-tsne_embed[sample(nrow(tsne_embed)),]
+
+label.df <- data.frame(cluster=levels(tsne_embed$celltype),label=levels(tsne_embed$celltype))
+label.df_2 <- tsne_embed %>% 
+  group_by(celltype) %>% 
+  summarize(x = median(tSNE_1), y = median(tSNE_2))
+
+p1 <- ggplot(tsne_embed, aes(x=tSNE_1, y=tSNE_2, color=celltype)) + 
+  geom_point(size=1, alpha=0.75)  + 
+  geom_label_repel(data = label.df_2, aes(label = celltype, x=x, y=y), size=3, fontface="bold", inherit.aes = F)  +
+  theme_void() + theme(legend.position = "none") + ggsci::scale_color_igv()
+p2 <- ggplot(tsne_embed, aes(x=tSNE_1, y=tSNE_2, colour=group)) + 
+  geom_point(alpha=.75, size=1) + 
+  ggsci::scale_color_igv() + 
+  theme_void() + theme(legend.position = "none")
+z <- plot_grid(p1,p2, nrow = 1, scale=0.9)
+cowplot::ggsave2(z, filename = here("output/neuron/tsne_neurons.png"), h=5, w=10)
+```
+
+# Get color scheme
+```{r}
+g <- ggplot_build(p1)
+cols<-data.frame(colours = as.character(unique(g$data[[1]]$colour)), 
+             label = as.character(unique(g$plot$data[, g$plot$labels$colour])))
+colvec<-as.character(cols$colours)
+names(colvec)<-as.character(cols$label)
+```
+
+#Generate Pseudo Counts
+```{r create pseudobulk matrices, message=F, warning=FALSE}
+split_mats<-splitbysamp(fgf.neur.sub, split_by="sample")
+names(split_mats)<-unique(Idents(fgf.neur.sub))
+pb<-replicate(100, gen_pseudo_counts(split_mats, ncells=10)) 
+names(pb)<-paste0(rep(names(split_mats)),"_",rep(1:100, each=length(names(split_mats))))
+```
+
+# Generate DESeq2 Objects
+```{r resampling-DESeq2, message=F, warning=FALSE}
+res<-rundeseq(pb)
+```
+
+# Identify neuronal populations with most DE genes at 24 hr
+```{r plot resampling, message=F, warning=FALSE}
+degenes<-lapply(res, function(x) {
+  tryCatch({
+    y<-x[[2]]
+    y<-na.omit(y)
+    data.frame(y)%>%filter(padj<0.1)%>%nrow()}, 
+    error=function(err) {NA})
+})
+
+
+boxplot<-lapply(unique(Idents(fgf.neur.sub)), function(x) {
+  y<-paste0("^",x,"_")
+  z<-unlist(degenes[grep(y, names(degenes))])
+})
+
+names(boxplot)<-unique(Idents(fgf.neur.sub))
+boxplot<-t(as.data.frame(do.call(rbind, boxplot)))
+rownames(boxplot)<-1:100
+genenum<-melt(boxplot)
+write_csv(genenum, path = here("output/neuron/genenum.csv"))
+deboxplot<-ggplot(genenum,aes(x=reorder(Var2, -value), y=value, fill=factor(Var2))) + 
+  geom_boxplot(notch = T, alpha=.75) + 
+  scale_fill_manual(values = colvec) +
+  theme_pubr() +
+  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "none") + 
+  ylab("Differentially Expressed\n Genes") + xlab(NULL) 
+ggsave(deboxplot, filename = here("output/neuron/deboxplot_neur.png"), w=10, h=5)
+```

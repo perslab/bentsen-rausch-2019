@@ -1,0 +1,64 @@
+---
+title: "Glial Cell Processing"
+output: html_notebook
+---
+
+```{r}
+library(Seurat)
+library(future)
+library(tidyverse)
+library(here)
+plan(multiprocess, workers=16)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+#Load seurat object
+```{r}
+seur.sub<-readRDS(here("data/fgf_filtered_nuclei.RDS"))
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+
+#Subset Glia and Recluster
+```{r}
+fgf.glia<-subset(seur.sub, ident=c("Agrp","Neur","Hist"), invert=T)
+# Run the standard workflow for visualization and clustering
+fgf.glia %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunUMAP(dims = 1:30) %>% 
+  FindNeighbors(dims = 1:30) %>%
+  FindClusters(resolution=0.6) -> fgf.glia
+DimPlot(fgf.glia, label=T)
+```
+
+#Subset and recluster
+```{r}
+fgf.glia.sub<-subset(fgf.glia, idents=c(8,9,10,11,14,15), invert=T)
+# Run the standard workflow for visualization and clustering
+fgf.glia.sub %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunUMAP(dims = 1:30) %>% 
+  FindNeighbors(dims = 1:30) %>%
+  FindClusters(resolution=0.6) -> fgf.glia.sub
+DimPlot(fgf.glia.sub, label=T)
+```
+
+#Identify Clusters
+```{r}
+glia.marks<-FindAllMarkers(fgf.glia.sub, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 250)
+write_csv(glia.marks, path=here("output/glia/glial_markergenes.csv"))
+glia.marks%>%group_by(cluster)%>%top_n(5, avg_logFC)->top5
+DoHeatmap(fgf.glia.sub, top5$gene)
+```
+
+#Identify clusters for silhouette removal of poor quality cells
+```{r}
+new.cluster.ids<-c("Olig","Astro","COP","Astro","Micro", "Tany", 
+             "Astro", "Epend", "VLMC", "Endo", "Olig")
+names(new.cluster.ids) <- levels(fgf.glia.sub)
+fgf.glia.sub <- RenameIdents(fgf.glia.sub, new.cluster.ids)
+saveRDS(fgf.glia.sub, here("data/glia/glia_seur_filtered.RDS"))
+```

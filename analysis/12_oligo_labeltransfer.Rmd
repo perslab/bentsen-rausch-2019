@@ -1,0 +1,104 @@
+---
+title: "Olig Analysis"
+output: html_notebook
+---
+
+```{r}
+library(GEOquery)
+library(here)
+library(Seurat)
+library(tidyverse)
+library(future)
+library(data.table)
+library(rstatix)
+
+plan(multiprocess, workers=30)
+options(future.globals.maxSize = 8000 * 1024^2)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+```{r}
+glia <- readRDS(here("data/filtglia.RDS"))
+olig <- subset(glia, ident=c("Olig","OPC","COP"))
+olig %>% 
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) -> olig 
+```
+
+```{r}
+gse<-getGEO("GSE75330", GSEMatrix=T)
+counts<-fread("/projects/dylan/fgf1/oligodendrocyte_figure/GSE75330_Marques_et_al_mol_counts2.tab")
+counts<-as.data.frame(counts)
+rownames(counts)<-counts[,1]
+counts<-counts[,-1]
+cellid<-pData(phenoData(gse[[1]]))[c(1,44)]
+names(cellid)<-c("cell","label")
+cellid<-data.frame(sapply(cellid, function(x) as.character(x)), stringsAsFactors = F)
+counts<-counts[,colnames(counts)%in%cellid$cell]
+cellid<-cellid[cellid$cell%in%colnames(counts),]
+cellid<-cellid[match(colnames(counts),cellid$cell),]
+```
+
+```{r}
+CreateSeuratObject(counts=counts) %>% 
+  SCTransform(verbose = F, return.only.var.genes = F) %>% 
+  RunPCA(verbose=T) %>% RunUMAP(dims=1:10) -> branco
+branco$label<-cellid$label
+Idents(branco)<-"label"
+branco_sub<-subset(branco, cells=WhichCells(branco, idents=c("PPR"), invert=T))
+branco_sub<-RenameIdents(branco_sub, "MOL2"="MOL1")
+branco_sub<-RenameIdents(branco_sub, "MOL3"="MOL1")
+branco_sub<-RenameIdents(branco_sub, "MOL4"="MOL1")
+branco_sub<-RenameIdents(branco_sub, "MOL5"="MOL1")
+branco_sub<-RenameIdents(branco_sub, "MOL6"="MOL1")
+branco_sub<-RenameIdents(branco_sub, "NFOL1"="NFOL")
+branco_sub<-RenameIdents(branco_sub, "NFOL2"="NFOL")
+branco_sub<-RenameIdents(branco_sub, "MFOL1"="MFOL")
+branco_sub<-RenameIdents(branco_sub, "MFOL2"="MFOL")
+```
+
+```{r}
+oliglist <- list(branco=branco_sub, olig=olig)
+olig.features <- SelectIntegrationFeatures(object.list = oliglist, nfeatures = 3000)
+oliglist <- PrepSCTIntegration(object.list = oliglist, anchor.features = olig.features, 
+    verbose = FALSE)
+olig.anchors <- FindTransferAnchors(reference = oliglist[["branco"]], 
+                                    query = oliglist[["olig"]], normalization.method = "SCT", 
+                                    features = olig.features)
+predictions <- TransferData(anchorset = olig.anchors, refdata = branco_sub@active.ident, 
+    dims = 1:30)
+hist(predictions$prediction.score.max)
+```
+
+```{r}
+olig <- AddMetaData(object = olig, metadata = predictions)
+table(olig$predicted.id)
+DimPlot(olig, group.by = "predicted.id")
+olig_sub<-subset(olig, subset=prediction.score.max>0.5)
+```
+
+```{r}
+olig_sub %>% 
+  ScaleData(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) %>% FindNeighbors(dims = 1:20) %>% RunUMAP(dims = 1:20) %>% 
+  FindClusters(resolution = 0.2) -> olig_sub
+DimPlot(olig_sub, label = T)
+```
+
+```{r}
+olig_sub <- subset(olig_sub, ident=c(3,4,6), invert=T)
+olig_sub %>% 
+  ScaleData(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) %>% FindNeighbors(dims = 1:20) %>% RunUMAP(dims = 1:20) %>% 
+  FindClusters(resolution = 0.2) -> olig_sub
+Idents(olig_sub)<-"predicted.id"
+DimPlot(olig_sub, label = T)
+```
+
+```{r}
+saveRDS(olig_sub, here("data/glia/olig_labeled.RDS"))
+```
+

@@ -1,0 +1,132 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Load Libraries
+```{r}
+library(Seurat)
+library(future)
+library(tidyverse)
+library(here)
+source(here("code/sc_functions.R"))
+plan(multiprocess, workers=50)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Read in raw 10x data
+```{r}
+samples<-list.files("/data/sc-10x/data-runs/170904-schwartz-fgf1/")
+rawdat<-samples[grep("[PF|FGF].*cells",samples)]
+list_mat<-list()
+for (sample in rawdat){
+  x<-sapply(strsplit(sample,"-"),"[",1)
+  list_mat[x]<-Read10X(paste0("/data/sc-10x/data-runs/170904-schwartz-fgf1/",sample,"/outs/filtered_gene_bc_matrices/mm10/"))
+}
+```
+
+# Read in doublet classifier
+```{r}
+dubs<-list.files("~/doublet_removal/scrublet_test/", full.names = T)
+dubs<-dubs[grep("cells",dubs)]
+list_dubs<-list()
+for (sample in dubs){
+  names<-sapply(strsplit(sapply(strsplit(sapply(strsplit(sapply(strsplit(sample,"//"),"[",2),".csv"),"[",1),"scrublet_"),"[",2),"-"),"[",1)
+  list_dubs[names]<-read.csv(sample)
+}
+doublet<-mapply(function(x,y) x[,y<.23], x=list_mat, y=list_dubs)
+```
+
+# Read in and filter single cell data
+```{r}
+list_seu_obj<-list()
+
+for (i in seq_len(length(list_mat))){
+  list_seu_obj[names(list_mat)[[i]]] <- CreateSeuratObject(counts = doublet[[i]], min.cells = 10, min.features = 500, 
+    project = names(list_mat)[[i]])
+}
+
+Reduce(function(x,y){merge(x,y)}, list_seu_obj) %>% PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mito") %>% 
+  PercentageFeatureSet(pattern = "^Rp[sl][[:digit:]]", col.name = "percent.ribo") %>%
+  subset(subset = nFeature_RNA > 400 & nFeature_RNA < 4000 & percent.mito > .2 &
+           percent.ribo >.2 & nCount_RNA < quantile(nCount_RNA, .99) & nCount_RNA > quantile(nCount_RNA, .01)) %>%
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% RunPCA(verbose=T) %>% FindNeighbors(dims = 1:30) %>%
+  RunUMAP(dims = 1:30) %>% FindClusters(resolution=0.1, verbose=T) -> all_combined
+
+DimPlot(all_combined, group.by="orig.ident")
+```
+
+# Identify marker genes
+```{r}
+marks<-FindAllMarkers(all_combined, logfc.threshold = .5, only.pos = T, max.cells.per.ident = 100)
+write_csv(marks, path=here("output/all_wc_markers.csv"))
+marks %>% group_by(cluster) %>% top_n(5, -p_val_adj) %>% data.frame() -> top5
+```
+
+# Rename Clusters
+```{r}
+new.cluster.ids<-c("Tany","Astro","Neur","Olig",
+                   "Endo","Epend","OPC","Micro",
+                   "COP","Neur","Inflam","VLMC",
+                   "RBC","ParsTuber")
+names(new.cluster.ids) <- levels(all_combined)
+all_combined <- RenameIdents(all_combined, new.cluster.ids)
+```
+
+# Add metadata
+```{r}
+batch_df <- data.frame(samp=c(7,12,29,28,4,27,37,22,6,30,20,21,35,10,3,25,36,34), 
+                    batch=rep(1:6, each=3))
+all_combined$trt <- ifelse(grepl("FGF", all_combined$orig.ident), yes="FGF", no="PF")
+all_combined$sample <- sapply(strsplit(all_combined$orig.ident,"_"),"[",1)
+all_combined$batch <- batch_df[match(all_combined$sample,batch_df$samp),"batch"]
+```
+
+# Remove neurons, RBC, Unknown, Tuber
+```{r}
+glia <- subset(all_combined, ident=c("Neur", "Inflam", "RBC", "ParsTuber"), invert = T)
+glia %>% 
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) %>% FindNeighbors(dims = 1:30) %>%
+  RunUMAP(dims = 1:30) %>% FindClusters(resolution=0.6, verbose=T) -> glia
+marks<-FindAllMarkers(glia, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 100)
+marks %>% group_by(cluster) %>% top_n(5, -p_val_adj) %>% data.frame() -> top5
+```
+
+# Rename Clusters
+```{r}
+new.cluster.ids<-c("Tany","Astro","Olig","Endo",
+                   "Astro","Epend","OPC","Tany",
+                   "Olig","Olig","Inflam","COP",
+                   "Micro","Tany","Neur", "VLMC", 
+                   "mt", "Macro", "OPC",
+                   "OPC", "SMC", "ABC")
+names(new.cluster.ids) <- levels(glia)
+glia <- RenameIdents(glia, new.cluster.ids)
+cellsper<-as.data.frame.matrix(prop.table(table(glia@meta.data$sample, Idents(glia)), margin=2))
+col_keep<-colnames(cellsper[,!apply(cellsper, 2, function(x) any(x > .5))])
+subset(glia, ident=c("Inflam","mt", "Neur"), invert=T) %>% 
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>%
+  RunPCA(verbose=T) %>% FindNeighbors(dims = 1:30) %>%
+  RunUMAP(dims = 1:30) %>% FindClusters(resolution=0.6, verbose=T) -> glia_sub
+```
+
+```{r}
+marks<-FindAllMarkers(glia_sub, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 100)
+marks %>% group_by(cluster) %>% top_n(5, -p_val_adj) %>% data.frame() -> top5
+new.cluster.ids<-c("Tany","Astro","Olig","Endo",
+                   "Astro","OPC","Epend","Tany",
+                   "Micro","COP","Tany","Olig",
+                   "Olig","VLMC","Inflam", "Peri", 
+                   "Macro", "OPC", "Olig",
+                   "SMC", "ABC")
+names(new.cluster.ids) <- levels(glia_sub)
+glia_sub <- RenameIdents(glia_sub, new.cluster.ids)
+glia_sub <- subset(glia_sub, ident="Inflam", invert=T)
+saveRDS(glia_sub, file=here("data/filtglia.RDS"))
+```
+

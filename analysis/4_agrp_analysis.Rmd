@@ -1,0 +1,231 @@
+---
+title: "Agrp_Analysis"
+output: html_notebook
+---
+
+```{r, message=F, warning=FALSE}
+library(Seurat)
+library(tidyverse)
+library(gProfileR)
+library(ggraph)
+library(future)
+library(org.Mm.eg.db)
+library(reactome.db)
+library(ggraph)
+library(igraph)
+library(DESeq2)
+library(here)
+library(tidyverse)
+library(ggrepel)
+library(ggpubr)
+library(wesanderson)
+library(tidygraph)
+library(ggforce)
+library(reshape2)
+library(ggbeeswarm)
+library(ggsci)
+library(cowplot)
+library(gt)
+plan(multiprocess, workers=16)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+# Load prepped data
+```{r load data}
+fgf.neur.sub<-readRDS(here("data/neuron/neurons_seur_filtered.RDS"))
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+
+# Specific Agrp analysis
+```{r, message=F, warning=FALSE}
+agrp<-subset(fgf.neur.sub, ident="Agrp")
+agrp %>% ScaleData(verbose=F) %>% 
+  FindVariableFeatures(selection.method = "vst", nfeatures = 2000) %>%
+  RunPCA(ndims.print=1:10)->agrp
+list_sub<-SplitObject(agrp, split.by="sample")
+pb<-(lapply(list_sub, function(y) {
+    DefaultAssay(y) <- "SCT"
+    mat<-GetAssayData(y, slot="counts")
+    counts <- Matrix::rowSums(mat)
+}) %>% do.call(rbind, .) %>% t() %>% as.data.frame())
+
+trt<-ifelse(grepl("FGF", colnames(pb)), yes="F", no="P")
+batch<-as.factor(sapply(strsplit(colnames(pb),"_"),"[",1))
+day<-ifelse(as.numeric(as.character(batch))>10, yes="Day-5", no="Day-1")
+group<-paste0(trt,"_",day)
+meta<-data.frame(trt=trt, day=factor(day), group=group)
+dds <- DESeqDataSetFromMatrix(countData = pb,
+                              colData = meta,
+                              design = ~ 0 + group)
+keep <- rowSums(counts(dds) >= 5) > 5
+dds <- dds[keep,]
+dds<-DESeq(dds)
+res_5<-results(dds, contrast = c("group","F_Day-5","P_Day-5"))
+res_1<-results(dds, contrast = c("group","F_Day-1","P_Day-1"))
+f_5_1<-results(dds, contrast = c("group","F_Day-5","F_Day-1"))
+p_5_1<-results(dds, contrast = c("group","P_Day-5","P_Day-1"))
+```
+
+# Filter 24 hr results
+```{r}
+res_1<-as.data.frame(res_1)
+res_1<-res_1[complete.cases(res_1),]
+res_1<-res_1[order(res_1$padj),]
+res_1$gene<-rownames(res_1)
+write_csv(res_1, path=here("output/neuron/agrp_24hr_dge.csv"))
+```
+
+# Volcano Plot of DE genes
+```{r volcano plot, fig.width=5, fig.height=5}
+res_1 %>% add_rownames("gene") %>%
+  mutate(siglog=ifelse(padj<0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>% 
+  mutate(onlysig=ifelse(padj<0.05&abs(log2FoldChange)<1, yes=T, no=F)) %>% 
+  mutate(onlylog=ifelse(padj>0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>% 
+  mutate(col=ifelse(siglog==T, yes="1", no = 
+                      ifelse(onlysig==T, yes="2", no = 
+                               ifelse(onlylog==T, yes="3", no="4")))) %>% 
+  mutate(label=ifelse(padj<0.01, yes=gene, no="")) %>%
+  dplyr::select(gene, log2FoldChange, padj, col, label) -> volc
+
+ggplot(volc, aes(y=(-log10(padj)), x=log2FoldChange, fill=factor(col), label=label)) + 
+  xlab(expression(Log[2]*~Fold*~Change)) + ylab(expression(-Log[10]*~pvalue))+
+  geom_point(shape=21, size=3, alpha=0.75) + geom_hline(yintercept = -log10(0.05), linetype="dashed") + 
+  geom_vline(xintercept = c(-1,1), linetype="dashed") + geom_text_repel() + theme_pubr() + labs_pubr() + 
+  theme(legend.position = "none") + 
+  scale_fill_manual(values = wes_palette("Royal1", 4, type="discrete"))
+```
+
+# GO Term Analysis
+```{r}
+resgo<-res_1[res_1$padj<0.1,]
+resgo<-resgo[resgo$log2FoldChange>0,]
+
+ego<-gprofiler(rownames(resgo), organism = "mmusculus", significant = T, custom_bg = rownames(dds),
+                           src_filter = c("GO:BP","GO:MF","REAC","KEGG"),hier_filtering = "strong",
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = "fdr")
+write_csv(ego, path=here("output/neuron/agrp_24hr_goterms.csv"))
+
+ego %>% arrange(p.value) %>%
+  select(domain, term.name, p.value) %>% 
+  head(10) %>%
+  gt()
+```
+
+# GO similarity plot
+```{r go plot, fig.height=7.5, fig.width=7.5}
+mouse.GO <- as.data.frame(org.Mm.egGO2ALLEGS)[,c("gene_id","go_id")]
+mouse.PATH <- as.data.frame(org.Mm.egPATH2EG)[,c("gene_id","path_id")]
+mouse.PATH$path_id<-paste0("KEGG:",mouse.PATH$path_id)
+mouse.REAC <- as.data.frame(reactomePATHID2EXTID)[,c("gene_id","DB_ID")]
+colnames(mouse.REAC)[2]<-"path_id"
+mouse.REAC$path_id<-paste0("REAC:",mouse.REAC$path_id)
+colnames(mouse.GO)[2]<-"path_id"
+allpaths<-rbind(mouse.GO, mouse.PATH)
+jac<-allpaths[allpaths$path_id%in%ego$term.id,]
+jac_list<-split(jac$gene_id, f = jac$path_id)
+df<-stringdist::seq_distmatrix(jac_list,method="jw")
+attributes(df)$Labels<-ego[match(attributes(df)$Labels, ego$term.id),"term.name"]
+
+g<-graph.adjacency(
+  as.matrix(df),
+  mode="undirected",
+  weighted=TRUE,
+  diag=T)
+
+g<-delete_edges(g,which(E(g)$weight>.6))
+g<-as_tbl_graph(g)
+g %>% activate(nodes) %>%
+  mutate(db = factor(toupper(ego[match(name, ego$term.name),"domain"]))) %>% 
+  mutate(pval = -log10(ego[match(name, ego$term.name),"p.value"])) -> g
+
+g %>% activate(nodes) %>% 
+  mutate(community = as.factor(group_edge_betweenness())) %>% group_by(community) %>%
+  mutate(label=ifelse(pval==max(pval),name, NA)) -> g
+
+set.seed("139")
+ggraph(g, layout = "fr") + 
+  geom_edge_link(color="black", aes(width = weight), alpha = 0.2, show.legend = F)  + 
+  scale_edge_width(range = c(0.2, 1)) + 
+  geom_node_point(aes(size=pval, colour=db)) + scale_size(range = c(2,10)) + guides(colour = guide_legend(override.aes = list(size = 5))) +
+  geom_mark_hull(aes(x=x,y=y, fill=community), show.legend = F)  + 
+  geom_label_repel(aes(x=x,y=y,label=str_wrap(label,20)),fontface="bold", size=4, min.segment.length = .1, nudge_y = .5, alpha=0.5) +
+  labs(colour="Database", size=expression(log[10]*pvalue)) + 
+  theme_graph()
+ggsave(filename = here("output/neuron/agrp_go_graph.png"))
+```
+
+# D5 v D1
+```{r, fig.width=10}
+embed <- data.frame(Embeddings(agrp, reduction = "pca")[,1:10])
+embed$group <- agrp$group
+embed <- melt(embed, id.vars = "group")
+ggplot(embed[embed$variable%in%c("PC_1","PC_2","PC_3","PC_4","PC_5","PC_6"),], aes(x = group, y=value)) + 
+  geom_quasirandom(aes(fill=group), alpha=.5, shape=21) + 
+  facet_wrap(.~variable, scales="free") +
+  scale_fill_jco()  + theme_pubr() + 
+  theme(legend.position = "none", axis.text.x = element_text(angle=45, hjust=1)) + 
+  ylab("PC Embedding Value") + xlab(NULL) + labs_pubr()
+ggsave(filename = here("output/neuron/agrp_pc_graph.png"))
+```
+
+# Calculate Variance Explained
+```{r}
+mat <- Seurat::GetAssayData(agrp, assay = "SCT", slot = "scale.data")
+pca <- agrp[["pca"]]
+# Get the total variance:
+total_variance <- sum(matrixStats::rowVars(mat))
+eigValues = Stdev(object = agrp, reduction = "pca")^2
+varExplained = eigValues / total_variance
+```
+
+# Extract genes from top loading PCs
+```{r}
+pc1<-rownames(agrp@reductions$pca[order(agrp@reductions$pca[,1]),])[1:100]
+pc4<-rownames(agrp@reductions$pca[order(-agrp@reductions$pca[,4]),])[1:100]
+pc6<-rownames(agrp@reductions$pca[order(-agrp@reductions$pca[,6]),])[1:100]
+imp_pcs<-data.frame(pc1=rownames(agrp@reductions$pca[order(agrp@reductions$pca[,1]),]), pc4=rownames(agrp@reductions$pca[order(-agrp@reductions$pca[,4]),]),pc6=rownames(agrp@reductions$pca[order(-agrp@reductions$pca[,6]),]))
+write_csv(imp_pcs, path=here("output/agrp_pcgenes.csv"))
+```
+
+```{r}
+res_5<-as.data.frame(res_5)
+res_5<-res_5[complete.cases(res_5),]
+res_5[order(res_5$pvalue),] %>% add_rownames("gene") %>% filter(baseMean>100)
+```
+
+
+# GO term enrichment for PC6 (highest value for FGF_D5)
+```{r}
+pc6_go<-gprofiler(pc6, organism = "mmusculus", significant = T, 
+                           src_filter = c("GO:BP","GO:MF","REAC", "KEGG"),hier_filtering = "strong",
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 500,correction_method = "fdr")
+
+write_csv(pc6_go, path=here("output/neuron/agrp_PC6_goterms.csv"))
+pc6_go %>% arrange(p.value) %>%
+  select(domain, term.name, p.value) %>% 
+  head(10) %>%
+  gt()
+```
+
+# Plot top loading genes
+```{r, fig.height=5, fig.width=10}
+imp_gene<-data.frame(t(agrp[["SCT"]]@scale.data[c("Agrp","Npy","Cntn5"),]))
+imp_gene$group<-agrp$group
+imp_gene$Sample<-agrp$sample
+imp_gene<-melt(imp_gene, id.vars = c("group","Sample"))
+ggplot(imp_gene[sample(nrow(imp_gene)),], aes(x=group, y=value)) + 
+  geom_quasirandom(aes(fill=Sample),alpha=.85, shape=21) +
+  facet_wrap(.~variable, scales = "free", nrow = 1) + theme_pubr() + 
+  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "right") + 
+  ylab("Normalized Expression") + xlab(NULL) + labs_pubr()
+ggsave(filename = here("output/neuron/agrp_imp_gene.png"))
+```
+

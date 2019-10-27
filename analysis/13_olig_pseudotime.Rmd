@@ -1,0 +1,194 @@
+---
+title: "Olig Pseudotime"
+output: html_notebook
+---
+
+```{r}
+library(here)
+library(Seurat)
+library(monocle)
+library(ggplot2)
+library(tidyverse)
+library(rstatix)
+library(ggpubr)
+library(ggsci)
+library(ggrepel)
+library(reshape2)
+library(cowplot)
+library(ggpubr)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+```{r, fig.width=10, fig.height=3}
+olig <- readRDS(here("data/glia/olig_labeled.RDS"))
+olig_plot <- as.data.frame(Embeddings(olig, reduction = "umap"))
+olig_plot$trt <- olig$trt
+olig_plot$type <- Idents(olig)
+label.df <- data.frame(cluster=levels(olig_plot$type),label=levels(olig_plot$type))
+label.df_2 <- olig_plot %>% 
+  dplyr::group_by(type) %>% 
+  dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2))
+
+a <- ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = trt)) + 
+  geom_point(alpha = 0.5, size=.5) + scale_color_manual(values=c("#000000","#999999"), name="") +  
+  guides(colour = guide_legend(override.aes = list(size=2))) + theme_pubr() + theme(legend.position = c(0.3, 0.25), legend.background=element_blank())
+b <- ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = type)) + 
+  geom_point(alpha = 0.5, size=.5) + scale_colour_discrete(name="Treatment") +
+  geom_label_repel(data = label.df_2, aes(label = type, x=x, y=y), size=3, fontface="bold", inherit.aes = F) +
+  guides(colour = guide_legend(override.aes = list(size=5))) + theme_pubr() + theme(legend.position = "none") 
+```
+
+```{r}
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+    library(plyr)
+
+    # New version of length which can handle NA's: if na.rm==T, don't count them
+    length2 <- function (x, na.rm=FALSE) {
+        if (na.rm) sum(!is.na(x))
+        else       length(x)
+    }
+
+    # This does the summary. For each group's data frame, return a vector with
+    # N, mean, and sd
+    datac <- ddply(data, groupvars, .drop=.drop,
+      .fun = function(xx, col) {
+        c(N    = length2(xx[[col]], na.rm=na.rm),
+          mean = mean   (xx[[col]], na.rm=na.rm),
+          sd   = sd     (xx[[col]], na.rm=na.rm)
+        )
+      },
+      measurevar
+    )
+
+    # Rename the "mean" column    
+    names(datac)[4] <- measurevar
+
+    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+
+    # Confidence interval multiplier for standard error
+    # Calculate t-statistic for confidence interval: 
+    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    datac$ci <- datac$se * ciMult
+
+    return(datac)
+}
+```
+
+```{r}
+cell<-as.data.frame.matrix(table(olig$orig.ident, olig@active.ident))
+cell$trt<-as.factor(sapply(strsplit(rownames(cell),"_"),"[",2))
+cell<-melt(cell)
+stat.test <- cell %>%
+  group_by(variable) %>%
+  t_test(value ~ trt) %>%
+  adjust_pvalue() %>%
+  add_significance("p.adj")
+
+cell<-summarySE(cell, measurevar="value", groupvars=c("trt","variable"))
+plotval<-cbind(cell, signif=stat.test$p.adj.signif)
+plotval$signif[plotval$trt!="FGF1"]<-NA
+write.csv(plotval, file="olig_ttest_padj.csv")
+c <- ggplot(plotval, aes(x = variable, y = value, fill = trt, label = signif)) + 
+    geom_bar(position=position_dodge(), stat="identity") + geom_text(aes(y = c(500,1200,300,250,200, NA,NA,NA,NA,NA))) +
+    geom_errorbar(aes(ymin=value-se, ymax=value+se),size=.3,width=.2,position=position_dodge(.9)) +
+    xlab(NULL) + scale_fill_manual(values=c("#000000","#999999")) +
+    ylab("Mean Number\n of Cells") +
+    theme_pubr(legend = "none") +
+    theme(axis.text.x = element_text(angle=45, hjust=1))
+```
+
+```{r, fig.width=12, fig.height=3}
+top <- plot_grid(b, a, c, scale=0.9, labels = "AUTO", nrow = 1, rel_widths = c(1,1,1.25), align="h", axis="tb")
+top
+```
+
+```{r}
+cds <- as.CellDataSet(olig)
+cds <- estimateSizeFactors(cds)
+cds <- estimateDispersions(cds)
+cds <- detectGenes(cds, min_expr = 0.1)
+fData(cds)$use_for_ordering <-
+    fData(cds)$num_cells_expressed > 0.1 * ncol(cds)
+```
+
+```{r}
+cds <- reduceDimension(cds,
+                              max_components = 2,
+                              norm_method = 'log',
+                              num_dim = 2,
+                              reduction_method = 'tSNE',
+                              verbose = T)
+cds <- clusterCells(cds, verbose = T)
+cds <- clusterCells(cds,
+                 rho_threshold = 150,
+                 delta_threshold = 15,
+                 skip_rho_sigma = T,
+                 verbose = F)
+plot_cell_clusters(cds, label_groups_by_cluster=FALSE,  color_cells_by = "Cluster")
+```
+
+```{r}
+olig_expressed_genes <-  row.names(subset(fData(cds), num_cells_expressed >= 10))
+
+clustering_DEG_genes <-
+    differentialGeneTest(cds[olig_expressed_genes,],
+          fullModelFormulaStr = '~predicted.id',
+          cores = 10)
+
+olig_ordering_genes <-
+    row.names(clustering_DEG_genes)[order(clustering_DEG_genes$qval)][1:500]
+
+cds <-
+    setOrderingFilter(cds,
+        ordering_genes = olig_ordering_genes)
+
+cds <-
+    reduceDimension(cds, method = 'DDRTree')
+
+cds <-
+    orderCells(cds)
+
+cds <-
+    orderCells(cds, root_state = 2)
+
+olig$pseudo <- cds$Pseudotime
+plot_cell_trajectory(cds,color_by = "predicted.id")
+```
+
+```{r}
+lib_info_with_pseudo <- pData(cds)
+t(monocle::reducedDimS(cds)) %>%
+    as.data.frame() %>%
+    select_(data_dim_1 = 1, data_dim_2 = 2) %>%
+    rownames_to_column("sample_name") %>%
+    mutate(sample_state) %>% 
+    left_join(lib_info_with_pseudo %>% rownames_to_column("sample_name"), by = "sample_name") %>%
+  arrange(Pseudotime) -> data_df
+
+reduced_dim_coords <- reducedDimK(cds)
+
+pseudo <- ggplot(data_df, aes(x=data_dim_1, y=data_dim_2, colour=Pseudotime)) + 
+  geom_point(size=0.5) + 
+  geom_point(data = data.frame(t(cds@reducedDimK)), aes(X1, X2), inherit.aes = F, size=0.2) + 
+  xlab("Dim 1") + ylab("Dim 2") +
+  theme_pubr(legend="right") + facet_wrap(.~trt)
+```
+
+```{r}
+plot_grid(top, pseudo, ncol=1, labels = c("", "D"))
+```
+
+```{r}
+detach("package:here", unload = T)
+library(here)
+save.image(file = here("data/glia/olig_alldata.RData"))
+```
+
+
+
+

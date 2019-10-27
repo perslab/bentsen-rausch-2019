@@ -1,0 +1,80 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(here)
+library(Seurat)
+library(tidyverse)
+library(future)
+library(princurve)
+
+#plan(multiprocess, workers=30)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+```{r}
+glia <- readRDS(here("data/filtglia.RDS"))
+tany <- subset(glia, ident="Tany")
+tany %>% 
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) -> tany 
+```
+
+#Load Campbell Data
+```{r load campbell data and subset to ventricular cells}
+path.data <- "/data/pub-perslab/campbell-nn-2017/geo/GSE93374_Merged_all_020816_DGE.txt.gz"
+path.metadata <- "/data/pub-perslab/campbell-nn-2017/geo/GSE93374_cell_metadata.txt.gz"
+counts<-read.table(path.data, header = T)
+meta<-read.delim(path.metadata, stringsAsFactors = F)
+meta<-meta[match(meta$X1.ID, colnames(counts)),]
+rownames(meta)<-meta$X1.ID
+meta<-meta[,-1]
+campdat<-CreateSeuratObject(counts=counts, meta.data=meta)
+Idents(campdat)<-"X9.clust_all_micro"
+
+
+campvent<-subset(campdat, idents=c("s33","s34","s30","s36",
+                                   "s35","s31"))
+campvent<-RenameIdents(object = campvent, "s33" = "a1tany")
+campvent<-RenameIdents(object = campvent, "s34" = "a1tany")
+campvent<-RenameIdents(object = campvent, "s30" = "b2tany")
+campvent<-RenameIdents(object = campvent, "s36" = "a2tany")
+campvent<-RenameIdents(object = campvent, "s35" = "b1tany")
+campvent<-RenameIdents(object = campvent, "s31" = "b2tany")
+campvent<-SCTransform(campvent)
+```
+
+#Subset and Process Data
+```{r process subsetted data}
+tanlist <- list(camp = campvent, tany = tany)
+tan.features <- SelectIntegrationFeatures(object.list = tanlist, nfeatures = 3000)
+tanlist <- PrepSCTIntegration(object.list = tanlist, anchor.features = tan.features, 
+    verbose = FALSE)
+tan.anchors <- FindTransferAnchors(reference = tanlist[["camp"]], 
+                                    query = tanlist[["tany"]], normalization.method = "SCT", 
+                                    features = tan.features)
+predictions <- TransferData(anchorset = tan.anchors, refdata = campvent@active.ident, 
+    dims = 1:30)
+hist(predictions$prediction.score.max)
+```
+
+```{r}
+tany <- AddMetaData(object = tany, metadata = predictions)
+tany_sub<-subset(tany, subset=prediction.score.max>0.5)
+tany_sub %>% 
+  SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
+  RunPCA(verbose=T) %>% FindNeighbors(dims = 1:20) %>% RunUMAP(dims = 1:20) -> tany_sub
+Idents(tany_sub)<-"predicted.id"
+DimPlot(tany_sub, reduction = "pca")
+```
+
+```{r}
+saveRDS(tany_sub, here("data/glia/tany_labeled.RDS"))
+```
+

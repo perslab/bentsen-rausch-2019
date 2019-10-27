@@ -1,0 +1,315 @@
+---
+title: "wc pseudobulk"
+output: html_notebook
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Load libraries
+```{r}
+library(DESeq2)
+library(Seurat)
+library(future.apply)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+library(here)
+library(reshape2)
+library(tidyverse)
+library(cowplot)
+library(ggupset)
+library(gProfileR)
+library(here)
+plan(multiprocess, workers = 30)
+source(here("code/sc_functions.R"))
+```
+
+# Load updated functions
+```{r}
+rundeseq <- function(pb) {
+  future_lapply(pb, function(x) {
+    tryCatch({
+      trt <- ifelse(grepl("FGF", colnames(x)), yes = "F", no = "P")
+      sample <- as.factor(sapply(strsplit(colnames(x), "_"), "[", 1))
+      batch <- batch_df[match(sample, batch_df$samp), "batch"]
+      meta <- data.frame(trt = trt, batch = factor(batch))
+      dds <- DESeqDataSetFromMatrix(
+        countData = x,
+        colData = meta,
+        design = ~ batch + trt
+      )
+      keep <- rowSums(counts(dds) >= 5) > 5
+      dds <- dds[keep, ]
+      dds <- DESeq(dds)
+      res <- results(dds, contrast = c("trt", "F", "P"))
+      return(list(dds, res))
+    }, error = function(err) {
+      print(err)
+    })
+  })
+}
+```
+
+# Load data
+```{r}
+glia_sub <- readRDS(here("data/filtglia.RDS"))
+```
+
+# Generate Pseudo Counts
+```{r}
+batch_df <- data.frame(
+  samp = c(7, 12, 29, 28, 4, 27, 37, 22, 6, 30, 20, 21, 35, 10, 3, 25, 36, 34),
+  batch = rep(1:6, each = 3)
+)
+split_mats <- splitbysamp(glia_sub, split_by = "orig.ident")
+names(split_mats) <- unique(Idents(glia_sub))
+test <- replicate(100, gen_pseudo_counts(split_mats, ncells = 30))
+names(test) <- paste0(rep(names(split_mats)), "_", rep(1:100, each = length(names(split_mats))))
+res <- rundeseq(test)
+```
+
+# Identify most responsive cell types
+```{r}
+degenes <- lapply(res, function(x) {
+  tryCatch({
+    y <- x[[2]]
+    y <- na.omit(y)
+    data.frame(y) %>%
+      filter(padj < 0.1) %>%
+      nrow()
+  },
+  error = function(err) {
+    NA
+  }
+  )
+})
+
+boxplot <- lapply(unique(Idents(glia_sub)), function(x) {
+  y <- paste0("^", x)
+  z <- unlist(degenes[grep(y, names(degenes))])
+})
+
+names(boxplot) <- unique(Idents(glia_sub))
+genenum <- melt(boxplot)
+colnames(genenum) <- c("number", "CellType")
+write_csv(genenum, here("output/glia/wc_resamplingresults.csv"))
+ggplot(genenum, aes(x = reorder(CellType, -number), y = number, fill = CellType)) +
+  geom_boxplot(notch = T) + theme_pubr() +
+  theme(
+    legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = .5, face = "bold")
+  ) +
+  xlab("Cell Type") + ylab("Number of DE Genes")
+ggsave("dge_resample.pdf", w = 20)
+```
+
+# Generate Pseudo Counts
+```{r}
+split_mats <- lapply(unique(Idents(glia_sub)), function(x) {
+  sub <- subset(glia_sub, idents = x)
+  DefaultAssay(sub) <- "SCT"
+  list_sub <- SplitObject(sub, split.by = "orig.ident")
+  return(list_sub)
+})
+names(split_mats) <- unique(Idents(glia_sub))
+
+pseudo_counts <- lapply(split_mats, function(x) {
+  lapply(x, function(y) {
+    DefaultAssay(y) <- "SCT"
+    mat <- GetAssayData(y, slot = "counts")
+    counts <- Matrix::rowSums(mat)
+  }) %>%
+    do.call(rbind, .) %>%
+    t() %>%
+    as.data.frame()
+})
+
+names(pseudo_counts) <- names(split_mats)
+```
+
+# Generate DESeq2 Objects
+```{r, warning=FALSE, message=FALSE}
+dds_list <- lapply(pseudo_counts, function(x) {
+  tryCatch({
+    trt <- ifelse(grepl("FGF", colnames(x)), yes = "F", no = "P")
+    sample <- as.factor(sapply(strsplit(colnames(x), "_"), "[", 1))
+    batch <- batch_df[match(sample, batch_df$samp), "batch"]
+    meta <- data.frame(trt = trt, batch = factor(batch))
+    dds <- DESeqDataSetFromMatrix(
+      countData = x,
+      colData = meta,
+      design = ~ batch + trt
+    )
+    keep <- rowSums(counts(dds) >= 5) > 5
+    dds <- dds[keep, ]
+    dds <- DESeq(dds)
+    res <- results(dds, contrast = c("trt", "F", "P"))
+    return(list(dds, res))
+  }, error = function(err) {
+    print(err)
+  })
+})
+```
+
+# Generate Volcano Plots
+```{r}
+volc_list <- lapply(dds_list, function(x) {
+  x[[2]] %>%
+    na.omit() %>%
+    data.frame() %>%
+    add_rownames("gene") %>%
+    mutate(siglog = ifelse(padj < 0.05 & abs(log2FoldChange) > .5, yes = T, no = F)) %>%
+    mutate(onlysig = ifelse(padj < 0.05 & abs(log2FoldChange) < .5, yes = T, no = F)) %>%
+    mutate(onlylog = ifelse(padj > 0.05 & abs(log2FoldChange) > .5, yes = T, no = F)) %>%
+    mutate(col = ifelse(siglog == T, yes = "1", no =
+      ifelse(onlysig == T, yes = "2", no =
+        ifelse(onlylog == T, yes = "3", no = "4")
+      )
+    )) %>%
+    arrange(padj) %>%
+    mutate(label = case_when(
+      min(padj) > 0.05 ~ "",
+      min_rank(padj) <= 10 ~ gene,
+      TRUE ~ NA_character_
+    )) %>%
+    dplyr::select(gene, log2FoldChange, padj, col, label)
+})
+
+mapply(x = volc_list, y = names(volc_list), function(x, y) {
+  write_csv(x, path = sprintf(here("output/glia/wc_%s_pseudobulk_dge.csv"), y))
+})
+
+volc_list <- volc_list[as.logical(unlist(lapply(volc_list, function(x) !min(x$padj > 0.05))))]
+plotlist <- mapply(x = volc_list, y = names(volc_list), function(x, y) {
+  tryCatch({
+    ggplot(x, aes(y = (-log10(padj)), x = log2FoldChange, fill = factor(col), label = label)) +
+      xlab(expression(Log[2] * ~ Fold * ~Change)) + ylab(expression(-Log[10] * ~pvalue)) +
+      geom_point(shape = 21, size = 3, alpha = 0.75) + geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
+      geom_vline(xintercept = c(-.5, .5), linetype = "dashed") + geom_text_repel() + theme_pubr() + 
+      labs_pubr() + theme(legend.position = "none") +
+      scale_fill_manual(values = wes_palette("Royal1", 4, type = "discrete")) + ggtitle(y)
+  },
+  error = function(err) {
+    print(err)
+  }
+  )
+}, SIMPLIFY = F)
+
+plot_grid(plotlist = plotlist, ncol = 3)
+ggsave("wc_de.pdf", w = 20, h = 20)
+```
+# Overlap
+```{r}
+res_glia <- lapply(dds_list, function(x) {
+  data.frame(x[[2]]) %>%
+    add_rownames("gene") %>%
+    na.omit(x) %>%
+    filter(padj < 0.05) %>%
+    arrange(padj) %>%
+    select(gene) -> x
+})
+
+resglia <- bind_rows(res_glia, .id = "id")
+resglia %>%
+  group_by(gene) %>%
+  summarize(Celltype = list(id)) -> resglia
+
+ggplot(resglia, aes(x = Celltype)) +
+  geom_bar() + theme_pubr() +
+  scale_x_upset(n_intersections = 10)
+```
+
+# GO terms up
+```{r}
+res_up <- lapply(dds_list, function(x) {
+  data.frame(x[[2]]) %>%
+    add_rownames("gene") %>%
+    na.omit(x) %>%
+    filter(padj < 0.05) %>%
+    filter(log2FoldChange > .5) %>%
+    arrange(padj) %>%
+    select(gene) -> x
+})
+
+
+goup <- lapply(names(dds_list), function(x) {
+  gprofiler(res_up[[x]]$gene,
+    organism = "mmusculus", significant = T, custom_bg = rownames(dds_list[[x]][[1]]),
+    src_filter = c("GO:BP", "GO:MF", "REAC", "KEGG"),
+    hier_filtering = "strong",
+    min_isect_size = 3,
+    sort_by_structure = T, exclude_iea = T,
+    min_set_size = 10, max_set_size = 300, correction_method = "fdr"
+  ) %>% arrange(p.value)
+})
+
+names(goup) <- names(dds_list)
+
+bind_rows(goup, .id = "id") %>%
+  group_by(id) %>%
+  top_n(5, -p.value) %>%
+  ggplot(aes(x = str_wrap(term.name, 30), y = -log10(p.value), fill = domain)) + geom_col() + facet_wrap(. ~ id, scales = "free_y") +
+  coord_flip() + theme_pubr()
+ggsave("gotermup.pdf", w = 20)
+
+mapply(x = goup, y = names(goup), function(x, y) {
+  write_csv(x, path = sprintf(here("output/glia/wc_up_goterm_%s.csv"), y))
+})
+```
+
+# GO terms down
+```{r}
+res_down <- lapply(dds_list, function(x) {
+  data.frame(x[[2]]) %>%
+    add_rownames("gene") %>%
+    na.omit(x) %>%
+    filter(padj < 0.05) %>%
+    filter(log2FoldChange < (-0.5)) %>%
+    arrange(padj) %>%
+    select(gene) -> x
+})
+
+godown <- lapply(names(dds_list), function(x) {
+  gprofiler(res_down[[x]]$gene,
+    organism = "mmusculus", significant = T, custom_bg = rownames(dds_list[[x]][[1]]),
+    src_filter = c("GO:BP", "GO:MF", "REAC", "KEGG"),
+    hier_filtering = "strong",
+    min_isect_size = 3,
+    sort_by_structure = T, exclude_iea = T,
+    min_set_size = 10, max_set_size = 300, correction_method = "fdr"
+  ) %>% arrange(p.value)
+})
+
+names(godown) <- names(dds_list)
+bind_rows(godown, .id = "id") %>%
+  group_by(id) %>%
+  top_n(5, -p.value) %>%
+  ggplot(aes(x = str_wrap(term.name, 30), y = -log10(p.value), fill = domain)) + geom_col() + facet_wrap(. ~ id, scales = "free_y") +
+  coord_flip() + theme_pubr()
+ggsave("gotermdown.pdf", w = 20)
+
+mapply(x = godown, y = names(godown), function(x, y) {
+  write_csv(x, path = sprintf(here("output/glia/wc_down_goterm_%s.csv"), y))
+})
+```
+
+# Cell Numbers
+```{r}
+colourCount <- length(unique(Idents(glia_sub)))
+getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
+
+table(Idents(glia_sub), glia_sub$orig.ident) %>%
+  prop.table(margin = 2) %>%
+  as.data.frame.matrix() %>%
+  rownames_to_column("celltype") %>%
+  melt() %>%
+  separate(variable, into = c(NA, "treat"), remove = F) %>%
+  ggplot(aes(x = variable, y = value, fill = factor(celltype))) + geom_col() +
+  facet_wrap(. ~ treat, scales = "free") + theme_pubr() +
+  scale_fill_manual(values = getPalette(colourCount)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right")
+```
+
+

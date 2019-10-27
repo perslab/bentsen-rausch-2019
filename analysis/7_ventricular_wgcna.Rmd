@@ -1,0 +1,299 @@
+---
+title: "Ventricle WGCNA"
+output: html_notebook
+---
+# Load Libraries
+
+```{r, warnings=F, message=F}
+library(Seurat)
+library(WGCNA)
+library(cluster)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(genefilter)
+library(tidyverse)
+library(reshape2)
+library(igraph)
+library(gProfileR)
+library(ggpubr)
+library(here)
+library(ggforce)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Extract Cells for WGCNA
+```{r, warnings=FALSE, message=FALSE}
+fgf.glia.sub <- readRDS(here("data/glia/glia_seur_filtered.RDS"))
+fgf.glia.sub %>% subset(ident=c("Tany", "Epend", "Astro")) %>% 
+  SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> ventric
+```
+
+# Calculate softpower
+```{r}
+enableWGCNAThreads()
+datExpr<-as.matrix(t(ventric[["SCT"]]@scale.data[ventric[["SCT"]]@var.features,]))
+gsg = goodSamplesGenes(datExpr, verbose = 3);
+powers = c(c(1:10), seq(from = 12, to=40, by=2))
+sft=pickSoftThreshold(datExpr,dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = 'p'), 
+                      networkType = "signed")
+cex1=0.9
+plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],xlab="Soft Threshold (power)",ylab="Scale Free Topology Model Fit, signed R^2",type="n", main = paste("Scale independence"))
+text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],labels=powers ,cex=cex1,col="red")
+abline(h=0.80,col="red")
+#Mean Connectivity Plot
+plot(sft$fitIndices[,1], sft$fitIndices[,5],xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",main = paste("Mean connectivity"))
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
+```
+
+# Generate TOM
+```{r}
+softPower = 3
+SubGeneNames<-colnames(datExpr)
+adj= adjacency(datExpr, type = "signed", power = softPower)
+diag(adj)<-0
+TOM=TOMsimilarityFromExpr(datExpr, networkType = "signed", TOMType = "signed", power = softPower, maxPOutliers = 0.05)
+colnames(TOM) = rownames(TOM) = SubGeneNames
+dissTOM=1-TOM
+geneTree = hclust(as.dist(dissTOM),method="average") #use complete for method rather than average (gives better results)
+plot(geneTree,xlab="",sub="",cex=.5,main="Gene clustering",hang=.001)
+```
+
+# Identify Modules
+```{r Cut Gene Tree}
+minModuleSize = 15
+x = 4 
+dynamicMods = cutreeDynamic(dendro = geneTree, distM = as.matrix(dissTOM), 
+                            method="hybrid", pamStage = F, deepSplit = x, 
+                            minClusterSize = minModuleSize)
+dynamicColors = labels2colors(dynamicMods) #label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
+                    dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05, 
+                    main = "Gene dendrogram and module colors") #plot the modules with colors
+```
+
+# Calculate Eigengenes and Merge Close Modules
+```{r merge close modules}
+MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes #this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+ME1<-MEs
+row.names(ME1)<-row.names(datExpr)
+# Calculate dissimilarity of module eigengenes
+MEDiss = 1-cor(MEs);
+# Cluster module eigengenes
+METree = hclust(as.dist(MEDiss), method = "average");
+# Plot the result
+plot(METree, main = "Clustering of module eigengenes",xlab = "", sub = "")
+MEDissThres = 0.2
+# Plot the cut line into the dendrogram
+abline(h=MEDissThres, col = "red")
+```
+
+# The merged module colors
+```{r}
+merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
+mergedColors = merge$colors
+mergedMEs = merge$newMEs
+moduleColors = mergedColors
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)
+```
+
+# Plot merged modules
+```{r}
+plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+c("Dynamic Tree Cut", "Merged dynamic"),
+dendroLabels = FALSE, hang = 0.03,
+addGuide = TRUE, guideHang = 0.05)
+# Rename to moduleColors
+moduleColors = mergedColors
+# Construct numerical labels corresponding to the colors
+# colorOrder = c("grey", standardColors(50));
+# moduleLabels = match(moduleColors, colorOrder)-1
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)
+```
+
+```{r}
+#type gene name, prints out gene names also in that module
+modules<-MEs
+c_modules<-data.frame(moduleColors)
+row.names(c_modules)<-colnames(datExpr) #assign gene names as row names
+module.list.set1<-substring(colnames(modules),3) #removes ME from start of module names
+index.set1<-0
+Network=list() #create lists of genes for each module
+for (i in 1:length(module.list.set1)){index.set1<-which(c_modules==module.list.set1[i])
+Network[[i]]<-row.names(c_modules)[index.set1]}
+names(Network)<-module.list.set1
+lookup<-function(gene,network){return(network[names(network)[grep(gene,network)]])} #load function
+```
+
+# Filter metadata table and correlate with eigengenes
+```{r, fig.height=6, fig.width=5}
+nGenes = ncol(datExpr)
+nSamples = nrow(datExpr)
+MEs = orderMEs(MEs)
+ventric$group<-paste0(ventric$trt,"_",ventric$day)
+var<-model.matrix(~0+ventric$group)
+#colnames(var)<-c("DV","FGF1","FGF19", "V")
+moduleTraitCor <- cor(MEs, var, use="p")
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples)
+cor<-melt(moduleTraitCor)
+ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), 
+     colour = "white") + scale_fill_gradient2(midpoint = 0, low = "blue", mid = "white",
+                            high = "red", space = "Lab", name="Correlation \nStrength") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab("Treatment") + ylab(NULL)
+```
+
+# Get hubgenes in order
+```{r}
+hubgenes<-lapply(seq_len(length(Network)), function(x) {
+  dat<-modulekME[Network[[x]],]
+  dat<-dat[order(-dat[paste0("kME",names(Network)[x])]),]
+  gene<-rownames(dat)
+  return(gene)
+})
+names(hubgenes)<-names(Network)
+d <- unlist(hubgenes)
+d <- data.frame(gene = d, 
+           vec = names(d))
+write_csv(d, path=here("output/glia/wgcna/allglia_wgcna_genemodules.csv"))
+```
+
+# Build linear models for differential expression
+```{r, warnings=F, message=F}
+MEs %>% select(-MEgrey) -> MEs
+data<-data.frame(MEs, day=ventric$day, trt=ventric$trt, 
+                 sample=as.factor(ventric$sample), group=ventric$group, 
+                 batch=ventric$batch, celltype=Idents(ventric), 
+                 groupall=paste0(Idents(ventric), ventric$group))
+
+mod<-lapply(colnames(MEs), function(me) {
+  mod<-lmer(MEs[[me]] ~ group*celltype + (1|batch) + (1|sample), data=data)
+  pairwise<-emmeans(mod, pairwise ~ group|celltype)
+  plot<-data.frame(plot(pairwise, plotIt=F)$data)
+  sig<-as.data.frame(pairwise$contrasts)
+  sig%>%separate(contrast, c("start", "end"), sep = " - ") -> sig
+  yvals<-unlist(lapply(unique(sig$celltype), function(x) {
+    x<-as.character(x)
+    y<-data[data$celltype==x,]
+    z<-max(as.numeric(y[[me]]))
+    names(z)<-x
+    return(z)
+  }))
+  sig$yvals<-yvals[match(sig$celltype, names(yvals))]
+  sig$yvals[duplicated(sig$yvals)]<-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]<-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]<-sig$yvals[duplicated(sig$yvals)]+.004
+  return(sig)
+})
+
+names(mod) <- colnames(MEs)
+sig <- bind_rows(mod, .id="id")
+sig$symbol <- sig$p.value
+sig$symbol[findInterval(sig$symbol, c(0.1,2)) == 1L] <-NA
+sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] <- "*"
+sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] <- "**"
+sig$symbol[findInterval(sig$symbol, c(1e-200,0.001)) == 1L] <- "***" 
+data <- melt(data, id.vars = c("day","trt","sample","group","batch","celltype","groupall"))
+
+lapply(unique(data$variable), function(x) {
+  tryCatch({
+  print(ggplot(data=data[data$variable==x,], aes(x=group, y=as.numeric(value))) + 
+  geom_quasirandom(aes(fill=sample), shape=21, size=2, alpha=.75) + 
+  scale_fill_manual(values=pal_jco()(10)) +  ylab(NULL) + xlab(NULL) + 
+  theme_pubr() + theme(axis.text.x = element_text(angle=45, hjust=1, face="bold"), plot.title = element_text(hjust=0.5)) + 
+  scale_y_continuous(aes(name="",limits=c(min(value)-.02,max(value))+.02)) + facet_wrap(.~celltype) +
+  labs(y=NULL, x=NULL) + ggtitle(x)) },
+  error = function(err) {
+    print(err)
+  }
+  )
+})
+
+# moddat <- bind_rows(mod, .id="id")
+write_csv(sig, path=here("output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv"))
+```
+
+```{r}
+sig %>%
+  unite(start, end, col = "comparison", remove = F) %>%
+  filter(comparison == "FGF_Day-1_PF_Day-1" | comparison == "FGF_Day-5_PF_Day-5") %>%
+  unite(estimate, p.value, sep = ",", col = "value") %>%
+  dcast(id + celltype ~ start, value.var = "value") %>%
+  separate(`FGF_Day-1`, into = c("estimate_1", "p.value_1"), sep = ",") %>%
+  separate(`FGF_Day-5`, into = c("estimate_5", "p.value_5"), sep = ",") %>%
+  mutate(id = gsub(id, pattern = "ME", replacement = "")) %>%
+  mutate(col = if_else(as.numeric(p.value_1) < 0.1 | as.numeric(p.value_5) < 0.1, true = id, false = "grey")) %>%
+  mutate(sig = if_else(as.numeric(p.value_1) < 0.1 & as.numeric(p.value_5) < 0.1, true = "red",
+    false = if_else(as.numeric(p.value_1) < 0.1, true = "blue",
+      false = if_else(as.numeric(p.value_5) < 0.1, true = "black", false = "")
+    )
+  )) %>%
+  mutate(label = if_else(sig == "blue", true = "DE at Day 1", false = "")) -> plot
+
+cols <- unique(plot$col)
+names(cols) <- cols
+
+ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
+  geom_point(data = filter(plot, sig != ""), aes(shape = celltype), size = 4) +
+  scale_shape(name="Cell-Type") +
+  geom_mark_ellipse(data = plot %>% filter(sig == "blue", p.value_1 != 0.0230780280327769), color = "black", linetype = "dashed") +
+  geom_point(size = 4, aes(color = col, shape = celltype)) + coord_flip() + geom_hline(yintercept = 0) +
+  scale_color_manual(values = cols, name = "Modules") +
+  geom_vline(xintercept = 0) +
+  annotate(
+    geom = "curve", x = 0.045, y = 0.02, xend = 0.03, yend = 0.005,
+    curvature = .3, arrow = arrow(length = unit(2, "mm"))
+  ) + annotate(geom = "label", x = 0.045, y = 0.022, label = "DE only at Day 1", hjust = "left") +
+  annotate(
+    geom = "curve", x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,
+    curvature = .3, arrow = arrow(length = unit(2, "mm"))
+  ) + annotate(geom = "label", x = -0.005, y = 0.0275, label = "DE at both", hjust = "left") +
+  annotate(
+    geom = "curve", x = 0.01, y = 0.015, xend = -0.011, yend = 0.02,
+    curvature = .3, arrow = arrow(length = unit(2, "mm"))
+  ) + annotate(geom = "label", x = 0.015, y = 0.01, label = "DE only at Day 5", hjust = "left") + theme_bw() + xlab("Day 1 Estimate") +
+  ylab("Day 5 Estimate") + labs_pubr()
+ggsave(here("output/wgcna_res.png"), w=8, h=5)
+```
+
+
+# Find GO term enrichment of modules
+```{r, fig.height=10}
+names(mod)<-colnames(MEs)[grepl("^ME", colnames(MEs))]
+go_col <- unique(plot$col)[-grep("grey", unique(plot$col))]
+goterms<-lapply(go_col, function(x) { 
+  x<-gprofiler(hubgenes[[x]], ordered_query = T, 
+               organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
+                           src_filter = c("GO:BP","REAC","KEGG"), hier_filtering = "strong",
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = "fdr")
+  x<-x[order(x$p.value),]
+  return(x)
+})
+
+names(goterms) <- go_col
+goterms %>% bind_rows(.id="id") %>%
+  mutate(padj=p.adjust(p.value, "fdr")) -> godat
+
+write_csv(godat, path=here("output/glia/wgcna/allglia_wgcna_goterms.csv"))
+
+godat %>% group_by(id) %>% filter(id %in% c("black","green")) %>% arrange(p.value) %>% slice(1:5) %>% 
+  select(p.value, padj, term.name, domain, id) %>% arrange(id) %>%
+  ggplot(aes(x=str_wrap(term.name,20), y=-log10(padj), fill=domain)) + geom_col() +
+  scale_fill_npg() +
+  facet_wrap(.~id, scales="free_y", ncol=1) + theme_pubr() + 
+  theme(text = element_text(size=7), 
+        axis.text.x = element_text(angle=45, hjust=1)) + coord_flip() +
+  xlab("GO Term") + geom_hline(yintercept = -log10(0.05), linetype="dashed", size=1) + 
+  labs_pubr()
+
+ggsave(filename = here("output/glia/wgcna/allglia_goterm.png"), h=6, w=8)
+```
+

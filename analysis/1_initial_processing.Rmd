@@ -1,0 +1,139 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Load all libraries
+```{r, message=F, warning=FALSE}
+library(Seurat)
+library(tidyverse)
+library(ggplot2)
+library(cowplot)
+library(cluster)
+library(parallelDist)
+library(future)
+library(here)
+#plan("multiprocess", workers=12)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+# Functions
+```{r functions}
+source(here("code/sc_functions.R"))
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Load all nuclei datasets
+```{r load data}
+data_24 <- "/projects/dylan/tmp-marie/data-runs/fgf_pilot_24"
+data_5 <- "/projects/dylan/tmp-marie/data-runs/fgf_nuclei"
+samplename <- list.files(c(data_5, data_24), pattern = "cells", full.names = T)
+readfile <- lapply(samplename, function (x) paste0(x, "/outs/filtered_gene_bc_matrices/mm10-1.2.0.premrna/"))
+list_seur <- lapply(readfile, function(x) Read10X(x))
+names(list_seur)<-sapply(strsplit(unlist(readfile),"/"),"[",7)
+for (i in seq_len(length(list_seur))){
+  list_seur[[names(list_seur)[i]]]<-CreateSeuratObject(list_seur[[i]], min.cells = 5, 
+                                                               min.features = 400, project = names(list_seur)[i])
+}
+```
+
+# Merge all datasets without integration and plot for batch effect visualization
+```{r merge data, message=F, warning=F}
+Reduce(function(x,y){merge(x,y)}, list_seur) %>%
+  subset(subset = nFeature_RNA > 400 & nFeature_RNA < 4000) %>%
+  SCTransform(verbose = F) %>% RunPCA(verbose=F) %>% FindNeighbors(dims = 1:30) %>%
+  RunUMAP(dims = 1:30) %>% FindClusters(resolution=0.1, verbose=F) -> all_combined
+DimPlot(all_combined, group.by="orig.ident")
+```
+
+# Prep data for integration due to above batch effect
+```{r batch effect removal, message=F, warning=F}
+all_combined$orig.ident<-sub(x=all_combined$orig.ident, pattern="FGF_3",replacement = "3_PF")
+all_combined$orig.ident<-sub(x=all_combined$orig.ident, pattern="PF_3", replacement = "3_FGF")
+all_combined$orig.ident<-sub(x=all_combined$orig.ident, pattern="PF_2", replacement = "2_PF")
+all_combined$orig.ident<-sub(x=all_combined$orig.ident, pattern="FGF_2", replacement = "2_FGF")
+
+all_combined %>% 
+  SplitObject(split.by="orig.ident") -> seurlist
+
+for (i in seq_len(length(seurlist))){
+  seurlist[[i]] <-SCTransform(seurlist[[i]], verbose = F)
+}
+  
+integrate.anchors <- FindIntegrationAnchors(object.list = seurlist, dims = 1:30)
+seur.integrated <- IntegrateData(anchorset = integrate.anchors, dims = 1:30)
+```
+
+# Add metadata to seurat object
+```{r}
+seur.integrated$sample<-sapply(strsplit(seur.integrated$orig.ident,"-"),"[",1)
+batch_df<-data.frame(sample=unique(seur.integrated$sample), batch=c(1,1,2,2,3,4,4,3,5,5))
+seur.integrated$batch <- batch_df[match(seur.integrated$sample,batch_df$sample),"batch"]
+seur.integrated$trt <- ifelse(grepl("FGF", seur.integrated$sample), yes="FGF", no="PF")
+seur.integrated$number <- as.numeric(sapply(strsplit(seur.integrated$orig.ident,"_"),"[",1))
+seur.integrated$day <- ifelse(seur.integrated$number>10, yes="Day-5", no="Day-1")
+seur.integrated$group <- paste0(seur.integrated$trt,"_", seur.integrated$day)
+
+# Run the standard workflow for visualization and clustering
+seur.integrated %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunUMAP(dims = 1:30) %>% 
+  FindNeighbors(dims = 1:30) %>%
+  FindClusters(resolution = 0.1) -> seur.integrated
+```
+
+# Find Markers of Clusters
+```{r cluster-markers}
+marks<-FindAllMarkers(seur.integrated, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 250)
+marks%>%group_by(cluster)%>%top_n(5, avg_logFC)%>%data.frame->top5
+write_csv(marks, path=here("output/integrated_all_markergenes.csv"))
+```
+
+# Identify clusters for silhouette removal of poor quality cells
+```{r cluster-names}
+new.cluster.ids<-c("Neur","Glia","Neur","Neur","Olig", "Neur",
+             "COP", "Neur", "Neur","Agrp", "Micro", "Neur", "Neur",
+             "Hist", "VLMC", "Endo", "Neur")
+names(new.cluster.ids) <- levels(seur.integrated)
+seur.integrated <- RenameIdents(seur.integrated, new.cluster.ids)
+```
+
+# Silhouette calculation and removal of doublets/poor quality cells
+```{r silhouette}
+seur.integrated<-RunSIL(seur.integrated, ndims = 30)
+seur.sub<-subset(seur.integrated, subset = silhouette > 0)
+```
+
+# Check which cells are removed
+```{r silhouette_removal}
+cellrem<-data.frame(sil=ifelse(seur.integrated$silhouette>0, yes="T", no="F"), sample=seur.integrated$sample, trt=seur.integrated$trt, day=seur.integrated$day, cell_type=as.character(Idents(seur.integrated)))
+cellrem%>%group_by(sample)%>%
+  count(sil)%>%ggplot(aes(x=sample, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity")  + ylab("Percent of Cells") + xlab(NULL) + theme(legend.position = "none", axis.text.x = element_text(angle=45, hjust=1)) -> p1
+cellrem%>%group_by(day)%>%
+  count(sil)%>%ggplot(aes(x=day, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity") + theme(legend.position = "none") +ylab(NULL) + xlab(NULL) -> p2
+cellrem%>%group_by(cell_type)%>%
+  count(sil)%>%ggplot(aes(x=cell_type, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity") + scale_fill_discrete(name = "Cell\nKept?") + ylab(NULL) + xlab(NULL) + theme(axis.text.x = element_text(angle=45, hjust=1)) -> p3
+plot_grid(p1,p2,p3, nrow=1, axis="b", align = "hv")
+```
+
+# Run the standard workflow for visualization and clustering
+```{r reclustering}
+seur.sub %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunUMAP(dims = 1:30) %>% 
+  RunTSNE(dims = 1:30) -> seur.sub
+p1<-DimPlot(seur.sub, group.by="sample", reduction="tsne") + xlab(NULL) + ylab(NULL)
+p2<-DimPlot(seur.sub, label=T, reduction="tsne") + NoLegend() + xlab(NULL) + ylab(NULL)
+plot_grid(p1, p2, nrow = 1)
+```
+
+# Save subsetted seurat object for further analysis
+```{r, eval=F}
+saveRDS(seur.sub, file=here("data/fgf_filtered_nuclei.RDS"))
+```

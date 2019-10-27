@@ -1,0 +1,291 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Load Libraries
+
+```{r, warnings=F, message=F}
+library(Seurat)
+library(WGCNA)
+library(cluster)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(genefilter)
+library(tidyverse)
+library(reshape2)
+library(igraph)
+library(gProfileR)
+library(ggpubr)
+library(cowplot)
+library(here)
+library(ggExtra)
+```
+
+# Extract Cells for WGCNA
+```{r, warnings=FALSE, message=FALSE}
+fgf.glia.wc <- readRDS(here("data/filtglia.RDS"))
+fgf.glia.wc %>%
+  subset(ident = c("Astro")) %>%
+  SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> ventric
+rm(fgf.glia.wc)
+```
+
+# Calculate softpower
+```{r}
+enableWGCNAThreads()
+datExpr <- as.matrix(t(ventric[["SCT"]]@scale.data[ventric[["SCT"]]@var.features, ]))
+gsg <- goodSamplesGenes(datExpr, verbose = 3)
+powers <- c(c(1:10), seq(from = 12, to = 40, by = 2))
+sft <- pickSoftThreshold(datExpr,
+  dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = "p"),
+  networkType = "signed"
+)
+cex1 <- 0.9
+plot(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], xlab = "Soft Threshold (power)", ylab = "Scale Free Topology Model Fit, signed R^2", type = "n", main = paste("Scale independence"))
+text(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], labels = powers, cex = cex1, col = "red")
+abline(h = 0.80, col = "red")
+# Mean Connectivity Plot
+plot(sft$fitIndices[, 1], sft$fitIndices[, 5], xlab = "Soft Threshold (power)", ylab = "Mean Connectivity", type = "n", main = paste("Mean connectivity"))
+text(sft$fitIndices[, 1], sft$fitIndices[, 5], labels = powers, cex = cex1, col = "red")
+```
+
+# Generate TOM
+```{r}
+softPower <- 14
+SubGeneNames <- colnames(datExpr)
+adj <- adjacency(datExpr, type = "signed", power = softPower)
+diag(adj) <- 0
+TOM <- TOMsimilarityFromExpr(datExpr, networkType = "signed", TOMType = "signed", power = softPower, maxPOutliers = 0.05)
+colnames(TOM) <- rownames(TOM) <- SubGeneNames
+dissTOM <- 1 - TOM
+geneTree <- hclust(as.dist(dissTOM), method = "complete") # use complete for method rather than average (gives better results)
+plot(geneTree, xlab = "", sub = "", cex = .5, main = "Gene clustering", hang = .001)
+```
+
+# Identify Modules
+```{r Cut Gene Tree}
+minModuleSize <- 15
+x <- 2
+
+dynamicMods <- cutreeDynamic(
+  dendro = geneTree, distM = as.matrix(dissTOM),
+  method = "hybrid", pamStage = F, deepSplit = x,
+  minClusterSize = minModuleSize
+)
+dynamicColors <- labels2colors(dynamicMods) # label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
+  dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05,
+  main = "Gene dendrogram and module colors"
+) # plot the modules with colors
+```
+
+# Calculate Eigengenes and Merge Close Modules
+```{r merge close modules}
+MEs <- moduleEigengenes(datExpr, dynamicColors)$eigengenes 
+ME1 <- MEs
+row.names(ME1) <- row.names(datExpr)
+MEDiss <- 1 - cor(MEs)
+METree <- hclust(as.dist(MEDiss), method = "average")
+plot(METree, main = "Clustering of module eigengenes", xlab = "", sub = "")
+MEDissThres <- 0.2
+abline(h = MEDissThres, col = "red")
+```
+
+# The merged module colors
+```{r}
+merge <- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
+mergedColors <- merge$colors
+mergedMEs <- merge$newMEs
+moduleColors <- mergedColors
+MEs <- mergedMEs
+modulekME <- signedKME(datExpr, MEs)
+```
+
+# Plot merged modules
+```{r}
+plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+  c("Dynamic Tree Cut", "Merged dynamic"),
+  dendroLabels = FALSE, hang = 0.03,
+  addGuide = TRUE, guideHang = 0.05
+)
+moduleColors <- mergedColors
+MEs <- mergedMEs
+modulekME <- signedKME(datExpr, MEs)
+```
+
+```{r}
+modules <- MEs
+c_modules <- data.frame(moduleColors)
+row.names(c_modules) <- colnames(datExpr) 
+module.list.set1 <- substring(colnames(modules), 3)
+index.set1 <- 0
+Network <- list()
+for (i in 1:length(module.list.set1)) {
+  index.set1 <- which(c_modules == module.list.set1[i])
+  Network[[i]] <- row.names(c_modules)[index.set1]
+}
+names(Network) <- module.list.set1
+```
+
+# Filter metadata table and correlate with eigengenes
+```{r, fig.height=6, fig.width=5}
+nGenes <- ncol(datExpr)
+nSamples <- nrow(datExpr)
+MEs <- orderMEs(MEs)
+MEs %>% select(-MEgrey) -> MEs
+var <- model.matrix(~ 0 + ventric$trt)
+moduleTraitCor <- cor(MEs, var, use = "p")
+cor <- moduleTraitCor[abs(moduleTraitCor[, 1]) > .2, ]
+moduleTraitPvalue <- corPvalueStudent(moduleTraitCor, nSamples)
+cor <- melt(cor)
+ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), colour = "white") + 
+  scale_fill_gradient2( midpoint = 0, low = "blue", mid = "white",
+  high = "red", space = "Lab", name = "Correlation \nStrength") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab("Treatment") + ylab(NULL)
+```
+
+```{r}
+hubgenes<-lapply(seq_len(length(Network)), function(x) {
+  dat<-modulekME[Network[[x]],]
+  dat<-dat[order(-dat[paste0("kME",names(Network)[x])]),]
+  gene<-rownames(dat)
+  return(gene)
+})
+
+names(hubgenes)<-names(Network)
+d <- unlist(hubgenes)
+d <- data.frame(gene = d, 
+           vec = names(d))
+
+write_csv(d, path=here("output/glia/wgcna/wc_astro_genemods.csv"))
+```
+
+# Run linear model to calculate sig diff mods
+```{r, warnings=F, message=F}
+data <- data.frame(MEs,
+  trt = ventric$trt,
+  sample = as.factor(ventric$sample),
+  batch = as.factor(ventric$batch)
+)
+
+mod <- lapply(colnames(MEs)[grepl("^ME", colnames(MEs))], function(me) {
+  tryCatch({
+    mod <- lmer(MEs[[me]] ~ trt + (1 | batch) + (1 | sample), data = data)
+    pairwise <- emmeans(mod, pairwise ~ trt)
+    plot <- data.frame(plot(pairwise, plotIt = F)$data)
+    sig <- as.data.frame(pairwise$contrasts)
+    return(sig)
+  }, error = function(err) {
+    print(err)
+  })
+})
+
+names(mod) <- colnames(MEs)[grepl("^ME", colnames(MEs))]
+mod <- data.frame(unlist(mod))
+mod %>%
+  add_rownames("test") %>%
+  separate(test, c("mod", "measure")) %>%
+  dcast(measure ~ mod, value = unlist.mod.) %>%
+  as.data.frame() %>%
+  t() -> test
+colnames(test) <- test[1, ]
+data.frame(test) %>%
+  add_rownames("mod") %>%
+  slice(2:nrow(.)) %>%
+  select(p, estimate, mod) %>%
+  mutate(p = as.numeric(as.character(p)), estimate = as.numeric(as.character(estimate))) %>%
+  filter(p < 0.05, abs(estimate) > 0.005) %>%
+  arrange(log10(p) * abs(estimate)) -> astro_mods
+astro_mods$mod <- gsub(astro_mods$mod, pattern = "ME", replacement = "")
+```
+
+```{r, fig.height=4, fig.width=6}
+data <- data.frame(MEs,
+  trt = ventric$trt,
+  sample = as.factor(ventric$sample)
+)
+
+data <- melt(data, id.vars = c("trt", "sample"))
+data %>% filter(variable %in% paste0("ME", astro_mods$mod[1:4])) -> data
+boxplot <- ggplot(data = data, aes(x = fct_reorder(sample, value), y = as.numeric(value))) +
+  geom_boxplot(aes(fill = trt), notch = T, outlier.shape = NA) +
+  facet_wrap(. ~ variable, scales = "free_y", ncol = 2) +
+  theme_pubr(legend = "none") + geom_hline(yintercept = 0, linetype = "dashed") +
+  coord_cartesian(ylim = quantile(data$value, c(0.001, 0.999))) + xlab("Sample") +
+  ylab("ME Expression") + theme(axis.text.x = element_blank())
+boxplot
+```
+
+```{r}
+astro_umap <- as.data.frame(Embeddings(ventric, reduction = "umap")[, 1:2])
+astro_umap$trt <- as.character(ventric$trt)
+astro_plot <- ggplot(astro_umap, aes(UMAP_1, UMAP_2, colour = trt)) +
+  geom_point(alpha = 0.5, size = .5) + xlim(c(-6, 0)) + scale_colour_discrete(name = "Treatment") +
+  guides(colour = guide_legend(override.aes = list(size = 5))) +
+  ylim(c(-7.5, 0)) + theme_pubr()
+umap_gg <- ggMarginal(astro_plot, groupColour = T, groupFill = T, margins = "y")
+plot_grid(umap_gg, boxplot, align = "hv", rel_widths = c(1, 1.5), scale = 0.9)
+```
+
+```{r}
+goterms <- lapply(hubgenes[astro_mods$mod], function(x) {
+  x <- gprofiler(x,
+    ordered_query = T, organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
+    src_filter = c("GO:BP", "REAC", "KEGG"), hier_filtering = "strong",
+    min_isect_size = 2,
+    sort_by_structure = T, exclude_iea = T,
+    min_set_size = 10, max_set_size = 300, correction_method = "fdr"
+  )
+  x <- x[order(x$p.value), ]
+  return(x)
+})
+```
+
+```{r}
+nuc_mods <- read_csv(file = here("output/glia/wgcna/astro_wgcna_genemodules.csv"))
+nuc_mods %>%
+  as.data.frame() %>%
+  filter(id != "grey") %>%
+  dplyr::group_by(id) %>%
+  dplyr::group_split() %>%
+  map("gene") -> nuc_gene
+
+names(nuc_gene) <- unique(nuc_mods$id)[1:8]
+
+wc_nuc_overlap <- sapply(nuc_gene, function(x) {
+  sapply(hubgenes[c("darkorange", "darkgreen", "cyan", "lightcyan")], function(y) {
+    1 - phyper(sum(x %in% y), length(y), 5000 - length(y), length(x), log.p = F)
+  })
+})
+
+
+wc_nuc_overlap <- reshape2::melt(wc_nuc_overlap)
+wc_nuc_overlap %>%
+  mutate(value = p.adjust(wc_nuc_overlap$value, n = dim(wc_nuc_overlap)[1] * dim(wc_nuc_overlap)[2])) %>%
+  mutate(sig = if_else(value > 0.05, "",
+    if_else(.05 > value & value > .01, "*",
+      if_else(.01 > value & value > .001, "**",
+        if_else(.001 > value, "***", "")
+      )
+    )
+  )) -> wc_nuc_overlap
+
+overlap <- ggplot(wc_nuc_overlap, aes(x = Var1, y = Var2, fill = -log10(value + 2e-16), label = sig)) +
+  geom_tile(size = 1, color = "white") + coord_flip() + theme_bw() + ylab(NULL) + xlab("Module") +
+  scale_fill_gsea(name = expression(-log[10] ~ pvalue)) + geom_text()
+
+overlap
+```
+
+```{r}
+save.image(file = here("output/glia/wgcna/astro_wgcna.RDS"))
+```
+

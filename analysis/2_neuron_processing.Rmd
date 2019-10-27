@@ -1,0 +1,101 @@
+---
+title: "FGF Nuclei Neuron Prep"
+output: html_notebook
+---
+
+#Load Libraries
+```{r, message=F, warning=FALSE}
+library(Seurat)
+library(tidyverse)
+library(DESeq2)
+library(here)
+library(future)
+library(cluster)
+library(parallelDist)
+library(ggplot2)
+library(cowplot)
+plan("multiprocess", workers = 16)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+#Functions
+```{r}
+source(here("code/sc_functions.R"))
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+
+# Load prepped data
+```{r load data}
+seur.sub<-readRDS(here("data/fgf_filtered_nuclei.RDS"))
+a <- DimPlot(seur.sub, reduction="tsne", label=T)+ theme_void() + NoLegend() 
+b <- DimPlot(seur.sub, reduction="tsne", group.by = "group") + theme_void()
+plot_grid(a,b, rel_widths = c(1,1.5))
+```
+
+# Subset Neurons and Recluster
+```{r neuron subset, message=F, warning=FALSE}
+fgf.neur<-subset(seur.sub, ident=c("Agrp","Neur","Hist"))
+# Run the standard workflow for visualization and clustering
+fgf.neur %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunUMAP(dims = 1:30) %>% 
+  FindNeighbors(dims = 1:30) %>%
+  FindClusters(resolution=0.1) -> fgf.neur
+DimPlot(fgf.neur, label=T)
+```
+
+#Silhouette calculation and removal of doublets/poor quality cells
+```{r neuron filtering}
+fgf.neur<-RunSIL(fgf.neur, ndims = 30)
+fgf.neur.sub<-subset(fgf.neur, subset= silhouette>0)
+```
+
+#Check which cells are removed
+```{r silhouette qc}
+cellrem<-data.frame(sil=ifelse(fgf.neur$silhouette>0, yes="T", no="F"), sample=fgf.neur$sample, 
+                    trt=fgf.neur$trt, day=fgf.neur$day,cell_type=as.character(Idents(fgf.neur)))
+cellrem%>%group_by(sample)%>%
+  dplyr::count(sil)%>%ggplot(aes(x=sample, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity")  + ylab("Percent of Cells") + xlab(NULL) + theme(legend.position = "none", axis.text.x = element_text(angle=45, hjust=1)) -> p1
+cellrem%>%group_by(day)%>%
+  dplyr::count(sil)%>%ggplot(aes(x=day, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity") + theme(legend.position = "none") +ylab(NULL) + xlab(NULL) -> p2
+cellrem%>%group_by(cell_type)%>%
+  dplyr::count(sil)%>%ggplot(aes(x=cell_type, y=n, fill=sil)) + 
+  geom_bar(position = "fill",stat = "identity") + scale_fill_discrete(name = "Cell\nKept?") + ylab(NULL) + xlab(NULL) + theme(axis.text.x = element_text(angle=45, hjust=1)) -> p3
+plot_grid(p1,p2,p3, nrow=1, axis="b", align = "hv")
+```
+
+# Run the standard workflow for visualization and clustering
+```{r neuron recluster}
+fgf.neur.sub %>% ScaleData(verbose = TRUE,block.size = 15000) %>% 
+  RunPCA(verbose = FALSE) %>% 
+  RunTSNE(dims = 1:30) -> fgf.neur.sub
+```
+
+#Identify marker genes
+```{r marker genes}
+DefaultAssay(fgf.neur.sub)<-"SCT"
+marks<-FindAllMarkers(fgf.neur.sub, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 100)
+write_csv(marks, path=here("output/integrated_neuronmarkers.csv"))
+marks%>%group_by(cluster)%>%top_n(5, avg_logFC)%>%data.frame->top5
+DoHeatmap(fgf.neur.sub, top5$gene)
+```
+
+# Identify clusters for silhouette removal of poor quality cells
+```{r rename clusters}
+new.cluster.ids<-c("Nrxn3","Trh","Rbfox1","Arpp21","Unknown", "Ntng1", 
+             "Rorb", "Agrp", "Avp/Oxt", "Rmst", "Hcrt","Hdc","Pmch")
+names(new.cluster.ids) <- levels(fgf.neur.sub)
+fgf.neur.sub <- RenameIdents(fgf.neur.sub, new.cluster.ids)
+DimPlot(fgf.neur.sub, reduction="tsne", label=T)
+```
+
+#Save final neuron object
+```{r, eval=T}
+saveRDS(fgf.neur.sub, here("data/neuron/neurons_seur_filtered.RDS"))
+```

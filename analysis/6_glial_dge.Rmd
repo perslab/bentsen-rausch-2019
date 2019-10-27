@@ -1,0 +1,232 @@
+---
+title: "Glial DGE"
+output: html_notebook
+---
+
+# Load Libraries
+```{r, warning=F, message=F}
+library(Seurat)
+library(DESeq2)
+library(future.apply)
+library(cowplot)
+library(tidyverse)
+library(ggrepel)
+library(reshape2)
+library(ggpubr)
+library(here)
+library(wesanderson)
+library(ggupset)
+library(ggcorrplot)
+library(gProfileR)
+plan(multiprocess, workers=40)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+# Functions
+```{r}
+source(here("code/sc_functions.R"))
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+
+# Generate Glial Plots
+```{r}
+fgf.glia.sub<-readRDS(here("data/glia/glia_seur_filtered.RDS"))
+```
+
+# Start Plotting
+```{r}
+tsne_embed<-data.frame(Embeddings(fgf.glia.sub, reduction = "umap"))
+fgf.glia.sub$group<-paste0(fgf.glia.sub$trt, "_", fgf.glia.sub$day)
+tsne_embed$group<-fgf.glia.sub$group
+tsne_embed$celltype<-Idents(fgf.glia.sub)
+tsne_embed<-tsne_embed[sample(nrow(tsne_embed)),]
+
+label.df <- data.frame(cluster=levels(tsne_embed$celltype),label=levels(tsne_embed$celltype))
+label.df_2 <- tsne_embed %>% 
+  dplyr::group_by(celltype) %>% 
+  dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2))
+
+p1<-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=celltype)) + 
+  geom_point(alpha=0.75, size=2)  + 
+  geom_label(data = label.df_2, aes(label = celltype, x=x, y=y), size=3, fontface="bold", inherit.aes = F, nudge_x = 1)  +
+  theme_pubr() + theme(legend.position = "none") + ggsci::scale_color_igv()
+p2<-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=group)) + 
+  geom_point(alpha=.75, size=2) + 
+  ggsci::scale_color_igv() + 
+  theme_pubr(legend = "none")
+```
+
+# Get colors for matching
+```{r}
+g <- ggplot_build(p1)
+cols<-data.frame(colours = as.character(unique(g$data[[1]]$colour)), 
+             label = as.character(unique(g$plot$data[, g$plot$labels$colour])))
+colvec<-as.character(cols$colours)
+names(colvec)<-as.character(cols$label)
+```
+
+# Generate Pseudo Counts
+```{r, warning=FALSE, message=FALSE}
+fgf.glia.sub<-ScaleData(fgf.glia.sub, verbose=F)
+split_mats<-splitbysamp(fgf.glia.sub, split_by="sample")
+names(split_mats)<-unique(Idents(fgf.glia.sub))
+pb<-replicate(100, gen_pseudo_counts(split_mats, ncells=10)) 
+names(pb)<-paste0(rep(names(split_mats)),rep(1:100, each=length(names(split_mats))))
+```
+
+# Generate DESeq2 Objects
+```{r, warning=FALSE, message=FALSE}
+res<-rundeseq(pb)
+```
+
+# Identify most responsive cell types
+```{r}
+degenes<-lapply(res, function(x) {
+  tryCatch({
+    y<-x[[2]]
+    y<-na.omit(y)
+    data.frame(y)%>%filter(padj<0.1)%>%nrow()}, 
+    error=function(err) {NA})
+})
+
+boxplot<-lapply(unique(Idents(fgf.glia.sub)), function(x) {
+  y<-paste0("^",x)
+  z<-unlist(degenes[grep(y, names(degenes))])
+})
+
+
+names(boxplot)<-unique(Idents(fgf.glia.sub))
+genenum<-melt(boxplot)
+colnames(genenum)<-c("number","CellType")
+genenum <- write_csv(genenum, path = here("output/glia/glia_resampling_output.csv"))
+deplot_re <- ggplot(genenum, aes(x=reorder(CellType, -number), y=number, fill=CellType)) + 
+  geom_boxplot(outlier.shape = NA, notch = T, alpha=1) + scale_fill_manual(values = colvec) + theme_pubr() +
+  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "none") + 
+  ylab("Differentially Expressed\n Genes") + xlab(NULL) 
+deplot_re
+```
+
+# Generate Pseudo Counts
+```{r}
+split_mats<-lapply(unique(Idents(fgf.glia.sub)), function(x){
+  sub<-subset(fgf.glia.sub, idents=x)
+  DefaultAssay(sub)<-"SCT"
+  list_sub<-SplitObject(sub, split.by="sample")
+  return(list_sub)
+})
+names(split_mats)<-unique(Idents(fgf.glia.sub))
+
+pseudo_counts<-lapply(split_mats, function(x){
+  lapply(x, function(y) {
+    DefaultAssay(y) <- "SCT"
+    mat<-GetAssayData(y, slot="counts")
+    counts <- Matrix::rowSums(mat)
+    }) %>% do.call(rbind, .) %>% t() %>% as.data.frame()
+})
+
+names(pseudo_counts)<-names(split_mats)
+```
+
+# Generate DESeq2 Objects
+```{r, warning=FALSE, message=FALSE}
+dds_list<-lapply(pseudo_counts, function(x){
+  tryCatch({
+      trt<-ifelse(grepl("FGF", colnames(x)), yes="F", no="P")
+      number<-sapply(strsplit(colnames(x),"_"),"[",1)
+      day<-ifelse(as.numeric(as.character(number))>10, yes="5", no="1")
+      meta<-data.frame(trt=trt, day=factor(day))
+      dds <- DESeqDataSetFromMatrix(countData = x,
+                                    colData = meta,
+                                    design = ~ 0 + trt)
+      dds$group<-factor(paste0(dds$trt, "_", dds$day))
+      design(dds) <- ~ 0 + group
+      keep <- rowSums(counts(dds) >= 5) > 5
+      dds <- dds[keep,]
+      dds<-DESeq(dds)
+      res_5<-results(dds, contrast = c("group","F_5","P_5"))
+      res_1<-results(dds, contrast = c("group","F_1","P_1"))
+      f_5_1<-results(dds, contrast = c("group","F_5","F_1"))
+      p_5_1<-results(dds, contrast = c("group","P_5","P_1"))
+      return(list(dds, res_1, res_5,f_5_1, p_5_1))
+    }, error=function(err) {print(err)})
+})
+```
+
+# Volcano Plot of DE genes
+```{r volcano plot, fig.width=12, fig.height=4}
+volc_list<-lapply(dds_list, function(x) {
+  x[[2]] %>% na.omit() %>% data.frame() %>% add_rownames("gene") %>% 
+    mutate(siglog=ifelse(padj<0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>% 
+    mutate(onlysig=ifelse(padj<0.05&abs(log2FoldChange)<1, yes=T, no=F)) %>% 
+    mutate(onlylog=ifelse(padj>0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>% 
+    mutate(col=ifelse(siglog==T, yes="1", no = 
+                      ifelse(onlysig==T, yes="2", no = 
+                               ifelse(onlylog==T, yes="3", no="4")))) %>% 
+    arrange(padj) %>% mutate(label=ifelse(min_rank(padj) < 15, gene, "")) %>% 
+    dplyr::select(gene, log2FoldChange, padj, col, label)
+})
+
+mapply(x=volc_list, y = names(volc_list), function(x,y) {
+  write_csv(x, path = here(sprintf("output/glia/%s_glia_pseudobulk_dge.csv", y)))
+})
+
+plotlist<-mapply(x=volc_list[c("Astro","Tany","Epend", "VLMC")], y= c("Astro","Tany","Epend", "VLMC"), function(x,y){
+    ggplot(x, aes(y=(-log10(padj)), x=log2FoldChange, colour=factor(col), label=label)) + 
+    xlab(expression(Log[2]*~Fold*~Change)) + ylab(expression(-Log[10]*~pvalue)) + 
+    geom_point(size=3, alpha=0.75) + geom_hline(yintercept = -log10(0.05), linetype="dashed") + 
+    geom_vline(xintercept = c(-1,1), linetype="dashed") + geom_text_repel(colour="black") + theme_pubr() +
+    theme(legend.position = "none", title = element_text(vjust=0.5)) + 
+    scale_colour_manual(values = wes_palette("Royal1", 3, type="discrete")[c(2,1,3)]) + ggtitle(y)}, SIMPLIFY = FALSE)
+devolc_plot <- plot_grid(plotlist=plotlist[c(1,2)], ncol=2)
+devolc_plot
+```
+
+# Overlap
+```{r}
+res_glia_1<-lapply(dds_list, function(x) {
+  data.frame(x[[2]]) %>% add_rownames("gene") %>% na.omit(x) %>% 
+    filter(padj<0.05) %>% arrange(padj) %>% select(gene) -> x
+})
+
+resglia<-bind_rows(res_glia_1, .id="id")
+resglia %>%
+  dplyr::group_by(gene) %>%
+  dplyr::summarize(Celltype = list(id)) -> resglia
+
+upset <- ggplot(resglia, aes(x=Celltype)) +
+    geom_bar(fill=c(rep("black",3),"red","red","red", rep("black",4))) + theme_pubr() +
+    scale_x_upset(n_intersections = 10)
+upset
+```
+
+```{r, fig.height=6, fig.width=12}
+top <- plot_grid(p1, deplot_re, labels=c("A","B"), scale=0.9)
+bot <- plot_grid(devolc_plot, upset, axis="t", align="h", rel_widths = c(2,1), labels=c("C","D"))
+fig <- plot_grid(top, bot, ncol=1, align="hv", axis="tblr", rel_heights = c(1,1.25,2.5))
+fig
+```
+
+# Correlation
+```{r}
+library(ggcorrplot)
+ranks<-lapply(dds_list, function(x) {
+  x<-data.frame(x[[2]])
+  x<-na.omit(x)
+  y <- (-log10(x$pvalue))*(x$log2FoldChange)
+  z <- rownames(x)
+  df<-data.frame(order=y,gene=z)
+  df<-df[order(-df$order),]
+})
+
+corframe<-Reduce(function(x, y) merge(x, y, all=T, by=c("gene")), ranks)
+colnames(corframe)<-c("gene",names(ranks))
+corframe<-corframe[,-1]
+dim(corframe[complete.cases(corframe),])
+plotcor <- cor(corframe, method = "spearman", use="complete.obs")
+ggcorrplot(plotcor, hc.order = T, type="lower") + 
+  ggsci::scale_fill_gsea(limit = c(0,1))
+```

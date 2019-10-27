@@ -1,0 +1,324 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+```
+
+# Load Libraries
+
+```{r, warnings=F, message=F}
+library(Seurat)
+library(WGCNA)
+library(cluster)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(genefilter)
+library(tidyverse)
+library(reshape2)
+library(igraph)
+library(gProfileR)
+library(ggpubr)
+library(princurve)
+library(here)
+library(cowplot)
+```
+
+# Extract Cells for WGCNA
+```{r, warnings=FALSE, message=FALSE}
+fgf.glia.wc <- readRDS("/projects/dylan/wc_fgf/data/tany_labeled.RDS")
+fgf.glia.wc %>%
+  SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> ventric
+```
+
+# Calculate Pseudoventricle Scores
+```{r, fig.height=4, fig.width=3}
+pcembed <- as.matrix(Embeddings(ventric, reduction = "pca")[,c(1:2)])
+y <- principal_curve(pcembed)
+color <- as.factor(ventric$predicted.id)
+levels(color) <- c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3")
+df = data.frame(y$s[order(y$lambda), ])
+colnames(df) = c("x", "y")
+points <- data.frame(id = ventric$predicted.id, Embeddings(ventric, reduction = "pca")[,c(1:2)])
+rand <- sample(nrow(points), 3000)
+princ_plot <- ggplot(data = df, aes(x, y)) +
+  geom_point(data = points[rand,], aes(x=PC_1, y=PC_2, colour=factor(id)), size = 2, inherit.aes = F, alpha=0.5) + 
+  geom_line(size = 2, color = "black") + 
+  theme_pubr(legend = "none") + 
+  xlim(c(-20,10)) + coord_flip() + xlab("PC_1") + ylab("PC_2") + theme( axis.text.x = element_text(angle=45, hjust=1))
+ventric$height <- y$lambda
+princ_plot
+```
+
+# Calculate softpower
+```{r}
+enableWGCNAThreads()
+datExpr<-as.matrix(t(ventric[["SCT"]]@scale.data[ventric[["SCT"]]@var.features,]))
+gsg = goodSamplesGenes(datExpr, verbose = 3)
+powers = c(c(1:10), seq(from = 12, to=40, by=2))
+sft=pickSoftThreshold(datExpr,dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = 'p'), 
+                      networkType = "signed")
+cex1=0.9
+plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],xlab="Soft Threshold (power)",ylab="Scale Free Topology Model Fit, signed R^2",type="n", main = paste("Scale independence"))
+text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],labels=powers ,cex=cex1,col="red")
+abline(h=0.80,col="red")
+#Mean Connectivity Plot
+plot(sft$fitIndices[,1], sft$fitIndices[,5],xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",main = paste("Mean connectivity"))
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
+```
+
+# Generate TOM
+```{r}
+softPower <- 12
+SubGeneNames <- colnames(datExpr)
+adj <- adjacency(datExpr, type = "signed", power = softPower)
+diag(adj) <- 0
+TOM <- TOMsimilarityFromExpr(datExpr, networkType = "signed", TOMType = "signed", power = softPower, maxPOutliers = 0.05)
+colnames(TOM) <- rownames(TOM) <- SubGeneNames
+dissTOM <- 1 - TOM
+geneTree <- hclust(as.dist(dissTOM), method = "complete") # use complete for method rather than average (gives better results)
+plot(geneTree, xlab = "", sub = "", cex = .5, main = "Gene clustering", hang = .001)
+```
+
+# Identify Modules
+```{r Cut Gene Tree}
+minModuleSize = 15
+x = 2
+dynamicMods = cutreeDynamic(dendro = geneTree, distM = as.matrix(dissTOM), 
+                            method="hybrid", pamStage = F, deepSplit = x, 
+                            minClusterSize = minModuleSize)
+dynamicColors = labels2colors(dynamicMods) #label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
+                    dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05, 
+                    main = "Gene dendrogram and module colors") #plot the modules with colors
+```
+
+# Calculate Eigengenes and Merge Close Modules
+```{r merge close modules}
+MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes #this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+ME1<-MEs
+row.names(ME1)<-row.names(datExpr)
+# Calculate dissimilarity of module eigengenes
+MEDiss = 1-cor(MEs);
+# Cluster module eigengenes
+METree = hclust(as.dist(MEDiss), method = "average");
+# Plot the result
+plot(METree, main = "Clustering of module eigengenes",xlab = "", sub = "")
+MEDissThres = 0.2
+# Plot the cut line into the dendrogram
+abline(h=MEDissThres, col = "red")
+```
+
+# The merged module colors
+```{r}
+merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
+mergedColors = merge$colors
+mergedMEs = merge$newMEs
+moduleColors = mergedColors
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)
+```
+
+# Plot merged modules
+```{r}
+plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+c("Dynamic Tree Cut", "Merged dynamic"),
+dendroLabels = FALSE, hang = 0.03,
+addGuide = TRUE, guideHang = 0.05)
+# Rename to moduleColors
+moduleColors = mergedColors
+# Construct numerical labels corresponding to the colors
+# colorOrder = c("grey", standardColors(50));
+# moduleLabels = match(moduleColors, colorOrder)-1
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)
+```
+
+```{r}
+#type gene name, prints out gene names also in that module
+modules<-MEs
+c_modules<-data.frame(moduleColors)
+row.names(c_modules)<-colnames(datExpr) #assign gene names as row names
+module.list.set1<-substring(colnames(modules),3) #removes ME from start of module names
+index.set1<-0
+Network=list() #create lists of genes for each module
+for (i in 1:length(module.list.set1)){index.set1<-which(c_modules==module.list.set1[i])
+Network[[i]]<-row.names(c_modules)[index.set1]}
+names(Network)<-module.list.set1
+lookup<-function(gene,network){return(network[names(network)[grep(gene,network)]])} #load function
+```
+
+# Filter metadata table and correlate with eigengenes
+```{r, fig.height=6, fig.width=5}
+nGenes = ncol(datExpr)
+nSamples = nrow(datExpr)
+MEs = orderMEs(MEs)
+MEs %>% select(-MEgrey) -> MEs
+var<-model.matrix(~0+ventric$trt)
+moduleTraitCor <- cor(MEs, var, use="p")
+cor<-moduleTraitCor[abs(moduleTraitCor[,1])>.2,]
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples)
+cor<-melt(cor)
+ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), 
+     colour = "white") + scale_fill_gradient2(midpoint = 0, low = "blue", mid = "white",
+                            high = "red", space = "Lab", name="Correlation \nStrength") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab("Treatment") + ylab(NULL)
+```
+
+```{r}
+hubgenes<-lapply(seq_len(length(Network)), function(x) {
+  dat<-modulekME[Network[[x]],]
+  dat<-dat[order(-dat[paste0("kME",names(Network)[x])]),]
+  gene<-rownames(dat)
+  return(gene)
+})
+
+names(hubgenes)<-names(Network)
+d <- unlist(hubgenes)
+d <- data.frame(gene = d, 
+           vec = names(d))
+
+write_csv(d, path=here("output/glia/wgcna/wc_tany_wgcna_genemodules.csv"))
+```
+
+#Function to calculate SEM and Average
+```{r}
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+    library(plyr)
+
+    # New version of length which can handle NA's: if na.rm==T, don't count them
+    length2 <- function (x, na.rm=FALSE) {
+        if (na.rm) sum(!is.na(x))
+        else       length(x)
+    }
+
+    # This does the summary. For each group's data frame, return a vector with
+    # N, mean, and sd
+    datac <- ddply(data, groupvars, .drop=.drop,
+      .fun = function(xx, col) {
+        c(N    = length2(xx[[col]], na.rm=na.rm),
+          mean = mean   (xx[[col]], na.rm=na.rm),
+          sd   = sd     (xx[[col]], na.rm=na.rm)
+        )
+      },
+      measurevar
+    )
+
+    # Rename the "mean" column    
+    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+
+    # Confidence interval multiplier for standard error
+    # Calculate t-statistic for confidence interval: 
+    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    datac$ci <- datac$se * ciMult
+
+    return(datac)
+}
+```
+
+```{r, fig.height=20, fig.width=20}
+data<-data.frame(MEs, trt = ventric$trt, 
+                 sample = as.factor(ventric$sample),
+                 batch = as.factor(ventric$batch), 
+                 height = ventric$height,
+                 bin = cut(ventric$height, seq_len(max(ventric$height))),
+                 type = ventric$predicted.id)
+
+levels(data$bin) <- c(1:74)
+data$bin <- as.numeric(as.character(data$bin))
+data %>% filter(bin>=12 & bin <= 40) %>% mutate(bin=factor(bin)) -> data
+
+plot <- lapply(colnames(MEs), function(x) {
+  x <- data.frame(scale(data[,x]))
+  x$bin<-data$bin
+  x$trt<-as.factor(data$trt)
+  x$type<-as.factor(data$type)
+  x<-melt(x, id.vars=c("trt","bin","type"))
+  x<-x[complete.cases(x),]
+  plotval <- summarySE(x, measurevar="value", groupvars = c("trt","bin"))
+  return(plotval)
+})
+
+names(plot) <- colnames(MEs)
+plot_df <- bind_rows(plot, .id="id")
+```
+
+
+```{r, fig.height=3, fig.width=7}
+mod <- lapply(colnames(MEs)[grepl("^ME", colnames(MEs))], function(me) {
+  tryCatch({
+    mod <- lmer(data[[me]] ~ trt*bin + (1 | batch) + (1 | sample), data = data)
+    pairwise <- emmeans(mod, pairwise ~ trt|bin)
+    plot <- data.frame(plot(pairwise, plotIt = F)$data)
+    sig <- as.data.frame(pairwise$contrasts)
+    return(sig) }, error = function(err) {
+    print(err)
+  }
+  )
+})
+
+names(mod) <- colnames(MEs)
+mod_df <- bind_rows(mod, .id="id")
+mod_df$p.adj<-p.adjust(mod_df$p.value)
+plot_df %>% filter(trt=="FGF") %>% mutate(p.adj = mod_df$p.adj) -> plot_f_df
+plot_df %>% filter(trt=="PF") %>% mutate(p.adj = mod_df$p.adj) -> plot_p_df
+plot_df <- rbind(plot_f_df, plot_p_df)
+plot_df%>%mutate(signif=ifelse(p.adj>.05, "ns",
+                                     ifelse(p.adj<.05&p.adj>.01, "*",
+                                            ifelse(p.adj<.01&p.adj>.001, "**",
+                                                   "***")))) -> plotval_frame
+
+plotval_frame$signif[plotval_frame$signif=="ns"]<-NA
+plotval_frame$signif[plotval_frame$trt!="FGF"]<-NA
+
+detach("package:here", unload = T)
+library(here)
+write_csv(as.data.frame(plotval_frame), path = here("output/glia/wgcna/wc_tany_pseudovent_linmod.csv"))
+
+mod_df %>% filter(p.adj<0.05) -> sig_df
+sig_mods <- names(which(table(sig_df$id) > 5))
+height_type <- ggplot() + geom_density(data=data, aes(x=(-height), fill=type), inherit.aes = F, alpha=0.25) + coord_flip() + 
+  theme_pubr(legend = "none") + xlab("Pseudo-ventrivcle Height") + ylab(NULL) + theme(axis.text.x = element_blank(),  axis.text.y = element_blank())
+mod <- ggplot(plotval_frame[plotval_frame$id%in%c(sig_mods),], aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se, width=.1)) +
+  geom_line() + geom_point() + scale_color_manual(values=c("#000000","#999999")) +
+  geom_text(color="black",size=3,aes(y= mean + .5), position=position_dodge(.9), angle=90) + coord_flip() +
+  facet_wrap(vars(id), scales="free", nrow=1) + theme_pubr() + ylab("Scaled ME Expression") + xlab(NULL) +
+  theme(legend.position="none", axis.text.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) 
+```
+
+```{r}
+ventric_umap <- as.data.frame(Embeddings(ventric, reduction="umap"))
+ventric_umap$`Cell Type` <- ventric$predicted.id
+umap <- ggplot(ventric_umap, aes(x=UMAP_1, y=UMAP_2, color=`Cell Type`)) + geom_point(alpha=0.5) + theme_void() + theme(legend.position = "top")
+```
+
+```{r, fig.height=4, fig.width=12}
+tany_day5 <- plot_grid(umap, princ_plot, height_type, mod, rel_widths = c(2,1,1,2.5), align = "hv", axis="tb", nrow=1, scale=0.9)
+tany_day5
+```
+
+```{r}
+goterms<-lapply(hubgenes[gsub(sig_mods,pattern = "ME",replacement = "")], function(x) { 
+  x<-gprofiler(x, ordered_query = T, organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
+                           src_filter = c("GO:BP","REAC","KEGG"), hier_filtering = "strong",
+                           min_isect_size = 2, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = "fdr")
+  x<-x[order(x$p.value),]
+  return(x)
+})
+
+goterms %>% bind_rows(.id="id") %>%
+  mutate(padj=p.adjust(p.value, "fdr")) -> godat
+
+write_csv(godat, path=here("output/glia/wgcna/wc_wgcna_tany_goterms.csv"))
+save.image(file = here("output/glia/wgcna/wc_tany_results.RData"))
+```
