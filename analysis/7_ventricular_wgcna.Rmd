@@ -28,7 +28,7 @@ knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 ```
 
 # Extract Cells for WGCNA
-```{r, warnings=FALSE, message=FALSE}
+```{r, warnings=FALSE, message=FALSE, include=F}
 fgf.glia.sub <- readRDS(here("data/glia/glia_seur_filtered.RDS"))
 fgf.glia.sub %>% subset(ident=c("Tany", "Epend", "Astro")) %>% 
   SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> ventric

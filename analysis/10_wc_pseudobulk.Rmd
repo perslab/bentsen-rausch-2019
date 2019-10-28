@@ -59,7 +59,7 @@ glia_sub <- readRDS(here("data/filtglia.RDS"))
 ```
 
 # Generate Pseudo Counts
-```{r}
+```{r, warnings=FALSE, message=FALSE}
 batch_df <- data.frame(
   samp = c(7, 12, 29, 28, 4, 27, 37, 22, 6, 30, 20, 21, 35, 10, 3, 25, 36, 34),
   batch = rep(1:6, each = 3)

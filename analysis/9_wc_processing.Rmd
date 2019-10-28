@@ -42,7 +42,7 @@ doublet<-mapply(function(x,y) x[,y<.23], x=list_mat, y=list_dubs)
 ```
 
 # Read in and filter single cell data
-```{r}
+```{r, include=F}
 list_seu_obj<-list()
 
 for (i in seq_len(length(list_mat))){
@@ -56,7 +56,9 @@ Reduce(function(x,y){merge(x,y)}, list_seu_obj) %>% PercentageFeatureSet(pattern
            percent.ribo >.2 & nCount_RNA < quantile(nCount_RNA, .99) & nCount_RNA > quantile(nCount_RNA, .01)) %>%
   SCTransform(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% RunPCA(verbose=T) %>% FindNeighbors(dims = 1:30) %>%
   RunUMAP(dims = 1:30) %>% FindClusters(resolution=0.1, verbose=T) -> all_combined
+```
 
+```{r}
 DimPlot(all_combined, group.by="orig.ident")
 ```
 

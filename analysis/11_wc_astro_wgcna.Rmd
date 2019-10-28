@@ -30,7 +30,7 @@ library(ggExtra)
 ```
 
 # Extract Cells for WGCNA
-```{r, warnings=FALSE, message=FALSE}
+```{r, warnings=FALSE, message=FALSE, include=FALSE}
 fgf.glia.wc <- readRDS(here("data/filtglia.RDS"))
 fgf.glia.wc %>%
   subset(ident = c("Astro")) %>%

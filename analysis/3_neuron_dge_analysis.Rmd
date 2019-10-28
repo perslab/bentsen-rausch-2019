@@ -105,5 +105,6 @@ deboxplot<-ggplot(genenum,aes(x=reorder(Var2, -value), y=value, fill=factor(Var2
   theme_pubr() +
   theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "none") + 
   ylab("Differentially Expressed\n Genes") + xlab(NULL) 
+deboxplot
 ggsave(deboxplot, filename = here("output/neuron/deboxplot_neur.png"), w=10, h=5)
 ```

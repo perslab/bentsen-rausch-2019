@@ -33,7 +33,7 @@ library(cowplot)
 ```
 
 # Extract Astrocytes for WGCNA
-```{r, warnings=FALSE, message=FALSE}
+```{r, warnings=FALSE, message=FALSE, include=F}
 fgf.glia.sub <- readRDS("/projects/dylan/fgf_24/data/glia/glia_seur_filtered.RDS")
 fgf.glia.sub %>%
   subset(ident = c("Astro")) %>%
@@ -330,7 +330,7 @@ geneplot <- ggraph(hub_plot,  layout = 'kk') +
          size = guide_legend(override.aes = list(size=c(5,7,9,11)))) + 
   theme_graph() + theme(legend.title.align=0.5,
                         legend.box = "horizontal", legend.position = c(0.8, 0.3))
-
+geneplot
 ggsave(geneplot, filename=here("output/mod_graph.png"), h=7, w=7)
 ```
 

@@ -18,7 +18,7 @@ options(future.globals.maxSize = 4000 * 1024^2)
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 ```
 
-```{r}
+```{r, include=FALSE}
 glia <- readRDS(here("data/filtglia.RDS"))
 tany <- subset(glia, ident="Tany")
 tany %>% 

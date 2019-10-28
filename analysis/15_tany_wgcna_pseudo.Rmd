@@ -30,7 +30,7 @@ library(cowplot)
 ```
 
 # Extract Cells for WGCNA
-```{r, warnings=FALSE, message=FALSE}
+```{r, warnings=FALSE, message=FALSE, include=FALSE}
 fgf.glia.wc <- readRDS("/projects/dylan/wc_fgf/data/tany_labeled.RDS")
 fgf.glia.wc %>%
   SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> ventric
