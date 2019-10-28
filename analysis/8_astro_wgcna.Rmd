@@ -29,6 +29,7 @@ library(gProfileR)
 library(here)
 library(eulerr)
 library(ggExtra)
+library(cowplot)
 ```
 
 # Extract Astrocytes for WGCNA
@@ -335,12 +336,13 @@ ggsave(geneplot, filename=here("output/mod_graph.png"), h=7, w=7)
 
 # Read in gene sets
 ```{r}
-lps1 <- read_tsv("/projects/dylan/fgf_24/data/lps1.txt")
-mcao1 <- read_tsv("/projects/dylan/fgf_24/data/mcao1.txt")
-mcao3 <- read_tsv("/projects/dylan/fgf_24/data/mcao_d3.txt")
-mcao7 <- read_tsv("/projects/dylan/fgf_24/data/mcaod7.txt")
-nr <- readxl::read_xlsx("/projects/dylan/fgf_24/data/neur_astro_induce.xlsx")
-sr <- readxl::read_xlsx("/projects/dylan/fgf_24/data/synaptic_activity_induced.xlsx")
+lps1 <- read_tsv(here("data/lps1.txt"))
+mcao1 <- read_tsv(here("data/mcao1.txt"))
+mcao3 <- read_tsv(here("data/mcao_d3.txt"))
+mcao7 <- read_tsv(here("data/mcaod7.txt"))
+nr <- readxl::read_xlsx(here("data/neur_astro_induce.xlsx"))
+sr <- readxl::read_xlsx(here("data/synaptic_activity_induced.xlsx"))
+
 nr %>%
   select(gene_name, `Fold Change`, padj_deseq2) %>%
   filter(`Fold Change` > 2, padj_deseq2 < 0.05) -> nr
