@@ -9,7 +9,7 @@ editor_options:
 ---
 
 
-#Project overview
+# Project overview
 
 A single ICV injection of FGF1 induces permanent normalization of blood glucose levels in multiple models of type 2 diabetes. To understand the effects of FGF1 and identify cell-type specific responses key to blood glucose normalization, we performed multiple high throughput transcriptomic analyses at different timepoints in cohorts of male ob/ob mice. 
 
@@ -19,7 +19,7 @@ A single ICV injection of FGF1 induces permanent normalization of blood glucose 
 All the results and plots presented in the pages below should be
 reproduceible on your computer.
 
-##These are the results of analyses of neuronal populations in snRNA-seq data. 
+## These are the results of analyses of neuronal populations in snRNA-seq data. 
 
 1. [Preparation of neuronal data for downstream analysis](2_neuron_processing.html)
 
@@ -27,7 +27,7 @@ reproduceible on your computer.
 
 3. [Analysis of Agrp neurons](4_agrp_analysis.html)
 
-##These are the results of my analyses of glial cells from snRNA-seq data. 
+## These are the results of my analyses of glial cells from snRNA-seq data. 
 
 1. [Identification of responsive glial populations and there similarities](6_glial_dge.html) 
 
@@ -35,7 +35,7 @@ reproduceible on your computer.
 
 3. [WGCNA on astrocytes reveals biphasic activation](8_astro_wgcna.html) 
 
-##These are the results of my whole cell analyses.
+## These are the results of my whole cell analyses.
 
 1. [Identification of responsive populations and there similarities](10_wc_pseudobulk.html) 
 
