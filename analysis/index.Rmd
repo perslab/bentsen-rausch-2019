@@ -8,50 +8,44 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
 
 ## Project overview
 
+A single ICV injection of FGF1 induces permanent normalization of blood glucose levels in multiple models of type 2 diabetes. To understand the effects of FGF1 and identify cell-type specific responses key to blood glucose normalization, we performed multiple high throughput transcriptomic analyses at different timepoints in cohorts of male ob/ob mice. 
+
+<br>
+![Experimental Design](fgf1_experiment.png) <br>
 
 All the results and plots presented in the pages below should be
-reproduceable on your computer. Follow the
-[Setup Instructions](setup.html) if you are interested in reproducing
-the results for yourself.
+reproduceible on your computer.
 
-These are the results of my neuronal analyses. 
+These are the results of analyses of neuronal populations in snRNA-seq data. 
 
-1. [Preparation of single nuclei data for downstream analysis](1_initial_processing.html) 
+1. [Preparation of neuronal data for downstream analysis](2_neuron_processing.html)
 
-2. [Preparation of neuronal data for downstream analysis](2_neuron_processing.html)
+2. [Identification of responsive neuronal populations](3_neuron_dge_analysis.html)
 
-3. [Identification of responsive neuronal populations](3_neuron_dge_analysis.html)
+3. [Analysis of Agrp neurons](4_agrp_analysis.html)
 
-4. [Analysis of Agrp neurons](4_agrp_analysis.html)
+These are the results of my analyses of glial cells from snRNA-seq data. 
 
-These are the results of my glial nuclei analyses. 
+1. [Identification of responsive glial populations and there similarities](6_glial_dge.html) 
 
-1. [Preparation of glial nuclei data for downstream analysis](5_glial_processing.html) 
+2. [WGCNA performed on macroglia reveals common processes across cell types](7_ventricular_wgcna.html) 
 
-2. [Identification of responsive glial populations and there similarities](6_glial_dge.html) 
-
-3. [WGCNA performed on macroglia reveals common processes across cell types](7_ventricular_wgcna.html) 
-
-4. [WGCNA on astrocytes reveals biphasic activation](8_astro_wgcna.html) 
+3. [WGCNA on astrocytes reveals biphasic activation](8_astro_wgcna.html) 
 
 These are the results of my whole cell analyses.
 
-1. [Preparation of whole cell data for downstream analysis](9_wc_processing.html) 
+1. [Identification of responsive populations and there similarities](10_wc_pseudobulk.html) 
 
-2. [Identification of responsive populations and there similarities](10_wc_pseudobulk.html) 
+2. [WGCNA performed on astrocytes and overlaps between modules identified in snRNAseq](11_astro_wgcna.html) 
+3. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
 
-3. [WGCNA performed on astrocytes](11_astro_wgcna.html) 
+4. [Oligodendrocyte pseudotime analysis](13_olig_pseudotime.html)
 
-4. [Oligodendrocyte label transfer](12_olig_labeltransfer.html)
+5. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
 
-5. [Oligodendrocyte pseudotime analysis](13_olig_pseudotime.html)
-
-6. [Tanycyte label transfer](14_tanycyte_labeltransfer.html)
-
-7. [Tanycyte pseudoventricle analysis](15_tany_wgcna_pseudo.html)
+6. [Tanycyte pseudoventricle analysis](15_tany_wgcna_pseudo.html)
 
 
