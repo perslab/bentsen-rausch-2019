@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Ventricle WGCNA</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/perslab/fgf_alldata">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Ventricle WGCNA</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report"
+  data-toggle="collapse" data-target="#workflowr-report">
+  
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+  <li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+  <li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+  <li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+  <p>
+<strong>Last updated:</strong> 2019-10-28
+</p>
+  <p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+</p>
+  <p>
+<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+  <p>
+  
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+  <div class="panel-group" id="workflowr-checks">
+  <div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Environment:</strong> objects present </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongobjectspresent" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>
+The global environment had objects present when the code in the R Markdown file was run. These objects can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment. Use <code>wflow_publish</code> or <code>wflow_build</code> to ensure that the code is always run in an empty environment.
+</p>
+ <p>
+The following objects were defined in the global environment when these results were created:
+</p> <table class="table table-condensed table-hover">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> 
+Name
+</th>
+   <th style="text-align:left;"> 
+Class
+</th>
+   <th style="text-align:left;"> 
+Size
+</th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 
+data
+</td>
+   <td style="text-align:left;"> 
+environment
+</td>
+   <td style="text-align:left;"> 
+56 bytes
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 
+env
+</td>
+   <td style="text-align:left;"> 
+environment
+</td>
+   <td style="text-align:left;"> 
+56 bytes
+</td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191021code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191021)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191021code" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>The command <code>set.seed(20191021)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/a4ac5aa2a9e0e31d0f04e00cc5228009015c7376" target="_blank">a4ac5aa</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa" class="panel-collapse collapse">
+<div class="panel-body">
+  
+
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+ <pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    test_files/
+
+Untracked files:
+    Untracked:  code/sc_functions.R
+    Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/filtglia.RDS
+    Untracked:  data/glia/
+    Untracked:  data/lps1.txt
+    Untracked:  data/mcao1.txt
+    Untracked:  data/mcao_d3.txt
+    Untracked:  data/mcaod7.txt
+    Untracked:  data/neur_astro_induce.xlsx
+    Untracked:  data/neuron/
+    Untracked:  data/synaptic_activity_induced.xlsx
+    Untracked:  docs/figure/
+    Untracked:  olig_ttest_padj.csv
+    Untracked:  output/agrp_pcgenes.csv
+    Untracked:  output/all_wc_markers.csv
+    Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/glia/
+    Untracked:  output/glial_markergenes.csv
+    Untracked:  output/integrated_all_markergenes.csv
+    Untracked:  output/integrated_neuronmarkers.csv
+    Untracked:  output/neuron/
+
+Unstaged changes:
+    Modified:   analysis/10_wc_pseudobulk.Rmd
+    Modified:   analysis/7_ventricular_wgcna.Rmd
+    Modified:   analysis/8_astro_wgcna.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+
+</code></pre> <p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+  <p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
+<pre class="r"><code>library(Seurat)
+library(WGCNA)
+library(cluster)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(genefilter)
+library(tidyverse)
+library(reshape2)
+library(igraph)
+library(gProfileR)
+library(ggpubr)
+library(here)
+library(ggforce)</code></pre>
+</div>
+<div id="extract-cells-for-wgcna" class="section level1">
+<h1>Extract Cells for WGCNA</h1>
+</div>
+<div id="calculate-softpower" class="section level1">
+<h1>Calculate softpower</h1>
+<pre class="r"><code>enableWGCNAThreads()</code></pre>
+<pre><code>Allowing parallel execution with up to 79 working processes.</code></pre>
+<pre class="r"><code>datExpr&lt;-as.matrix(t(ventric[[&quot;SCT&quot;]]@scale.data[ventric[[&quot;SCT&quot;]]@var.features,]))
+gsg = goodSamplesGenes(datExpr, verbose = 3);</code></pre>
+<pre><code> Flagging genes and samples with too many missing values...
+  ..step 1</code></pre>
+<pre class="r"><code>powers = c(c(1:10), seq(from = 12, to=40, by=2))
+sft=pickSoftThreshold(datExpr,dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = &#39;p&#39;), 
+                      networkType = &quot;signed&quot;)</code></pre>
+<pre><code>   Power SFT.R.sq  slope truncated.R.sq  mean.k. median.k.   max.k.
+1      1    0.186 -56.60          0.593 2.50e+03  2.50e+03 2570.000
+2      2    0.536 -45.50          0.561 1.26e+03  1.25e+03 1350.000
+3      3    0.924 -36.60          0.906 6.32e+02  6.27e+02  722.000
+4      4    0.958 -24.60          0.975 3.18e+02  3.15e+02  398.000
+5      5    0.950 -16.50          0.970 1.61e+02  1.58e+02  228.000
+6      6    0.945 -11.60          0.971 8.18e+01  7.94e+01  135.000
+7      7    0.945  -8.70          0.964 4.17e+01  4.00e+01   84.200
+8      8    0.948  -6.70          0.961 2.14e+01  2.01e+01   54.800
+9      9    0.964  -5.33          0.970 1.10e+01  1.01e+01   37.200
+10    10    0.962  -4.40          0.964 5.75e+00  5.12e+00   26.200
+11    12    0.981  -3.17          0.979 1.62e+00  1.31e+00   14.400
+12    14    0.983  -2.48          0.978 4.93e-01  3.35e-01    8.650
+13    16    0.965  -2.09          0.962 1.67e-01  8.65e-02    5.510
+14    18    0.966  -1.79          0.966 6.57e-02  2.24e-02    3.650
+15    20    0.947  -1.62          0.949 3.01e-02  5.85e-03    2.490
+16    22    0.396  -2.00          0.345 1.57e-02  1.54e-03    1.730
+17    24    0.389  -1.84          0.343 9.11e-03  4.09e-04    1.220
+18    26    0.381  -1.74          0.327 5.67e-03  1.09e-04    0.873
+19    28    0.960  -1.24          0.952 3.71e-03  2.95e-05    0.632
+20    30    0.942  -1.21          0.927 2.53e-03  8.08e-06    0.465
+21    32    0.956  -1.18          0.944 1.79e-03  2.25e-06    0.390
+22    34    0.336  -1.82          0.232 1.29e-03  6.33e-07    0.329
+23    36    0.981  -1.14          0.976 9.62e-04  1.80e-07    0.278
+24    38    0.349  -1.75          0.252 7.31e-04  5.20e-08    0.235
+25    40    0.353  -1.72          0.242 5.67e-04  1.53e-08    0.200</code></pre>
+<pre class="r"><code>cex1=0.9
+plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Scale Free Topology Model Fit, signed R^2&quot;,type=&quot;n&quot;, main = paste(&quot;Scale independence&quot;))
+text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],labels=powers ,cex=cex1,col=&quot;red&quot;)
+abline(h=0.80,col=&quot;red&quot;)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#Mean Connectivity Plot
+plot(sft$fitIndices[,1], sft$fitIndices[,5],xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Mean Connectivity&quot;, type=&quot;n&quot;,main = paste(&quot;Mean connectivity&quot;))
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col=&quot;red&quot;)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="generate-tom" class="section level1">
+<h1>Generate TOM</h1>
+<pre class="r"><code>softPower = 3
+SubGeneNames&lt;-colnames(datExpr)
+adj= adjacency(datExpr, type = &quot;signed&quot;, power = softPower)
+diag(adj)&lt;-0
+TOM=TOMsimilarityFromExpr(datExpr, networkType = &quot;signed&quot;, TOMType = &quot;signed&quot;, power = softPower, maxPOutliers = 0.05)</code></pre>
+<pre><code>TOM calculation: adjacency..
+..will use 79 parallel threads.
+ Fraction of slow calculations: 0.000000
+..connectivity..
+..matrix multiplication (system BLAS)..
+..normalization..
+..done.</code></pre>
+<pre class="r"><code>colnames(TOM) = rownames(TOM) = SubGeneNames
+dissTOM=1-TOM
+geneTree = hclust(as.dist(dissTOM),method=&quot;average&quot;) #use complete for method rather than average (gives better results)
+plot(geneTree,xlab=&quot;&quot;,sub=&quot;&quot;,cex=.5,main=&quot;Gene clustering&quot;,hang=.001)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="identify-modules" class="section level1">
+<h1>Identify Modules</h1>
+<pre class="r"><code>minModuleSize = 15
+x = 4 
+dynamicMods = cutreeDynamic(dendro = geneTree, distM = as.matrix(dissTOM), 
+                            method=&quot;hybrid&quot;, pamStage = F, deepSplit = x, 
+                            minClusterSize = minModuleSize)</code></pre>
+<pre><code> ..cutHeight not given, setting it to 0.874  ===&gt;  99% of the (truncated) height range in dendro.
+ ..done.</code></pre>
+<pre class="r"><code>dynamicColors = labels2colors(dynamicMods) #label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
+                    dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05, 
+                    main = &quot;Gene dendrogram and module colors&quot;) #plot the modules with colors</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/Cut%20Gene%20Tree-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
+<h1>Calculate Eigengenes and Merge Close Modules</h1>
+<pre class="r"><code>MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes #this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+ME1&lt;-MEs
+row.names(ME1)&lt;-row.names(datExpr)
+# Calculate dissimilarity of module eigengenes
+MEDiss = 1-cor(MEs);
+# Cluster module eigengenes
+METree = hclust(as.dist(MEDiss), method = &quot;average&quot;);
+# Plot the result
+plot(METree, main = &quot;Clustering of module eigengenes&quot;,xlab = &quot;&quot;, sub = &quot;&quot;)
+MEDissThres = 0.2
+# Plot the cut line into the dendrogram
+abline(h=MEDissThres, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="the-merged-module-colors" class="section level1">
+<h1>The merged module colors</h1>
+<pre class="r"><code>merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
+<pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 10 module eigengenes in given set.
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 9 module eigengenes in given set.
+   Calculating new MEs...
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 9 module eigengenes in given set.</code></pre>
+<pre class="r"><code>mergedColors = merge$colors
+mergedMEs = merge$newMEs
+moduleColors = mergedColors
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)</code></pre>
+</div>
+<div id="plot-merged-modules" class="section level1">
+<h1>Plot merged modules</h1>
+<pre class="r"><code>plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
+dendroLabels = FALSE, hang = 0.03,
+addGuide = TRUE, guideHang = 0.05)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Rename to moduleColors
+moduleColors = mergedColors
+# Construct numerical labels corresponding to the colors
+# colorOrder = c(&quot;grey&quot;, standardColors(50));
+# moduleLabels = match(moduleColors, colorOrder)-1
+MEs = mergedMEs
+modulekME = signedKME(datExpr,MEs)</code></pre>
+<pre class="r"><code>#type gene name, prints out gene names also in that module
+modules&lt;-MEs
+c_modules&lt;-data.frame(moduleColors)
+row.names(c_modules)&lt;-colnames(datExpr) #assign gene names as row names
+module.list.set1&lt;-substring(colnames(modules),3) #removes ME from start of module names
+index.set1&lt;-0
+Network=list() #create lists of genes for each module
+for (i in 1:length(module.list.set1)){index.set1&lt;-which(c_modules==module.list.set1[i])
+Network[[i]]&lt;-row.names(c_modules)[index.set1]}
+names(Network)&lt;-module.list.set1
+lookup&lt;-function(gene,network){return(network[names(network)[grep(gene,network)]])} #load function</code></pre>
+</div>
+<div id="filter-metadata-table-and-correlate-with-eigengenes" class="section level1">
+<h1>Filter metadata table and correlate with eigengenes</h1>
+<pre class="r"><code>nGenes = ncol(datExpr)
+nSamples = nrow(datExpr)
+MEs = orderMEs(MEs)
+ventric$group&lt;-paste0(ventric$trt,&quot;_&quot;,ventric$day)
+var&lt;-model.matrix(~0+ventric$group)
+#colnames(var)&lt;-c(&quot;DV&quot;,&quot;FGF1&quot;,&quot;FGF19&quot;, &quot;V&quot;)
+moduleTraitCor &lt;- cor(MEs, var, use=&quot;p&quot;)
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples)
+cor&lt;-melt(moduleTraitCor)
+ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), 
+     colour = &quot;white&quot;) + scale_fill_gradient2(midpoint = 0, low = &quot;blue&quot;, mid = &quot;white&quot;,
+                            high = &quot;red&quot;, space = &quot;Lab&quot;, name=&quot;Correlation \nStrength&quot;) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab(&quot;Treatment&quot;) + ylab(NULL)</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="get-hubgenes-in-order" class="section level1">
+<h1>Get hubgenes in order</h1>
+<pre class="r"><code>hubgenes&lt;-lapply(seq_len(length(Network)), function(x) {
+  dat&lt;-modulekME[Network[[x]],]
+  dat&lt;-dat[order(-dat[paste0(&quot;kME&quot;,names(Network)[x])]),]
+  gene&lt;-rownames(dat)
+  return(gene)
+})
+names(hubgenes)&lt;-names(Network)
+d &lt;- unlist(hubgenes)
+d &lt;- data.frame(gene = d, 
+           vec = names(d))
+write_csv(d, path=here(&quot;output/glia/wgcna/allglia_wgcna_genemodules.csv&quot;))</code></pre>
+</div>
+<div id="build-linear-models-for-differential-expression" class="section level1">
+<h1>Build linear models for differential expression</h1>
+<pre class="r"><code>MEs %&gt;% select(-MEgrey) -&gt; MEs
+data&lt;-data.frame(MEs, day=ventric$day, trt=ventric$trt, 
+                 sample=as.factor(ventric$sample), group=ventric$group, 
+                 batch=ventric$batch, celltype=Idents(ventric), 
+                 groupall=paste0(Idents(ventric), ventric$group))
+
+mod&lt;-lapply(colnames(MEs), function(me) {
+  mod&lt;-lmer(MEs[[me]] ~ group*celltype + (1|batch) + (1|sample), data=data)
+  pairwise&lt;-emmeans(mod, pairwise ~ group|celltype)
+  plot&lt;-data.frame(plot(pairwise, plotIt=F)$data)
+  sig&lt;-as.data.frame(pairwise$contrasts)
+  sig%&gt;%separate(contrast, c(&quot;start&quot;, &quot;end&quot;), sep = &quot; - &quot;) -&gt; sig
+  yvals&lt;-unlist(lapply(unique(sig$celltype), function(x) {
+    x&lt;-as.character(x)
+    y&lt;-data[data$celltype==x,]
+    z&lt;-max(as.numeric(y[[me]]))
+    names(z)&lt;-x
+    return(z)
+  }))
+  sig$yvals&lt;-yvals[match(sig$celltype, names(yvals))]
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  return(sig)
+})</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge with max|grad| = 0.00359644
+(tol = 0.002, component 1)</code></pre>
+<pre class="r"><code>names(mod) &lt;- colnames(MEs)
+sig &lt;- bind_rows(mod, .id=&quot;id&quot;)
+sig$symbol &lt;- sig$p.value
+sig$symbol[findInterval(sig$symbol, c(0.1,2)) == 1L] &lt;-NA
+sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] &lt;- &quot;*&quot;
+sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] &lt;- &quot;**&quot;</code></pre>
+<pre><code>Warning in findInterval(sig$symbol, c(0.001, 0.01)): NAs introduced by
+coercion</code></pre>
+<pre class="r"><code>sig$symbol[findInterval(sig$symbol, c(1e-200,0.001)) == 1L] &lt;- &quot;***&quot; </code></pre>
+<pre><code>Warning in findInterval(sig$symbol, c(1e-200, 0.001)): NAs introduced by
+coercion</code></pre>
+<pre class="r"><code>data &lt;- melt(data, id.vars = c(&quot;day&quot;,&quot;trt&quot;,&quot;sample&quot;,&quot;group&quot;,&quot;batch&quot;,&quot;celltype&quot;,&quot;groupall&quot;))
+
+lapply(unique(data$variable), function(x) {
+  tryCatch({
+  print(ggplot(data=data[data$variable==x,], aes(x=group, y=as.numeric(value))) + 
+  geom_quasirandom(aes(fill=sample), shape=21, size=2, alpha=.75) + 
+  scale_fill_manual(values=pal_jco()(10)) +  ylab(NULL) + xlab(NULL) + 
+  theme_pubr() + theme(axis.text.x = element_text(angle=45, hjust=1, face=&quot;bold&quot;), plot.title = element_text(hjust=0.5)) + 
+  scale_y_continuous(aes(name=&quot;&quot;,limits=c(min(value)-.02,max(value))+.02)) + facet_wrap(.~celltype) +
+  labs(y=NULL, x=NULL) + ggtitle(x)) },
+  error = function(err) {
+    print(err)
+  }
+  )
+})</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-11.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-12.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-13.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-14.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-15.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[8]]</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-16.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># moddat &lt;- bind_rows(mod, .id=&quot;id&quot;)
+write_csv(sig, path=here(&quot;output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv&quot;))</code></pre>
+<pre class="r"><code>sig %&gt;%
+  unite(start, end, col = &quot;comparison&quot;, remove = F) %&gt;%
+  filter(comparison == &quot;FGF_Day-1_PF_Day-1&quot; | comparison == &quot;FGF_Day-5_PF_Day-5&quot;) %&gt;%
+  unite(estimate, p.value, sep = &quot;,&quot;, col = &quot;value&quot;) %&gt;%
+  dcast(id + celltype ~ start, value.var = &quot;value&quot;) %&gt;%
+  separate(`FGF_Day-1`, into = c(&quot;estimate_1&quot;, &quot;p.value_1&quot;), sep = &quot;,&quot;) %&gt;%
+  separate(`FGF_Day-5`, into = c(&quot;estimate_5&quot;, &quot;p.value_5&quot;), sep = &quot;,&quot;) %&gt;%
+  mutate(id = gsub(id, pattern = &quot;ME&quot;, replacement = &quot;&quot;)) %&gt;%
+  mutate(col = if_else(as.numeric(p.value_1) &lt; 0.1 | as.numeric(p.value_5) &lt; 0.1, true = id, false = &quot;grey&quot;)) %&gt;%
+  mutate(sig = if_else(as.numeric(p.value_1) &lt; 0.1 &amp; as.numeric(p.value_5) &lt; 0.1, true = &quot;red&quot;,
+    false = if_else(as.numeric(p.value_1) &lt; 0.1, true = &quot;blue&quot;,
+      false = if_else(as.numeric(p.value_5) &lt; 0.1, true = &quot;black&quot;, false = &quot;&quot;)
+    )
+  )) %&gt;%
+  mutate(label = if_else(sig == &quot;blue&quot;, true = &quot;DE at Day 1&quot;, false = &quot;&quot;)) -&gt; plot
+
+cols &lt;- unique(plot$col)
+names(cols) &lt;- cols
+
+ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
+  geom_point(data = filter(plot, sig != &quot;&quot;), aes(shape = celltype), size = 4) +
+  scale_shape(name=&quot;Cell-Type&quot;) +
+  geom_mark_ellipse(data = plot %&gt;% filter(sig == &quot;blue&quot;, p.value_1 != 0.0230780280327769), color = &quot;black&quot;, linetype = &quot;dashed&quot;) +
+  geom_point(size = 4, aes(color = col, shape = celltype)) + coord_flip() + geom_hline(yintercept = 0) +
+  scale_color_manual(values = cols, name = &quot;Modules&quot;) +
+  geom_vline(xintercept = 0) +
+  annotate(
+    geom = &quot;curve&quot;, x = 0.045, y = 0.02, xend = 0.03, yend = 0.005,
+    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
+  ) + annotate(geom = &quot;label&quot;, x = 0.045, y = 0.022, label = &quot;DE only at Day 1&quot;, hjust = &quot;left&quot;) +
+  annotate(
+    geom = &quot;curve&quot;, x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,
+    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
+  ) + annotate(geom = &quot;label&quot;, x = -0.005, y = 0.0275, label = &quot;DE at both&quot;, hjust = &quot;left&quot;) +
+  annotate(
+    geom = &quot;curve&quot;, x = 0.01, y = 0.015, xend = -0.011, yend = 0.02,
+    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
+  ) + annotate(geom = &quot;label&quot;, x = 0.015, y = 0.01, label = &quot;DE only at Day 5&quot;, hjust = &quot;left&quot;) + theme_bw() + xlab(&quot;Day 1 Estimate&quot;) +
+  ylab(&quot;Day 5 Estimate&quot;) + labs_pubr()</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;output/wgcna_res.png&quot;), w=8, h=5)</code></pre>
+</div>
+<div id="find-go-term-enrichment-of-modules" class="section level1">
+<h1>Find GO term enrichment of modules</h1>
+<pre class="r"><code>names(mod)&lt;-colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))]
+go_col &lt;- unique(plot$col)[-grep(&quot;grey&quot;, unique(plot$col))]
+goterms&lt;-lapply(go_col, function(x) { 
+  x&lt;-gprofiler(hubgenes[[x]], ordered_query = T, 
+               organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
+                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = &quot;fdr&quot;)
+  x&lt;-x[order(x$p.value),]
+  return(x)
+})
+
+names(goterms) &lt;- go_col
+goterms %&gt;% bind_rows(.id=&quot;id&quot;) %&gt;%
+  mutate(padj=p.adjust(p.value, &quot;fdr&quot;)) -&gt; godat
+
+write_csv(godat, path=here(&quot;output/glia/wgcna/allglia_wgcna_goterms.csv&quot;))
+
+godat %&gt;% group_by(id) %&gt;% filter(id %in% c(&quot;black&quot;,&quot;green&quot;)) %&gt;% arrange(p.value) %&gt;% slice(1:5) %&gt;% 
+  select(p.value, padj, term.name, domain, id) %&gt;% arrange(id) %&gt;%
+  ggplot(aes(x=str_wrap(term.name,20), y=-log10(padj), fill=domain)) + geom_col() +
+  scale_fill_npg() +
+  facet_wrap(.~id, scales=&quot;free_y&quot;, ncol=1) + theme_pubr() + 
+  theme(text = element_text(size=7), 
+        axis.text.x = element_text(angle=45, hjust=1)) + coord_flip() +
+  xlab(&quot;GO Term&quot;) + geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;, size=1) + 
+  labs_pubr()</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(filename = here(&quot;output/glia/wgcna/allglia_goterm.png&quot;), h=6, w=8)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo"
+  data-toggle="collapse" data-target="#workflowr-sessioninfo"
+  style = "display: block;">
+  
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+
+<div id="workflowr-sessioninfo" class="collapse">
+
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_DK.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_DK.UTF-8        LC_COLLATE=en_DK.UTF-8    
+ [5] LC_MONETARY=en_DK.UTF-8    LC_MESSAGES=en_DK.UTF-8   
+ [7] LC_PAPER=en_DK.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_DK.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggforce_0.3.0.9000    here_0.1              ggpubr_0.2.1         
+ [4] magrittr_1.5          gProfileR_0.6.7       igraph_1.2.4.1       
+ [7] reshape2_1.4.3        forcats_0.4.0         stringr_1.4.0        
+[10] dplyr_0.8.3           purrr_0.3.2           readr_1.3.1.9000     
+[13] tidyr_0.8.3           tibble_2.1.3          tidyverse_1.2.1      
+[16] genefilter_1.64.0     ggbeeswarm_0.6.0      ggplot2_3.2.1        
+[19] lme4_1.1-21           Matrix_1.2-17         emmeans_1.3.5.1      
+[22] ggsci_2.9             parallelDist_0.2.4    cluster_2.1.0        
+[25] WGCNA_1.68            fastcluster_1.1.25    dynamicTreeCut_1.63-1
+[28] Seurat_3.0.3.9036    
+
+loaded via a namespace (and not attached):
+  [1] reticulate_1.13       R.utils_2.9.0         tidyselect_0.2.5     
+  [4] robust_0.4-18.1       RSQLite_2.1.1         AnnotationDbi_1.44.0 
+  [7] htmlwidgets_1.3       grid_3.5.3            Rtsne_0.15           
+ [10] munsell_0.5.0         codetools_0.2-16      ica_1.0-2            
+ [13] preprocessCore_1.44.0 future_1.14.0         withr_2.1.2          
+ [16] colorspace_1.4-1      Biobase_2.42.0        highr_0.8            
+ [19] knitr_1.23            rstudioapi_0.10       stats4_3.5.3         
+ [22] ROCR_1.0-7            robustbase_0.93-5     ggsignif_0.5.0       
+ [25] gbRd_0.4-11           listenv_0.7.0         labeling_0.3         
+ [28] Rdpack_0.11-0         git2r_0.25.2          polyclip_1.10-0      
+ [31] farver_1.1.0          bit64_0.9-7           rprojroot_1.3-2      
+ [34] vctrs_0.2.0           coda_0.19-3           generics_0.0.2       
+ [37] TH.data_1.0-10        xfun_0.8              R6_2.4.0             
+ [40] doParallel_1.0.14     rsvd_1.0.2            bitops_1.0-6         
+ [43] assertthat_0.2.1      SDMTools_1.1-221.1    scales_1.0.0         
+ [46] multcomp_1.4-10       nnet_7.3-12           beeswarm_0.2.3       
+ [49] gtable_0.3.0          npsurv_0.4-0          globals_0.12.4       
+ [52] sandwich_2.5-1        workflowr_1.4.0       rlang_0.4.0          
+ [55] zeallot_0.1.0         splines_3.5.3         lazyeval_0.2.2       
+ [58] acepack_1.4.1         impute_1.56.0         broom_0.5.2          
+ [61] checkmate_1.9.4       modelr_0.1.4          yaml_2.2.0           
+ [64] backports_1.1.4       Hmisc_4.2-0           tools_3.5.3          
+ [67] gplots_3.0.1.1        RColorBrewer_1.1-2    BiocGenerics_0.28.0  
+ [70] ggridges_0.5.1        Rcpp_1.0.2            plyr_1.8.4           
+ [73] base64enc_0.1-3       RCurl_1.95-4.12       rpart_4.1-15         
+ [76] pbapply_1.4-1         cowplot_1.0.0         S4Vectors_0.20.1     
+ [79] zoo_1.8-6             haven_2.1.0           ggrepel_0.8.1        
+ [82] fs_1.3.1              data.table_1.12.2     lmtest_0.9-37        
+ [85] RANN_2.6.1            mvtnorm_1.0-11        fitdistrplus_1.0-14  
+ [88] matrixStats_0.54.0    hms_0.5.0             lsei_1.2-0           
+ [91] evaluate_0.14         xtable_1.8-4          pbkrtest_0.4-7       
+ [94] XML_3.98-1.20         readxl_1.3.1          IRanges_2.16.0       
+ [97] gridExtra_2.3         compiler_3.5.3        KernSmooth_2.23-15   
+[100] crayon_1.3.4          minqa_1.2.4           R.oo_1.22.0          
+[103] htmltools_0.3.6       pcaPP_1.9-73          Formula_1.2-3        
+[106] rrcov_1.4-7           RcppParallel_4.4.3    lubridate_1.7.4      
+[109] DBI_1.0.0             tweenr_1.0.1          MASS_7.3-51.4        
+[112] boot_1.3-22           cli_1.1.0             R.methodsS3_1.7.1    
+[115] gdata_2.18.0          parallel_3.5.3        metap_1.1            
+[118] pkgconfig_2.0.2       fit.models_0.5-14     foreign_0.8-71       
+[121] plotly_4.9.0          xml2_1.2.0            foreach_1.4.4        
+[124] annotate_1.60.1       vipor_0.4.5           estimability_1.3     
+[127] rvest_0.3.4           bibtex_0.4.2          digest_0.6.20        
+[130] sctransform_0.2.0     RcppAnnoy_0.0.12      tsne_0.1-3           
+[133] cellranger_1.1.0      rmarkdown_1.13        leiden_0.3.1         
+[136] htmlTable_1.13.1      uwot_0.1.3            gtools_3.8.1         
+[139] nloptr_1.2.1          nlme_3.1-140          jsonlite_1.6         
+[142] viridisLite_0.3.0     pillar_1.4.2          lattice_0.20-38      
+[145] httr_1.4.1            DEoptimR_1.0-8        survival_2.44-1.1    
+[148] GO.db_3.7.0           glue_1.3.1            png_0.1-7            
+[151] iterators_1.0.10      bit_1.1-14            stringi_1.4.3        
+[154] blob_1.1.1            latticeExtra_0.6-28   caTools_1.17.1.2     
+[157] memoise_1.1.0         irlba_2.3.3           future.apply_1.3.0   
+[160] ape_5.3              </code></pre>
+</div>
+
+
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

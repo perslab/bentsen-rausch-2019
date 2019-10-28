@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Astrocyte WGCNA</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/perslab/fgf_alldata">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Astrocyte WGCNA</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report"
+  data-toggle="collapse" data-target="#workflowr-report">
+  
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+  <li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+  <li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+  <li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+  <p>
+<strong>Last updated:</strong> 2019-10-28
+</p>
+  <p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+</p>
+  <p>
+<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+  <p>
+  
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+  <div class="panel-group" id="workflowr-checks">
+  <div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Environment:</strong> objects present </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongobjectspresent" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>
+The global environment had objects present when the code in the R Markdown file was run. These objects can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment. Use <code>wflow_publish</code> or <code>wflow_build</code> to ensure that the code is always run in an empty environment.
+</p>
+ <p>
+The following objects were defined in the global environment when these results were created:
+</p> <table class="table table-condensed table-hover">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> 
+Name
+</th>
+   <th style="text-align:left;"> 
+Class
+</th>
+   <th style="text-align:left;"> 
+Size
+</th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 
+data
+</td>
+   <td style="text-align:left;"> 
+environment
+</td>
+   <td style="text-align:left;"> 
+56 bytes
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 
+env
+</td>
+   <td style="text-align:left;"> 
+environment
+</td>
+   <td style="text-align:left;"> 
+56 bytes
+</td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191021code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191021)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191021code" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>The command <code>set.seed(20191021)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+  
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/a4ac5aa2a9e0e31d0f04e00cc5228009015c7376" target="_blank">a4ac5aa</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa" class="panel-collapse collapse">
+<div class="panel-body">
+  
+
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+ <pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    test_files/
+
+Untracked files:
+    Untracked:  code/sc_functions.R
+    Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/filtglia.RDS
+    Untracked:  data/glia/
+    Untracked:  data/lps1.txt
+    Untracked:  data/mcao1.txt
+    Untracked:  data/mcao_d3.txt
+    Untracked:  data/mcaod7.txt
+    Untracked:  data/neur_astro_induce.xlsx
+    Untracked:  data/neuron/
+    Untracked:  data/synaptic_activity_induced.xlsx
+    Untracked:  docs/figure/
+    Untracked:  olig_ttest_padj.csv
+    Untracked:  output/agrp_pcgenes.csv
+    Untracked:  output/all_wc_markers.csv
+    Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/glia/
+    Untracked:  output/glial_markergenes.csv
+    Untracked:  output/integrated_all_markergenes.csv
+    Untracked:  output/integrated_neuronmarkers.csv
+    Untracked:  output/neuron/
+
+Unstaged changes:
+    Modified:   analysis/10_wc_pseudobulk.Rmd
+    Modified:   analysis/7_ventricular_wgcna.Rmd
+    Modified:   analysis/8_astro_wgcna.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+
+</code></pre> <p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+  
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/a4ac5aa2a9e0e31d0f04e00cc5228009015c7376/analysis/8_astro_wgcna.Rmd" target="_blank">a4ac5aa</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+wflow_git_commit(“analysis/*.Rmd“)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<hr>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
+<pre class="r"><code>library(Seurat)
+library(WGCNA)
+library(cluster)
+library(genefilter)
+library(tidyverse)
+library(tidygraph)
+library(ggraph)
+library(reshape2)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(ggpubr)
+library(igraph)
+library(RColorBrewer)
+library(gProfileR)
+library(here)
+library(eulerr)
+library(ggExtra)
+library(cowplot)</code></pre>
+</div>
+<div id="extract-astrocytes-for-wgcna" class="section level1">
+<h1>Extract Astrocytes for WGCNA</h1>
+</div>
+<div id="calculate-softpower" class="section level1">
+<h1>Calculate softpower</h1>
+<pre class="r"><code>enableWGCNAThreads()</code></pre>
+<pre><code>Allowing parallel execution with up to 79 working processes.</code></pre>
+<pre class="r"><code>datExpr &lt;- as.matrix(t(astro[[&quot;SCT&quot;]]@scale.data[astro[[&quot;SCT&quot;]]@var.features,]))
+gsg &lt;- goodSamplesGenes(datExpr, verbose = 3)</code></pre>
+<pre><code> Flagging genes and samples with too many missing values...
+  ..step 1</code></pre>
+<pre class="r"><code>gsg$allOK</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>sampleTree2 &lt;- hclust(parDist(datExpr), method = &quot;average&quot;)
+plot(sampleTree2, label = F)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>powers &lt;- c(c(1:10), seq(from = 12, to = 40, by = 2))
+sft &lt;- pickSoftThreshold(datExpr,
+  dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = &quot;p&quot;),
+  networkType = &quot;signed&quot;
+)</code></pre>
+<pre><code>   Power SFT.R.sq  slope truncated.R.sq  mean.k. median.k.   max.k.
+1      1  0.15300 105.00          0.626 2.50e+03  2.50e+03 2520.000
+2      2  0.00719 -13.00          0.916 1.25e+03  1.25e+03 1280.000
+3      3  0.49400 -62.20          0.691 6.29e+02  6.28e+02  658.000
+4      4  0.76800 -48.60          0.749 3.16e+02  3.15e+02  349.000
+5      5  0.96800 -34.90          0.963 1.59e+02  1.58e+02  190.000
+6      6  0.97600 -23.30          0.988 8.05e+01  7.96e+01  107.000
+7      7  0.95800 -15.70          0.974 4.07e+01  4.00e+01   62.600
+8      8  0.94600 -11.40          0.951 2.07e+01  2.02e+01   38.300
+9      9  0.48400 -13.50          0.347 1.06e+01  1.02e+01   24.600
+10    10  0.48700 -10.40          0.358 5.41e+00  5.14e+00   16.500
+11    12  0.48800  -6.67          0.376 1.45e+00  1.31e+00    8.350
+12    14  0.96000  -3.21          0.951 4.03e-01  3.38e-01    4.770
+13    16  0.93900  -2.50          0.922 1.20e-01  8.73e-02    2.950
+14    18  0.97900  -2.00          0.973 3.99e-02  2.27e-02    1.940
+15    20  0.97200  -1.65          0.964 1.55e-02  5.95e-03    1.330
+16    22  0.91200  -1.49          0.891 7.22e-03  1.57e-03    0.949
+17    24  0.31500  -2.03          0.122 3.97e-03  4.18e-04    0.768
+18    26  0.94700  -1.27          0.941 2.48e-03  1.12e-04    0.630
+19    28  0.40600  -1.58          0.302 1.68e-03  3.04e-05    0.521
+20    30  0.40500  -1.50          0.299 1.21e-03  8.32e-06    0.434
+21    32  0.40800  -1.44          0.297 9.15e-04  2.30e-06    0.363
+22    34  0.37200  -1.33          0.192 7.10e-04  6.44e-07    0.305
+23    36  0.37300  -1.32          0.195 5.65e-04  1.82e-07    0.256
+24    38  0.35400  -1.59          0.224 4.58e-04  5.22e-08    0.216
+25    40  0.33900  -1.85          0.153 3.77e-04  1.52e-08    0.190</code></pre>
+<pre class="r"><code>cex1 &lt;- 0.9
+plot(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Scale Free Topology Model Fit, signed R^2&quot;, type = &quot;n&quot;, main = paste(&quot;Scale independence&quot;))
+text(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], labels = powers, cex = cex1, col = &quot;red&quot;)
+abline(h = 0.80, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Mean Connectivity Plot
+plot(sft$fitIndices[, 1], sft$fitIndices[, 5], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Mean Connectivity&quot;, type = &quot;n&quot;, main = paste(&quot;Mean connectivity&quot;))
+text(sft$fitIndices[, 1], sft$fitIndices[, 5], labels = powers, cex = cex1, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="generate-tom" class="section level1">
+<h1>Generate TOM</h1>
+<pre class="r"><code>softPower &lt;- 5
+SubGeneNames &lt;- colnames(datExpr)
+adj &lt;- adjacency(datExpr, type = &quot;signed&quot;, power = softPower)
+diag(adj) &lt;- 0
+TOM &lt;- TOMsimilarityFromExpr(datExpr, networkType = &quot;signed&quot;, TOMType = &quot;signed&quot;, power = softPower, maxPOutliers = 0.05)</code></pre>
+<pre><code>TOM calculation: adjacency..
+..will use 79 parallel threads.
+ Fraction of slow calculations: 0.000000
+..connectivity..
+..matrix multiplication (system BLAS)..
+..normalization..
+..done.</code></pre>
+<pre class="r"><code>colnames(TOM) &lt;- rownames(TOM) &lt;- SubGeneNames
+dissTOM &lt;- 1 - TOM
+geneTree &lt;- hclust(as.dist(dissTOM), method = &quot;average&quot;) # use complete for method rather than average (gives better results)
+plot(geneTree, xlab = &quot;&quot;, sub = &quot;&quot;, cex = .5, main = &quot;Gene clustering&quot;, hang = .001)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="identify-modules" class="section level1">
+<h1>Identify Modules</h1>
+<pre class="r"><code>minModuleSize &lt;- 15
+x &lt;- 4
+dynamicMods &lt;- cutreeDynamic(
+  dendro = geneTree, distM = as.matrix(dissTOM),
+  method = &quot;hybrid&quot;, pamStage = F, deepSplit = x,
+  minClusterSize = minModuleSize
+)</code></pre>
+<pre><code> ..cutHeight not given, setting it to 0.968  ===&gt;  99% of the (truncated) height range in dendro.
+ ..done.</code></pre>
+<pre class="r"><code>dynamicColors &lt;- labels2colors(dynamicMods) # label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
+  dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05,
+  main = &quot;Gene dendrogram and module colors&quot;
+) # plot the modules with colors</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/Cut%20Gene%20Tree-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
+<h1>Calculate Eigengenes and Merge Close Modules</h1>
+<pre class="r"><code>MEs &lt;- moduleEigengenes(datExpr, dynamicColors)$eigengenes # this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+ME1 &lt;- MEs
+row.names(ME1) &lt;- row.names(datExpr)
+# Calculate dissimilarity of module eigengenes
+MEDiss &lt;- 1 - cor(MEs)
+# Cluster module eigengenes
+METree &lt;- hclust(as.dist(MEDiss), method = &quot;average&quot;)
+# Plot the result
+plot(METree, main = &quot;Clustering of module eigengenes&quot;, xlab = &quot;&quot;, sub = &quot;&quot;)
+MEDissThres &lt;- 0.2
+# Plot the cut line into the dendrogram
+abline(h = MEDissThres, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="the-merged-module-colors" class="section level1">
+<h1>The merged module colors</h1>
+<pre class="r"><code>merge &lt;- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
+<pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 9 module eigengenes in given set.
+   Calculating new MEs...
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 9 module eigengenes in given set.</code></pre>
+<pre class="r"><code>mergedColors &lt;- merge$colors
+mergedMEs &lt;- merge$newMEs
+moduleColors &lt;- mergedColors
+MEs &lt;- mergedMEs
+modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+<pre class="r"><code>plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+  c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
+  dendroLabels = FALSE, hang = 0.03,
+  addGuide = TRUE, guideHang = 0.05
+)</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Rename to moduleColors
+moduleColors &lt;- mergedColors
+# Construct numerical labels corresponding to the colors
+# colorOrder = c(&quot;grey&quot;, standardColors(50));
+# moduleLabels = match(moduleColors, colorOrder)-1
+MEs &lt;- mergedMEs
+modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+<pre class="r"><code># type gene name, prints out gene names also in that module
+modules &lt;- MEs
+c_modules &lt;- data.frame(moduleColors)
+row.names(c_modules) &lt;- colnames(datExpr) # assign gene names as row names
+module.list.set1 &lt;- substring(colnames(modules), 3) # removes ME from start of module names
+index.set1 &lt;- 0
+Network &lt;- list() # create lists of genes for each module
+for (i in 1:length(module.list.set1)) {
+  index.set1 &lt;- which(c_modules == module.list.set1[i])
+  Network[[i]] &lt;- row.names(c_modules)[index.set1]
+}
+names(Network) &lt;- module.list.set1
+lookup &lt;- function(gene, network) {
+  return(network[names(network)[grep(gene, network)]])
+} # load function</code></pre>
+</div>
+<div id="get-hubgenes-and-kme" class="section level1">
+<h1>Get hubgenes and kME</h1>
+<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)), function(x) {
+  dat &lt;- modulekME[Network[[x]], ]
+  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
+  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+
+names(hubgenes) &lt;- names(Network)
+d &lt;- bind_rows(hubgenes, .id=&quot;id&quot;)</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre class="r"><code>write_csv(d, path = here(&quot;output/glia/wgcna/astro_wgcna_genemodules.csv&quot;))</code></pre>
+<pre class="r"><code>MEs %&gt;% select(-MEgrey) -&gt; MEs
+data &lt;- data.frame(MEs,
+  day = astro$day, trt = astro$trt,
+  sample = as.factor(astro$sample), group = astro$group,
+  batch = astro$batch, celltype = Idents(astro),
+  groupall = paste0(Idents(astro), astro$group)
+)
+
+
+mod&lt;-lapply(colnames(MEs), function(me) {
+  mod&lt;-lmer(MEs[[me]] ~ group + (1|batch) + (1|sample), data=data)
+  pairwise&lt;-emmeans(mod, pairwise ~ group)
+  plot&lt;-data.frame(plot(pairwise, plotIt=F)$data)
+  sig&lt;-as.data.frame(pairwise$contrasts)
+  sig%&gt;%separate(contrast, c(&quot;start&quot;, &quot;end&quot;), sep = &quot; - &quot;) -&gt; sig
+  yvals&lt;-unlist(lapply(unique(sig$celltype), function(x) {
+    x&lt;-as.character(x)
+    y&lt;-data[data$celltype==x,]
+    z&lt;-max(as.numeric(y[[me]]))
+    names(z)&lt;-x
+    return(z)
+  }))
+  sig$yvals&lt;-yvals[match(sig$celltype, names(yvals))]
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  sig$yvals[duplicated(sig$yvals)]&lt;-sig$yvals[duplicated(sig$yvals)]+.004
+  return(sig)
+})
+
+names(mod) &lt;- colnames(MEs)
+sig &lt;- bind_rows(mod, .id=&quot;id&quot;)
+sig$symbol &lt;- sig$p.value
+sig$symbol[findInterval(sig$symbol, c(0.1,2)) == 1L] &lt;-NA
+sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] &lt;- &quot;*&quot;
+sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] &lt;- &quot;**&quot;</code></pre>
+<pre><code>Warning in findInterval(sig$symbol, c(0.001, 0.01)): NAs introduced by
+coercion</code></pre>
+<pre class="r"><code>sig$symbol[findInterval(sig$symbol, c(1e-200,0.001)) == 1L] &lt;- &quot;***&quot; </code></pre>
+<pre><code>Warning in findInterval(sig$symbol, c(1e-200, 0.001)): NAs introduced by
+coercion</code></pre>
+<pre class="r"><code>lapply(unique(colnames(MEs)), function(me) {
+  tryCatch({
+   print(ggplot(data = data[sample(nrow(data)), ], aes(x = group, y = get(me))) +
+      geom_quasirandom(aes(fill = sample), shape = 21, size = 2, alpha = .75) +
+      scale_fill_manual(values = pal_jco()(10)) + ylab(NULL) + xlab(NULL) +
+      theme_pubr() + theme(
+        axis.text.x = element_text(angle = 45, hjust = 1, face = &quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5)
+      ) +
+      scale_y_continuous(aes(name = &quot;&quot;, limits = c(min(get(me)) - .02, max(get(me))) + .02)) +
+      ggtitle(me))
+  },
+  error = function(err) {
+    print(err)
+  }
+  )
+})</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-11.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-12.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-13.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-14.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-15.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[8]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-16.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># moddat &lt;- bind_rows(mod, .id=&quot;id&quot;)
+write_csv(sig, path=here(&quot;output/glia/wgcna/astro_wgcna_linearmodel_testing.csv&quot;))</code></pre>
+</div>
+<div id="filter-metadata-table-and-correlate-with-eigengenes" class="section level1">
+<h1>Filter metadata table and correlate with eigengenes</h1>
+<pre class="r"><code>nGenes &lt;- ncol(datExpr)
+nSamples &lt;- nrow(datExpr) # datExpr[,c((nrow(datExpr)-9):nrow(datExpr))]
+# Recalculate MEs with color labels
+MEs &lt;- orderMEs(MEs)
+astro$group &lt;- paste0(astro$trt, &quot;_&quot;, astro$day)
+var &lt;- model.matrix(~ 0 + astro$group)
+# colnames(var)&lt;-c(&quot;DV&quot;,&quot;FGF1&quot;,&quot;FGF19&quot;, &quot;V&quot;)
+moduleTraitCor &lt;- cor(MEs, var, use = &quot;p&quot;)
+moduleTraitPvalue &lt;- corPvalueStudent(moduleTraitCor, nSamples)
+cor &lt;- melt(moduleTraitCor)
+cor$Var2 &lt;- str_split(cor$Var2, &quot;group&quot;, n = 2, simplify = T)[, 2]
+MEs %&gt;%
+  as.data.frame() %&gt;%
+  mutate(sample = astro$sample, day = astro$day) %&gt;%
+  melt() %&gt;%
+  dplyr::group_by(sample, variable) %&gt;%
+  dplyr::summarise(mean_mod = median(value)) %&gt;%
+  filter(variable != &quot;MEgrey&quot;) -&gt; me_heatmap
+me_heatmap %&gt;%
+  dplyr::group_by(variable) %&gt;%
+  mutate(scaled_mod = scale(mean_mod)) -&gt; me_heatmap
+me_heatmap$day &lt;- as.character(astro$day[match(me_heatmap$sample, astro$sample)])
+me_heatmap$trt &lt;- as.character(astro$trt[match(me_heatmap$sample, astro$sample)])
+me_heatmap$sample &lt;- fct_relevel(me_heatmap$sample, &quot;1_FGF&quot;, &quot;2_FGF&quot;, &quot;3_FGF&quot;, &quot;1_PF&quot;, &quot;2_PF&quot;, &quot;3_PF&quot;, &quot;37_FGF&quot;, &quot;45_FGF&quot;, &quot;28_PF&quot;, &quot;38_PF&quot;)
+me_heatmap &lt;- me_heatmap[me_heatmap$variable %in% c(&quot;MEgreen&quot;, &quot;MEred&quot;, &quot;MEblue&quot;, &quot;MEblack&quot;), ]
+me_heatmap$variable &lt;- as.factor(as.character(me_heatmap$variable))
+me_heatmap$variable &lt;- str_to_title(sapply(strsplit(as.character(me_heatmap$variable), &quot;ME&quot;),&quot;[&quot;, 2))
+me_heatmap$variable &lt;- fct_relevel(me_heatmap$variable, &quot;Red&quot;, &quot;Black&quot;, &quot;Green&quot;, &quot;Blue&quot;)
+diffmod_heatmap &lt;- ggplot(me_heatmap, aes(sample, variable)) +
+  geom_tile(aes(fill = scaled_mod), colour = &quot;white&quot;, size=.5) + ylab(NULL) + xlab(NULL) +
+  scale_fill_gsea(limits=c(-2,3), name=&quot;Scaled\nExpression&quot;) +
+  facet_grid(. ~ day + trt, scales = &quot;free_x&quot;) + theme_pubr(border = T, legend=&quot;right&quot;) + ggpubr::labs_pubr() +
+  theme(axis.text.x = element_blank(), panel.spacing = unit(.25, &quot;lines&quot;),  axis.ticks.x = element_blank())
+diffmod_heatmap</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="calculate-go-enrichment" class="section level1">
+<h1>Calculate GO enrichment</h1>
+<pre class="r"><code>goterms &lt;- lapply(hubgenes[c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;black&quot;)], function(x) {
+  x &lt;- gprofiler(x,
+    ordered_query = T, organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
+    src_filter = c(&quot;GO:BP&quot;, &quot;GO:MF&quot;, &quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+    min_isect_size = 2,
+    sort_by_structure = T, exclude_iea = T,
+    min_set_size = 10, max_set_size = 300, correction_method = &quot;fdr&quot;
+  )
+  x &lt;- x[order(x$p.value), ]
+  return(x)
+})
+
+goterms %&gt;% bind_rows(.id=&quot;id&quot;) %&gt;%
+  mutate(padj=p.adjust(p.value, &quot;fdr&quot;)) -&gt; godat
+
+write_csv(godat, path=here(&quot;output/glia/wgcna/astrocyte_wgcna_goterms.csv&quot;))
+
+goterms %&gt;%
+  bind_rows(.id = &quot;id&quot;) %&gt;%
+  mutate(padj = p.adjust(p.value, &quot;fdr&quot;)) %&gt;%
+  group_by(id) %&gt;%
+  top_n(5, -padj) %&gt;%
+  select(p.value, padj, term.name, domain, id) %&gt;%
+  arrange(id) -&gt; goplot
+
+goplot$id &lt;- str_to_title(fct_relevel(goplot$id, &quot;red&quot;, &quot;green&quot;, &quot;black&quot;,&quot; blue&quot;))</code></pre>
+<pre><code>Warning: Unknown levels in `f`: blue</code></pre>
+<pre class="r"><code>goterm &lt;- ggplot(goplot, aes(x = str_to_title(str_wrap(term.name, 15)), y = -log10(padj), fill = domain)) + 
+  geom_col() + scale_fill_npg() +
+  facet_wrap(. ~ id, scales = &quot;free_x&quot;, ncol = 2) + 
+  theme_pubr(legend = &quot;right&quot;) + 
+  theme(
+    text = element_text(size = 8),
+    legend.text = element_text(size=8, face=&quot;bold&quot;),
+    legend.title = element_text(size=12, face=&quot;bold&quot;), 
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text.x = element_text(face=&quot;bold&quot;, size=8)
+  ) +
+  xlab(NULL) + geom_hline(yintercept = -log10(0.05), linetype = &quot;dashed&quot;, size = .75)</code></pre>
+</div>
+<div id="plot-gene-networks" class="section level1">
+<h1>Plot gene networks</h1>
+<pre class="r"><code>color &lt;- c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;black&quot;)
+lapply(color, function(col) {
+  maxsize &lt;- 15
+  hubs &lt;- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) %&gt;% bind_rows() -&gt; hub_plot </code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre class="r"><code>adj[hub_plot$genes, hub_plot$genes] %&gt;% 
+  graph.adjacency(mode = &quot;undirected&quot;, weighted = T, diag = FALSE) %&gt;%
+  as_tbl_graph(g1) %&gt;% upgrade_graph() %&gt;% activate(nodes) %&gt;% dplyr::mutate(mod=hub_plot$mod) %&gt;% 
+  dplyr::mutate(kme=hub_plot$kme) %&gt;% activate(edges) %&gt;% dplyr::filter(weight&gt;.15) %&gt;% activate(nodes) %&gt;% filter(!node_is_isolated()) -&gt; hub_plot
+
+geneplot &lt;- ggraph(hub_plot,  layout = &#39;kk&#39;) + 
+  geom_edge_link(color=&quot;darkgrey&quot;, aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name), fontface=&quot;bold&quot;, size=3) +
+  geom_node_point(aes(fill=mod, size=kme), shape=21, alpha=0.5) + 
+  scale_size(range = c(2,15), name = &quot;kME&quot;) + 
+  scale_fill_manual(values = c(&quot;black&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;red&quot;), name = &quot;Module&quot;) +
+  guides(fill = guide_legend(override.aes = list(size=5)),
+         size = guide_legend(override.aes = list(size=c(5,7,9,11)))) + 
+  theme_graph() + theme(legend.title.align=0.5,
+                        legend.box = &quot;horizontal&quot;, legend.position = c(0.8, 0.3))
+
+ggsave(geneplot, filename=here(&quot;output/mod_graph.png&quot;), h=7, w=7)</code></pre>
+</div>
+<div id="read-in-gene-sets" class="section level1">
+<h1>Read in gene sets</h1>
+<pre class="r"><code>lps1 &lt;- read_tsv(here(&quot;data/lps1.txt&quot;))
+mcao1 &lt;- read_tsv(here(&quot;data/mcao1.txt&quot;))
+mcao3 &lt;- read_tsv(here(&quot;data/mcao_d3.txt&quot;))
+mcao7 &lt;- read_tsv(here(&quot;data/mcaod7.txt&quot;))
+nr &lt;- readxl::read_xlsx(here(&quot;data/neur_astro_induce.xlsx&quot;))
+sr &lt;- readxl::read_xlsx(here(&quot;data/synaptic_activity_induced.xlsx&quot;))
+
+nr %&gt;%
+  select(gene_name, `Fold Change`, padj_deseq2) %&gt;%
+  filter(`Fold Change` &gt; 2, padj_deseq2 &lt; 0.05) -&gt; nr
+sr %&gt;%
+  select(gene_name, Fold_Change, DESeq2_padj) %&gt;%
+  filter(Fold_Change &gt; 2, DESeq2_padj &lt; 0.05) -&gt; sr
+
+
+mcao1 %&gt;%
+  filter(logFC &lt; (-2)) %&gt;%
+  arrange(logFC) %&gt;%
+  distinct(Gene.symbol) %&gt;%
+  filter(!grepl(&quot;///&quot;, Gene.symbol)) -&gt; mcao_gene
+
+lps1 %&gt;%
+  filter(logFC &lt; (-2)) %&gt;%
+  arrange(logFC) %&gt;%
+  distinct(Gene.symbol) %&gt;%
+  filter(!grepl(&quot;///&quot;, Gene.symbol)) -&gt; lps_gene
+
+mcao3 %&gt;%
+  filter(logFC &lt; (-2)) %&gt;%
+  arrange(logFC) %&gt;%
+  distinct(Gene.symbol) %&gt;%
+  filter(!grepl(&quot;///&quot;, Gene.symbol)) -&gt; mcao3_gene
+
+mcao7 %&gt;%
+  filter(logFC &lt; (-2)) %&gt;%
+  arrange(logFC) %&gt;%
+  distinct(Gene.symbol) %&gt;%
+  filter(!grepl(&quot;///&quot;, Gene.symbol)) -&gt; mcao7_gene</code></pre>
+</div>
+<div id="filter-gene-sets" class="section level1">
+<h1>Filter gene sets</h1>
+<pre class="r"><code>intersect(lps_gene$Gene.symbol, mcao_gene$Gene.symbol) -&gt; panreact
+lps_uniq &lt;- lps_gene$Gene.symbol[!lps_gene$Gene.symbol %in% mcao_gene$Gene.symbol]
+mcao_uniq &lt;- mcao_gene$Gene.symbol[!mcao_gene$Gene.symbol %in% lps_gene$Gene.symbol]
+mcao3_uniq &lt;- mcao3_gene$Gene.symbol[!mcao3_gene$Gene.symbol %in% lps_gene$Gene.symbol]
+mcao7_uniq &lt;- mcao7_gene$Gene.symbol[!mcao7_gene$Gene.symbol %in% lps_gene$Gene.symbol]</code></pre>
+</div>
+<div id="test-module-enrichment-in-gene-sets" class="section level1">
+<h1>Test module enrichment in gene sets</h1>
+<pre class="r"><code>d %&gt;%
+  filter(id %in% c(&quot;red&quot;, &quot;green&quot;,&quot;blue&quot;,&quot;black&quot;)) %&gt;%
+  group_by(id) -&gt; astro_mod
+astro_mod %&gt;%
+  group_split() %&gt;%
+  map(&quot;gene&quot;) -&gt; astro_gene
+group_keys(astro_mod) %&gt;% pull(id) -&gt; mod_names
+
+lapply(astro_gene, function(x) {
+  a &lt;- 1 - phyper(sum(x %in% lps_uniq), length(lps_uniq), 5000, length(x), log.p = F)
+  b &lt;- 1 - phyper(sum(x %in% mcao_uniq), length(mcao_uniq), 5000, length(x), log.p = F)
+  c &lt;- 1 - phyper(sum(x %in% mcao3_uniq), length(mcao3_uniq), 5000, length(x), log.p = F)
+  d &lt;- 1 - phyper(sum(x %in% mcao7_uniq), length(mcao7_uniq), 5000, length(x), log.p = F)
+  e &lt;- 1 - phyper(sum(x %in% panreact), length(panreact), 5000, length(x), log.p = F)
+  f &lt;- 1 - phyper(sum(x %in% nr$gene_name), length(nr$gene_name), 5000, length(x), log.p = F)
+  g &lt;- 1 - phyper(sum(x %in% sr$gene_name), length(sr$gene_name), 5000, length(x), log.p = F)
+  return(data.frame(A1 = a, A2 = b, PAN = e, NR = f, SR = g))
+}) %&gt;% bind_rows() -&gt; overlap_test
+
+as.data.frame(sapply(overlap_test, function(x) p.adjust(x, n = dim(overlap_test)[1] * dim(overlap_test)[2]))) -&gt; overlap_test
+overlap_test$mod &lt;- mod_names
+overlap_pval &lt;- reshape2::melt(overlap_test)
+set_plot &lt;- ggplot(overlap_pval, aes(x = fct_relevel(mod, &quot;red&quot;, &quot;black&quot;, &quot;green&quot;,&quot;blue&quot;), y = variable)) + geom_tile(size = 1, color = &quot;white&quot;, fill=&quot;grey99&quot;) +
+  geom_point(aes(size = if_else(-log10(value)&lt;1.3,true = 0, false = -log10(value)), fill = if_else(-log10(value)&lt;1.3,true = &quot;black&quot;, false = &quot;red&quot;)), shape=21) + 
+  scale_size(name= expression(-log[10] ~ pvalue)) + 
+  scale_fill_manual(values=c(&quot;black&quot;,&quot;red&quot;), guide=F) + coord_flip() + theme_pubr(legend = &quot;right&quot;) + xlab(NULL) + ylab(NULL) + labs_pubr() + 
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) 
+set_plot</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_grid(diffmod_heatmap, set_plot, align = &quot;hv&quot;, axis=&quot;tb&quot;, rel_widths = c(1.5,1))</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;output/astro_charact.png&quot;), h=3,w=10)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo"
+  data-toggle="collapse" data-target="#workflowr-sessioninfo"
+  style = "display: block;">
+  
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+
+<div id="workflowr-sessioninfo" class="collapse">
+
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_DK.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_DK.UTF-8        LC_COLLATE=en_DK.UTF-8    
+ [5] LC_MONETARY=en_DK.UTF-8    LC_MESSAGES=en_DK.UTF-8   
+ [7] LC_PAPER=en_DK.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_DK.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] cowplot_1.0.0         ggExtra_0.9           eulerr_5.1.0         
+ [4] here_0.1              gProfileR_0.6.7       RColorBrewer_1.1-2   
+ [7] igraph_1.2.4.1        ggpubr_0.2.1          magrittr_1.5         
+[10] ggbeeswarm_0.6.0      lme4_1.1-21           Matrix_1.2-17        
+[13] emmeans_1.3.5.1       ggsci_2.9             parallelDist_0.2.4   
+[16] reshape2_1.4.3        ggraph_1.0.2          tidygraph_1.1.2      
+[19] forcats_0.4.0         stringr_1.4.0         dplyr_0.8.3          
+[22] purrr_0.3.2           readr_1.3.1.9000      tidyr_0.8.3          
+[25] tibble_2.1.3          ggplot2_3.2.1         tidyverse_1.2.1      
+[28] genefilter_1.64.0     cluster_2.1.0         WGCNA_1.68           
+[31] fastcluster_1.1.25    dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
+
+loaded via a namespace (and not attached):
+  [1] estimability_1.3      R.methodsS3_1.7.1     coda_0.19-3          
+  [4] acepack_1.4.1         bit64_0.9-7           knitr_1.23           
+  [7] irlba_2.3.3           multcomp_1.4-10       R.utils_2.9.0        
+ [10] data.table_1.12.2     rpart_4.1-15          RCurl_1.95-4.12      
+ [13] doParallel_1.0.14     generics_0.0.2        metap_1.1            
+ [16] BiocGenerics_0.28.0   preprocessCore_1.44.0 TH.data_1.0-10       
+ [19] RSQLite_2.1.1         RANN_2.6.1            future_1.14.0        
+ [22] bit_1.1-14            xml2_1.2.0            lubridate_1.7.4      
+ [25] httpuv_1.5.1          assertthat_0.2.1      viridis_0.5.1        
+ [28] xfun_0.8              hms_0.5.0             evaluate_0.14        
+ [31] promises_1.0.1        DEoptimR_1.0-8        caTools_1.17.1.2     
+ [34] readxl_1.3.1          DBI_1.0.0             htmlwidgets_1.3      
+ [37] stats4_3.5.3          backports_1.1.4       annotate_1.60.1      
+ [40] gbRd_0.4-11           RcppParallel_4.4.3    vctrs_0.2.0          
+ [43] Biobase_2.42.0        ROCR_1.0-7            withr_2.1.2          
+ [46] ggforce_0.3.0.9000    robustbase_0.93-5     checkmate_1.9.4      
+ [49] sctransform_0.2.0     ape_5.3               lazyeval_0.2.2       
+ [52] crayon_1.3.4          labeling_0.3          pkgconfig_2.0.2      
+ [55] tweenr_1.0.1          nlme_3.1-140          vipor_0.4.5          
+ [58] nnet_7.3-12           rlang_0.4.0           globals_0.12.4       
+ [61] miniUI_0.1.1.1        sandwich_2.5-1        modelr_0.1.4         
+ [64] rsvd_1.0.2            cellranger_1.1.0      rprojroot_1.3-2      
+ [67] polyclip_1.10-0       matrixStats_0.54.0    lmtest_0.9-37        
+ [70] boot_1.3-22           zoo_1.8-6             base64enc_0.1-3      
+ [73] beeswarm_0.2.3        whisker_0.3-2         ggridges_0.5.1       
+ [76] png_0.1-7             viridisLite_0.3.0     bitops_1.0-6         
+ [79] R.oo_1.22.0           KernSmooth_2.23-15    blob_1.1.1           
+ [82] workflowr_1.4.0       robust_0.4-18.1       S4Vectors_0.20.1     
+ [85] ggsignif_0.5.0        scales_1.0.0          memoise_1.1.0        
+ [88] plyr_1.8.4            ica_1.0-2             gplots_3.0.1.1       
+ [91] bibtex_0.4.2          gdata_2.18.0          compiler_3.5.3       
+ [94] lsei_1.2-0            rrcov_1.4-7           fitdistrplus_1.0-14  
+ [97] cli_1.1.0             listenv_0.7.0         pbapply_1.4-1        
+[100] htmlTable_1.13.1      Formula_1.2-3         MASS_7.3-51.4        
+[103] tidyselect_0.2.5      stringi_1.4.3         highr_0.8            
+[106] yaml_2.2.0            latticeExtra_0.6-28   ggrepel_0.8.1        
+[109] grid_3.5.3            tools_3.5.3           future.apply_1.3.0   
+[112] parallel_3.5.3        rstudioapi_0.10       foreach_1.4.4        
+[115] foreign_0.8-71        git2r_0.25.2          gridExtra_2.3        
+[118] farver_1.1.0          Rtsne_0.15            digest_0.6.20        
+[121] shiny_1.3.2           Rcpp_1.0.2            broom_0.5.2          
+[124] SDMTools_1.1-221.1    later_0.8.0           RcppAnnoy_0.0.12     
+[127] httr_1.4.1            AnnotationDbi_1.44.0  npsurv_0.4-0         
+[130] Rdpack_0.11-0         colorspace_1.4-1      rvest_0.3.4          
+[133] XML_3.98-1.20         fs_1.3.1              reticulate_1.13      
+[136] IRanges_2.16.0        splines_3.5.3         uwot_0.1.3           
+[139] plotly_4.9.0          fit.models_0.5-14     xtable_1.8-4         
+[142] jsonlite_1.6          nloptr_1.2.1          zeallot_0.1.0        
+[145] R6_2.4.0              Hmisc_4.2-0           pillar_1.4.2         
+[148] htmltools_0.3.6       mime_0.7              glue_1.3.1           
+[151] minqa_1.2.4           codetools_0.2-16      tsne_0.1-3           
+[154] pcaPP_1.9-73          mvtnorm_1.0-11        lattice_0.20-38      
+[157] pbkrtest_0.4-7        leiden_0.3.1          gtools_3.8.1         
+[160] GO.db_3.7.0           survival_2.44-1.1     rmarkdown_1.13       
+[163] munsell_0.5.0         iterators_1.0.10      impute_1.56.0        
+[166] haven_2.1.0           gtable_0.3.0         </code></pre>
+</div>
+
+
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
