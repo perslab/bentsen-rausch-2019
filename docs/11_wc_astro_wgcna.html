@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/perslab/fgf_alldata">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-10-28
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Environment:</strong> objects present </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongobjectspresent" class="panel-collapse collapse">
+<div class="panel-body">
+
+<p>
+The global environment had objects present when the code in the R Markdown file was run. These objects can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment. Use <code>wflow_publish</code> or <code>wflow_build</code> to ensure that the code is always run in an empty environment.
+</p>
+<p>
+The following objects were defined in the global environment when these results were created:
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+Class
+</th>
+<th style="text-align:left;">
+Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+environment
+</td>
+<td style="text-align:left;">
+56 bytes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+env
+</td>
+<td style="text-align:left;">
+environment
+</td>
+<td style="text-align:left;">
+56 bytes
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191021code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191021)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191021code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191021)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree650ab6b8879767260434b571b4bea49c07c6a391targetblank650ab6ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/650ab6b8879767260434b571b4bea49c07c6a391" target="_blank">650ab6b</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree650ab6b8879767260434b571b4bea49c07c6a391targetblank650ab6ba" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    test_files/
+
+Untracked files:
+    Untracked:  code/sc_functions.R
+    Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/filtglia.RDS
+    Untracked:  data/glia/
+    Untracked:  data/lps1.txt
+    Untracked:  data/mcao1.txt
+    Untracked:  data/mcao_d3.txt
+    Untracked:  data/mcaod7.txt
+    Untracked:  data/neur_astro_induce.xlsx
+    Untracked:  data/neuron/
+    Untracked:  data/synaptic_activity_induced.xlsx
+    Untracked:  dge_resample.pdf
+    Untracked:  docs/figure/10_wc_pseudobulk.Rmd/
+    Untracked:  docs/figure/12_oligo_labeltransfer.Rmd/
+    Untracked:  docs/figure/13_olig_pseudotime.Rmd/
+    Untracked:  docs/figure/14_tanycyte_labeltransfer.Rmd/
+    Untracked:  docs/figure/9_wc_processing.Rmd/
+    Untracked:  gotermdown.pdf
+    Untracked:  gotermup.pdf
+    Untracked:  olig_ttest_padj.csv
+    Untracked:  output/agrp_pcgenes.csv
+    Untracked:  output/all_wc_markers.csv
+    Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/glia/
+    Untracked:  output/glial_markergenes.csv
+    Untracked:  output/integrated_all_markergenes.csv
+    Untracked:  output/integrated_neuronmarkers.csv
+    Untracked:  output/neuron/
+    Untracked:  wc_de.pdf
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/650ab6b8879767260434b571b4bea49c07c6a391/analysis/11_wc_astro_wgcna.Rmd" target="_blank">650ab6b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+wflow_git_commit(all = T)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
+<pre class="r"><code>library(Seurat)
+library(WGCNA)
+library(cluster)
+library(parallelDist)
+library(ggsci)
+library(emmeans)
+library(lme4)
+library(ggbeeswarm)
+library(genefilter)
+library(tidyverse)
+library(reshape2)
+library(igraph)
+library(gProfileR)
+library(ggpubr)
+library(cowplot)
+library(here)
+library(ggExtra)</code></pre>
+</div>
+<div id="extract-cells-for-wgcna" class="section level1">
+<h1>Extract Cells for WGCNA</h1>
+</div>
+<div id="calculate-softpower" class="section level1">
+<h1>Calculate softpower</h1>
+<pre class="r"><code>enableWGCNAThreads()</code></pre>
+<pre><code>Allowing parallel execution with up to 79 working processes.</code></pre>
+<pre class="r"><code>datExpr &lt;- as.matrix(t(ventric[[&quot;SCT&quot;]]@scale.data[ventric[[&quot;SCT&quot;]]@var.features, ]))
+gsg &lt;- goodSamplesGenes(datExpr, verbose = 3)</code></pre>
+<pre><code> Flagging genes and samples with too many missing values...
+  ..step 1</code></pre>
+<pre class="r"><code>powers &lt;- c(c(1:10), seq(from = 12, to = 40, by = 2))
+sft &lt;- pickSoftThreshold(datExpr,
+  dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = &quot;p&quot;),
+  networkType = &quot;signed&quot;
+)</code></pre>
+<pre><code>   Power SFT.R.sq  slope truncated.R.sq  mean.k. median.k.   max.k.
+1      1 0.332000 604.00          0.469 2.50e+03  2.50e+03 2.51e+03
+2      2 0.210000 247.00          0.507 1.25e+03  1.25e+03 1.26e+03
+3      3 0.055600  77.10          0.534 6.25e+02  6.25e+02 6.33e+02
+4      4 0.014400  29.80          0.568 3.13e+02  3.13e+02 3.18e+02
+5      5 0.000624   4.63          0.600 1.57e+02  1.56e+02 1.60e+02
+6      6 0.011000 -16.50          0.549 7.83e+01  7.83e+01 8.08e+01
+7      7 0.042900 -27.00          0.484 3.92e+01  3.92e+01 4.08e+01
+8      8 0.117000 -38.60          0.377 1.96e+01  1.96e+01 2.07e+01
+9      9 0.220000 -90.40          0.245 9.82e+00  9.81e+00 1.05e+01
+10    10 0.253000 -41.30          0.343 4.91e+00  4.91e+00 5.34e+00
+11    12 0.533000 -88.80          0.399 1.23e+00  1.23e+00 1.40e+00
+12    14 0.858000 -40.20          0.980 3.09e-01  3.08e-01 3.74e-01
+13    16 0.830000 -25.80          0.944 7.75e-02  7.73e-02 1.03e-01
+14    18 0.795000 -16.90          0.931 1.95e-02  1.94e-02 2.95e-02
+15    20 0.753000 -10.60          0.936 4.90e-03  4.87e-03 9.40e-03
+16    22 0.514000 -13.20          0.378 1.23e-03  1.22e-03 3.73e-03
+17    24 0.540000 -10.10          0.414 3.11e-04  3.07e-04 1.71e-03
+18    26 0.550000  -7.86          0.432 7.89e-05  7.72e-05 8.72e-04
+19    28 0.498000  -6.05          0.390 2.01e-05  1.94e-05 4.71e-04
+20    30 0.555000  -5.08          0.435 5.20e-06  4.88e-06 2.62e-04
+21    32 0.525000  -4.18          0.425 1.38e-06  1.23e-06 1.49e-04
+22    34 0.536000  -3.59          0.424 3.82e-07  3.10e-07 8.47e-05
+23    36 0.543000  -3.15          0.426 1.14e-07  7.80e-08 4.85e-05
+24    38 0.532000  -2.76          0.489 3.85e-08  1.97e-08 2.78e-05
+25    40 0.543000  -2.53          0.490 1.49e-08  4.96e-09 1.60e-05</code></pre>
+<pre class="r"><code>cex1 &lt;- 0.9
+plot(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Scale Free Topology Model Fit, signed R^2&quot;, type = &quot;n&quot;, main = paste(&quot;Scale independence&quot;))
+text(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], labels = powers, cex = cex1, col = &quot;red&quot;)
+abline(h = 0.80, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Mean Connectivity Plot
+plot(sft$fitIndices[, 1], sft$fitIndices[, 5], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Mean Connectivity&quot;, type = &quot;n&quot;, main = paste(&quot;Mean connectivity&quot;))
+text(sft$fitIndices[, 1], sft$fitIndices[, 5], labels = powers, cex = cex1, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="generate-tom" class="section level1">
+<h1>Generate TOM</h1>
+<pre class="r"><code>softPower &lt;- 14
+SubGeneNames &lt;- colnames(datExpr)
+adj &lt;- adjacency(datExpr, type = &quot;signed&quot;, power = softPower)
+diag(adj) &lt;- 0
+TOM &lt;- TOMsimilarityFromExpr(datExpr, networkType = &quot;signed&quot;, TOMType = &quot;signed&quot;, power = softPower, maxPOutliers = 0.05)</code></pre>
+<pre><code>TOM calculation: adjacency..
+..will use 79 parallel threads.
+ Fraction of slow calculations: 0.000000
+..connectivity..
+..matrix multiplication (system BLAS)..
+..normalization..
+..done.</code></pre>
+<pre class="r"><code>colnames(TOM) &lt;- rownames(TOM) &lt;- SubGeneNames
+dissTOM &lt;- 1 - TOM
+geneTree &lt;- hclust(as.dist(dissTOM), method = &quot;complete&quot;) # use complete for method rather than average (gives better results)
+plot(geneTree, xlab = &quot;&quot;, sub = &quot;&quot;, cex = .5, main = &quot;Gene clustering&quot;, hang = .001)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="identify-modules" class="section level1">
+<h1>Identify Modules</h1>
+<pre class="r"><code>minModuleSize &lt;- 15
+x &lt;- 2
+
+dynamicMods &lt;- cutreeDynamic(
+  dendro = geneTree, distM = as.matrix(dissTOM),
+  method = &quot;hybrid&quot;, pamStage = F, deepSplit = x,
+  minClusterSize = minModuleSize
+)</code></pre>
+<pre><code> ..cutHeight not given, setting it to 1  ===&gt;  99% of the (truncated) height range in dendro.
+ ..done.</code></pre>
+<pre class="r"><code>dynamicColors &lt;- labels2colors(dynamicMods) # label each module with a unique color
+plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
+  dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05,
+  main = &quot;Gene dendrogram and module colors&quot;
+) # plot the modules with colors</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/Cut%20Gene%20Tree-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
+<h1>Calculate Eigengenes and Merge Close Modules</h1>
+<pre class="r"><code>MEs &lt;- moduleEigengenes(datExpr, dynamicColors)$eigengenes 
+ME1 &lt;- MEs
+row.names(ME1) &lt;- row.names(datExpr)
+MEDiss &lt;- 1 - cor(MEs)
+METree &lt;- hclust(as.dist(MEDiss), method = &quot;average&quot;)
+plot(METree, main = &quot;Clustering of module eigengenes&quot;, xlab = &quot;&quot;, sub = &quot;&quot;)
+MEDissThres &lt;- 0.2
+abline(h = MEDissThres, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="the-merged-module-colors" class="section level1">
+<h1>The merged module colors</h1>
+<pre class="r"><code>merge &lt;- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
+<pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 30 module eigengenes in given set.
+   Calculating new MEs...
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 30 module eigengenes in given set.</code></pre>
+<pre class="r"><code>mergedColors &lt;- merge$colors
+mergedMEs &lt;- merge$newMEs
+moduleColors &lt;- mergedColors
+MEs &lt;- mergedMEs
+modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+</div>
+<div id="plot-merged-modules" class="section level1">
+<h1>Plot merged modules</h1>
+<pre class="r"><code>plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+  c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
+  dendroLabels = FALSE, hang = 0.03,
+  addGuide = TRUE, guideHang = 0.05
+)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>moduleColors &lt;- mergedColors
+MEs &lt;- mergedMEs
+modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+<pre class="r"><code>modules &lt;- MEs
+c_modules &lt;- data.frame(moduleColors)
+row.names(c_modules) &lt;- colnames(datExpr) 
+module.list.set1 &lt;- substring(colnames(modules), 3)
+index.set1 &lt;- 0
+Network &lt;- list()
+for (i in 1:length(module.list.set1)) {
+  index.set1 &lt;- which(c_modules == module.list.set1[i])
+  Network[[i]] &lt;- row.names(c_modules)[index.set1]
+}
+names(Network) &lt;- module.list.set1</code></pre>
+</div>
+<div id="filter-metadata-table-and-correlate-with-eigengenes" class="section level1">
+<h1>Filter metadata table and correlate with eigengenes</h1>
+<pre class="r"><code>nGenes &lt;- ncol(datExpr)
+nSamples &lt;- nrow(datExpr)
+MEs &lt;- orderMEs(MEs)
+MEs %&gt;% select(-MEgrey) -&gt; MEs
+var &lt;- model.matrix(~ 0 + ventric$trt)
+moduleTraitCor &lt;- cor(MEs, var, use = &quot;p&quot;)
+cor &lt;- moduleTraitCor[abs(moduleTraitCor[, 1]) &gt; .2, ]
+moduleTraitPvalue &lt;- corPvalueStudent(moduleTraitCor, nSamples)
+cor &lt;- melt(cor)
+ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), colour = &quot;white&quot;) + 
+  scale_fill_gradient2( midpoint = 0, low = &quot;blue&quot;, mid = &quot;white&quot;,
+  high = &quot;red&quot;, space = &quot;Lab&quot;, name = &quot;Correlation \nStrength&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab(&quot;Treatment&quot;) + ylab(NULL)</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hubgenes&lt;-lapply(seq_len(length(Network)), function(x) {
+  dat&lt;-modulekME[Network[[x]],]
+  dat&lt;-dat[order(-dat[paste0(&quot;kME&quot;,names(Network)[x])]),]
+  gene&lt;-rownames(dat)
+  return(gene)
+})
+
+names(hubgenes)&lt;-names(Network)
+d &lt;- unlist(hubgenes)
+d &lt;- data.frame(gene = d, 
+           vec = names(d))
+
+write_csv(d, path=here(&quot;output/glia/wgcna/wc_astro_genemods.csv&quot;))</code></pre>
+</div>
+<div id="run-linear-model-to-calculate-sig-diff-mods" class="section level1">
+<h1>Run linear model to calculate sig diff mods</h1>
+<pre class="r"><code>data &lt;- data.frame(MEs,
+  trt = ventric$trt,
+  sample = as.factor(ventric$sample),
+  batch = as.factor(ventric$batch)
+)
+
+mod &lt;- lapply(colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))], function(me) {
+  tryCatch({
+    mod &lt;- lmer(MEs[[me]] ~ trt + (1 | batch) + (1 | sample), data = data)
+    pairwise &lt;- emmeans(mod, pairwise ~ trt)
+    plot &lt;- data.frame(plot(pairwise, plotIt = F)$data)
+    sig &lt;- as.data.frame(pairwise$contrasts)
+    return(sig)
+  }, error = function(err) {
+    print(err)
+  })
+})</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge with max|grad| = 0.00943197
+(tol = 0.002, component 1)</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge with max|grad| = 0.00238047
+(tol = 0.002, component 1)</code></pre>
+<pre class="r"><code>names(mod) &lt;- colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))]
+mod &lt;- data.frame(unlist(mod))
+mod %&gt;%
+  add_rownames(&quot;test&quot;) %&gt;%
+  separate(test, c(&quot;mod&quot;, &quot;measure&quot;)) %&gt;%
+  dcast(measure ~ mod, value = unlist.mod.) %&gt;%
+  as.data.frame() %&gt;%
+  t() -&gt; test</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre><code>Warning: Expected 2 pieces. Additional pieces discarded in 58 rows [5,
+6, 11, 12, 17, 18, 23, 24, 29, 30, 35, 36, 41, 42, 47, 48, 53, 54, 59,
+60, ...].</code></pre>
+<pre class="r"><code>colnames(test) &lt;- test[1, ]
+data.frame(test) %&gt;%
+  add_rownames(&quot;mod&quot;) %&gt;%
+  slice(2:nrow(.)) %&gt;%
+  select(p, estimate, mod) %&gt;%
+  mutate(p = as.numeric(as.character(p)), estimate = as.numeric(as.character(estimate))) %&gt;%
+  filter(p &lt; 0.05, abs(estimate) &gt; 0.005) %&gt;%
+  arrange(log10(p) * abs(estimate)) -&gt; astro_mods</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre class="r"><code>astro_mods$mod &lt;- gsub(astro_mods$mod, pattern = &quot;ME&quot;, replacement = &quot;&quot;)</code></pre>
+<pre class="r"><code>data &lt;- data.frame(MEs,
+  trt = ventric$trt,
+  sample = as.factor(ventric$sample)
+)
+
+data &lt;- melt(data, id.vars = c(&quot;trt&quot;, &quot;sample&quot;))
+data %&gt;% filter(variable %in% paste0(&quot;ME&quot;, astro_mods$mod[1:4])) -&gt; data
+boxplot &lt;- ggplot(data = data, aes(x = fct_reorder(sample, value), y = as.numeric(value))) +
+  geom_boxplot(aes(fill = trt), notch = T, outlier.shape = NA) +
+  facet_wrap(. ~ variable, scales = &quot;free_y&quot;, ncol = 2) +
+  theme_pubr(legend = &quot;none&quot;) + geom_hline(yintercept = 0, linetype = &quot;dashed&quot;) +
+  coord_cartesian(ylim = quantile(data$value, c(0.001, 0.999))) + xlab(&quot;Sample&quot;) +
+  ylab(&quot;ME Expression&quot;) + theme(axis.text.x = element_blank())
+boxplot</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>astro_umap &lt;- as.data.frame(Embeddings(ventric, reduction = &quot;umap&quot;)[, 1:2])
+astro_umap$trt &lt;- as.character(ventric$trt)
+astro_plot &lt;- ggplot(astro_umap, aes(UMAP_1, UMAP_2, colour = trt)) +
+  geom_point(alpha = 0.5, size = .5) + xlim(c(-6, 0)) + scale_colour_discrete(name = &quot;Treatment&quot;) +
+  guides(colour = guide_legend(override.aes = list(size = 5))) +
+  ylim(c(-7.5, 0)) + theme_pubr()
+umap_gg &lt;- ggMarginal(astro_plot, groupColour = T, groupFill = T, margins = &quot;y&quot;)</code></pre>
+<pre><code>Warning: Removed 146 rows containing missing values (geom_point).</code></pre>
+<pre class="r"><code>plot_grid(umap_gg, boxplot, align = &quot;hv&quot;, rel_widths = c(1, 1.5), scale = 0.9)</code></pre>
+<pre><code>Warning: Graphs cannot be vertically aligned unless the axis parameter is
+set. Placing graphs unaligned.</code></pre>
+<pre><code>Warning: Graphs cannot be horizontally aligned unless the axis parameter is
+set. Placing graphs unaligned.</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>goterms &lt;- lapply(hubgenes[astro_mods$mod], function(x) {
+  x &lt;- gprofiler(x,
+    ordered_query = T, organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
+    src_filter = c(&quot;GO:BP&quot;, &quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+    min_isect_size = 2,
+    sort_by_structure = T, exclude_iea = T,
+    min_set_size = 10, max_set_size = 300, correction_method = &quot;fdr&quot;
+  )
+  x &lt;- x[order(x$p.value), ]
+  return(x)
+})</code></pre>
+<pre class="r"><code>nuc_mods &lt;- read_csv(file = here(&quot;output/glia/wgcna/astro_wgcna_genemodules.csv&quot;))
+nuc_mods %&gt;%
+  as.data.frame() %&gt;%
+  filter(id != &quot;grey&quot;) %&gt;%
+  dplyr::group_by(id) %&gt;%
+  dplyr::group_split() %&gt;%
+  map(&quot;gene&quot;) -&gt; nuc_gene
+
+names(nuc_gene) &lt;- unique(nuc_mods$id)[1:8]
+
+wc_nuc_overlap &lt;- sapply(nuc_gene, function(x) {
+  sapply(hubgenes[c(&quot;darkorange&quot;, &quot;darkgreen&quot;, &quot;cyan&quot;, &quot;lightcyan&quot;)], function(y) {
+    1 - phyper(sum(x %in% y), length(y), 5000 - length(y), length(x), log.p = F)
+  })
+})
+
+
+wc_nuc_overlap &lt;- reshape2::melt(wc_nuc_overlap)
+wc_nuc_overlap %&gt;%
+  mutate(value = p.adjust(wc_nuc_overlap$value, n = dim(wc_nuc_overlap)[1] * dim(wc_nuc_overlap)[2])) %&gt;%
+  mutate(sig = if_else(value &gt; 0.05, &quot;&quot;,
+    if_else(.05 &gt; value &amp; value &gt; .01, &quot;*&quot;,
+      if_else(.01 &gt; value &amp; value &gt; .001, &quot;**&quot;,
+        if_else(.001 &gt; value, &quot;***&quot;, &quot;&quot;)
+      )
+    )
+  )) -&gt; wc_nuc_overlap
+
+overlap &lt;- ggplot(wc_nuc_overlap, aes(x = Var1, y = Var2, fill = -log10(value + 2e-16), label = sig)) +
+  geom_tile(size = 1, color = &quot;white&quot;) + coord_flip() + theme_bw() + ylab(NULL) + xlab(&quot;Module&quot;) +
+  scale_fill_gsea(name = expression(-log[10] ~ pvalue)) + geom_text()
+
+overlap</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>save.image(file = here(&quot;output/glia/wgcna/astro_wgcna.RDS&quot;))</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_DK.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_DK.UTF-8        LC_COLLATE=en_DK.UTF-8    
+ [5] LC_MONETARY=en_DK.UTF-8    LC_MESSAGES=en_DK.UTF-8   
+ [7] LC_PAPER=en_DK.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_DK.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggExtra_0.9           here_0.1              cowplot_1.0.0        
+ [4] ggpubr_0.2.1          magrittr_1.5          gProfileR_0.6.7      
+ [7] igraph_1.2.4.1        reshape2_1.4.3        forcats_0.4.0        
+[10] stringr_1.4.0         dplyr_0.8.3           purrr_0.3.2          
+[13] readr_1.3.1.9000      tidyr_0.8.3           tibble_2.1.3         
+[16] tidyverse_1.2.1       genefilter_1.64.0     ggbeeswarm_0.6.0     
+[19] ggplot2_3.2.1         lme4_1.1-21           Matrix_1.2-17        
+[22] emmeans_1.3.5.1       ggsci_2.9             parallelDist_0.2.4   
+[25] cluster_2.1.0         WGCNA_1.68            fastcluster_1.1.25   
+[28] dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
+
+loaded via a namespace (and not attached):
+  [1] reticulate_1.13       R.utils_2.9.0         tidyselect_0.2.5     
+  [4] robust_0.4-18.1       RSQLite_2.1.1         AnnotationDbi_1.44.0 
+  [7] htmlwidgets_1.3       grid_3.5.3            Rtsne_0.15           
+ [10] munsell_0.5.0         codetools_0.2-16      ica_1.0-2            
+ [13] preprocessCore_1.44.0 miniUI_0.1.1.1        future_1.14.0        
+ [16] withr_2.1.2           colorspace_1.4-1      Biobase_2.42.0       
+ [19] highr_0.8             knitr_1.23            rstudioapi_0.10      
+ [22] stats4_3.5.3          ROCR_1.0-7            robustbase_0.93-5    
+ [25] ggsignif_0.5.0        gbRd_0.4-11           listenv_0.7.0        
+ [28] labeling_0.3          Rdpack_0.11-0         git2r_0.25.2         
+ [31] bit64_0.9-7           rprojroot_1.3-2       vctrs_0.2.0          
+ [34] coda_0.19-3           generics_0.0.2        TH.data_1.0-10       
+ [37] xfun_0.8              R6_2.4.0              doParallel_1.0.14    
+ [40] rsvd_1.0.2            bitops_1.0-6          assertthat_0.2.1     
+ [43] promises_1.0.1        SDMTools_1.1-221.1    scales_1.0.0         
+ [46] multcomp_1.4-10       nnet_7.3-12           beeswarm_0.2.3       
+ [49] gtable_0.3.0          npsurv_0.4-0          globals_0.12.4       
+ [52] sandwich_2.5-1        workflowr_1.4.0       rlang_0.4.0          
+ [55] zeallot_0.1.0         splines_3.5.3         lazyeval_0.2.2       
+ [58] acepack_1.4.1         impute_1.56.0         broom_0.5.2          
+ [61] checkmate_1.9.4       modelr_0.1.4          yaml_2.2.0           
+ [64] backports_1.1.4       httpuv_1.5.1          Hmisc_4.2-0          
+ [67] tools_3.5.3           ellipsis_0.2.0.1      gplots_3.0.1.1       
+ [70] RColorBrewer_1.1-2    BiocGenerics_0.28.0   ggridges_0.5.1       
+ [73] Rcpp_1.0.2            plyr_1.8.4            base64enc_0.1-3      
+ [76] RCurl_1.95-4.12       rpart_4.1-15          pbapply_1.4-1        
+ [79] S4Vectors_0.20.1      zoo_1.8-6             haven_2.1.0          
+ [82] ggrepel_0.8.1         fs_1.3.1              data.table_1.12.2    
+ [85] lmtest_0.9-37         RANN_2.6.1            mvtnorm_1.0-11       
+ [88] whisker_0.3-2         fitdistrplus_1.0-14   matrixStats_0.54.0   
+ [91] mime_0.7              hms_0.5.0             lsei_1.2-0           
+ [94] evaluate_0.14         xtable_1.8-4          XML_3.98-1.20        
+ [97] readxl_1.3.1          IRanges_2.16.0        gridExtra_2.3        
+[100] compiler_3.5.3        KernSmooth_2.23-15    crayon_1.3.4         
+[103] minqa_1.2.4           R.oo_1.22.0           htmltools_0.3.6      
+[106] later_0.8.0           pcaPP_1.9-73          Formula_1.2-3        
+[109] rrcov_1.4-7           RcppParallel_4.4.3    lubridate_1.7.4      
+[112] DBI_1.0.0             MASS_7.3-51.4         boot_1.3-22          
+[115] cli_1.1.0             R.methodsS3_1.7.1     gdata_2.18.0         
+[118] parallel_3.5.3        metap_1.1             pkgconfig_2.0.2      
+[121] fit.models_0.5-14     foreign_0.8-71        plotly_4.9.0         
+[124] xml2_1.2.0            foreach_1.4.4         annotate_1.60.1      
+[127] vipor_0.4.5           estimability_1.3      rvest_0.3.4          
+[130] bibtex_0.4.2          digest_0.6.20         sctransform_0.2.0    
+[133] RcppAnnoy_0.0.12      tsne_0.1-3            cellranger_1.1.0     
+[136] rmarkdown_1.13        leiden_0.3.1          htmlTable_1.13.1     
+[139] uwot_0.1.3            shiny_1.3.2           gtools_3.8.1         
+[142] nloptr_1.2.1          nlme_3.1-140          jsonlite_1.6         
+[145] viridisLite_0.3.0     pillar_1.4.2          lattice_0.20-38      
+[148] httr_1.4.1            DEoptimR_1.0-8        survival_2.44-1.1    
+[151] GO.db_3.7.0           glue_1.3.1            png_0.1-7            
+[154] iterators_1.0.10      bit_1.1-14            stringi_1.4.3        
+[157] blob_1.1.1            latticeExtra_0.6-28   caTools_1.17.1.2     
+[160] memoise_1.1.0         irlba_2.3.3           future.apply_1.3.0   
+[163] ape_5.3              </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
