@@ -22,6 +22,7 @@ library(cowplot)
 library(ggupset)
 library(gProfileR)
 library(here)
+library(ggrepel)
 plan(multiprocess, workers = 30)
 source(here("code/sc_functions.R"))
 ```
@@ -106,7 +107,7 @@ ggsave("dge_resample.pdf", w = 20)
 ```
 
 # Generate Pseudo Counts
-```{r}
+```{r, warning=FALSE, message=FALSE}
 split_mats <- lapply(unique(Idents(glia_sub)), function(x) {
   sub <- subset(glia_sub, idents = x)
   DefaultAssay(sub) <- "SCT"
@@ -154,7 +155,7 @@ dds_list <- lapply(pseudo_counts, function(x) {
 ```
 
 # Generate Volcano Plots
-```{r}
+```{r, warning=FALSE, message=FALSE}
 volc_list <- lapply(dds_list, function(x) {
   x[[2]] %>%
     na.omit() %>%
