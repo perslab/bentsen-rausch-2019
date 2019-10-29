@@ -422,56 +422,50 @@ div.section {
 
 
 <p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report"
-  data-toggle="collapse" data-target="#workflowr-report">
-  
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
-
 <div id="workflowr-report" class="collapse">
 <ul class="nav nav-tabs">
-  <li class="active">
+<li class="active">
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
-  <li>
+<li>
 <a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
-  <li>
+<li>
 <a data-toggle="tab" href="#versions">Past versions</a>
 </li>
 </ul>
-
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
-  <p>
-<strong>Last updated:</strong> 2019-10-28
+<p>
+<strong>Last updated:</strong> 2019-10-29
 </p>
-  <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
-  <p>
+<p>
 <strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
-  <p>
-  
+<p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
   href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-  <div class="panel-group" id="workflowr-checks">
-  <div class="panel panel-default">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-  
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -483,49 +477,50 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongobjectspresent" class="panel-collapse collapse">
 <div class="panel-body">
-  
+
 <p>
 The global environment had objects present when the code in the R Markdown file was run. These objects can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment. Use <code>wflow_publish</code> or <code>wflow_build</code> to ensure that the code is always run in an empty environment.
 </p>
- <p>
+<p>
 The following objects were defined in the global environment when these results were created:
-</p> <table class="table table-condensed table-hover">
- <thead>
-  <tr>
-   <th style="text-align:left;"> 
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
 Name
 </th>
-   <th style="text-align:left;"> 
+<th style="text-align:left;">
 Class
 </th>
-   <th style="text-align:left;"> 
+<th style="text-align:left;">
 Size
 </th>
-  </tr>
- </thead>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> 
+<tr>
+<td style="text-align:left;">
 data
 </td>
-   <td style="text-align:left;"> 
+<td style="text-align:left;">
 environment
 </td>
-   <td style="text-align:left;"> 
+<td style="text-align:left;">
 56 bytes
 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 
+</tr>
+<tr>
+<td style="text-align:left;">
 env
 </td>
-   <td style="text-align:left;"> 
+<td style="text-align:left;">
 environment
 </td>
-   <td style="text-align:left;"> 
+<td style="text-align:left;">
 56 bytes
 </td>
-  </tr>
+</tr>
 </tbody>
 </table>
 </div>
@@ -539,7 +534,6 @@ environment
 </div>
 <div id="strongSeedstrongcodesetseed20191021code" class="panel-collapse collapse">
 <div class="panel-body">
-  
 <p>The command <code>set.seed(20191021)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
@@ -552,7 +546,6 @@ environment
 </div>
 <div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
 <div class="panel-body">
-  
 <p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
 </div>
 </div>
@@ -565,7 +558,6 @@ environment
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-  
 <p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
@@ -578,7 +570,6 @@ environment
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-  
 <p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
 </div>
 </div>
@@ -586,17 +577,15 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/a4ac5aa2a9e0e31d0f04e00cc5228009015c7376" target="_blank">a4ac5aa</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreea4ac5aa2a9e0e31d0f04e00cc5228009015c7376targetblanka4ac5aaa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
 <div class="panel-body">
-  
-
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
- <pre><code>
+<pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    test_files/
@@ -613,7 +602,11 @@ Untracked files:
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  docs/figure/
+    Untracked:  dge_resample.pdf
+    Untracked:  docs/figure/1_initial_processing.Rmd/
+    Untracked:  docs/figure/9_wc_processing.Rmd/
+    Untracked:  gotermdown.pdf
+    Untracked:  gotermup.pdf
     Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
@@ -623,17 +616,12 @@ Untracked files:
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
+    Untracked:  wc_de.pdf
 
-Unstaged changes:
-    Modified:   analysis/10_wc_pseudobulk.Rmd
-    Modified:   analysis/7_ventricular_wgcna.Rmd
-    Modified:   analysis/8_astro_wgcna.Rmd
-    Modified:   analysis/9_wc_processing.Rmd
-
-</code></pre> <p>
+</code></pre>
+<p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
-
 </div>
 </div>
 </div>
@@ -641,18 +629,73 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-  <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/650ab6b8879767260434b571b4bea49c07c6a391/analysis/7_ventricular_wgcna.Rmd" target="_blank">650ab6b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+wflow_git_commit(all = T)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/7_ventricular_wgcna.html" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-
-
-
-
-
 <div id="load-libraries" class="section level1">
 <h1>Load Libraries</h1>
 <pre class="r"><code>library(Seurat)
@@ -717,10 +760,84 @@ plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],xlab=&quot
 text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],labels=powers ,cex=cex1,col=&quot;red&quot;)
 abline(h=0.80,col=&quot;red&quot;)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>#Mean Connectivity Plot
 plot(sft$fitIndices[,1], sft$fitIndices[,5],xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Mean Connectivity&quot;, type=&quot;n&quot;,main = paste(&quot;Mean connectivity&quot;))
 text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col=&quot;red&quot;)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-4-2.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="generate-tom" class="section level1">
 <h1>Generate TOM</h1>
@@ -741,6 +858,43 @@ dissTOM=1-TOM
 geneTree = hclust(as.dist(dissTOM),method=&quot;average&quot;) #use complete for method rather than average (gives better results)
 plot(geneTree,xlab=&quot;&quot;,sub=&quot;&quot;,cex=.5,main=&quot;Gene clustering&quot;,hang=.001)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-5-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="identify-modules" class="section level1">
 <h1>Identify Modules</h1>
@@ -756,6 +910,43 @@ plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
                     dendroLabels = FALSE, hang = 0.03, addGuide = TRUE, guideHang = 0.05, 
                     main = &quot;Gene dendrogram and module colors&quot;) #plot the modules with colors</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/Cut%20Gene%20Tree-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Cut-Gene-Tree-1">
+Past versions of “Cut Gene Tree-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Cut-Gene-Tree-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/Cut Gene Tree-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
 <h1>Calculate Eigengenes and Merge Close Modules</h1>
@@ -772,6 +963,43 @@ MEDissThres = 0.2
 # Plot the cut line into the dendrogram
 abline(h=MEDissThres, col = &quot;red&quot;)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-merge-close-modules-1">
+Past versions of “merge close modules-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-merge-close-modules-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/merge close modules-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="the-merged-module-colors" class="section level1">
 <h1>The merged module colors</h1>
@@ -800,6 +1028,43 @@ c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
 dendroLabels = FALSE, hang = 0.03,
 addGuide = TRUE, guideHang = 0.05)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-7-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Rename to moduleColors
 moduleColors = mergedColors
 # Construct numerical labels corresponding to the colors
@@ -835,6 +1100,43 @@ ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value),
                             high = &quot;red&quot;, space = &quot;Lab&quot;, name=&quot;Correlation \nStrength&quot;) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab(&quot;Treatment&quot;) + ylab(NULL)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-9-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="get-hubgenes-in-order" class="section level1">
 <h1>Get hubgenes in order</h1>
@@ -906,30 +1208,629 @@ lapply(unique(data$variable), function(x) {
   }
   )
 })</code></pre>
-<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-2">
+Past versions of unnamed-chunk-11-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-2.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-3">
+Past versions of unnamed-chunk-11-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-3.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-4">
+Past versions of unnamed-chunk-11-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-4.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-5">
+Past versions of unnamed-chunk-11-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-5.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-6">
+Past versions of unnamed-chunk-11-6.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-6.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-7">
+Past versions of unnamed-chunk-11-7.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-7.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-8">
+Past versions of unnamed-chunk-11-8.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-8.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-9">
+Past versions of unnamed-chunk-11-9.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-9.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-10">
+Past versions of unnamed-chunk-11-10.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-10.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-11">
+Past versions of unnamed-chunk-11-11.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-11.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[4]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-12">
+Past versions of unnamed-chunk-11-12.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-12.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[5]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-13.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-13">
+Past versions of unnamed-chunk-11-13.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-13.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[6]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-14">
+Past versions of unnamed-chunk-11-14.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-14.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[7]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-15.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-15">
+Past versions of unnamed-chunk-11-15.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-15.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[8]]</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-16">
+Past versions of unnamed-chunk-11-16.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-11-16.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># moddat &lt;- bind_rows(mod, .id=&quot;id&quot;)
 write_csv(sig, path=here(&quot;output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv&quot;))</code></pre>
 <pre class="r"><code>sig %&gt;%
@@ -972,6 +1873,43 @@ ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
   ) + annotate(geom = &quot;label&quot;, x = 0.015, y = 0.01, label = &quot;DE only at Day 5&quot;, hjust = &quot;left&quot;) + theme_bw() + xlab(&quot;Day 1 Estimate&quot;) +
   ylab(&quot;Day 5 Estimate&quot;) + labs_pubr()</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-12-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(here(&quot;output/wgcna_res.png&quot;), w=8, h=5)</code></pre>
 </div>
 <div id="find-go-term-enrichment-of-modules" class="section level1">
@@ -1005,19 +1943,51 @@ godat %&gt;% group_by(id) %&gt;% filter(id %in% c(&quot;black&quot;,&quot;green&
   xlab(&quot;GO Term&quot;) + geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;, size=1) + 
   labs_pubr()</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" target="_blank">9cf1e45</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(filename = here(&quot;output/glia/wgcna/allglia_goterm.png&quot;), h=6, w=8)</code></pre>
 <br>
 <p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo"
-  data-toggle="collapse" data-target="#workflowr-sessioninfo"
-  style = "display: block;">
-  
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
 </button>
 </p>
-
 <div id="workflowr-sessioninfo" class="collapse">
-
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.3 (2019-03-11)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -1078,35 +2048,33 @@ loaded via a namespace (and not attached):
  [76] pbapply_1.4-1         cowplot_1.0.0         S4Vectors_0.20.1     
  [79] zoo_1.8-6             haven_2.1.0           ggrepel_0.8.1        
  [82] fs_1.3.1              data.table_1.12.2     lmtest_0.9-37        
- [85] RANN_2.6.1            mvtnorm_1.0-11        fitdistrplus_1.0-14  
- [88] matrixStats_0.54.0    hms_0.5.0             lsei_1.2-0           
- [91] evaluate_0.14         xtable_1.8-4          pbkrtest_0.4-7       
- [94] XML_3.98-1.20         readxl_1.3.1          IRanges_2.16.0       
- [97] gridExtra_2.3         compiler_3.5.3        KernSmooth_2.23-15   
-[100] crayon_1.3.4          minqa_1.2.4           R.oo_1.22.0          
-[103] htmltools_0.3.6       pcaPP_1.9-73          Formula_1.2-3        
-[106] rrcov_1.4-7           RcppParallel_4.4.3    lubridate_1.7.4      
-[109] DBI_1.0.0             tweenr_1.0.1          MASS_7.3-51.4        
-[112] boot_1.3-22           cli_1.1.0             R.methodsS3_1.7.1    
-[115] gdata_2.18.0          parallel_3.5.3        metap_1.1            
-[118] pkgconfig_2.0.2       fit.models_0.5-14     foreign_0.8-71       
-[121] plotly_4.9.0          xml2_1.2.0            foreach_1.4.4        
-[124] annotate_1.60.1       vipor_0.4.5           estimability_1.3     
-[127] rvest_0.3.4           bibtex_0.4.2          digest_0.6.20        
-[130] sctransform_0.2.0     RcppAnnoy_0.0.12      tsne_0.1-3           
-[133] cellranger_1.1.0      rmarkdown_1.13        leiden_0.3.1         
-[136] htmlTable_1.13.1      uwot_0.1.3            gtools_3.8.1         
-[139] nloptr_1.2.1          nlme_3.1-140          jsonlite_1.6         
-[142] viridisLite_0.3.0     pillar_1.4.2          lattice_0.20-38      
-[145] httr_1.4.1            DEoptimR_1.0-8        survival_2.44-1.1    
-[148] GO.db_3.7.0           glue_1.3.1            png_0.1-7            
-[151] iterators_1.0.10      bit_1.1-14            stringi_1.4.3        
-[154] blob_1.1.1            latticeExtra_0.6-28   caTools_1.17.1.2     
-[157] memoise_1.1.0         irlba_2.3.3           future.apply_1.3.0   
-[160] ape_5.3              </code></pre>
+ [85] RANN_2.6.1            mvtnorm_1.0-11        whisker_0.3-2        
+ [88] fitdistrplus_1.0-14   matrixStats_0.54.0    hms_0.5.0            
+ [91] lsei_1.2-0            evaluate_0.14         xtable_1.8-4         
+ [94] pbkrtest_0.4-7        XML_3.98-1.20         readxl_1.3.1         
+ [97] IRanges_2.16.0        gridExtra_2.3         compiler_3.5.3       
+[100] KernSmooth_2.23-15    crayon_1.3.4          minqa_1.2.4          
+[103] R.oo_1.22.0           htmltools_0.3.6       pcaPP_1.9-73         
+[106] Formula_1.2-3         rrcov_1.4-7           RcppParallel_4.4.3   
+[109] lubridate_1.7.4       DBI_1.0.0             tweenr_1.0.1         
+[112] MASS_7.3-51.4         boot_1.3-22           cli_1.1.0            
+[115] R.methodsS3_1.7.1     gdata_2.18.0          parallel_3.5.3       
+[118] metap_1.1             pkgconfig_2.0.2       fit.models_0.5-14    
+[121] foreign_0.8-71        plotly_4.9.0          xml2_1.2.0           
+[124] foreach_1.4.4         annotate_1.60.1       vipor_0.4.5          
+[127] estimability_1.3      rvest_0.3.4           bibtex_0.4.2         
+[130] digest_0.6.20         sctransform_0.2.0     RcppAnnoy_0.0.12     
+[133] tsne_0.1-3            cellranger_1.1.0      rmarkdown_1.13       
+[136] leiden_0.3.1          htmlTable_1.13.1      uwot_0.1.3           
+[139] gtools_3.8.1          nloptr_1.2.1          nlme_3.1-140         
+[142] jsonlite_1.6          viridisLite_0.3.0     pillar_1.4.2         
+[145] lattice_0.20-38       httr_1.4.1            DEoptimR_1.0-8       
+[148] survival_2.44-1.1     GO.db_3.7.0           glue_1.3.1           
+[151] png_0.1-7             iterators_1.0.10      bit_1.1-14           
+[154] stringi_1.4.3         blob_1.1.1            latticeExtra_0.6-28  
+[157] caTools_1.17.1.2      memoise_1.1.0         irlba_2.3.3          
+[160] future.apply_1.3.0    ape_5.3              </code></pre>
 </div>
-
-
 </div>
 
 

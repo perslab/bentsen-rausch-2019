@@ -11,7 +11,7 @@
 
 
 
-<title>FGF Nuclei Neuron Prep</title>
+<title>R Notebook</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -416,7 +416,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">FGF Nuclei Neuron Prep</h1>
+<h1 class="title toc-ignore">R Notebook</h1>
 
 </div>
 
@@ -603,7 +603,6 @@ Untracked files:
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
     Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
     Untracked:  docs/figure/9_wc_processing.Rmd/
     Untracked:  gotermdown.pdf
     Untracked:  gotermup.pdf
@@ -629,327 +628,146 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/perslab/fgf_alldata/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/2_neuron_processing.html" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-<td>
-Build site.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p>#Load Libraries</p>
+<div id="load-all-libraries" class="section level1">
+<h1>Load all libraries</h1>
 <pre class="r"><code>library(Seurat)
 library(tidyverse)
-library(DESeq2)
-library(here)
-library(future)
-library(cluster)
-library(parallelDist)
 library(ggplot2)
 library(cowplot)
-plan(&quot;multiprocess&quot;, workers = 16)
+library(cluster)
+library(parallelDist)
+library(future)
+library(here)
+#plan(&quot;multiprocess&quot;, workers=12)
 options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
-<p>#Functions</p>
+</div>
+<div id="functions" class="section level1">
+<h1>Functions</h1>
 <pre class="r"><code>source(here(&quot;code/sc_functions.R&quot;))</code></pre>
-<div id="load-prepped-data" class="section level1">
-<h1>Load prepped data</h1>
-<pre class="r"><code>seur.sub&lt;-readRDS(here(&quot;data/fgf_filtered_nuclei.RDS&quot;))
-a &lt;- DimPlot(seur.sub, reduction=&quot;tsne&quot;, label=T)+ theme_void() + NoLegend() </code></pre>
-<pre><code>Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
-Please use `as_label()` or `as_name()` instead.
-This warning is displayed once per session.</code></pre>
-<pre class="r"><code>b &lt;- DimPlot(seur.sub, reduction=&quot;tsne&quot;, group.by = &quot;group&quot;) + theme_void()
-plot_grid(a,b, rel_widths = c(1,1.5))</code></pre>
-<p><img src="figure/2_neuron_processing.Rmd/load%20data-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-load-data-1">
-Past versions of “load data-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-load-data-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/2_neuron_processing.Rmd/load data-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
 </div>
+<div id="load-all-nuclei-datasets" class="section level1">
+<h1>Load all nuclei datasets</h1>
+<pre class="r"><code>data_24 &lt;- &quot;/projects/dylan/tmp-marie/data-runs/fgf_pilot_24&quot;
+data_5 &lt;- &quot;/projects/dylan/tmp-marie/data-runs/fgf_nuclei&quot;
+samplename &lt;- list.files(c(data_5, data_24), pattern = &quot;cells&quot;, full.names = T)
+readfile &lt;- lapply(samplename, function (x) paste0(x, &quot;/outs/filtered_gene_bc_matrices/mm10-1.2.0.premrna/&quot;))
+list_seur &lt;- lapply(readfile, function(x) Read10X(x))
+names(list_seur)&lt;-sapply(strsplit(unlist(readfile),&quot;/&quot;),&quot;[&quot;,7)
+for (i in seq_len(length(list_seur))){
+  list_seur[[names(list_seur)[i]]]&lt;-CreateSeuratObject(list_seur[[i]], min.cells = 5, 
+                                                               min.features = 400, project = names(list_seur)[i])
+}</code></pre>
 </div>
+<div id="merge-all-datasets-without-integration-and-plot-for-batch-effect-visualization" class="section level1">
+<h1>Merge all datasets without integration and plot for batch effect visualization</h1>
+<pre class="r"><code>Reduce(function(x,y){merge(x,y)}, list_seur) %&gt;%
+  subset(subset = nFeature_RNA &gt; 400 &amp; nFeature_RNA &lt; 4000) %&gt;%
+  SCTransform(verbose = F) %&gt;% RunPCA(verbose=F) %&gt;% FindNeighbors(dims = 1:30) %&gt;%
+  RunUMAP(dims = 1:30) %&gt;% FindClusters(resolution=0.1, verbose=F) -&gt; all_combined
+DimPlot(all_combined, group.by=&quot;orig.ident&quot;)</code></pre>
+<p><img src="figure/1_initial_processing.Rmd/merge%20data-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="subset-neurons-and-recluster" class="section level1">
-<h1>Subset Neurons and Recluster</h1>
-<pre class="r"><code>fgf.neur&lt;-subset(seur.sub, ident=c(&quot;Agrp&quot;,&quot;Neur&quot;,&quot;Hist&quot;))
+<div id="prep-data-for-integration-due-to-above-batch-effect" class="section level1">
+<h1>Prep data for integration due to above batch effect</h1>
+<pre class="r"><code>all_combined$orig.ident&lt;-sub(x=all_combined$orig.ident, pattern=&quot;FGF_3&quot;,replacement = &quot;3_PF&quot;)
+all_combined$orig.ident&lt;-sub(x=all_combined$orig.ident, pattern=&quot;PF_3&quot;, replacement = &quot;3_FGF&quot;)
+all_combined$orig.ident&lt;-sub(x=all_combined$orig.ident, pattern=&quot;PF_2&quot;, replacement = &quot;2_PF&quot;)
+all_combined$orig.ident&lt;-sub(x=all_combined$orig.ident, pattern=&quot;FGF_2&quot;, replacement = &quot;2_FGF&quot;)
+
+all_combined %&gt;% 
+  SplitObject(split.by=&quot;orig.ident&quot;) -&gt; seurlist
+
+for (i in seq_len(length(seurlist))){
+  seurlist[[i]] &lt;-SCTransform(seurlist[[i]], verbose = F)
+}
+  
+integrate.anchors &lt;- FindIntegrationAnchors(object.list = seurlist, dims = 1:30)
+seur.integrated &lt;- IntegrateData(anchorset = integrate.anchors, dims = 1:30)</code></pre>
+</div>
+<div id="add-metadata-to-seurat-object" class="section level1">
+<h1>Add metadata to seurat object</h1>
+<pre class="r"><code>seur.integrated$sample&lt;-sapply(strsplit(seur.integrated$orig.ident,&quot;-&quot;),&quot;[&quot;,1)
+batch_df&lt;-data.frame(sample=unique(seur.integrated$sample), batch=c(1,1,2,2,3,4,4,3,5,5))
+seur.integrated$batch &lt;- batch_df[match(seur.integrated$sample,batch_df$sample),&quot;batch&quot;]
+seur.integrated$trt &lt;- ifelse(grepl(&quot;FGF&quot;, seur.integrated$sample), yes=&quot;FGF&quot;, no=&quot;PF&quot;)
+seur.integrated$number &lt;- as.numeric(sapply(strsplit(seur.integrated$orig.ident,&quot;_&quot;),&quot;[&quot;,1))
+seur.integrated$day &lt;- ifelse(seur.integrated$number&gt;10, yes=&quot;Day-5&quot;, no=&quot;Day-1&quot;)
+seur.integrated$group &lt;- paste0(seur.integrated$trt,&quot;_&quot;, seur.integrated$day)
+
 # Run the standard workflow for visualization and clustering
-fgf.neur %&gt;% ScaleData(verbose = TRUE,block.size = 15000) %&gt;% 
+seur.integrated %&gt;% ScaleData(verbose = TRUE,block.size = 15000) %&gt;% 
   RunPCA(verbose = FALSE) %&gt;% 
   RunUMAP(dims = 1:30) %&gt;% 
   FindNeighbors(dims = 1:30) %&gt;%
-  FindClusters(resolution=0.1) -&gt; fgf.neur</code></pre>
+  FindClusters(resolution = 0.1) -&gt; seur.integrated</code></pre>
 <pre><code>Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
 
-Number of nodes: 19416
-Number of edges: 1033519
+Number of nodes: 26942
+Number of edges: 1380819
 
 Running Louvain algorithm...
-Maximum modularity in 10 random starts: 0.9599
-Number of communities: 13
-Elapsed time: 3 seconds</code></pre>
-<pre class="r"><code>DimPlot(fgf.neur, label=T)</code></pre>
-<p><img src="figure/2_neuron_processing.Rmd/neuron%20subset-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-neuron-subset-1">
-Past versions of “neuron subset-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-neuron-subset-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/2_neuron_processing.Rmd/neuron subset-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
+Maximum modularity in 10 random starts: 0.9645
+Number of communities: 17
+Elapsed time: 4 seconds</code></pre>
 </div>
-</div>
-<p>#Silhouette calculation and removal of doublets/poor quality cells</p>
-<pre class="r"><code>fgf.neur&lt;-RunSIL(fgf.neur, ndims = 30)
-fgf.neur.sub&lt;-subset(fgf.neur, subset= silhouette&gt;0)</code></pre>
-<p>#Check which cells are removed</p>
-<pre class="r"><code>cellrem&lt;-data.frame(sil=ifelse(fgf.neur$silhouette&gt;0, yes=&quot;T&quot;, no=&quot;F&quot;), sample=fgf.neur$sample, 
-                    trt=fgf.neur$trt, day=fgf.neur$day,cell_type=as.character(Idents(fgf.neur)))
-cellrem%&gt;%group_by(sample)%&gt;%
-  dplyr::count(sil)%&gt;%ggplot(aes(x=sample, y=n, fill=sil)) + 
-  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;)  + ylab(&quot;Percent of Cells&quot;) + xlab(NULL) + theme(legend.position = &quot;none&quot;, axis.text.x = element_text(angle=45, hjust=1)) -&gt; p1
-cellrem%&gt;%group_by(day)%&gt;%
-  dplyr::count(sil)%&gt;%ggplot(aes(x=day, y=n, fill=sil)) + 
-  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;) + theme(legend.position = &quot;none&quot;) +ylab(NULL) + xlab(NULL) -&gt; p2
-cellrem%&gt;%group_by(cell_type)%&gt;%
-  dplyr::count(sil)%&gt;%ggplot(aes(x=cell_type, y=n, fill=sil)) + 
-  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;) + scale_fill_discrete(name = &quot;Cell\nKept?&quot;) + ylab(NULL) + xlab(NULL) + theme(axis.text.x = element_text(angle=45, hjust=1)) -&gt; p3
-plot_grid(p1,p2,p3, nrow=1, axis=&quot;b&quot;, align = &quot;hv&quot;)</code></pre>
-<p><img src="figure/2_neuron_processing.Rmd/silhouette%20qc-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-silhouette-qc-1">
-Past versions of “silhouette qc-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-silhouette-qc-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/2_neuron_processing.Rmd/silhouette qc-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="run-the-standard-workflow-for-visualization-and-clustering" class="section level1">
-<h1>Run the standard workflow for visualization and clustering</h1>
-<pre class="r"><code>fgf.neur.sub %&gt;% ScaleData(verbose = TRUE,block.size = 15000) %&gt;% 
-  RunPCA(verbose = FALSE) %&gt;% 
-  RunTSNE(dims = 1:30) -&gt; fgf.neur.sub</code></pre>
-<p>#Identify marker genes</p>
-<pre class="r"><code>DefaultAssay(fgf.neur.sub)&lt;-&quot;SCT&quot;
-marks&lt;-FindAllMarkers(fgf.neur.sub, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 100)
-write_csv(marks, path=here(&quot;output/integrated_neuronmarkers.csv&quot;))
+<div id="find-markers-of-clusters" class="section level1">
+<h1>Find Markers of Clusters</h1>
+<pre class="r"><code>marks&lt;-FindAllMarkers(seur.integrated, only.pos = T, logfc.threshold = .5, max.cells.per.ident = 250)
 marks%&gt;%group_by(cluster)%&gt;%top_n(5, avg_logFC)%&gt;%data.frame-&gt;top5
-DoHeatmap(fgf.neur.sub, top5$gene)</code></pre>
-<p><img src="figure/2_neuron_processing.Rmd/marker%20genes-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-marker-genes-1">
-Past versions of “marker genes-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-marker-genes-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/2_neuron_processing.Rmd/marker genes-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+write_csv(marks, path=here(&quot;output/integrated_all_markergenes.csv&quot;))</code></pre>
 </div>
 <div id="identify-clusters-for-silhouette-removal-of-poor-quality-cells" class="section level1">
 <h1>Identify clusters for silhouette removal of poor quality cells</h1>
-<pre class="r"><code>new.cluster.ids&lt;-c(&quot;Nrxn3&quot;,&quot;Trh&quot;,&quot;Rbfox1&quot;,&quot;Arpp21&quot;,&quot;Unknown&quot;, &quot;Ntng1&quot;, 
-             &quot;Rorb&quot;, &quot;Agrp&quot;, &quot;Avp/Oxt&quot;, &quot;Rmst&quot;, &quot;Hcrt&quot;,&quot;Hdc&quot;,&quot;Pmch&quot;)
-names(new.cluster.ids) &lt;- levels(fgf.neur.sub)
-fgf.neur.sub &lt;- RenameIdents(fgf.neur.sub, new.cluster.ids)
-DimPlot(fgf.neur.sub, reduction=&quot;tsne&quot;, label=T)</code></pre>
-<p><img src="figure/2_neuron_processing.Rmd/rename%20clusters-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-rename-clusters-1">
-Past versions of “rename clusters-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-rename-clusters-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/2_neuron_processing.Rmd/rename clusters-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>new.cluster.ids&lt;-c(&quot;Neur&quot;,&quot;Glia&quot;,&quot;Neur&quot;,&quot;Neur&quot;,&quot;Olig&quot;, &quot;Neur&quot;,
+             &quot;COP&quot;, &quot;Neur&quot;, &quot;Neur&quot;,&quot;Agrp&quot;, &quot;Micro&quot;, &quot;Neur&quot;, &quot;Neur&quot;,
+             &quot;Hist&quot;, &quot;VLMC&quot;, &quot;Endo&quot;, &quot;Neur&quot;)
+names(new.cluster.ids) &lt;- levels(seur.integrated)
+seur.integrated &lt;- RenameIdents(seur.integrated, new.cluster.ids)</code></pre>
 </div>
+<div id="silhouette-calculation-and-removal-of-doubletspoor-quality-cells" class="section level1">
+<h1>Silhouette calculation and removal of doublets/poor quality cells</h1>
+<pre class="r"><code>seur.integrated&lt;-RunSIL(seur.integrated, ndims = 30)
+seur.sub&lt;-subset(seur.integrated, subset = silhouette &gt; 0)</code></pre>
 </div>
-<p>#Save final neuron object</p>
-<pre class="r"><code>saveRDS(fgf.neur.sub, here(&quot;data/neuron/neurons_seur_filtered.RDS&quot;))</code></pre>
+<div id="check-which-cells-are-removed" class="section level1">
+<h1>Check which cells are removed</h1>
+<pre class="r"><code>cellrem&lt;-data.frame(sil=ifelse(seur.integrated$silhouette&gt;0, yes=&quot;T&quot;, no=&quot;F&quot;), sample=seur.integrated$sample, trt=seur.integrated$trt, day=seur.integrated$day, cell_type=as.character(Idents(seur.integrated)))
+cellrem%&gt;%group_by(sample)%&gt;%
+  count(sil)%&gt;%ggplot(aes(x=sample, y=n, fill=sil)) + 
+  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;)  + ylab(&quot;Percent of Cells&quot;) + xlab(NULL) + theme(legend.position = &quot;none&quot;, axis.text.x = element_text(angle=45, hjust=1)) -&gt; p1
+cellrem%&gt;%group_by(day)%&gt;%
+  count(sil)%&gt;%ggplot(aes(x=day, y=n, fill=sil)) + 
+  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;) + theme(legend.position = &quot;none&quot;) +ylab(NULL) + xlab(NULL) -&gt; p2
+cellrem%&gt;%group_by(cell_type)%&gt;%
+  count(sil)%&gt;%ggplot(aes(x=cell_type, y=n, fill=sil)) + 
+  geom_bar(position = &quot;fill&quot;,stat = &quot;identity&quot;) + scale_fill_discrete(name = &quot;Cell\nKept?&quot;) + ylab(NULL) + xlab(NULL) + theme(axis.text.x = element_text(angle=45, hjust=1)) -&gt; p3
+plot_grid(p1,p2,p3, nrow=1, axis=&quot;b&quot;, align = &quot;hv&quot;)</code></pre>
+<p><img src="figure/1_initial_processing.Rmd/silhouette_removal-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="run-the-standard-workflow-for-visualization-and-clustering" class="section level1">
+<h1>Run the standard workflow for visualization and clustering</h1>
+<pre class="r"><code>seur.sub %&gt;% ScaleData(verbose = TRUE,block.size = 15000) %&gt;% 
+  RunPCA(verbose = FALSE) %&gt;% 
+  RunUMAP(dims = 1:30) %&gt;% 
+  RunTSNE(dims = 1:30) -&gt; seur.sub
+p1&lt;-DimPlot(seur.sub, group.by=&quot;sample&quot;, reduction=&quot;tsne&quot;) + xlab(NULL) + ylab(NULL)
+p2&lt;-DimPlot(seur.sub, label=T, reduction=&quot;tsne&quot;) + NoLegend() + xlab(NULL) + ylab(NULL)</code></pre>
+<pre><code>Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
+Please use `as_label()` or `as_name()` instead.
+This warning is displayed once per session.</code></pre>
+<pre class="r"><code>plot_grid(p1, p2, nrow = 1)</code></pre>
+<p><img src="figure/1_initial_processing.Rmd/reclustering-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="save-subsetted-seurat-object-for-further-analysis" class="section level1">
+<h1>Save subsetted seurat object for further analysis</h1>
+<pre class="r"><code>saveRDS(seur.sub, file=here(&quot;data/fgf_filtered_nuclei.RDS&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -974,70 +792,52 @@ locale:
 [11] LC_MEASUREMENT=en_DK.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
-[1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-[8] methods   base     
+[1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] cowplot_1.0.0               parallelDist_0.2.4         
- [3] cluster_2.1.0               future_1.14.0              
- [5] here_0.1                    DESeq2_1.22.2              
- [7] SummarizedExperiment_1.12.0 DelayedArray_0.8.0         
- [9] BiocParallel_1.16.6         matrixStats_0.54.0         
-[11] Biobase_2.42.0              GenomicRanges_1.34.0       
-[13] GenomeInfoDb_1.18.2         IRanges_2.16.0             
-[15] S4Vectors_0.20.1            BiocGenerics_0.28.0        
-[17] forcats_0.4.0               stringr_1.4.0              
-[19] dplyr_0.8.3                 purrr_0.3.2                
-[21] readr_1.3.1.9000            tidyr_0.8.3                
-[23] tibble_2.1.3                ggplot2_3.2.1              
-[25] tidyverse_1.2.1             Seurat_3.0.3.9036          
+ [1] here_0.1           future_1.14.0      parallelDist_0.2.4
+ [4] cluster_2.1.0      cowplot_1.0.0      forcats_0.4.0     
+ [7] stringr_1.4.0      dplyr_0.8.3        purrr_0.3.2       
+[10] readr_1.3.1.9000   tidyr_0.8.3        tibble_2.1.3      
+[13] ggplot2_3.2.1      tidyverse_1.2.1    Seurat_3.0.3.9036 
 
 loaded via a namespace (and not attached):
-  [1] reticulate_1.13        R.utils_2.9.0          tidyselect_0.2.5      
-  [4] RSQLite_2.1.1          AnnotationDbi_1.44.0   htmlwidgets_1.3       
-  [7] grid_3.5.3             Rtsne_0.15             munsell_0.5.0         
- [10] codetools_0.2-16       ica_1.0-2              withr_2.1.2           
- [13] colorspace_1.4-1       highr_0.8              knitr_1.23            
- [16] rstudioapi_0.10        ROCR_1.0-7             gbRd_0.4-11           
- [19] listenv_0.7.0          labeling_0.3           Rdpack_0.11-0         
- [22] git2r_0.25.2           GenomeInfoDbData_1.2.0 bit64_0.9-7           
- [25] rprojroot_1.3-2        vctrs_0.2.0            generics_0.0.2        
- [28] xfun_0.8               R6_2.4.0               rsvd_1.0.2            
- [31] locfit_1.5-9.1         bitops_1.0-6           assertthat_0.2.1      
- [34] SDMTools_1.1-221.1     scales_1.0.0           nnet_7.3-12           
- [37] gtable_0.3.0           npsurv_0.4-0           globals_0.12.4        
- [40] workflowr_1.4.0        rlang_0.4.0            zeallot_0.1.0         
- [43] genefilter_1.64.0      splines_3.5.3          lazyeval_0.2.2        
- [46] acepack_1.4.1          broom_0.5.2            checkmate_1.9.4       
- [49] yaml_2.2.0             reshape2_1.4.3         modelr_0.1.4          
- [52] backports_1.1.4        Hmisc_4.2-0            tools_3.5.3           
- [55] gplots_3.0.1.1         RColorBrewer_1.1-2     ggridges_0.5.1        
- [58] Rcpp_1.0.2             plyr_1.8.4             base64enc_0.1-3       
- [61] zlibbioc_1.28.0        RCurl_1.95-4.12        rpart_4.1-15          
- [64] pbapply_1.4-1          zoo_1.8-6              haven_2.1.0           
- [67] ggrepel_0.8.1          fs_1.3.1               magrittr_1.5          
- [70] RSpectra_0.15-0        data.table_1.12.2      lmtest_0.9-37         
- [73] RANN_2.6.1             whisker_0.3-2          fitdistrplus_1.0-14   
- [76] hms_0.5.0              lsei_1.2-0             evaluate_0.14         
- [79] xtable_1.8-4           XML_3.98-1.20          readxl_1.3.1          
- [82] gridExtra_2.3          compiler_3.5.3         KernSmooth_2.23-15    
- [85] crayon_1.3.4           R.oo_1.22.0            htmltools_0.3.6       
- [88] Formula_1.2-3          geneplotter_1.60.0     RcppParallel_4.4.3    
- [91] lubridate_1.7.4        DBI_1.0.0              MASS_7.3-51.4         
- [94] Matrix_1.2-17          cli_1.1.0              R.methodsS3_1.7.1     
- [97] gdata_2.18.0           metap_1.1              igraph_1.2.4.1        
-[100] pkgconfig_2.0.2        foreign_0.8-71         plotly_4.9.0          
-[103] xml2_1.2.0             annotate_1.60.1        XVector_0.22.0        
-[106] bibtex_0.4.2           rvest_0.3.4            digest_0.6.20         
-[109] sctransform_0.2.0      RcppAnnoy_0.0.12       tsne_0.1-3            
-[112] rmarkdown_1.13         cellranger_1.1.0       leiden_0.3.1          
-[115] htmlTable_1.13.1       uwot_0.1.3             gtools_3.8.1          
-[118] nlme_3.1-140           jsonlite_1.6           viridisLite_0.3.0     
-[121] pillar_1.4.2           lattice_0.20-38        httr_1.4.1            
-[124] survival_2.44-1.1      glue_1.3.1             png_0.1-7             
-[127] bit_1.1-14             stringi_1.4.3          blob_1.1.1            
-[130] latticeExtra_0.6-28    caTools_1.17.1.2       memoise_1.1.0         
-[133] irlba_2.3.3            future.apply_1.3.0     ape_5.3               </code></pre>
+  [1] Rtsne_0.15          colorspace_1.4-1    ggridges_0.5.1     
+  [4] rprojroot_1.3-2     fs_1.3.1            rstudioapi_0.10    
+  [7] leiden_0.3.1        listenv_0.7.0       npsurv_0.4-0       
+ [10] ggrepel_0.8.1       RSpectra_0.15-0     lubridate_1.7.4    
+ [13] xml2_1.2.0          codetools_0.2-16    splines_3.5.3      
+ [16] R.methodsS3_1.7.1   lsei_1.2-0          knitr_1.23         
+ [19] zeallot_0.1.0       jsonlite_1.6        workflowr_1.4.0    
+ [22] broom_0.5.2         ica_1.0-2           png_0.1-7          
+ [25] R.oo_1.22.0         uwot_0.1.3          sctransform_0.2.0  
+ [28] compiler_3.5.3      httr_1.4.1          backports_1.1.4    
+ [31] assertthat_0.2.1    Matrix_1.2-17       lazyeval_0.2.2     
+ [34] cli_1.1.0           htmltools_0.3.6     tools_3.5.3        
+ [37] rsvd_1.0.2          igraph_1.2.4.1      gtable_0.3.0       
+ [40] glue_1.3.1          RANN_2.6.1          reshape2_1.4.3     
+ [43] Rcpp_1.0.2          cellranger_1.1.0    vctrs_0.2.0        
+ [46] gdata_2.18.0        ape_5.3             nlme_3.1-140       
+ [49] gbRd_0.4-11         lmtest_0.9-37       xfun_0.8           
+ [52] globals_0.12.4      rvest_0.3.4         irlba_2.3.3        
+ [55] gtools_3.8.1        MASS_7.3-51.4       zoo_1.8-6          
+ [58] scales_1.0.0        hms_0.5.0           parallel_3.5.3     
+ [61] RColorBrewer_1.1-2  yaml_2.2.0          reticulate_1.13    
+ [64] pbapply_1.4-1       gridExtra_2.3       stringi_1.4.3      
+ [67] highr_0.8           caTools_1.17.1.2    bibtex_0.4.2       
+ [70] Rdpack_0.11-0       SDMTools_1.1-221.1  rlang_0.4.0        
+ [73] pkgconfig_2.0.2     bitops_1.0-6        evaluate_0.14      
+ [76] lattice_0.20-38     ROCR_1.0-7          labeling_0.3       
+ [79] htmlwidgets_1.3     tidyselect_0.2.5    RcppAnnoy_0.0.12   
+ [82] plyr_1.8.4          magrittr_1.5        R6_2.4.0           
+ [85] gplots_3.0.1.1      generics_0.0.2      withr_2.1.2        
+ [88] pillar_1.4.2        haven_2.1.0         fitdistrplus_1.0-14
+ [91] survival_2.44-1.1   future.apply_1.3.0  tsne_0.1-3         
+ [94] modelr_0.1.4        crayon_1.3.4        KernSmooth_2.23-15 
+ [97] plotly_4.9.0        rmarkdown_1.13      grid_3.5.3         
+[100] readxl_1.3.1        data.table_1.12.2   git2r_0.25.2       
+[103] metap_1.1           digest_0.6.20       R.utils_2.9.0      
+[106] RcppParallel_4.4.3  munsell_0.5.0       viridisLite_0.3.0  </code></pre>
 </div>
 </div>
 

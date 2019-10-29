@@ -441,7 +441,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-28
+<strong>Last updated:</strong> 2019-10-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree650ab6b8879767260434b571b4bea49c07c6a391targetblank650ab6ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/650ab6b8879767260434b571b4bea49c07c6a391" target="_blank">650ab6b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree650ab6b8879767260434b571b4bea49c07c6a391targetblank650ab6ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -603,10 +603,7 @@ Untracked files:
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
     Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/10_wc_pseudobulk.Rmd/
-    Untracked:  docs/figure/11_wc_astro_wgcna.Rmd/
-    Untracked:  docs/figure/13_olig_pseudotime.Rmd/
-    Untracked:  docs/figure/14_tanycyte_labeltransfer.Rmd/
+    Untracked:  docs/figure/1_initial_processing.Rmd/
     Untracked:  docs/figure/9_wc_processing.Rmd/
     Untracked:  gotermdown.pdf
     Untracked:  gotermup.pdf
@@ -658,6 +655,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/12_oligo_labeltransfer.html" target="_blank">3b5cbe7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1802,6 +1816,43 @@ predictions &lt;- TransferData(anchorset = olig.anchors, refdata = branco_sub@ac
     dims = 1:30)
 hist(predictions$prediction.score.max)</code></pre>
 <p><img src="figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-6-1.png" target="_blank">3b5cbe7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>olig &lt;- AddMetaData(object = olig, metadata = predictions)
 table(olig$predicted.id)</code></pre>
 <pre><code>
@@ -1809,6 +1860,43 @@ table(olig$predicted.id)</code></pre>
 1004 2172 8049  760 3761 </code></pre>
 <pre class="r"><code>DimPlot(olig, group.by = &quot;predicted.id&quot;)</code></pre>
 <p><img src="figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-7-1.png" target="_blank">3b5cbe7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>olig_sub&lt;-subset(olig, subset=prediction.score.max&gt;0.5)</code></pre>
 <pre class="r"><code>olig_sub %&gt;% 
   ScaleData(verbose = F, vars.to.regress = c(&quot;percent.mito&quot;,&quot;percent.ribo&quot;)) %&gt;% 
@@ -1828,6 +1916,43 @@ Elapsed time: 2 seconds</code></pre>
 Please use `as_label()` or `as_name()` instead.
 This warning is displayed once per session.</code></pre>
 <p><img src="figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-8-1.png" target="_blank">3b5cbe7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>olig_sub &lt;- subset(olig_sub, ident=c(3,4,6), invert=T)
 olig_sub %&gt;% 
   ScaleData(verbose = F, vars.to.regress = c(&quot;percent.mito&quot;,&quot;percent.ribo&quot;)) %&gt;% 
@@ -1848,6 +1973,43 @@ Elapsed time: 2 seconds</code></pre>
 <pre class="r"><code>Idents(olig_sub)&lt;-&quot;predicted.id&quot;
 DimPlot(olig_sub, label = T)</code></pre>
 <p><img src="figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/12_oligo_labeltransfer.Rmd/unnamed-chunk-9-1.png" target="_blank">3b5cbe7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>saveRDS(olig_sub, here(&quot;data/glia/olig_labeled.RDS&quot;))</code></pre>
 <br>
 <p>
