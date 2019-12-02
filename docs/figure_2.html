@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeacd3c8517a6a9c72fa4fc01f79fc03db136cafa8targetblankacd3c85a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/acd3c8517a6a9c72fa4fc01f79fc03db136cafa8" target="_blank">acd3c85</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeaaaeaff3671aa7cce64a0fbd3d22c38cf894bf09targetblankaaaeaffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/aaaeaff3671aa7cce64a0fbd3d22c38cf894bf09" target="_blank">aaaeaff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeacd3c8517a6a9c72fa4fc01f79fc03db136cafa8targetblankacd3c85a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeaaaeaff3671aa7cce64a0fbd3d22c38cf894bf09targetblankaaaeaffa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -610,6 +610,7 @@ Untracked files:
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
+    Untracked:  docs/figure/figure_1.Rmd/
     Untracked:  neuron_clusters.csv
     Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
@@ -633,6 +634,7 @@ Unstaged changes:
     Modified:   analysis/7_ventricular_wgcna.Rmd
     Modified:   analysis/8_astro_wgcna.Rmd
     Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -671,6 +673,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/aaaeaff3671aa7cce64a0fbd3d22c38cf894bf09/analysis/figure_2.Rmd" target="_blank">aaaeaff</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+wflow_publish(c(“analysis/figure_1.Rmd”, “analysis/figure_2.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/985b4061473f6bae7df57a5839e19a1e26984b0a/docs/figure_2.html" target="_blank">985b406</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -712,7 +748,8 @@ wflow_publish(“analysis/figure_2.Rmd”)
 </div>
 </div>
 </div>
-<p>#Load Libraries</p>
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
 <pre class="r"><code>library(Seurat)
 library(tidyverse)
 library(DESeq2)
@@ -731,12 +768,14 @@ library(ggExtra)
 library(gProfileR)
 #plan(&quot;multiprocess&quot;, workers = 40)
 options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
-<p>#Set chunk options</p>
+</div>
 <div id="load-prepped-data" class="section level1">
 <h1>Load prepped data</h1>
 <pre class="r"><code>fgf.agrp &lt;- readRDS(here(&quot;data/neuron/agrp_neur.RDS&quot;))
 fgf.agrp@meta.data %&gt;% select(sample, group, trt, day, batch)-&gt; meta</code></pre>
-<p>#Extrad Agrp neuron embedding values</p>
+</div>
+<div id="extract-agrp-neuron-embedding-values" class="section level1">
+<h1>Extract Agrp neuron embedding values</h1>
 <pre class="r"><code>embed &lt;- data.frame(Embeddings(fgf.agrp, reduction = &quot;pca&quot;)[,1:10])
 embed$sample &lt;- meta$sample
 embed$sample &lt;- fct_reorder(embed$sample, meta$group)</code></pre>
@@ -808,7 +847,9 @@ Full Name
 </div>
 </div>
 <pre class="r"><code>ggsave(filename = here(&quot;output/neuron/agrp_pc_graph.png&quot;), width = 10)</code></pre>
-<p>#Plot PCs which show greatest differences between groups</p>
+</div>
+<div id="plot-pcs-which-show-greatest-differences-between-groups" class="section level1">
+<h1>Plot PCs which show greatest differences between groups</h1>
 <pre class="r"><code>data.frame(Embeddings(fgf.agrp, reduction = &quot;pca&quot;)[,4:5]) %&gt;% 
   dplyr::rename(PC4 = PC_4, PC5 = PC_5) %&gt;% mutate(group = fgf.agrp$group) %&gt;%
   mutate(group = replace(group, group == &quot;FGF_Day-5&quot;, &quot;FGF_d5&quot;)) %&gt;% 
@@ -869,7 +910,9 @@ Full Name
 <pre class="r"><code>dev.off()</code></pre>
 <pre><code>null device 
           1 </code></pre>
-<p>#Test enrichment of pc5 genes</p>
+</div>
+<div id="test-enrichment-of-pc5-genes" class="section level1">
+<h1>Test enrichment of pc5 genes</h1>
 <pre class="r"><code>pc5 &lt;- rownames(fgf.agrp@reductions$pca[order(fgf.agrp@reductions$pca[,5]),])[1:50]
 gprofiler(pc5, organism = &quot;mmusculus&quot;, significant = T, custom_bg = rownames(fgf.agrp),
                            src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
@@ -889,7 +932,9 @@ ego5 %&gt;%
   coord_flip() +
   xlab(NULL) + ylab(expression(bold(-log[10]~pvalue))) +
   theme_figure -&gt; pc5go</code></pre>
-<p>#Show Agrp/Npy changes</p>
+</div>
+<div id="show-agrpnpy-changes" class="section level1">
+<h1>Show Agrp/Npy changes</h1>
 <pre class="r"><code>data.frame(t(fgf.agrp[[&quot;SCT&quot;]]@data[c(&quot;Agrp&quot;,&quot;Npy&quot;),])) %&gt;% 
   mutate(group = fgf.agrp$group) %&gt;%
   mutate(group = replace(group, group == &quot;FGF_Day-5&quot;, &quot;FGF_d5&quot;)) %&gt;% 
@@ -902,7 +947,9 @@ ego5 %&gt;%
   facet_wrap(.~variable, nrow = 2) + theme_pubr() + 
   theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = &quot;none&quot;) + 
   ylab(&quot;Normalized Expression&quot;) + xlab(NULL) + scale_fill_jco() + theme_figure -&gt; agrp_npy_exp</code></pre>
-<p>#Individual measurements of KK-Ay (supplementary)</p>
+</div>
+<div id="individual-measurements-of-kk-ay-supplementary" class="section level1">
+<h1>Individual measurements of KK-Ay (supplementary)</h1>
 <pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx&quot;), sheet = 1, range = &quot;A6:V14&quot;, col_names = T) %&gt;%
   melt(id.vars = &quot;Days&quot;) %&gt;%
   mutate(variable = c(rep(paste0(&quot;Veh&quot;, seq_len(9)), each = 8), rep(paste0(&quot;FGF-1&quot;, seq_len(12)), each = 8))) %&gt;%
@@ -996,7 +1043,9 @@ Full Name
 </div>
 </div>
 <pre class="r"><code>ggsave(filename = here(&quot;data/figures/fig2/fig2supp_kk_indiv_fi.tiff&quot;), width = 8, h=4, compression=&quot;lzw&quot;)</code></pre>
-<p>#Group measurements of KK-Ay (Fig 2E)</p>
+</div>
+<div id="group-measurements-of-kk-ay-fig-2e" class="section level1">
+<h1>Group measurements of KK-Ay (Fig 2E)</h1>
 <pre class="r"><code>kk_bg %&gt;% dplyr::group_by(Days, trt) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %&gt;%
   mutate(trt = ifelse(grepl(&quot;F&quot;, trt), yes = &quot;FGF-1&quot;, no = &quot;Veh&quot;)) %&gt;%
   ggplot(aes(x=Days, y=mean, color=trt)) + geom_point(size=0.5) + geom_line() + 
@@ -1015,8 +1064,12 @@ kk_fi %&gt;% dplyr::group_by(Days, trt) %&gt;% dplyr::summarise(mean = mean(valu
   scale_x_continuous(breaks=c(0,1,7,14,21,28)) +
   ylab(&quot;Daily food intake (g)&quot;) + xlab(&quot;Days&quot;) +
   theme(legend.direction = &quot;vertical&quot;, legend.position = c(.15,.9), 
-        legend.background = element_blank()) + theme_figure -&gt; kk_fi_plot</code></pre>
-<p>#Individual measurements of Mc4r -/- (supplementary)</p>
+        legend.background = element_blank()) + theme_figure -&gt; kk_fi_plot
+plot_grid(kk_bg_plot, kk_fi_plot)</code></pre>
+<p><img src="figure/figure_2.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="individual-measurements-of-mc4r----supplementary" class="section level1">
+<h1>Individual measurements of Mc4r -/- (supplementary)</h1>
 <pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx&quot;), sheet = 2, range=&quot;A6:Q14&quot;, col_names = T) %&gt;% 
   melt(id.vars=&quot;Days&quot;) %&gt;% mutate(variable = c(rep(paste0(&quot;Veh&quot;, seq_len(8)), each=8), rep(paste0(&quot;FGF-1&quot;, seq_len(8)), each=8))) %&gt;% 
   mutate(trt = ifelse(grepl(&quot;Veh&quot;, variable), yes = &quot;V&quot;, no = &quot;F&quot;))-&gt; mc4_bg
@@ -1106,7 +1159,9 @@ Full Name
 </div>
 </div>
 <pre class="r"><code>ggsave(filename = here(&quot;data/figures/fig2/fig2supp_mc4_indiv_fi.tiff&quot;), width = 8, h=4, compression=&quot;lzw&quot;)</code></pre>
-<p>#Group measurements of Mc4r -/- (Fig 2E)</p>
+</div>
+<div id="group-measurements-of-mc4r----fig-2e" class="section level1">
+<h1>Group measurements of Mc4r -/- (Fig 2E)</h1>
 <pre class="r"><code>mc4_bg %&gt;% dplyr::group_by(Days, trt) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %&gt;%
   mutate(trt = ifelse(grepl(&quot;F&quot;, trt), yes = &quot;FGF-1&quot;, no = &quot;Veh-PF&quot;)) %&gt;%
   ggplot(aes(x=Days, y=mean, color=trt)) + geom_point(size=0.5) + geom_line() + 
@@ -1123,8 +1178,13 @@ mc4_fi %&gt;% dplyr::group_by(Days, trt) %&gt;% dplyr::summarise(mean = mean(val
   scale_color_manual(name=NULL, values = c(&quot;gray30&quot;,&quot;gray80&quot;)) +
   ylab(&quot;Daily food intake (g)&quot;) + xlab(&quot;Days&quot;) + ylim(c(0,10)) +
   scale_x_continuous(breaks=c(0,1,7,14,21,28)) +
-  theme(legend.direction = &quot;vertical&quot;, legend.position = c(.15,.9), legend.background = element_blank()) + theme_figure -&gt; mc4_fi_plot</code></pre>
-<p>#Individual measurements of Shu (supplementary)</p>
+  theme(legend.direction = &quot;vertical&quot;, legend.position = c(.15,.9), legend.background = element_blank()) + theme_figure -&gt; mc4_fi_plot
+
+plot_grid(mc4_bg_plot, mc4_fi_plot)</code></pre>
+<p><img src="figure/figure_2.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="individual-measurements-of-shu-supplementary" class="section level1">
+<h1>Individual measurements of Shu (supplementary)</h1>
 <pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx&quot;), sheet = 3, range=&quot;A6:AF12&quot;, col_names = T) %&gt;% 
   melt(id.vars=&quot;Days&quot;) %&gt;% 
   mutate(variable = c(rep(paste0(&quot;Veh+Veh_&quot;, seq_len(8)), each=6), rep(paste0(&quot;FGF-1+Veh_&quot;, seq_len(9)), each=6), 
@@ -1221,7 +1281,9 @@ Full Name
 </div>
 </div>
 <pre class="r"><code>ggsave(filename = here(&quot;data/figures/fig2/fig2supp_shu_indiv_fi.tiff&quot;), width = 8, h=4, compression=&quot;lzw&quot;)</code></pre>
-<p>#Group measurements of Mc4r -/- (Fig 2E)</p>
+</div>
+<div id="group-measurements-of-mc4r----fig-2e-1" class="section level1">
+<h1>Group measurements of Mc4r -/- (Fig 2E)</h1>
 <pre class="r"><code>shu_bg %&gt;% dplyr::group_by(Days, group) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %&gt;%
   ggplot(aes(x=Days, y=mean, color=group)) + geom_point(size=0.5) + geom_line() + 
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.5) + ggpubr::theme_pubr() + 
@@ -1238,7 +1300,12 @@ shu_fi %&gt;% dplyr::group_by(Days, group) %&gt;% dplyr::summarise(mean = mean(v
   ylab(&quot;Daily food intake (g)&quot;) + xlab(&quot;Days&quot;) + ylim(c(0,10)) +
   scale_x_continuous(breaks=c(0,1,7,14,21,28)) +
   guides(color=guide_legend(ncol=2)) +
-  theme(legend.position = c(.3,.95), legend.background = element_blank()) + theme_figure -&gt; shu_fi_plot</code></pre>
+  theme(legend.position = c(.3,.95), legend.background = element_blank()) + theme_figure -&gt; shu_fi_plot
+plot_grid(shu_bg_plot, shu_fi_plot)</code></pre>
+<p><img src="figure/figure_2.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="build-figure" class="section level1">
+<h1>Build figure</h1>
 <pre class="r"><code>top &lt;- plot_grid(pcplot2, pc5go, agrp_npy_exp, nrow=1, labels=c(&quot;auto&quot;), scale=0.95, 
                  rel_widths = c(2,1.5,1), align=&quot;hv&quot;, axis = &quot;tb&quot;)
 

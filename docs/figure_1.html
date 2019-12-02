@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeacd3c8517a6a9c72fa4fc01f79fc03db136cafa8targetblankacd3c85a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/acd3c8517a6a9c72fa4fc01f79fc03db136cafa8" target="_blank">acd3c85</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeaaaeaff3671aa7cce64a0fbd3d22c38cf894bf09targetblankaaaeaffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/aaaeaff3671aa7cce64a0fbd3d22c38cf894bf09" target="_blank">aaaeaff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeacd3c8517a6a9c72fa4fc01f79fc03db136cafa8targetblankacd3c85a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreeaaaeaff3671aa7cce64a0fbd3d22c38cf894bf09targetblankaaaeaffa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -677,6 +677,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/perslab/fgf_alldata/blob/aaaeaff3671aa7cce64a0fbd3d22c38cf894bf09/analysis/figure_1.Rmd" target="_blank">aaaeaff</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+wflow_publish(c(“analysis/figure_1.Rmd”, “analysis/figure_2.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/985b4061473f6bae7df57a5839e19a1e26984b0a/docs/figure_1.html" target="_blank">985b406</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/perslab/fgf_alldata/blob/acd3c8517a6a9c72fa4fc01f79fc03db136cafa8/analysis/figure_1.Rmd" target="_blank">acd3c85</a>
 </td>
 <td>
@@ -718,470 +752,617 @@ options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
 </div>
 <div id="load-prepped-data" class="section level1">
 <h1>Load prepped data</h1>
-<pre class="r"><code># seur.sub &lt;- readRDS(here(&quot;data/fgf_filtered_nuclei.RDS&quot;))
-# ```
-# 
-# # Food Intake and BG of mice
-# ```{r FI_BG}
-# #Read in excel file of FI
-# fi_v &lt;- readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191120_FIBG.xlsx&quot;), range = &quot;C7:N24&quot;)
-# colnames(fi_v) &lt;- c(paste0(&quot;V_D&quot;, seq_len(6)), paste0(&quot;F_D&quot;, seq_len(6)))
-# melt(fi_v, id.vars = NULL) %&gt;%
-#   na.omit() %&gt;%
-#   mutate(value = as.numeric(value)) %&gt;%
-#   dplyr::group_by(variable) %&gt;%
-#   dplyr::summarise(
-#     mean = mean(value, na.rm = T),
-#     sd = sd(value, na.rm = T),
-#     se = sd / sqrt(length(variable))
-#   ) %&gt;%
-#   mutate(day = rep(c(0:5), 2)) %&gt;%
-#   separate(variable, sep = &quot;_&quot;, into = &quot;trt&quot;) %&gt;%
-#   ggplot(aes(x = day, y = mean, color = trt)) + geom_point(size = 1) + 
-#   geom_line(size = 1) +
-#   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .2) + 
-#   ggpubr::theme_pubr() +
-#   scale_color_manual(name = NULL, labels = c(expression(icv ~ hFGF1 ~ 3 * mu * g), &quot;icv Vehicle pair-fed&quot;), 
-#                      values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
-#   scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5)) +
-#   ylab(&quot;Daily food intake (g)&quot;) + 
-#   xlab(&quot;Days&quot;) + ylim(c(0, 10)) +
-#   theme(legend.position = &quot;none&quot;, legend.background = element_blank()) + 
-#   theme_figure -&gt; fi_fig1
-# 
-# #Read in excel file of BG
-# bg &lt;- readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191120_FIBG.xlsx&quot;), range = &quot;B27:O44&quot;)
-# colnames(bg) &lt;- c(paste0(&quot;V_D&quot;, seq_len(7)), paste0(&quot;F_D&quot;, seq_len(7)))
-# melt(bg, id.vars = NULL) %&gt;%
-#   na.omit() %&gt;%
-#   mutate(value = as.numeric(value)) %&gt;%
-#   dplyr::group_by(variable) %&gt;%
-#   dplyr::summarise(
-#     mean = mean(value, na.rm = T),
-#     sd = sd(value, na.rm = T),
-#     se = sd / sqrt(length(variable))
-#   ) %&gt;%
-#   mutate(day = rep(c(0:6), 2)) %&gt;%
-#   separate(variable, sep = &quot;_&quot;, into = &quot;trt&quot;) %&gt;%
-#   ggplot(aes(x = day, y = mean, color = trt)) + 
-#   geom_point(size = 1) + geom_line(size = 1) +
-#   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .2) + 
-#   ggpubr::theme_pubr() +
-#   scale_color_manual(name = NULL, labels = c(expression(icv ~ hFGF1 ~ 3 * mu * g), 
-#                                              &quot;icv Vehicle pair-fed&quot;), values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
-#   scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5, 6),
-#     label = c(&quot;Pre&quot;, &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;)) +
-#   ylab(&quot;BG levels (mg/dl)&quot;) + xlab(&quot;Days&quot;) +
-#   theme(legend.direction = &quot;vertical&quot;, legend.position = &quot;none&quot;, legend.background = element_blank()) + 
-#   theme_figure -&gt; bg_fig1
-# 
-# blank &lt;- plot_grid(&quot;&quot;)
-# bg_fi &lt;- plot_grid(fi_fig1, bg_fig1)
-# ```
-# 
-# # Publication figures of clustering (all nuclei)
-# ```{r fig1 panel b}
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Agrp&quot; = &quot;Neuron&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Hist&quot; = &quot;Neuron&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Neur&quot; = &quot;Neuron&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Glia&quot; = &quot;Astro/Tany/Epend&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;COP&quot; = &quot;OPC/COP&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Endo&quot; = &quot;Endothelial&quot;)
-# seur.sub &lt;- RenameIdents(seur.sub, &quot;Micro&quot; = &quot;Microglia&quot;)
-# 
-# data.frame(Embeddings(seur.sub, reduction = &quot;umap&quot;)) %&gt;% 
-#   mutate(group = seur.sub$group) %&gt;%
-#   mutate(celltype = Idents(seur.sub)) %&gt;%
-#   .[sample(nrow(.)),] %&gt;% 
-#   mutate(group = replace(group, group == &quot;FGF_Day-5&quot;, &quot;FGF_d5&quot;)) %&gt;% 
-#   mutate(group = replace(group, group == &quot;FGF_Day-1&quot;, &quot;FGF_d1&quot;)) %&gt;% 
-#   mutate(group = replace(group, group == &quot;PF_Day-1&quot;, &quot;Veh_d1&quot;)) %&gt;%
-#   mutate(group = replace(group, group == &quot;PF_Day-5&quot;, &quot;Veh_d5&quot;)) -&gt; umap_embed
-# 
-# label.df &lt;- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
-# label.df_2 &lt;- umap_embed %&gt;% 
-#   dplyr::group_by(celltype) %&gt;% 
-#   dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2)) 
-# 
-# prop_seur_byclus &lt;- ggplot(umap_embed, aes(x=UMAP_1, y=UMAP_2, color=celltype)) + 
-#   geom_point(size=1, alpha=0.5)  + 
-#   geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
-#                   size=3, fontface=&quot;bold&quot;, inherit.aes = F, bg.colour=&quot;white&quot;) +
-#   xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
-#   ggpubr::theme_pubr() + ggsci::scale_color_igv() + theme_figure + theme(legend.position = &quot;none&quot;, legend.title=NULL)
-# 
-# prop_seur_group &lt;- ggplot(umap_embed, aes(x=UMAP_1, y=UMAP_2, color=group)) + 
-#   geom_point(size=1, alpha=0.5)  + guides(color = guide_legend(override.aes = list(size = 3))) +
-#   ggpubr::theme_pubr() + ggsci::scale_color_jco(name = &quot;Treatment Group&quot;) +
-#   xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
-#   theme_figure + theme(legend.position = c(.9,.3), legend.title = element_blank(), 
-#                        legend.text = element_text(size=12, face=&quot;bold&quot;))
-# plot_grid(prop_seur_group, prop_seur_byclus)
-# ```
-# 
-# ```{r recluster neurons, fig.width=10, fig.height=4}
-# subset(seur.sub, ident=&quot;Neuron&quot;) %&gt;% 
-#   reprocess_subset(., dims = 30, resolution = 0.1) -&gt; fgf.neur
-# DimPlot(fgf.neur, label = T)
-# ```
-# 
-# # Load Datasets
-# ```{r load mapping datasets}
-# load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Campbell_neurons_preprocessed.RData&quot;)
-# campbell &lt;- UpdateSeuratObject(campbell)
-# Idents(campbell) &lt;- &quot;cell_type&quot;
-# subset(campbell, idents = c(&quot;n34.unassigned(2)&quot;, &quot;n33.unassigned(1)&quot;), invert = T) %&gt;%
-#   NormalizeData(verbose = FALSE) %&gt;%
-#   FindVariableFeatures(
-#     selection.method = &quot;vst&quot;,
-#     nfeatures = 2000, verbose = FALSE
-#   ) %&gt;%
-#   ScaleData(verbose = FALSE) %&gt;%
-#   RunPCA(npcs = 30, verbose = FALSE) -&gt; campbell
-# 
-# # Load Chen Data
-# load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Chen_neurons_preprocessed.RData&quot;)
-# chen &lt;- UpdateSeuratObject(chen)
-# Idents(chen) &lt;- &quot;cell_type&quot;
-# chen %&gt;%
-#   NormalizeData(verbose = FALSE) %&gt;%
-#   FindVariableFeatures(
-#     selection.method = &quot;vst&quot;,
-#     nfeatures = 2000, verbose = FALSE
-#   ) %&gt;%
-#   ScaleData(verbose = FALSE) %&gt;%
-#   RunPCA(npcs = 30, verbose = FALSE) -&gt; chen
-# 
-# # Load Romanov Data
-# load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Romanov_neurons_preprocessed.RData&quot;)
-# romanov &lt;- UpdateSeuratObject(romanov)
-# Idents(romanov) &lt;- &quot;cell_type&quot;
-# romanov %&gt;%
-#   NormalizeData(verbose = FALSE) %&gt;%
-#   FindVariableFeatures(
-#     selection.method = &quot;vst&quot;,
-#     nfeatures = 2000, verbose = FALSE
-#   ) %&gt;%
-#   ScaleData(verbose = FALSE) %&gt;%
-#   RunPCA(npcs = 30, verbose = FALSE) -&gt; romanov
-# ```
-# 
-# #Propagate Labels
-# ```{r iterative label propagation, warning=FALSE, message=FALSE}
-# #propagate Campbell labels
-# fgf.neur &lt;- prop_function(reference = campbell, query = fgf.neur)
-# hist(fgf.neur$pred_CONF)
-# fgf.neur.camp &lt;- subset(fgf.neur, pred_CONF &gt; 0.75)
-# 
-# #propagate Chen labels
-# subset(fgf.neur, pred_CONF &lt; 0.75) %&gt;%
-#   FindVariableFeatures(selection.method = &quot;vst&quot;, nfeatures = 2000, verbose = FALSE) %&gt;%
-#   prop_function(reference = chen, query = .) -&gt; fgf.neur.relab_chen
-# hist(fgf.neur.relab_chen$pred_CONF)
-# fgf.neur.chen &lt;- subset(fgf.neur.relab_chen, pred_CONF &gt; 0.75)
-# 
-# #propagate Romanov labels
-# subset(fgf.neur.relab_chen, pred_CONF &lt; 0.75) %&gt;%
-#   FindVariableFeatures(selection.method = &quot;vst&quot;, nfeatures = 2000, verbose = FALSE) %&gt;%
-#   prop_function(reference = romanov, query = .) -&gt; fgf.neur.relab_rom
-# hist(fgf.neur.relab_rom$pred_CONF)
-# fgf.neur.rom &lt;- subset(fgf.neur.relab_rom, pred_CONF &gt; 0.75)
-# 
-# #transfer labels to fgf object
-# prop_lab &lt;- data.frame(
-#   cell.names = c(colnames(fgf.neur.camp), colnames(fgf.neur.chen), colnames(fgf.neur.rom)),
-#   labels = c(fgf.neur.camp$pred_ID, fgf.neur.chen$pred_ID, fgf.neur.rom$pred_ID))
-# fgf.neur$ref &lt;- as.character(prop_lab[match(colnames(fgf.neur), prop_lab$cell.names), &quot;labels&quot;])
-# fgf.neur$ref[is.na(fgf.neur$ref)] &lt;- &quot;unmap&quot;
-# 
-# #save object with labels
-# saveRDS(fgf.neur, file = here(&quot;data/neuron/fgf_neur_mappingscores.RDS&quot;))
-# ```
-# 
-# #Filter and recluster dataset
-# ```{r reclustering of mapped neurons}
-# fgf.neur.prop &lt;- subset(fgf.neur, ref != &quot;unmap&quot;)
-# fgf.neur.prop &lt;- reprocess_subset(fgf.neur.prop, dims = 30, resolution = 0.1)
-# DefaultAssay(fgf.neur.prop) &lt;- &quot;SCT&quot;
-# lab.mark &lt;- FindAllMarkers(fgf.neur.prop, only.pos = T, logfc.threshold = 0.5)
-# table(fgf.neur.prop@active.ident, fgf.neur.prop$ref) %&gt;%
-#   as.data.frame() %&gt;%
-#   group_by(Var1) %&gt;%
-#   top_n(1, Freq) %&gt;%
-#   select(Var1, Var2) -&gt; label_mapping
-# lab.mark$prop_label &lt;- as.character(pull(label_mapping[match(lab.mark$cluster, label_mapping$Var1), &quot;Var2&quot;]))
-# write_csv(x = lab.mark, here(&quot;neuron_clusters.csv&quot;))
-# ```
-# 
-# #Rename clusters
-# ```{r find specific markers for both Glu5 populations}
-# rename &lt;- c(&quot;Hcrt (Chen_Glu12)&quot;,&quot;Tcf7l2 (Chen_Glu4)&quot;,&quot;Grm7/Foxb1 (Chen_Glu5)&quot;,&quot;Nxph1/Foxb1 (Chen_Glu5)&quot;,
-#             &quot;Tac1/Htr2c (Chen_Glu6)&quot;,&quot;Hist (Camp_n1)&quot;,&quot;Tac1/Gad2 (Camp_n2)&quot;, 
-#             &quot;Avp/Oxt (Camp_n6)&quot;,&quot;Agrp (Camp_n13)&quot;,
-#             &quot;Vip (Camp_n16)&quot;,&quot;Tac2 (Camp_n20)&quot;,&quot;Sst (Camp_n23)&quot;,&quot;Hs3st4/Nr5a1 (Camp_n29)&quot;,
-#             &quot;Fam19a2 (Camp_n31)&quot;,&quot;Pmch (Roma_Pmch)&quot;)
-# rename &lt;- rename
-# names(rename) &lt;- as.character(label_mapping$Var1)
-# ```
-# 
-# 
-# # Neuron specific clustering
-# ```{r fig1 panel c}
-# fgf.neur.prop[[&quot;recluster_0.1&quot;]] &lt;- Idents(object = fgf.neur.prop)
-# fgf.neur.prop &lt;- RenameIdents(fgf.neur.prop, rename)
-# 
-# data.frame(Embeddings(fgf.neur.prop, reduction = &quot;umap&quot;)) %&gt;% 
-#   mutate(group = fgf.neur.prop$group) %&gt;%
-#   mutate(celltype = Idents(fgf.neur.prop)) %&gt;%
-#   sample_frac(1L) -&gt; umap_embed
-# colnames(umap_embed)[1:2] &lt;- c(&quot;UMAP 1&quot;, &quot;UMAP 2&quot;)
-# 
-# label.df &lt;- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
-# label.df_2 &lt;- umap_embed %&gt;% 
-#   group_by(celltype) %&gt;% 
-#   dplyr::summarize(x = median(`UMAP 1`), y = median(`UMAP 2`)) 
-# 
-# prop_neur_byclus &lt;- ggplot(umap_embed, aes(x=`UMAP 1`, y=`UMAP 2`, color=celltype)) + 
-#   geom_point(size=0.5, alpha=0.5)  + 
-#   geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
-#                   size=2, 
-#                   inherit.aes = F, bg.colour=&quot;white&quot;, fontface=&quot;bold&quot;,
-#                   force=1, min.segment.length = unit(0, &#39;lines&#39;)) +
-#   xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
-#   ggpubr::theme_pubr(legend=&quot;none&quot;) + ggsci::scale_color_igv() + theme_figure 
-# ```
-# 
-# #Extract color scheme
-# ```{r}
-# g &lt;- ggplot_build(prop_neur_byclus)
-# cols&lt;-data.frame(colours = as.character(unique(g$data[[1]]$colour)), 
-#              label = as.character(unique(g$plot$data[, g$plot$labels$colour])))
-# colvec&lt;-as.character(cols$colours)
-# names(colvec)&lt;-as.character(cols$label)
-# ```
-# 
-# #Resampling DEG
-# ```{r pseudobulk resampling, message=F, warning=FALSE}
-# #Generate matrices
-# split_mats&lt;-splitbysamp(fgf.neur.prop, split_by=&quot;sample&quot;)
-# names(split_mats)&lt;-unique(Idents(fgf.neur.prop))
-# pb&lt;-replicate(100, gen_pseudo_counts(split_mats, ncells=10)) 
-# names(pb)&lt;-paste0(rep(names(split_mats)),&quot;_&quot;,rep(1:100, each=length(names(split_mats))))
-# 
-# # Generate DESeq2 Objects
-# res&lt;-rundeseq(pb)
-# ```
-# 
-# # Identify neuronal populations with most DE genes at 24 hr
-# ```{r plot resampling, message=F, warning=FALSE}
-# degenes&lt;-lapply(res, function(x) {
-#   tryCatch({
-#     y&lt;-x[[2]]
-#     y&lt;-na.omit(y)
-#     data.frame(y)%&gt;%filter(padj&lt;0.1)%&gt;%nrow()}, 
-#     error=function(err) {NA})
-# })
-# 
-# boxplot&lt;-lapply(unique(Idents(fgf.neur.prop)), function(x) {
-#   z&lt;-unlist(degenes[grep(as.character(x), names(degenes), fixed = T)])
-# })
-# 
-# names(boxplot)&lt;-unique(Idents(fgf.neur.prop))
-# boxplot&lt;-t(as.data.frame(do.call(rbind, boxplot)))
-# rownames(boxplot)&lt;-1:100
-# genenum&lt;-melt(boxplot)
-# write_csv(genenum, path = here(&quot;output/neuron/genenum.csv&quot;))</code></pre>
-<p>#Figure 1 Panel C</p>
-<pre class="fig"><code>genenum &lt;- read_csv(here(&quot;output/neuron/genenum.csv&quot;))
-ggplot(genenum,aes(x=reorder(Var2, -value), y=value, fill=factor(Var2))) + 
+<pre class="r"><code>seur.sub &lt;- readRDS(here(&quot;data/fgf_filtered_nuclei.RDS&quot;))</code></pre>
+</div>
+<div id="food-intake-and-bg-of-mice" class="section level1">
+<h1>Food Intake and BG of mice</h1>
+<pre class="r"><code>#Read in excel file of FI
+fi_v &lt;- readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191120_FIBG.xlsx&quot;), range = &quot;C7:N24&quot;)
+colnames(fi_v) &lt;- c(paste0(&quot;V_D&quot;, seq_len(6)), paste0(&quot;F_D&quot;, seq_len(6)))
+melt(fi_v, id.vars = NULL) %&gt;%
+  na.omit() %&gt;%
+  mutate(value = as.numeric(value)) %&gt;%
+  dplyr::group_by(variable) %&gt;%
+  dplyr::summarise(
+    mean = mean(value, na.rm = T),
+    sd = sd(value, na.rm = T),
+    se = sd / sqrt(length(variable))
+  ) %&gt;%
+  mutate(day = rep(c(0:5), 2)) %&gt;%
+  separate(variable, sep = &quot;_&quot;, into = &quot;trt&quot;) %&gt;%
+  ggplot(aes(x = day, y = mean, color = trt)) + geom_point(size = 1) + 
+  geom_line(size = 1) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .2) + 
+  ggpubr::theme_pubr() +
+  scale_color_manual(name = NULL, labels = c(expression(icv ~ hFGF1 ~ 3 * mu * g), &quot;icv Vehicle pair-fed&quot;), 
+                     values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
+  scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5)) +
+  ylab(&quot;Daily food intake (g)&quot;) + 
+  xlab(&quot;Days&quot;) + ylim(c(0, 10)) +
+  theme(legend.position = &quot;none&quot;, legend.background = element_blank()) + 
+  theme_figure -&gt; fi_fig1</code></pre>
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>Warning: Expected 1 pieces. Additional pieces discarded in 12 rows [1, 2,
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12].</code></pre>
+<pre class="r"><code>#Read in excel file of BG
+bg &lt;- readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191120_FIBG.xlsx&quot;), range = &quot;B27:O44&quot;)
+colnames(bg) &lt;- c(paste0(&quot;V_D&quot;, seq_len(7)), paste0(&quot;F_D&quot;, seq_len(7)))
+melt(bg, id.vars = NULL) %&gt;%
+  na.omit() %&gt;%
+  mutate(value = as.numeric(value)) %&gt;%
+  dplyr::group_by(variable) %&gt;%
+  dplyr::summarise(
+    mean = mean(value, na.rm = T),
+    sd = sd(value, na.rm = T),
+    se = sd / sqrt(length(variable))
+  ) %&gt;%
+  mutate(day = rep(c(0:6), 2)) %&gt;%
+  separate(variable, sep = &quot;_&quot;, into = &quot;trt&quot;) %&gt;%
+  ggplot(aes(x = day, y = mean, color = trt)) + 
+  geom_point(size = 1) + geom_line(size = 1) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .2) + 
+  ggpubr::theme_pubr() +
+  scale_color_manual(name = NULL, labels = c(expression(icv ~ hFGF1 ~ 3 * mu * g), 
+                                             &quot;icv Vehicle pair-fed&quot;), values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
+  scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5, 6),
+    label = c(&quot;Pre&quot;, &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;)) +
+  ylab(&quot;BG levels (mg/dl)&quot;) + xlab(&quot;Days&quot;) +
+  theme(legend.direction = &quot;vertical&quot;, legend.position = &quot;none&quot;, legend.background = element_blank()) + 
+  theme_figure -&gt; bg_fig1</code></pre>
+<pre><code>Warning: Expected 1 pieces. Additional pieces discarded in 14 rows [1, 2,
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].</code></pre>
+<pre class="r"><code>blank &lt;- plot_grid(&quot;&quot;)</code></pre>
+<pre><code>Warning in as_grob.default(plot): Cannot convert object of class character
+into a grob.</code></pre>
+<pre class="r"><code>bg_fi &lt;- plot_grid(fi_fig1, bg_fig1)</code></pre>
+</div>
+<div id="publication-figures-of-clustering-all-nuclei" class="section level1">
+<h1>Publication figures of clustering (all nuclei)</h1>
+<pre class="r"><code>seur.sub &lt;- RenameIdents(seur.sub, &quot;Agrp&quot; = &quot;Neuron&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;Hist&quot; = &quot;Neuron&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;Neur&quot; = &quot;Neuron&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;Glia&quot; = &quot;Astro/Tany/Epend&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;COP&quot; = &quot;OPC/COP&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;Endo&quot; = &quot;Endothelial&quot;)
+seur.sub &lt;- RenameIdents(seur.sub, &quot;Micro&quot; = &quot;Microglia&quot;)
+
+data.frame(Embeddings(seur.sub, reduction = &quot;umap&quot;)) %&gt;% 
+  mutate(group = seur.sub$group) %&gt;%
+  mutate(celltype = Idents(seur.sub)) %&gt;%
+  .[sample(nrow(.)),] %&gt;% 
+  mutate(group = replace(group, group == &quot;FGF_Day-5&quot;, &quot;FGF_d5&quot;)) %&gt;% 
+  mutate(group = replace(group, group == &quot;FGF_Day-1&quot;, &quot;FGF_d1&quot;)) %&gt;% 
+  mutate(group = replace(group, group == &quot;PF_Day-1&quot;, &quot;Veh_d1&quot;)) %&gt;%
+  mutate(group = replace(group, group == &quot;PF_Day-5&quot;, &quot;Veh_d5&quot;)) -&gt; umap_embed
+
+label.df &lt;- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
+label.df_2 &lt;- umap_embed %&gt;% 
+  dplyr::group_by(celltype) %&gt;% 
+  dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2)) 
+
+prop_seur_byclus &lt;- ggplot(umap_embed, aes(x=UMAP_1, y=UMAP_2, color=celltype)) + 
+  geom_point(size=1, alpha=0.5)  + 
+  geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
+                  size=3, fontface=&quot;bold&quot;, inherit.aes = F, bg.colour=&quot;white&quot;) +
+  xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
+  ggpubr::theme_pubr() + ggsci::scale_color_igv() + theme_figure + theme(legend.position = &quot;none&quot;, legend.title=NULL)
+
+prop_seur_group &lt;- ggplot(umap_embed, aes(x=UMAP_1, y=UMAP_2, color=group)) + 
+  geom_point(size=1, alpha=0.5)  + guides(color = guide_legend(override.aes = list(size = 3))) +
+  ggpubr::theme_pubr() + ggsci::scale_color_jco(name = &quot;Treatment Group&quot;) +
+  xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
+  theme_figure + theme(legend.position = c(.9,.3), legend.title = element_blank(), 
+                       legend.text = element_text(size=12, face=&quot;bold&quot;))
+plot_grid(prop_seur_group, prop_seur_byclus)</code></pre>
+<p><img src="figure/figure_1.Rmd/fig1%20panel%20b-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="recluster-neurons" class="section level1">
+<h1>Recluster neurons</h1>
+<pre class="r"><code>subset(seur.sub, ident=&quot;Neuron&quot;) %&gt;% 
+  reprocess_subset(., dims = 30, resolution = 0.1) -&gt; fgf.neur</code></pre>
+<pre><code>Warning in FindVariableFeatures.Assay(object = assay.data, selection.method
+= selection.method, : selection.method set to &#39;vst&#39; but count slot is
+empty; will use data slot instead</code></pre>
+<pre><code>Warning in eval(predvars, data, env): NaNs produced</code></pre>
+<pre><code>Warning in hvf.info$variance.expected[not.const] &lt;- 10^fit$fitted: number
+of items to replace is not a multiple of replacement length</code></pre>
+<pre><code>Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+To use Python UMAP via reticulate, set umap.method to &#39;umap-learn&#39; and metric to &#39;correlation&#39;
+This message will be shown once per session</code></pre>
+<pre><code>Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 19416
+Number of edges: 1033519
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9599
+Number of communities: 13
+Elapsed time: 3 seconds</code></pre>
+<pre class="r"><code>DimPlot(fgf.neur, label = T)</code></pre>
+<pre><code>Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
+Please use `as_label()` or `as_name()` instead.
+This warning is displayed once per session.</code></pre>
+<p><img src="figure/figure_1.Rmd/recluster%20neurons-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="load-datasets" class="section level1">
+<h1>Load Datasets</h1>
+<pre class="r"><code>load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Campbell_neurons_preprocessed.RData&quot;)
+campbell &lt;- UpdateSeuratObject(campbell)
+Idents(campbell) &lt;- &quot;cell_type&quot;
+subset(campbell, idents = c(&quot;n34.unassigned(2)&quot;, &quot;n33.unassigned(1)&quot;), invert = T) %&gt;%
+  NormalizeData(verbose = FALSE) %&gt;%
+  FindVariableFeatures(
+    selection.method = &quot;vst&quot;,
+    nfeatures = 2000, verbose = FALSE
+  ) %&gt;%
+  ScaleData(verbose = FALSE) %&gt;%
+  RunPCA(npcs = 30, verbose = FALSE) -&gt; campbell
+
+# Load Chen Data
+load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Chen_neurons_preprocessed.RData&quot;)
+chen &lt;- UpdateSeuratObject(chen)
+Idents(chen) &lt;- &quot;cell_type&quot;
+chen %&gt;%
+  NormalizeData(verbose = FALSE) %&gt;%
+  FindVariableFeatures(
+    selection.method = &quot;vst&quot;,
+    nfeatures = 2000, verbose = FALSE
+  ) %&gt;%
+  ScaleData(verbose = FALSE) %&gt;%
+  RunPCA(npcs = 30, verbose = FALSE) -&gt; chen
+
+# Load Romanov Data
+load(&quot;/projects/mludwig/Dataset_alignment/Data_preprocessing/Romanov_neurons_preprocessed.RData&quot;)
+romanov &lt;- UpdateSeuratObject(romanov)
+Idents(romanov) &lt;- &quot;cell_type&quot;
+romanov %&gt;%
+  NormalizeData(verbose = FALSE) %&gt;%
+  FindVariableFeatures(
+    selection.method = &quot;vst&quot;,
+    nfeatures = 2000, verbose = FALSE
+  ) %&gt;%
+  ScaleData(verbose = FALSE) %&gt;%
+  RunPCA(npcs = 30, verbose = FALSE) -&gt; romanov</code></pre>
+</div>
+<div id="propagate-labels" class="section level1">
+<h1>Propagate Labels</h1>
+<pre class="r"><code>#propagate Campbell labels
+fgf.neur &lt;- prop_function(reference = campbell, query = fgf.neur)</code></pre>
+<pre><code>
+          n01.Hdc   n02.Gm8773/Tac1               n03       n04.Sst/Nts 
+               41                76                27                66 
+   n05.Nfix/Htr2c           n06.Oxt               n07               n08 
+               34                31               279               285 
+    n09.Th/Slc6a3          n10.Ghrh     n11.Th/Cxcl12      n12.Agrp/Sst 
+              200               497               319               525 
+  n13.Agrp/Gm8773      n14.Pomc/Ttr    n15.Pomc/Anxa2     n16.Rgs16/Vip 
+             1708               502               325               472 
+   n17.Rgs16/Dlx1 n18.Rgs16/Slc17a6         n19.Gpr50    n20.Kiss1/Tac2 
+              106               258                66               655 
+  n21.Pomc/Glipr1       n22.Tmem215    n23.Sst/Unc13c     n24.Sst/Pthlh 
+              306               751               548               243 
+      n25.Th/Lef1         n26.Htr3b               n27          n28.Qrfp 
+              227               481               428                66 
+n29.Nr5a1/Adcyap1    n30.Nr5a1/Nfib       n31.Fam19a2  n32.Slc17a6/Trhr 
+              727               315               171               339 </code></pre>
+<pre class="r"><code>hist(fgf.neur$pred_CONF)</code></pre>
+<p><img src="figure/figure_1.Rmd/iterative%20label%20propagation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fgf.neur.camp &lt;- subset(fgf.neur, pred_CONF &gt; 0.75)
+
+#propagate Chen labels
+subset(fgf.neur, pred_CONF &lt; 0.75) %&gt;%
+  FindVariableFeatures(selection.method = &quot;vst&quot;, nfeatures = 2000, verbose = FALSE) %&gt;%
+  prop_function(reference = chen, query = .) -&gt; fgf.neur.relab_chen</code></pre>
+<pre><code>
+ GABA1 GABA10 GABA11 GABA12 GABA13 GABA14 GABA15 GABA16 GABA17 GABA18 
+    21     19     35     59    160     70    109     66     42     29 
+ GABA2  GABA3  GABA4  GABA5  GABA6  GABA7  GABA8  GABA9   Glu1  Glu10 
+    27     97     15     71     47     16    402     69     13     14 
+ Glu11  Glu12  Glu13  Glu14  Glu15   Glu2   Glu3   Glu4   Glu5   Glu6 
+    41     23     23     44     20     21     13    120    197     49 
+  Glu7   Glu8   Glu9  Hista 
+   204     45     31     16 </code></pre>
+<pre class="r"><code>hist(fgf.neur.relab_chen$pred_CONF)</code></pre>
+<p><img src="figure/figure_1.Rmd/iterative%20label%20propagation-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fgf.neur.chen &lt;- subset(fgf.neur.relab_chen, pred_CONF &gt; 0.75)
+
+#propagate Romanov labels
+subset(fgf.neur.relab_chen, pred_CONF &lt; 0.75) %&gt;%
+  FindVariableFeatures(selection.method = &quot;vst&quot;, nfeatures = 2000, verbose = FALSE) %&gt;%
+  prop_function(reference = romanov, query = .) -&gt; fgf.neur.relab_rom</code></pre>
+<pre><code>
+                Adcyap1 1 (Tac1)                        Adcyap1 2 
+                               9                               15 
+                     Avp 1, high                      Avp 2, high 
+                               8                                8 
+                   Avp 3, medium         circadian 1 (Vip,Grp+/-) 
+                               6                                6 
+        circadian 2 (Nms,VIP+/-)               circadian 3 (Per2) 
+                              12                               13 
+                      Dopamine 1           Dopamine 2 (low VMAT2) 
+                              12                                7 
+                      Dopamine 3                       Dopamine 4 
+                               5                                1 
+                         GABA 10                  GABA 11 (Nts 1) 
+                              19                               17 
+                 GABA 12 (Nts 2)                GABA 13 (Galanin) 
+                              19                               20 
+              GABA 14 (Npy,Agrp)             GABA 15 (Npy-medium) 
+                              10                                7 
+                GABA 2 (Gucy1a3)            GABA 3 (Crh+/-, Lhx6) 
+                              15                               15 
+          GABA 4 (Crh+/-,Pgr15l)             GABA 5 (Calcr, Lhx1) 
+                              24                               31 
+             GABA 6 (Otof, Lhx1)                 GABA 7 (Pomc+/-) 
+                              24                               27 
+                          GABA 8                           GABA 9 
+                              14                               19 
+                           GABA1                 Gad-low, Gnrh-/+ 
+                              12                                8 
+                            Ghrh                             Hcrt 
+                               2                               12 
+                         Hmit+/-                             Npvf 
+                              24                                6 
+                      Oxytocin 1                       Oxytocin 2 
+                               4                                4 
+                      Oxytocin 3                       Oxytocin 4 
+                              10                                7 
+                            Pmch                             Qrfp 
+                               2                                1 
+                      Sst 1, low                      Sst 2, high 
+                              16                                6 
+                   Sst 3, medium                      Trh 1 (low) 
+                               9                               24 
+                  Trh 2 (medium)                     Trh 3 (high) 
+                              19                                7 
+                              uc                  Vglut2 1 (Penk) 
+                              69                                1 
+        Vglut2 10 (Morn4,Prrc2a)                        Vglut2 11 
+                               2                                2 
+              Vglut2 12 (Mgat4b)      Vglut2 13(Ninl,Rfx5,Zfp346) 
+                               2                                4 
+              Vglut2 14 (Col9a2)   Vglut2 15 (Hcn1,6430411K18Rik) 
+                               5                                3 
+         Vglut2 16 (Gm5595, Tnr) Vglut2 17 (A930013F10Rik,Pou2f2) 
+                               1                                3 
+     Vglut2 18 (Zfp458,Ppp1r12b)                Vglut2 2 (Crh+/-) 
+                               2                               11 
+         Vglut2 3 (Crh-+/-, low)                         Vglut2 4 
+                              40                                1 
+            Vglut2 5 (Myt1,Lhx9)            Vglut2 6 (Prmt8,Ugdh) 
+                               3                               11 
+           Vglut2 7 (Pgam,Snx12)                         Vglut2 8 
+                               6                                9 
+               Vglut2 9 (Gpr149) 
+                               6 </code></pre>
+<pre class="r"><code>hist(fgf.neur.relab_rom$pred_CONF)</code></pre>
+<p><img src="figure/figure_1.Rmd/iterative%20label%20propagation-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fgf.neur.rom &lt;- subset(fgf.neur.relab_rom, pred_CONF &gt; 0.75)
+
+#transfer labels to fgf object
+prop_lab &lt;- data.frame(
+  cell.names = c(colnames(fgf.neur.camp), colnames(fgf.neur.chen), colnames(fgf.neur.rom)),
+  labels = c(fgf.neur.camp$pred_ID, fgf.neur.chen$pred_ID, fgf.neur.rom$pred_ID))
+fgf.neur$ref &lt;- as.character(prop_lab[match(colnames(fgf.neur), prop_lab$cell.names), &quot;labels&quot;])
+fgf.neur$ref[is.na(fgf.neur$ref)] &lt;- &quot;unmap&quot;
+
+#save object with labels
+saveRDS(fgf.neur, file = here(&quot;data/neuron/fgf_neur_mappingscores.RDS&quot;))</code></pre>
+</div>
+<div id="filter-and-recluster-dataset" class="section level1">
+<h1>Filter and recluster dataset</h1>
+<pre class="r"><code>fgf.neur.prop &lt;- subset(fgf.neur, ref != &quot;unmap&quot;)
+fgf.neur.prop &lt;- reprocess_subset(fgf.neur.prop, dims = 30, resolution = 0.1)</code></pre>
+<pre><code>Warning in FindVariableFeatures.Assay(object = assay.data, selection.method
+= selection.method, : selection.method set to &#39;vst&#39; but count slot is
+empty; will use data slot instead</code></pre>
+<pre><code>Warning in eval(predvars, data, env): NaNs produced</code></pre>
+<pre><code>Warning in hvf.info$variance.expected[not.const] &lt;- 10^fit$fitted: number
+of items to replace is not a multiple of replacement length</code></pre>
+<pre><code>Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 7430
+Number of edges: 415931
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9820
+Number of communities: 15
+Elapsed time: 0 seconds</code></pre>
+<pre class="r"><code>DefaultAssay(fgf.neur.prop) &lt;- &quot;SCT&quot;
+lab.mark &lt;- FindAllMarkers(fgf.neur.prop, only.pos = T, logfc.threshold = 0.5)
+table(fgf.neur.prop@active.ident, fgf.neur.prop$ref) %&gt;%
+  as.data.frame() %&gt;%
+  group_by(Var1) %&gt;%
+  top_n(1, Freq) %&gt;%
+  select(Var1, Var2) -&gt; label_mapping
+lab.mark$prop_label &lt;- as.character(pull(label_mapping[match(lab.mark$cluster, label_mapping$Var1), &quot;Var2&quot;]))
+write_csv(x = lab.mark, here(&quot;neuron_clusters.csv&quot;))</code></pre>
+</div>
+<div id="rename-clusters" class="section level1">
+<h1>Rename clusters</h1>
+<pre class="r"><code>rename &lt;- c(&quot;Hcrt (Chen_Glu12)&quot;,&quot;Tcf7l2 (Chen_Glu4)&quot;,&quot;Grm7/Foxb1 (Chen_Glu5)&quot;,&quot;Nxph1/Foxb1 (Chen_Glu5)&quot;,
+            &quot;Tac1/Htr2c (Chen_Glu6)&quot;,&quot;Hist (Camp_n1)&quot;,&quot;Tac1/Gad2 (Camp_n2)&quot;, 
+            &quot;Avp/Oxt (Camp_n6)&quot;,&quot;Agrp (Camp_n13)&quot;,
+            &quot;Vip (Camp_n16)&quot;,&quot;Tac2 (Camp_n20)&quot;,&quot;Sst (Camp_n23)&quot;,&quot;Hs3st4/Nr5a1 (Camp_n29)&quot;,
+            &quot;Fam19a2 (Camp_n31)&quot;,&quot;Pmch (Roma_Pmch)&quot;)
+rename &lt;- rename
+names(rename) &lt;- as.character(label_mapping$Var1)</code></pre>
+</div>
+<div id="neuron-specific-clustering" class="section level1">
+<h1>Neuron specific clustering</h1>
+<pre class="r"><code>fgf.neur.prop[[&quot;recluster_0.1&quot;]] &lt;- Idents(object = fgf.neur.prop)
+fgf.neur.prop &lt;- RenameIdents(fgf.neur.prop, rename)
+
+data.frame(Embeddings(fgf.neur.prop, reduction = &quot;umap&quot;)) %&gt;% 
+  mutate(group = fgf.neur.prop$group) %&gt;%
+  mutate(celltype = Idents(fgf.neur.prop)) %&gt;%
+  sample_frac(1L) -&gt; umap_embed
+colnames(umap_embed)[1:2] &lt;- c(&quot;UMAP 1&quot;, &quot;UMAP 2&quot;)
+
+label.df &lt;- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
+label.df_2 &lt;- umap_embed %&gt;% 
+  group_by(celltype) %&gt;% 
+  dplyr::summarize(x = median(`UMAP 1`), y = median(`UMAP 2`)) 
+
+prop_neur_byclus &lt;- ggplot(umap_embed, aes(x=`UMAP 1`, y=`UMAP 2`, color=celltype)) + 
+  geom_point(size=0.5, alpha=0.5)  + 
+  geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
+                  size=2, 
+                  inherit.aes = F, bg.colour=&quot;white&quot;, fontface=&quot;bold&quot;,
+                  force=1, min.segment.length = unit(0, &#39;lines&#39;)) +
+  xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) +
+  ggpubr::theme_pubr(legend=&quot;none&quot;) + ggsci::scale_color_igv() + theme_figure </code></pre>
+</div>
+<div id="extract-color-scheme" class="section level1">
+<h1>Extract color scheme</h1>
+<pre class="r"><code>g &lt;- ggplot_build(prop_neur_byclus)
+cols&lt;-data.frame(colours = as.character(unique(g$data[[1]]$colour)), 
+             label = as.character(unique(g$plot$data[, g$plot$labels$colour])))
+colvec&lt;-as.character(cols$colours)
+names(colvec)&lt;-as.character(cols$label)</code></pre>
+</div>
+<div id="resampling-deg" class="section level1">
+<h1>Resampling DEG</h1>
+<pre class="r"><code>#Generate matrices
+split_mats&lt;-splitbysamp(fgf.neur.prop, split_by=&quot;sample&quot;)
+names(split_mats)&lt;-unique(Idents(fgf.neur.prop))
+pb&lt;-replicate(100, gen_pseudo_counts(split_mats, ncells=10)) 
+names(pb)&lt;-paste0(rep(names(split_mats)),&quot;_&quot;,rep(1:100, each=length(names(split_mats))))
+
+# Generate DESeq2 Objects
+res&lt;-rundeseq(pb)</code></pre>
+</div>
+<div id="identify-neuronal-populations-with-most-de-genes-at-24-hr" class="section level1">
+<h1>Identify neuronal populations with most DE genes at 24 hr</h1>
+<pre class="r"><code>degenes&lt;-lapply(res, function(x) {
+  tryCatch({
+    y&lt;-x[[2]]
+    y&lt;-na.omit(y)
+    data.frame(y)%&gt;%filter(padj&lt;0.1)%&gt;%nrow()}, 
+    error=function(err) {NA})
+})
+
+boxplot&lt;-lapply(unique(Idents(fgf.neur.prop)), function(x) {
+  z&lt;-unlist(degenes[grep(as.character(x), names(degenes), fixed = T)])
+})
+
+names(boxplot)&lt;-unique(Idents(fgf.neur.prop))
+boxplot&lt;-t(as.data.frame(do.call(rbind, boxplot)))
+rownames(boxplot)&lt;-1:100
+genenum&lt;-melt(boxplot)
+write_csv(genenum, path = here(&quot;output/neuron/genenum.csv&quot;))</code></pre>
+</div>
+<div id="figure-1-panel-c" class="section level1">
+<h1>Figure 1 Panel C</h1>
+<pre class="r"><code>deboxplot&lt;-ggplot(genenum,aes(x=reorder(Var2, -value), y=value, fill=factor(Var2))) + 
   geom_boxplot(notch = T, alpha=0.75) + 
-  #scale_fill_manual(values = colvec) +
+  scale_fill_manual(values = colvec) +
   ggpubr::theme_pubr() +
   theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = &quot;none&quot;) + 
   ylab(&quot;Number DEG&quot;) + xlab(NULL) + theme_figure
 
-#deboxplot</code></pre>
-<!-- #Specific Agrp analysis -->
-<!-- ```{r, message=F, warning=FALSE} -->
-<!-- agrp<-subset(fgf.neur.prop, ident="Agrp (Camp_n13)") -->
-<!-- agrp %>% ScaleData(verbose=F) %>%  -->
-<!--   FindVariableFeatures(selection.method = "vst",  -->
-<!--                        nfeatures = 2000) %>% -->
-<!--   RunPCA(ndims.print=1:10) -> agrp -->
-<!-- list_sub <- SplitObject(agrp, split.by="sample") -->
-<!-- pb <- (lapply(list_sub, function(y) { -->
-<!--     DefaultAssay(y) <- "SCT" -->
-<!--     mat<-GetAssayData(y, slot="counts") -->
-<!--     counts <- Matrix::rowSums(mat) -->
-<!-- }) %>% do.call(rbind, .) %>% t() %>% as.data.frame()) -->
-<!-- trt<-ifelse(grepl("FGF", colnames(pb)), yes="F", no="P") -->
-<!-- batch<-as.factor(sapply(strsplit(colnames(pb),"_"),"[",1)) -->
-<!-- day<-ifelse(as.numeric(as.character(batch))>10, yes="Day-5", no="Day-1") -->
-<!-- group<-paste0(trt,"_",day) -->
-<!-- meta<-data.frame(trt=trt, day=factor(day), group=group) -->
-<!-- dds <- DESeqDataSetFromMatrix(countData = pb, -->
-<!--                               colData = meta, -->
-<!--                               design = ~ 0 + group) -->
-<!-- keep <- rowSums(counts(dds) >= 5) > 5 -->
-<!-- dds <- dds[keep,] -->
-<!-- dds<-DESeq(dds) -->
-<!-- res_5<-results(dds, contrast = c("group","F_Day-5","P_Day-5")) -->
-<!-- res_1<-results(dds, contrast = c("group","F_Day-1","P_Day-1")) -->
-<!-- saveRDS(agrp, file = here("data/neuron/agrp_neur.RDS")) -->
-<!-- ``` -->
-<!-- # Filter 24 hr results -->
-<!-- ```{r} -->
-<!-- res_1<-as.data.frame(res_1) -->
-<!-- res_1<-res_1[complete.cases(res_1),] -->
-<!-- res_1<-res_1[order(res_1$padj),] -->
-<!-- res_1$gene<-rownames(res_1) -->
-<!-- write_csv(res_1, path=here("output/neuron/agrp_24hr_dge.csv")) -->
-<!-- ``` -->
-<!-- # Volcano Plot of DE genes -->
-<!-- ```{r volcano plot, fig.width=5, fig.height=5} -->
-<!-- res_1 %>% add_rownames("gene") %>% -->
-<!--   mutate(siglog=ifelse(padj<0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>%  -->
-<!--   mutate(onlysig=ifelse(padj<0.05&abs(log2FoldChange)<1, yes=T, no=F)) %>%  -->
-<!--   mutate(onlylog=ifelse(padj>0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>%  -->
-<!--   mutate(col=ifelse(siglog==T, yes="1", no =  -->
-<!--                       ifelse(onlysig==T, yes="2", no =  -->
-<!--                                ifelse(onlylog==T, yes="3", no="4")))) %>%  -->
-<!--   mutate(label=ifelse(padj<0.01, yes=gene, no="")) %>% -->
-<!--   dplyr::select(gene, log2FoldChange, padj, col, label) -> volc -->
-<!-- volc_plot<-ggplot(volc, aes(y=(-log10(padj)), x=log2FoldChange, fill=factor(col), label=label)) +  -->
-<!--   xlab(expression(bold(log[2]*~Fold*~Change))) + ylab(expression(bold(-log[10]~pvalue)))+ -->
-<!--   geom_point(shape=21, size=3, alpha=0.75) +  -->
-<!--   geom_hline(yintercept = -log10(0.05), linetype="dashed") +  -->
-<!--   geom_vline(xintercept = c(-1,1), linetype="dashed") + geom_text_repel()  +  -->
-<!--   scale_fill_manual(values = c("1" = "red", "2" = "blue", "3" = "darkgreen", "4" = "grey")) + -->
-<!--   ggpubr::theme_pubr() + -->
-<!--   theme(legend.position = "none") +  -->
-<!--   theme_figure -->
-<!-- volc_plot  -->
-<!-- ``` -->
-<!-- # GO Term Analysis -->
-<!-- ```{r} -->
-<!-- resgo<-res_1[res_1$padj<0.1,] -->
-<!-- ego<-gprofiler(rownames(resgo), organism = "mmusculus", significant = T, custom_bg = rownames(dds), -->
-<!--                            src_filter = c("GO:BP","REAC","KEGG"),hier_filtering = "strong", -->
-<!--                            min_isect_size = 3,  -->
-<!--                            sort_by_structure = T,exclude_iea = T,  -->
-<!--                            min_set_size = 10, max_set_size = 300,correction_method = "fdr") -->
-<!-- write_csv(ego, path=here("output/neuron/agrp_24hr_goterms.csv")) -->
-<!-- ego %>% select(domain, term.name, term.id, p.value, intersection, overlap.size) %>%  -->
-<!--   separate(intersection, into = c(paste0("gene", 1:max(ego$overlap.size)), remove=T)) %>%  -->
-<!--   melt(id.vars=c("domain", "term.name","term.id", "p.value","overlap.size")) %>% na.omit() %>%  -->
-<!--   select(-variable) %>%  -->
-<!--   mutate(dir = ifelse(resgo[match(value, toupper(resgo$gene)),"log2FoldChange"] > 0, yes = 1, no = -1)) %>% -->
-<!--   group_by(term.name, term.id, p.value) %>%  -->
-<!--   summarize(zscore = sum(dir)/sqrt(mean(overlap.size)), overlap.size = mean(overlap.size), domain = unique(domain)) -> ego_plot -->
-<!-- goterm_plot <- ggplot(ego_plot, aes(x = zscore, y = -log10(p.value), label=str_wrap(term.name,20))) +  -->
-<!--   geom_point(aes(size = overlap.size, fill = domain), shape=21, alpha=0.5) +  -->
-<!--   scale_size(range=c(2,10)) + -->
-<!--   ylab(expression(bold(-log[10]~pvalue))) + -->
-<!--   xlab("z-score") + ggsci::scale_fill_npg() + -->
-<!--   geom_vline(xintercept = 0, linetype="dashed", color="red") + -->
-<!--   geom_text_repel(data = filter(ego_plot, -log10(p.value)>2), bg.colour="white",  -->
-<!--                   force=1, min.segment.length = unit(0, 'lines'), lineheight=0.75, size=4) + xlim(c(-3,3)) + -->
-<!--   ggpubr::theme_pubr(legend="none") + coord_cartesian(clip="off") + theme_figure -->
-<!-- ``` -->
-<!-- #Membrane Potential -->
-<!-- ```{r} -->
-<!-- readxl::read_xlsx(here("data/mouse_data/fig1/191116_arian_ephys.xlsx"), sheet = 1) %>%  -->
-<!--   dplyr::rename(Veh = RMP, `FGF-1` = `FGF-1 10nM`) %>% melt() -> rmp -->
-<!-- rmp %>% dplyr::group_by(variable) %>%  -->
-<!--   dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>% -->
-<!--   ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) + -->
-<!--   geom_col(width=1, alpha=0.75, colour="black") + -->
-<!--   geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + -->
-<!--   geom_jitter(data = rmp, inherit.aes = F, aes(x=variable, y=value, fill=variable),  -->
-<!--               alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) +  -->
-<!--   geom_signif(y_position=c(-55), xmin=c(1.2), xmax=c(1.8), -->
-<!--               annotation=c("***"), tip_length=0, size = 0.5, textsize = 5, color="black", vjust = 2) + -->
-<!--   scale_x_discrete(position = "top") + -->
-<!--   ylab("Membrane Potential (mV)") + scale_fill_manual("Treatment", values=c("gray80","gray30")) +  -->
-<!--   scale_color_manual("Treatment", values=c("gray80","gray30")) + -->
-<!--   coord_cartesian(clip="off") + -->
-<!--   ggpubr::theme_pubr(legend="none") + -->
-<!--   theme(axis.ticks.x = element_blank()) + -->
-<!--   theme_figure -> ephysquant -->
-<!-- ephysquant -->
-<!-- ``` -->
-<!-- #Spontaneous action potentials -->
-<!-- ```{r} -->
-<!-- readxl::read_xlsx(here("data/mouse_data/fig1/191116_arian_ephys.xlsx"), sheet = 2) %>% melt(id.vars="Time") -> aps -->
-<!-- aps$Time <- as.factor(aps$Time) -->
-<!-- aps %>% dplyr::group_by(Time) %>%  -->
-<!--   dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) -> aps -->
-<!-- rects <- data.frame(start=4.5, end=14.5, group=seq_along(5)) -->
-<!-- act_pot<- ggplot(aps, aes(x=Time, y=mean)) +  -->
-<!--   geom_bar(stat="identity",colour="black", fill="white", width = 1, size=.75) + -->
-<!--   geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2, -->
-<!--                  position=position_dodge(.9)) +  -->
-<!--   ggpubr::theme_pubr() +  -->
-<!--   geom_hline(yintercept=0) + -->
-<!--   geom_rect(data=rects, inherit.aes = F, aes(xmin=start, xmax=end, ymin = 0, ymax = 140, group=group),  -->
-<!--             color="black", fill="grey", alpha=0.3) + -->
-<!--   xlab("Time (m)") + ylab("Number of Spontaneous\n Action Potentials") +  -->
-<!--   annotate(geom="text", x=9, y=120, label="FGF-1 10nM", color="black", size=4) + -->
-<!--   theme_figure -->
-<!-- act_pot -->
-<!-- ``` -->
-<!-- #Synaptic Channel Blockers -->
-<!-- ```{r} -->
-<!-- detach("package:here", unload = T) -->
-<!-- library(here) -->
-<!-- readxl::read_xlsx(here("data/mouse_data/fig1/191116_arian_ephys.xlsx"), sheet = 3) %>% dplyr::select(1:3) %>%  -->
-<!--   dplyr::rename(`FGF-1+TTX\n+BICC` = `FGF-1 10nM+TTX+Bicc`) %>% melt() -> scb -->
-<!-- scb %>% dplyr::group_by(variable) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>% -->
-<!--   ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) + -->
-<!--   geom_col(width=1, alpha=0.75, colour="black") + -->
-<!--   geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + -->
-<!--   geom_jitter(data = scb, inherit.aes = F, aes(x=variable, y=value, fill=variable),  -->
-<!--               alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) +  -->
-<!--   geom_signif(y_position=c(-55), xmin=c(2.2), xmax=c(2.8), -->
-<!--               annotation=c("ns"), tip_length=0, size = 0.5, textsize = 5, color="black", vjust = 2) + -->
-<!--   scale_x_discrete(position = "top") + -->
-<!--   ylab("Membrane Potential (mV)") + scale_fill_manual("Treatment", values=c("gray80","gray60", "gray30")) +  -->
-<!--   scale_color_manual("Treatment", values=c("gray80","gray60", "gray30")) + -->
-<!--   ggpubr::theme_pubr() + theme_figure + -->
-<!--   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.text.x=element_text(angle=45, hjust=-0.1, size=6)) +  -->
-<!--   coord_cartesian(clip="off")  -> scbquant -->
-<!-- scbquant -->
-<!-- ``` -->
-<!-- #cFos quantification -->
-<!-- ```{r} -->
-<!-- readxl::read_xlsx(here("data/mouse_data/fig1/191116_Jenny_cFos.xlsx"), sheet = 1) %>% melt() %>% na.omit %>%  -->
-<!--   mutate(variable = fct_relevel(variable, "Veh","FGF1")) -> cfos -->
-<!-- cfos %>%  dplyr::group_by(variable) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>% -->
-<!--   ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) + -->
-<!--   geom_col(width=1, alpha=0.75, colour="black") + -->
-<!--   geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + -->
-<!--   geom_jitter(data = cfos, inherit.aes = F, aes(x=variable, y=value, fill=variable),  -->
-<!--               alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) +  -->
-<!--   geom_signif(y_position=c(70), xmin=c(1.2), xmax=c(1.8), -->
-<!--               annotation=c("*"), tip_length=0, size = 0.5, textsize = 5, color="black") + -->
-<!--   ylab("cFos+ GFP-AgRP+") + scale_fill_manual("Treatment", values=c("gray80", "gray30")) +  -->
-<!--   scale_color_manual("Treatment", values=c("gray80", "gray30")) + -->
-<!--   ggpubr::theme_pubr() + -->
-<!--   theme(legend.position = "none", axis.ticks.x = element_blank()) +  -->
-<!--   coord_cartesian(clip="off") + theme_figure -> cfos_quant -->
-<!-- cfos_quant -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- intro <- plot_grid(blank, bg_fi, ncol=1, rel_heights = c(1.5,1), labels="a") -->
-<!-- seurclus <- plot_grid(prop_seur_byclus, prop_seur_group, nrow=1, labels=c("b","c")) -->
-<!-- top <- plot_grid(intro,seurclus, align = "h", axis="tblr", labels = "auto", nrow=1, rel_widths = c(1,2)) -->
-<!-- mid <- plot_grid(prop_neur_byclus, deboxplot, goterm_plot, align="hv", axis="tb", nrow=1,  rel_widths = c(1.1,1,1.1), -->
-<!--                  labels = c("d","e","f"), scale = 0.95) -->
-<!-- midephys <- plot_grid("", ephysquant, nrow=1, labels = c("g","h"), rel_widths = c(2,1), scale=0.8) -->
-<!-- lowephys <- plot_grid(act_pot, scbquant, nrow=1, labels = c("i","j"), rel_widths = c(2,1), scale=0.8) -->
-<!-- ephys <- plot_grid(midephys,lowephys, ncol=1, rel_heights = c(1,1.25)) -->
-<!-- cfos <- plot_grid("", cfos_quant, nrow=1, labels=c("k","l"), rel_widths = c(3,1), scale=0.8) -->
-<!-- bottom <- plot_grid(ephys, cfos, nrow = 1) -->
-<!-- fig1 <- plot_grid(top,mid,bottom, ncol=1, rel_heights=c(1,1.25,1.25)) -->
-<!-- ggsave(fig1, filename  = here("data/figures/fig1/fig1_arranged.tiff"), width = 12, h=12, compression="lzw") -->
-<!-- ``` -->
+deboxplot</code></pre>
+<p><img src="figure/figure_1.Rmd/fig%201%20panel%20c-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="specific-agrp-analysis" class="section level1">
+<h1>Specific Agrp analysis</h1>
+<pre class="r"><code>agrp&lt;-subset(fgf.neur.prop, ident=&quot;Agrp (Camp_n13)&quot;)
+agrp %&gt;% ScaleData(verbose=F) %&gt;% 
+  FindVariableFeatures(selection.method = &quot;vst&quot;, 
+                       nfeatures = 2000) %&gt;%
+  RunPCA(ndims.print=1:10) -&gt; agrp
+
+list_sub &lt;- SplitObject(agrp, split.by=&quot;sample&quot;)
+pb &lt;- (lapply(list_sub, function(y) {
+    DefaultAssay(y) &lt;- &quot;SCT&quot;
+    mat&lt;-GetAssayData(y, slot=&quot;counts&quot;)
+    counts &lt;- Matrix::rowSums(mat)
+}) %&gt;% do.call(rbind, .) %&gt;% t() %&gt;% as.data.frame())
+
+trt&lt;-ifelse(grepl(&quot;FGF&quot;, colnames(pb)), yes=&quot;F&quot;, no=&quot;P&quot;)
+batch&lt;-as.factor(sapply(strsplit(colnames(pb),&quot;_&quot;),&quot;[&quot;,1))
+day&lt;-ifelse(as.numeric(as.character(batch))&gt;10, yes=&quot;Day-5&quot;, no=&quot;Day-1&quot;)
+group&lt;-paste0(trt,&quot;_&quot;,day)
+meta&lt;-data.frame(trt=trt, day=factor(day), group=group)
+dds &lt;- DESeqDataSetFromMatrix(countData = pb,
+                              colData = meta,
+                              design = ~ 0 + group)
+keep &lt;- rowSums(counts(dds) &gt;= 5) &gt; 5
+dds &lt;- dds[keep,]
+dds&lt;-DESeq(dds)
+res_5&lt;-results(dds, contrast = c(&quot;group&quot;,&quot;F_Day-5&quot;,&quot;P_Day-5&quot;))
+res_1&lt;-results(dds, contrast = c(&quot;group&quot;,&quot;F_Day-1&quot;,&quot;P_Day-1&quot;))
+saveRDS(agrp, file = here(&quot;data/neuron/agrp_neur.RDS&quot;))</code></pre>
+</div>
+<div id="filter-24-hr-results" class="section level1">
+<h1>Filter 24 hr results</h1>
+<pre class="r"><code>res_1&lt;-as.data.frame(res_1)
+res_1&lt;-res_1[complete.cases(res_1),]
+res_1&lt;-res_1[order(res_1$padj),]
+res_1$gene&lt;-rownames(res_1)
+write_csv(res_1, path=here(&quot;output/neuron/agrp_24hr_dge.csv&quot;))</code></pre>
+</div>
+<div id="volcano-plot-of-de-genes" class="section level1">
+<h1>Volcano Plot of DE genes</h1>
+<pre class="r"><code>res_1 %&gt;% add_rownames(&quot;gene&quot;) %&gt;%
+  mutate(siglog=ifelse(padj&lt;0.05&amp;abs(log2FoldChange)&gt;1, yes=T, no=F)) %&gt;% 
+  mutate(onlysig=ifelse(padj&lt;0.05&amp;abs(log2FoldChange)&lt;1, yes=T, no=F)) %&gt;% 
+  mutate(onlylog=ifelse(padj&gt;0.05&amp;abs(log2FoldChange)&gt;1, yes=T, no=F)) %&gt;% 
+  mutate(col=ifelse(siglog==T, yes=&quot;1&quot;, no = 
+                      ifelse(onlysig==T, yes=&quot;2&quot;, no = 
+                               ifelse(onlylog==T, yes=&quot;3&quot;, no=&quot;4&quot;)))) %&gt;% 
+  mutate(label=ifelse(padj&lt;0.01, yes=gene, no=&quot;&quot;)) %&gt;%
+  dplyr::select(gene, log2FoldChange, padj, col, label) -&gt; volc</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre class="r"><code>volc_plot&lt;-ggplot(volc, aes(y=(-log10(padj)), x=log2FoldChange, fill=factor(col), label=label)) + 
+  xlab(expression(bold(log[2]*~Fold*~Change))) + ylab(expression(bold(-log[10]~pvalue)))+
+  geom_point(shape=21, size=3, alpha=0.75) + 
+  geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;) + 
+  geom_vline(xintercept = c(-1,1), linetype=&quot;dashed&quot;) + geom_text_repel()  + 
+  scale_fill_manual(values = c(&quot;1&quot; = &quot;red&quot;, &quot;2&quot; = &quot;blue&quot;, &quot;3&quot; = &quot;darkgreen&quot;, &quot;4&quot; = &quot;grey&quot;)) +
+  ggpubr::theme_pubr() +
+  theme(legend.position = &quot;none&quot;) + 
+  theme_figure
+volc_plot </code></pre>
+<p><img src="figure/figure_1.Rmd/volcano%20plot-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="go-term-analysis" class="section level1">
+<h1>GO Term Analysis</h1>
+<pre class="r"><code>resgo&lt;-res_1[res_1$padj&lt;0.1,]
+ego&lt;-gprofiler(rownames(resgo), organism = &quot;mmusculus&quot;, significant = T, custom_bg = rownames(dds),
+                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;),hier_filtering = &quot;strong&quot;,
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = &quot;fdr&quot;)
+
+write_csv(ego, path=here(&quot;output/neuron/agrp_24hr_goterms.csv&quot;))
+
+ego %&gt;% select(domain, term.name, term.id, p.value, intersection, overlap.size) %&gt;% 
+  separate(intersection, into = c(paste0(&quot;gene&quot;, 1:max(ego$overlap.size)), remove=T)) %&gt;% 
+  melt(id.vars=c(&quot;domain&quot;, &quot;term.name&quot;,&quot;term.id&quot;, &quot;p.value&quot;,&quot;overlap.size&quot;)) %&gt;% na.omit() %&gt;% 
+  select(-variable) %&gt;% 
+  mutate(dir = ifelse(resgo[match(value, toupper(resgo$gene)),&quot;log2FoldChange&quot;] &gt; 0, yes = 1, no = -1)) %&gt;%
+  group_by(term.name, term.id, p.value) %&gt;% 
+  summarize(zscore = sum(dir)/sqrt(mean(overlap.size)), overlap.size = mean(overlap.size), domain = unique(domain)) -&gt; ego_plot</code></pre>
+<pre><code>Warning: Expected 11 pieces. Missing pieces filled with `NA` in 20 rows [1,
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].</code></pre>
+<pre class="r"><code>goterm_plot &lt;- ggplot(ego_plot, aes(x = zscore, y = -log10(p.value), label=str_wrap(term.name,20))) + 
+  geom_point(aes(size = overlap.size, fill = domain), shape=21, alpha=0.5) + 
+  scale_size(range=c(2,10)) +
+  ylab(expression(bold(-log[10]~pvalue))) +
+  xlab(&quot;z-score&quot;) + ggsci::scale_fill_npg() +
+  geom_vline(xintercept = 0, linetype=&quot;dashed&quot;, color=&quot;red&quot;) +
+  geom_text_repel(data = filter(ego_plot, -log10(p.value)&gt;2), bg.colour=&quot;white&quot;, 
+                  force=1, min.segment.length = unit(0, &#39;lines&#39;), lineheight=0.75, size=4) + xlim(c(-3,3)) +
+  ggpubr::theme_pubr(legend=&quot;none&quot;) + coord_cartesian(clip=&quot;off&quot;) + theme_figure</code></pre>
+</div>
+<div id="membrane-potential" class="section level1">
+<h1>Membrane Potential</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191116_arian_ephys.xlsx&quot;), sheet = 1) %&gt;% 
+  dplyr::rename(Veh = RMP, `FGF-1` = `FGF-1 10nM`) %&gt;% melt() -&gt; rmp
+rmp %&gt;% dplyr::group_by(variable) %&gt;% 
+  dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) +
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = rmp, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(-55), xmin=c(1.2), xmax=c(1.8),
+              annotation=c(&quot;***&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;, vjust = 2) +
+  scale_x_discrete(position = &quot;top&quot;) +
+  ylab(&quot;Membrane Potential (mV)&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) +
+  coord_cartesian(clip=&quot;off&quot;) +
+  ggpubr::theme_pubr(legend=&quot;none&quot;) +
+  theme(axis.ticks.x = element_blank()) +
+  theme_figure -&gt; ephysquant
+ephysquant</code></pre>
+<p><img src="figure/figure_1.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="spontaneous-action-potentials" class="section level1">
+<h1>Spontaneous action potentials</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191116_arian_ephys.xlsx&quot;), sheet = 2) %&gt;% melt(id.vars=&quot;Time&quot;) -&gt; aps
+aps$Time &lt;- as.factor(aps$Time)
+aps %&gt;% dplyr::group_by(Time) %&gt;% 
+  dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) -&gt; aps
+rects &lt;- data.frame(start=4.5, end=14.5, group=seq_along(5))
+
+act_pot&lt;- ggplot(aps, aes(x=Time, y=mean)) + 
+  geom_bar(stat=&quot;identity&quot;,colour=&quot;black&quot;, fill=&quot;white&quot;, width = 1, size=.75) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                 position=position_dodge(.9)) + 
+  ggpubr::theme_pubr() + 
+  geom_hline(yintercept=0) +
+  geom_rect(data=rects, inherit.aes = F, aes(xmin=start, xmax=end, ymin = 0, ymax = 140, group=group), 
+            color=&quot;black&quot;, fill=&quot;grey&quot;, alpha=0.3) +
+  xlab(&quot;Time (m)&quot;) + ylab(&quot;Number of Spontaneous\n Action Potentials&quot;) + 
+  annotate(geom=&quot;text&quot;, x=9, y=120, label=&quot;FGF-1 10nM&quot;, color=&quot;black&quot;, size=4) +
+  theme_figure
+act_pot</code></pre>
+<p><img src="figure/figure_1.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="synaptic-channel-blockers" class="section level1">
+<h1>Synaptic Channel Blockers</h1>
+<pre class="r"><code>detach(&quot;package:here&quot;, unload = T)
+library(here)
+readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191116_arian_ephys.xlsx&quot;), sheet = 3) %&gt;% dplyr::select(1:3) %&gt;% 
+  dplyr::rename(`FGF-1+TTX\n+BICC` = `FGF-1 10nM+TTX+Bicc`) %&gt;% melt() -&gt; scb
+
+scb %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) +
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = scb, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) + 
+  geom_signif(y_position=c(-55), xmin=c(2.2), xmax=c(2.8),
+              annotation=c(&quot;ns&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;, vjust = 2) +
+  scale_x_discrete(position = &quot;top&quot;) +
+  ylab(&quot;Membrane Potential (mV)&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray60&quot;, &quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray60&quot;, &quot;gray30&quot;)) +
+  ggpubr::theme_pubr() + theme_figure +
+  theme(legend.position = &quot;none&quot;, axis.ticks.x = element_blank(), axis.text.x=element_text(angle=45, hjust=-0.1, size=6)) + 
+  coord_cartesian(clip=&quot;off&quot;)  -&gt; scbquant
+scbquant</code></pre>
+<p><img src="figure/figure_1.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cfos-quantification" class="section level1">
+<h1>cFos quantification</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig1/191116_Jenny_cFos.xlsx&quot;), sheet = 1) %&gt;% melt() %&gt;% na.omit %&gt;% 
+  mutate(variable = fct_relevel(variable, &quot;Veh&quot;,&quot;FGF1&quot;)) -&gt; cfos
+cfos %&gt;%  dplyr::group_by(variable) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) +
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = cfos, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) + 
+  geom_signif(y_position=c(70), xmin=c(1.2), xmax=c(1.8),
+              annotation=c(&quot;*&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  ylab(&quot;cFos+ GFP-AgRP+&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;, &quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;, &quot;gray30&quot;)) +
+  ggpubr::theme_pubr() +
+  theme(legend.position = &quot;none&quot;, axis.ticks.x = element_blank()) + 
+  coord_cartesian(clip=&quot;off&quot;) + theme_figure -&gt; cfos_quant
+cfos_quant</code></pre>
+<p><img src="figure/figure_1.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="build-figure" class="section level1">
+<h1>Build figure</h1>
+<pre class="r"><code>intro &lt;- plot_grid(blank, bg_fi, ncol=1, rel_heights = c(1.5,1), labels=&quot;a&quot;)
+seurclus &lt;- plot_grid(prop_seur_byclus, prop_seur_group, nrow=1, labels=c(&quot;b&quot;,&quot;c&quot;))
+top &lt;- plot_grid(intro,seurclus, align = &quot;h&quot;, axis=&quot;tblr&quot;, labels = &quot;auto&quot;, nrow=1, rel_widths = c(1,2))
+mid &lt;- plot_grid(prop_neur_byclus, deboxplot, goterm_plot, align=&quot;hv&quot;, axis=&quot;tb&quot;, nrow=1,  rel_widths = c(1.1,1,1.1),
+                 labels = c(&quot;d&quot;,&quot;e&quot;,&quot;f&quot;), scale = 0.95)
+midephys &lt;- plot_grid(&quot;&quot;, ephysquant, nrow=1, labels = c(&quot;g&quot;,&quot;h&quot;), rel_widths = c(2,1), scale=0.8)</code></pre>
+<pre><code>Warning in as_grob.default(plot): Cannot convert object of class character
+into a grob.</code></pre>
+<pre class="r"><code>lowephys &lt;- plot_grid(act_pot, scbquant, nrow=1, labels = c(&quot;i&quot;,&quot;j&quot;), rel_widths = c(2,1), scale=0.8)
+ephys &lt;- plot_grid(midephys,lowephys, ncol=1, rel_heights = c(1,1.25))
+cfos &lt;- plot_grid(&quot;&quot;, cfos_quant, nrow=1, labels=c(&quot;k&quot;,&quot;l&quot;), rel_widths = c(3,1), scale=0.8)</code></pre>
+<pre><code>Warning in as_grob.default(plot): Cannot convert object of class character
+into a grob.</code></pre>
+<pre class="r"><code>bottom &lt;- plot_grid(ephys, cfos, nrow = 1)
+fig1 &lt;- plot_grid(top,mid,bottom, ncol=1, rel_heights=c(1,1.25,1.25))
+ggsave(fig1, filename  = here(&quot;data/figures/fig1/fig1_arranged.tiff&quot;), width = 12, h=12, compression=&quot;lzw&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1210,11 +1391,11 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] ggsignif_0.5.0              gProfileR_0.6.7            
- [3] reshape2_1.4.3              future.apply_1.3.0         
- [5] ggrepel_0.8.0.9000          cowplot_1.0.0              
- [7] parallelDist_0.2.4          cluster_2.1.0              
- [9] future_1.14.0               here_0.1                   
+ [1] here_0.1                    ggsignif_0.5.0             
+ [3] gProfileR_0.6.7             reshape2_1.4.3             
+ [5] future.apply_1.3.0          ggrepel_0.8.0.9000         
+ [7] cowplot_1.0.0               parallelDist_0.2.4         
+ [9] cluster_2.1.0               future_1.14.0              
 [11] DESeq2_1.22.2               SummarizedExperiment_1.12.0
 [13] DelayedArray_0.8.0          BiocParallel_1.16.6        
 [15] matrixStats_0.54.0          Biobase_2.42.0             
@@ -1234,44 +1415,45 @@ loaded via a namespace (and not attached):
  [10] codetools_0.2-16       ica_1.0-2              withr_2.1.2           
  [13] colorspace_1.4-1       highr_0.8              knitr_1.23            
  [16] rstudioapi_0.10        ROCR_1.0-7             gbRd_0.4-11           
- [19] listenv_0.7.0          Rdpack_0.11-0          git2r_0.25.2          
- [22] GenomeInfoDbData_1.2.0 bit64_0.9-7            rprojroot_1.3-2       
- [25] vctrs_0.2.0            generics_0.0.2         xfun_0.8              
- [28] R6_2.4.0               rsvd_1.0.2             locfit_1.5-9.1        
- [31] bitops_1.0-6           assertthat_0.2.1       SDMTools_1.1-221.1    
- [34] scales_1.0.0           nnet_7.3-12            gtable_0.3.0          
- [37] npsurv_0.4-0           globals_0.12.4         workflowr_1.4.0       
- [40] rlang_0.4.0            zeallot_0.1.0          genefilter_1.64.0     
- [43] splines_3.5.3          lazyeval_0.2.2         acepack_1.4.1         
- [46] broom_0.5.2            checkmate_1.9.4        yaml_2.2.0            
- [49] modelr_0.1.4           backports_1.1.4        Hmisc_4.2-0           
- [52] tools_3.5.3            gplots_3.0.1.1         RColorBrewer_1.1-2    
- [55] ggridges_0.5.1         Rcpp_1.0.2             plyr_1.8.4            
- [58] base64enc_0.1-3        zlibbioc_1.28.0        RCurl_1.95-4.12       
- [61] rpart_4.1-15           pbapply_1.4-1          zoo_1.8-6             
- [64] haven_2.1.0            fs_1.3.1               magrittr_1.5          
- [67] data.table_1.12.2      lmtest_0.9-37          RANN_2.6.1            
- [70] whisker_0.3-2          fitdistrplus_1.0-14    hms_0.5.0             
- [73] lsei_1.2-0             evaluate_0.14          xtable_1.8-4          
- [76] XML_3.98-1.20          readxl_1.3.1           gridExtra_2.3         
- [79] compiler_3.5.3         KernSmooth_2.23-15     crayon_1.3.4          
- [82] R.oo_1.22.0            htmltools_0.3.6        Formula_1.2-3         
- [85] geneplotter_1.60.0     RcppParallel_4.4.3     lubridate_1.7.4       
- [88] DBI_1.0.0              MASS_7.3-51.4          Matrix_1.2-17         
- [91] cli_1.1.0              R.methodsS3_1.7.1      gdata_2.18.0          
- [94] metap_1.1              igraph_1.2.4.1         pkgconfig_2.0.2       
- [97] foreign_0.8-71         plotly_4.9.0           xml2_1.2.0            
-[100] annotate_1.60.1        XVector_0.22.0         bibtex_0.4.2          
-[103] rvest_0.3.4            digest_0.6.20          sctransform_0.2.0     
-[106] RcppAnnoy_0.0.12       tsne_0.1-3             rmarkdown_1.13        
-[109] cellranger_1.1.0       leiden_0.3.1           htmlTable_1.13.1      
-[112] uwot_0.1.3             gtools_3.8.1           nlme_3.1-140          
-[115] jsonlite_1.6           viridisLite_0.3.0      pillar_1.4.2          
-[118] lattice_0.20-38        httr_1.4.1             survival_2.44-1.1     
-[121] glue_1.3.1             png_0.1-7              bit_1.1-14            
-[124] stringi_1.4.3          blob_1.1.1             latticeExtra_0.6-28   
-[127] caTools_1.17.1.2       memoise_1.1.0          irlba_2.3.3           
-[130] ape_5.3               </code></pre>
+ [19] listenv_0.7.0          labeling_0.3           Rdpack_0.11-0         
+ [22] git2r_0.25.2           GenomeInfoDbData_1.2.0 bit64_0.9-7           
+ [25] rprojroot_1.3-2        vctrs_0.2.0            generics_0.0.2        
+ [28] xfun_0.8               R6_2.4.0               rsvd_1.0.2            
+ [31] locfit_1.5-9.1         bitops_1.0-6           assertthat_0.2.1      
+ [34] SDMTools_1.1-221.1     scales_1.0.0           nnet_7.3-12           
+ [37] gtable_0.3.0           npsurv_0.4-0           globals_0.12.4        
+ [40] workflowr_1.4.0        rlang_0.4.0            zeallot_0.1.0         
+ [43] genefilter_1.64.0      splines_3.5.3          lazyeval_0.2.2        
+ [46] acepack_1.4.1          broom_0.5.2            checkmate_1.9.4       
+ [49] yaml_2.2.0             modelr_0.1.4           backports_1.1.4       
+ [52] Hmisc_4.2-0            tools_3.5.3            gplots_3.0.1.1        
+ [55] RColorBrewer_1.1-2     ggridges_0.5.1         Rcpp_1.0.2            
+ [58] plyr_1.8.4             base64enc_0.1-3        zlibbioc_1.28.0       
+ [61] RCurl_1.95-4.12        ggpubr_0.2.1           rpart_4.1-15          
+ [64] pbapply_1.4-1          zoo_1.8-6              haven_2.1.0           
+ [67] fs_1.3.1               magrittr_1.5           RSpectra_0.15-0       
+ [70] data.table_1.12.2      lmtest_0.9-37          RANN_2.6.1            
+ [73] whisker_0.3-2          fitdistrplus_1.0-14    hms_0.5.0             
+ [76] lsei_1.2-0             evaluate_0.14          xtable_1.8-4          
+ [79] XML_3.98-1.20          readxl_1.3.1           gridExtra_2.3         
+ [82] compiler_3.5.3         KernSmooth_2.23-15     crayon_1.3.4          
+ [85] R.oo_1.22.0            htmltools_0.3.6        Formula_1.2-3         
+ [88] geneplotter_1.60.0     RcppParallel_4.4.3     lubridate_1.7.4       
+ [91] DBI_1.0.0              MASS_7.3-51.4          Matrix_1.2-17         
+ [94] cli_1.1.0              R.methodsS3_1.7.1      gdata_2.18.0          
+ [97] metap_1.1              igraph_1.2.4.1         pkgconfig_2.0.2       
+[100] foreign_0.8-71         plotly_4.9.0           xml2_1.2.0            
+[103] annotate_1.60.1        XVector_0.22.0         rematch_1.0.1         
+[106] bibtex_0.4.2           rvest_0.3.4            digest_0.6.20         
+[109] sctransform_0.2.0      RcppAnnoy_0.0.12       tsne_0.1-3            
+[112] rmarkdown_1.13         cellranger_1.1.0       leiden_0.3.1          
+[115] htmlTable_1.13.1       uwot_0.1.3             gtools_3.8.1          
+[118] nlme_3.1-140           jsonlite_1.6           viridisLite_0.3.0     
+[121] pillar_1.4.2           ggsci_2.9              lattice_0.20-38       
+[124] httr_1.4.1             survival_2.44-1.1      glue_1.3.1            
+[127] png_0.1-7              bit_1.1-14             stringi_1.4.3         
+[130] blob_1.1.1             latticeExtra_0.6-28    caTools_1.17.1.2      
+[133] memoise_1.1.0          irlba_2.3.3            ape_5.3               </code></pre>
 </div>
 </div>
 
