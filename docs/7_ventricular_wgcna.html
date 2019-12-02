@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee803f0dcf5819af424b5f215836f7c9a8cbae6ddtargetblanke803f0da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/e803f0dcf5819af424b5f215836f7c9a8cbae6dd" target="_blank">e803f0d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee803f0dcf5819af424b5f215836f7c9a8cbae6ddtargetblanke803f0da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,32 +591,44 @@ Ignored files:
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
-    Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
-    Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/10_wc_pseudobulk.Rmd
+    Modified:   analysis/11_wc_astro_wgcna.Rmd
+    Modified:   analysis/13_olig_pseudotime.Rmd
+    Modified:   analysis/15_tany_wgcna_pseudo.Rmd
+    Modified:   analysis/6_glial_dge.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +667,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/e803f0dcf5819af424b5f215836f7c9a8cbae6dd/analysis/7_ventricular_wgcna.Rmd" target="_blank">e803f0d</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+wflow_publish(c(“analysis/8_astro_wgcna.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/7_ventricular_wgcna.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -713,7 +759,14 @@ library(igraph)
 library(gProfileR)
 library(ggpubr)
 library(here)
-library(ggforce)</code></pre>
+library(ggforce)
+library(tidygraph)
+library(igraph)
+library(ggraph)
+library(cowplot)
+library(future)
+plan(&quot;multiprocess&quot;, workers=40)
+options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
 </div>
 <div id="extract-cells-for-wgcna" class="section level1">
 <h1>Extract Cells for WGCNA</h1>
@@ -950,17 +1003,13 @@ Full Name
 </div>
 <div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
 <h1>Calculate Eigengenes and Merge Close Modules</h1>
-<pre class="r"><code>MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes #this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+<pre class="r"><code>MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes 
 ME1&lt;-MEs
 row.names(ME1)&lt;-row.names(datExpr)
-# Calculate dissimilarity of module eigengenes
 MEDiss = 1-cor(MEs);
-# Cluster module eigengenes
 METree = hclust(as.dist(MEDiss), method = &quot;average&quot;);
-# Plot the result
 plot(METree, main = &quot;Clustering of module eigengenes&quot;,xlab = &quot;&quot;, sub = &quot;&quot;)
 MEDissThres = 0.2
-# Plot the cut line into the dendrogram
 abline(h=MEDissThres, col = &quot;red&quot;)</code></pre>
 <p><img src="figure/7_ventricular_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1001,8 +1050,8 @@ Full Name
 </div>
 </div>
 </div>
-<div id="the-merged-module-colors" class="section level1">
-<h1>The merged module colors</h1>
+<div id="merge-modules" class="section level1">
+<h1>Merge modules</h1>
 <pre class="r"><code>merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
 <pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
    multiSetMEs: Calculating module MEs.
@@ -1065,24 +1114,22 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code># Rename to moduleColors
-moduleColors = mergedColors
-# Construct numerical labels corresponding to the colors
-# colorOrder = c(&quot;grey&quot;, standardColors(50));
-# moduleLabels = match(moduleColors, colorOrder)-1
+<pre class="r"><code>moduleColors = mergedColors
 MEs = mergedMEs
 modulekME = signedKME(datExpr,MEs)</code></pre>
-<pre class="r"><code>#type gene name, prints out gene names also in that module
-modules&lt;-MEs
+</div>
+<div id="generate-function-to-look-up-genes-in-each-network" class="section level1">
+<h1>Generate function to look up genes in each network</h1>
+<pre class="r"><code>modules&lt;-MEs
 c_modules&lt;-data.frame(moduleColors)
-row.names(c_modules)&lt;-colnames(datExpr) #assign gene names as row names
-module.list.set1&lt;-substring(colnames(modules),3) #removes ME from start of module names
+row.names(c_modules)&lt;-colnames(datExpr) 
+module.list.set1&lt;-substring(colnames(modules),3) 
 index.set1&lt;-0
-Network=list() #create lists of genes for each module
+Network=list() 
 for (i in 1:length(module.list.set1)){index.set1&lt;-which(c_modules==module.list.set1[i])
 Network[[i]]&lt;-row.names(c_modules)[index.set1]}
 names(Network)&lt;-module.list.set1
-lookup&lt;-function(gene,network){return(network[names(network)[grep(gene,network)]])} #load function</code></pre>
+lookup&lt;-function(gene,network){return(network[names(network)[grep(gene,network)]])} </code></pre>
 </div>
 <div id="filter-metadata-table-and-correlate-with-eigengenes" class="section level1">
 <h1>Filter metadata table and correlate with eigengenes</h1>
@@ -1091,7 +1138,6 @@ nSamples = nrow(datExpr)
 MEs = orderMEs(MEs)
 ventric$group&lt;-paste0(ventric$trt,&quot;_&quot;,ventric$day)
 var&lt;-model.matrix(~0+ventric$group)
-#colnames(var)&lt;-c(&quot;DV&quot;,&quot;FGF1&quot;,&quot;FGF19&quot;, &quot;V&quot;)
 moduleTraitCor &lt;- cor(MEs, var, use=&quot;p&quot;)
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples)
 cor&lt;-melt(moduleTraitCor)
@@ -1146,11 +1192,12 @@ Full Name
   gene&lt;-rownames(dat)
   return(gene)
 })
+
 names(hubgenes)&lt;-names(Network)
 d &lt;- unlist(hubgenes)
 d &lt;- data.frame(gene = d, 
            vec = names(d))
-write_csv(d, path=here(&quot;output/glia/wgcna/allglia_wgcna_genemodules.csv&quot;))</code></pre>
+write_csv(d, path=here(&quot;output/glia/wgcna/allglia_wgcna_genemodules_nokme.csv&quot;))</code></pre>
 </div>
 <div id="build-linear-models-for-differential-expression" class="section level1">
 <h1>Build linear models for differential expression</h1>
@@ -1160,8 +1207,13 @@ data&lt;-data.frame(MEs, day=ventric$day, trt=ventric$trt,
                  batch=ventric$batch, celltype=Idents(ventric), 
                  groupall=paste0(Idents(ventric), ventric$group))
 
+# loop through modules and perform linear regression
 mod&lt;-lapply(colnames(MEs), function(me) {
+  # interaction between treatmet group and cell type
+  # random effect for batch
+  # random effect for sample
   mod&lt;-lmer(MEs[[me]] ~ group*celltype + (1|batch) + (1|sample), data=data)
+  # use emmeans to test pariwaise differences
   pairwise&lt;-emmeans(mod, pairwise ~ group|celltype)
   plot&lt;-data.frame(plot(pairwise, plotIt=F)$data)
   sig&lt;-as.data.frame(pairwise$contrasts)
@@ -1185,6 +1237,7 @@ control$checkConv, : Model failed to converge with max|grad| = 0.00359644
 <pre class="r"><code>names(mod) &lt;- colnames(MEs)
 sig &lt;- bind_rows(mod, .id=&quot;id&quot;)
 sig$symbol &lt;- sig$p.value
+# set ranges for significance markings
 sig$symbol[findInterval(sig$symbol, c(0.1,2)) == 1L] &lt;-NA
 sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] &lt;- &quot;*&quot;
 sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] &lt;- &quot;**&quot;</code></pre>
@@ -1831,8 +1884,10 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code># moddat &lt;- bind_rows(mod, .id=&quot;id&quot;)
-write_csv(sig, path=here(&quot;output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv&quot;))</code></pre>
+<pre class="r"><code>write_csv(sig, path=here(&quot;output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv&quot;))</code></pre>
+</div>
+<div id="plot-change-at-d1-v-change-at-d5-in-each-model-per-cell-type" class="section level1">
+<h1>Plot change at D1 v change at D5 in each model per cell-type</h1>
 <pre class="r"><code>sig %&gt;%
   unite(start, end, col = &quot;comparison&quot;, remove = F) %&gt;%
   filter(comparison == &quot;FGF_Day-1_PF_Day-1&quot; | comparison == &quot;FGF_Day-5_PF_Day-5&quot;) %&gt;%
@@ -1841,108 +1896,96 @@ write_csv(sig, path=here(&quot;output/glia/wgcna/allglia_wgcna_linearmodel_testi
   separate(`FGF_Day-1`, into = c(&quot;estimate_1&quot;, &quot;p.value_1&quot;), sep = &quot;,&quot;) %&gt;%
   separate(`FGF_Day-5`, into = c(&quot;estimate_5&quot;, &quot;p.value_5&quot;), sep = &quot;,&quot;) %&gt;%
   mutate(id = gsub(id, pattern = &quot;ME&quot;, replacement = &quot;&quot;)) %&gt;%
-  mutate(col = if_else(as.numeric(p.value_1) &lt; 0.1 | as.numeric(p.value_5) &lt; 0.1, true = id, false = &quot;grey&quot;)) %&gt;%
+  mutate(col = if_else(as.numeric(p.value_1) &lt; 0.1 | as.numeric(p.value_5) &lt; 0.1, true = id, false = &quot;white&quot;)) %&gt;%
   mutate(sig = if_else(as.numeric(p.value_1) &lt; 0.1 &amp; as.numeric(p.value_5) &lt; 0.1, true = &quot;red&quot;,
     false = if_else(as.numeric(p.value_1) &lt; 0.1, true = &quot;blue&quot;,
       false = if_else(as.numeric(p.value_5) &lt; 0.1, true = &quot;black&quot;, false = &quot;&quot;)
     )
   )) %&gt;%
-  mutate(label = if_else(sig == &quot;blue&quot;, true = &quot;DE at Day 1&quot;, false = &quot;&quot;)) -&gt; plot
+  mutate(id = ifelse(col==&quot;white&quot;, yes = NA, no = paste0(&quot;sn-glia-M&quot;, as.numeric(fct_relevel(as.factor(col), &quot;white&quot;, after=Inf))))) -&gt; plot
 
 cols &lt;- unique(plot$col)
 names(cols) &lt;- cols
 
-ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
+multmod_plot &lt;- ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
   geom_point(data = filter(plot, sig != &quot;&quot;), aes(shape = celltype), size = 4) +
   scale_shape(name=&quot;Cell-Type&quot;) +
   geom_mark_ellipse(data = plot %&gt;% filter(sig == &quot;blue&quot;, p.value_1 != 0.0230780280327769), color = &quot;black&quot;, linetype = &quot;dashed&quot;) +
-  geom_point(size = 4, aes(color = col, shape = celltype)) + coord_flip() + geom_hline(yintercept = 0) +
-  scale_color_manual(values = cols, name = &quot;Modules&quot;) +
-  geom_vline(xintercept = 0) +
-  annotate(
-    geom = &quot;curve&quot;, x = 0.045, y = 0.02, xend = 0.03, yend = 0.005,
-    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
-  ) + annotate(geom = &quot;label&quot;, x = 0.045, y = 0.022, label = &quot;DE only at Day 1&quot;, hjust = &quot;left&quot;) +
-  annotate(
-    geom = &quot;curve&quot;, x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,
-    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
-  ) + annotate(geom = &quot;label&quot;, x = -0.005, y = 0.0275, label = &quot;DE at both&quot;, hjust = &quot;left&quot;) +
-  annotate(
-    geom = &quot;curve&quot;, x = 0.01, y = 0.015, xend = -0.011, yend = 0.02,
-    curvature = .3, arrow = arrow(length = unit(2, &quot;mm&quot;))
-  ) + annotate(geom = &quot;label&quot;, x = 0.015, y = 0.01, label = &quot;DE only at Day 5&quot;, hjust = &quot;left&quot;) + theme_bw() + xlab(&quot;Day 1 Estimate&quot;) +
-  ylab(&quot;Day 5 Estimate&quot;) + labs_pubr()</code></pre>
-<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-12-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
+  geom_point(size = 5, color = &quot;grey70&quot;, aes(shape = celltype)) +
+  geom_point(size = 4, aes(color = factor(id), shape = celltype)) + 
+  coord_flip(clip=&quot;off&quot;) + geom_hline(yintercept = 0, linetype=&quot;dashed&quot;) +
+  scale_color_npg(name = &quot;Modules&quot;, na.value=&quot;grey&quot;,
+                  labels=c(&quot;sn-glia-M1&quot;,&quot;sn-glia-M2&quot;,&quot;sn-glia-M3&quot;,&quot;sn-glia-M4&quot;,&quot;sn-glia-M5&quot;,&quot;p&gt;0.05&quot;)) +
+  geom_vline(xintercept = 0, linetype=&quot;dashed&quot;) +
+  annotate(geom = &quot;curve&quot;, x = 0.045, y = 0.02, xend = 0.03, yend = 0.005, curvature = .3, 
+           arrow = arrow(length = unit(2, &quot;mm&quot;))) + 
+  annotate(geom = &quot;label&quot;, x = 0.045, y = 0.0225, label = &quot;Up at D1&quot;, hjust = &quot;left&quot;, ) +
+  annotate(geom = &quot;curve&quot;, x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,curvature = .3, 
+           arrow = arrow(length = unit(2, &quot;mm&quot;))) + 
+  annotate(geom = &quot;label&quot;, x = -0.005, y = 0.025, label = &quot;Down at D1\n Up at D5&quot;, hjust = &quot;left&quot;) +
+  annotate(geom = &quot;curve&quot;, x = 0.01, y = 0.015, xend = -0.011, yend = 0.02, curvature = .3, 
+           arrow = arrow(length = unit(2, &quot;mm&quot;))) + 
+  annotate(geom = &quot;label&quot;, x = 0.015, y = 0.01, label = &quot;Up at D5&quot;, hjust = &quot;left&quot;) +  
+  annotate(geom = &quot;curve&quot;, x = -0.02, y = -0.009, xend = -0.013, yend = 0.002, curvature = .3, 
+           arrow = arrow(length = unit(2, &quot;mm&quot;))) + 
+  annotate(geom = &quot;label&quot;, x = -0.02, y = -0.02, label = &quot;Down at D1&quot;, hjust = &quot;left&quot;) + 
+  theme_bw() + 
+  xlab(expression(bold(Day1~beta))) +
+  ylab(expression(bold(Day5~beta))) + 
+  guides(shape = guide_legend(override.aes = list(size=4), 
+                              title.theme = element_text(face=&quot;bold&quot;, size=8),
+                              label.theme = element_text(face=&quot;bold&quot;, size=8)),
+         color =  guide_legend(title.theme = element_text(size=8, face=&quot;bold&quot;), 
+                               label.theme = element_text(face=&quot;bold&quot;, size=8))) +
+  theme_figure
+
+ggsave(here(&quot;data/figures/wgcna_res.png&quot;), w=8, h=5)</code></pre>
 </div>
-</div>
-<pre class="r"><code>ggsave(here(&quot;output/wgcna_res.png&quot;), w=8, h=5)</code></pre>
-</div>
-<div id="find-go-term-enrichment-of-modules" class="section level1">
-<h1>Find GO term enrichment of modules</h1>
-<pre class="r"><code>names(mod)&lt;-colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))]
-go_col &lt;- unique(plot$col)[-grep(&quot;grey&quot;, unique(plot$col))]
-goterms&lt;-lapply(go_col, function(x) { 
-  x&lt;-gprofiler(hubgenes[[x]], ordered_query = T, 
-               organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
-                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
-                           min_isect_size = 3, 
-                           sort_by_structure = T,exclude_iea = T, 
-                           min_set_size = 10, max_set_size = 300,correction_method = &quot;fdr&quot;)
-  x&lt;-x[order(x$p.value),]
-  return(x)
+<div id="plot-gene-networks" class="section level1">
+<h1>Plot gene networks</h1>
+<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)), function(x) {
+  dat &lt;- modulekME[Network[[x]], ]
+  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
+  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
 })
 
-names(goterms) &lt;- go_col
-goterms %&gt;% bind_rows(.id=&quot;id&quot;) %&gt;%
-  mutate(padj=p.adjust(p.value, &quot;fdr&quot;)) -&gt; godat
+names(hubgenes)&lt;- names(Network)
 
-write_csv(godat, path=here(&quot;output/glia/wgcna/allglia_wgcna_goterms.csv&quot;))
+color &lt;- c(&quot;black&quot;,&quot;green&quot;,&quot;magenta&quot;)
+lapply(color, function(col) {
+  maxsize &lt;- 15
+  hubs &lt;- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -&gt; hub_plot 
 
-godat %&gt;% group_by(id) %&gt;% filter(id %in% c(&quot;black&quot;,&quot;green&quot;)) %&gt;% arrange(p.value) %&gt;% slice(1:5) %&gt;% 
-  select(p.value, padj, term.name, domain, id) %&gt;% arrange(id) %&gt;%
-  ggplot(aes(x=str_wrap(term.name,20), y=-log10(padj), fill=domain)) + geom_col() +
-  scale_fill_npg() +
-  facet_wrap(.~id, scales=&quot;free_y&quot;, ncol=1) + theme_pubr() + 
-  theme(text = element_text(size=7), 
-        axis.text.x = element_text(angle=45, hjust=1)) + coord_flip() +
-  xlab(&quot;GO Term&quot;) + geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;, size=1) + 
-  labs_pubr()</code></pre>
-<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+
+hub_plot &lt;- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %&gt;% 
+  graph.adjacency(mode = &quot;undirected&quot;, weighted = T, diag = FALSE) %&gt;%
+  as_tbl_graph(g1) %&gt;% upgrade_graph() %&gt;% activate(nodes) %&gt;%
+    dplyr::mutate(mod=x$mod) %&gt;%
+    dplyr::mutate(kme=x$kme)  %&gt;% 
+    activate(edges) %&gt;% dplyr::filter(weight&gt;.15)}
+)
+
+hub_plot &lt;- lapply(hub_plot, function(x) {
+  x  %&gt;% 
+    activate(nodes) %&gt;% 
+    dplyr::mutate(color = ifelse(name %in% c(&quot;Gfap&quot;,&quot;Itgav&quot;,&quot;Vim&quot;,&quot;Sprr1a&quot;), yes=&quot;red&quot;, no=&quot;black&quot;))
+})
+
+
+
+set.seed(&quot;139&quot;)
+plotlist &lt;- lapply(hub_plot,  function(x) {
+  print(ggraph(x,  layout = &#39;fr&#39;) + 
+  geom_edge_link(color=&quot;darkgrey&quot;, aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name, color=color), fontface=&quot;bold&quot;, size=3, repel = T) +
+  geom_node_point(shape=21, alpha=0.5, fill=&quot;grey70&quot;, size=3) + 
+    scale_color_manual(values=c(&quot;gray0&quot;,&quot;red&quot;)) +
+  theme_graph() + theme(legend.position = &quot;none&quot;, plot.title = element_text(hjust=0.5, vjust=1), plot.margin = unit(c(0, 0, 0, 0), &quot;cm&quot;)) + coord_cartesian(clip = &quot;off&quot;))
+})</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
 Past versions of unnamed-chunk-13-1.png
@@ -1967,6 +2010,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-1.png" target="_blank">9cf1e45</a>
 </td>
 <td>
@@ -1980,6 +2034,47 @@ Full Name
 </table>
 </div>
 </div>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-2.png" width="1152" style="display: block; margin: auto;" /><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-13-3.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>genenet &lt;- plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], ncol=1, labels=c(&quot;f&quot;), scale=0.9)</code></pre>
+<pre class="r"><code>load(here(&quot;data/figures/fig3/fig3_top.RData&quot;))
+fig_bot &lt;- plot_grid(multmod_plot, genenet, nrow=1, align=&quot;hv&quot;, axis=&quot;tblr&quot;, labels=c(&quot;e&quot;,&quot;&quot;), rel_widths =c(1.25,1), scale=c(0.9,1))
+save(fig_bot, file = here(&quot;data/figures/fig3/fig3_bot.RData&quot;))
+fig_full &lt;- plot_grid(fig3_top,fig_bot, ncol=1, rel_heights = c(1.5,1))
+ggsave2(fig_full, filename = here(&quot;data/figures/fig3/fig3_arranged.tiff&quot;), h=12, w=12, dpi = 600, compression=&quot;lzw&quot;)
+fig_full</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="find-go-term-enrichment-of-modules" class="section level1">
+<h1>Find GO term enrichment of modules</h1>
+<pre class="r"><code>go_col &lt;- unique(plot$col)[-2]
+goterms&lt;-lapply(go_col, function(x) { 
+  gprofiler(as.character(hubgenes[[x]]$gene), ordered_query = T, 
+               organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
+                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 300,correction_method = &quot;fdr&quot;) %&gt;% 
+    arrange(p.value) -&gt; got
+  return(got)
+})
+
+
+names(goterms) &lt;- go_col
+goterms %&gt;% bind_rows(.id=&quot;id&quot;) %&gt;%
+  mutate(padj=p.adjust(p.value, &quot;fdr&quot;)) -&gt; godat
+
+write_csv(godat, path=here(&quot;output/glia/wgcna/allglia_wgcna_goterms.csv&quot;))
+
+godat %&gt;% group_by(id) %&gt;% filter(id %in% c(&quot;black&quot;,&quot;green&quot;)) %&gt;% arrange(p.value) %&gt;% slice(1:5) %&gt;% 
+  select(p.value, padj, term.name, domain, id) %&gt;% arrange(id) %&gt;%
+  ggplot(aes(x=str_wrap(term.name,20), y=-log10(padj), fill=domain)) + geom_col() +
+  scale_fill_npg() +
+  facet_wrap(.~id, scales=&quot;free_y&quot;, ncol=1) + theme_pubr() + 
+  theme(text = element_text(size=7), 
+        axis.text.x = element_text(angle=45, hjust=1)) + coord_flip() +
+  xlab(&quot;GO Term&quot;) + geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;, size=1) + 
+  labs_pubr()</code></pre>
+<p><img src="figure/7_ventricular_wgcna.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(filename = here(&quot;output/glia/wgcna/allglia_goterm.png&quot;), h=6, w=8)</code></pre>
 <br>
 <p>
@@ -2008,72 +2103,73 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggforce_0.3.0.9000    here_0.1              ggpubr_0.2.1         
- [4] magrittr_1.5          gProfileR_0.6.7       igraph_1.2.4.1       
- [7] reshape2_1.4.3        forcats_0.4.0         stringr_1.4.0        
-[10] dplyr_0.8.3           purrr_0.3.2           readr_1.3.1.9000     
-[13] tidyr_0.8.3           tibble_2.1.3          tidyverse_1.2.1      
-[16] genefilter_1.64.0     ggbeeswarm_0.6.0      ggplot2_3.2.1        
-[19] lme4_1.1-21           Matrix_1.2-17         emmeans_1.3.5.1      
-[22] ggsci_2.9             parallelDist_0.2.4    cluster_2.1.0        
-[25] WGCNA_1.68            fastcluster_1.1.25    dynamicTreeCut_1.63-1
-[28] Seurat_3.0.3.9036    
+ [1] future_1.14.0         cowplot_1.0.0         ggraph_1.0.2         
+ [4] tidygraph_1.1.2       ggforce_0.3.0.9000    here_0.1             
+ [7] ggpubr_0.2.1          magrittr_1.5          gProfileR_0.6.7      
+[10] igraph_1.2.4.1        reshape2_1.4.3        forcats_0.4.0        
+[13] stringr_1.4.0         dplyr_0.8.3           purrr_0.3.2          
+[16] readr_1.3.1.9000      tidyr_0.8.3           tibble_2.1.3         
+[19] tidyverse_1.2.1       genefilter_1.64.0     ggbeeswarm_0.6.0     
+[22] ggplot2_3.2.1         lme4_1.1-21           Matrix_1.2-17        
+[25] emmeans_1.3.5.1       ggsci_2.9             parallelDist_0.2.4   
+[28] cluster_2.1.0         WGCNA_1.68            fastcluster_1.1.25   
+[31] dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
 
 loaded via a namespace (and not attached):
   [1] reticulate_1.13       R.utils_2.9.0         tidyselect_0.2.5     
   [4] robust_0.4-18.1       RSQLite_2.1.1         AnnotationDbi_1.44.0 
   [7] htmlwidgets_1.3       grid_3.5.3            Rtsne_0.15           
  [10] munsell_0.5.0         codetools_0.2-16      ica_1.0-2            
- [13] preprocessCore_1.44.0 future_1.14.0         withr_2.1.2          
- [16] colorspace_1.4-1      Biobase_2.42.0        highr_0.8            
- [19] knitr_1.23            rstudioapi_0.10       stats4_3.5.3         
- [22] ROCR_1.0-7            robustbase_0.93-5     ggsignif_0.5.0       
- [25] gbRd_0.4-11           listenv_0.7.0         labeling_0.3         
- [28] Rdpack_0.11-0         git2r_0.25.2          polyclip_1.10-0      
- [31] farver_1.1.0          bit64_0.9-7           rprojroot_1.3-2      
- [34] vctrs_0.2.0           coda_0.19-3           generics_0.0.2       
- [37] TH.data_1.0-10        xfun_0.8              R6_2.4.0             
- [40] doParallel_1.0.14     rsvd_1.0.2            bitops_1.0-6         
- [43] assertthat_0.2.1      SDMTools_1.1-221.1    scales_1.0.0         
- [46] multcomp_1.4-10       nnet_7.3-12           beeswarm_0.2.3       
- [49] gtable_0.3.0          npsurv_0.4-0          globals_0.12.4       
- [52] sandwich_2.5-1        workflowr_1.4.0       rlang_0.4.0          
- [55] zeallot_0.1.0         splines_3.5.3         lazyeval_0.2.2       
- [58] acepack_1.4.1         impute_1.56.0         broom_0.5.2          
- [61] checkmate_1.9.4       modelr_0.1.4          yaml_2.2.0           
- [64] backports_1.1.4       Hmisc_4.2-0           tools_3.5.3          
- [67] gplots_3.0.1.1        RColorBrewer_1.1-2    BiocGenerics_0.28.0  
- [70] ggridges_0.5.1        Rcpp_1.0.2            plyr_1.8.4           
- [73] base64enc_0.1-3       RCurl_1.95-4.12       rpart_4.1-15         
- [76] pbapply_1.4-1         cowplot_1.0.0         S4Vectors_0.20.1     
- [79] zoo_1.8-6             haven_2.1.0           ggrepel_0.8.1        
- [82] fs_1.3.1              data.table_1.12.2     lmtest_0.9-37        
- [85] RANN_2.6.1            mvtnorm_1.0-11        whisker_0.3-2        
- [88] fitdistrplus_1.0-14   matrixStats_0.54.0    hms_0.5.0            
- [91] lsei_1.2-0            evaluate_0.14         xtable_1.8-4         
- [94] pbkrtest_0.4-7        XML_3.98-1.20         readxl_1.3.1         
- [97] IRanges_2.16.0        gridExtra_2.3         compiler_3.5.3       
-[100] KernSmooth_2.23-15    crayon_1.3.4          minqa_1.2.4          
-[103] R.oo_1.22.0           htmltools_0.3.6       pcaPP_1.9-73         
-[106] Formula_1.2-3         rrcov_1.4-7           RcppParallel_4.4.3   
-[109] lubridate_1.7.4       DBI_1.0.0             tweenr_1.0.1         
-[112] MASS_7.3-51.4         boot_1.3-22           cli_1.1.0            
-[115] R.methodsS3_1.7.1     gdata_2.18.0          parallel_3.5.3       
-[118] metap_1.1             pkgconfig_2.0.2       fit.models_0.5-14    
-[121] foreign_0.8-71        plotly_4.9.0          xml2_1.2.0           
-[124] foreach_1.4.4         annotate_1.60.1       vipor_0.4.5          
-[127] estimability_1.3      rvest_0.3.4           bibtex_0.4.2         
-[130] digest_0.6.20         sctransform_0.2.0     RcppAnnoy_0.0.12     
-[133] tsne_0.1-3            cellranger_1.1.0      rmarkdown_1.13       
-[136] leiden_0.3.1          htmlTable_1.13.1      uwot_0.1.3           
-[139] gtools_3.8.1          nloptr_1.2.1          nlme_3.1-140         
-[142] jsonlite_1.6          viridisLite_0.3.0     pillar_1.4.2         
-[145] lattice_0.20-38       httr_1.4.1            DEoptimR_1.0-8       
-[148] survival_2.44-1.1     GO.db_3.7.0           glue_1.3.1           
-[151] png_0.1-7             iterators_1.0.10      bit_1.1-14           
-[154] stringi_1.4.3         blob_1.1.1            latticeExtra_0.6-28  
-[157] caTools_1.17.1.2      memoise_1.1.0         irlba_2.3.3          
-[160] future.apply_1.3.0    ape_5.3              </code></pre>
+ [13] preprocessCore_1.44.0 withr_2.1.2           colorspace_1.4-1     
+ [16] Biobase_2.42.0        highr_0.8             knitr_1.23           
+ [19] rstudioapi_0.10       stats4_3.5.3          ROCR_1.0-7           
+ [22] robustbase_0.93-5     ggsignif_0.5.0        gbRd_0.4-11          
+ [25] listenv_0.7.0         labeling_0.3          Rdpack_0.11-0        
+ [28] git2r_0.25.2          polyclip_1.10-0       farver_1.1.0         
+ [31] bit64_0.9-7           rprojroot_1.3-2       vctrs_0.2.0          
+ [34] coda_0.19-3           generics_0.0.2        TH.data_1.0-10       
+ [37] xfun_0.8              R6_2.4.0              doParallel_1.0.14    
+ [40] rsvd_1.0.2            bitops_1.0-6          assertthat_0.2.1     
+ [43] SDMTools_1.1-221.1    scales_1.0.0          multcomp_1.4-10      
+ [46] nnet_7.3-12           beeswarm_0.2.3        gtable_0.3.0         
+ [49] npsurv_0.4-0          globals_0.12.4        sandwich_2.5-1       
+ [52] workflowr_1.4.0       rlang_0.4.0           zeallot_0.1.0        
+ [55] splines_3.5.3         lazyeval_0.2.2        acepack_1.4.1        
+ [58] impute_1.56.0         broom_0.5.2           checkmate_1.9.4      
+ [61] modelr_0.1.4          yaml_2.2.0            backports_1.1.4      
+ [64] Hmisc_4.2-0           tools_3.5.3           gplots_3.0.1.1       
+ [67] RColorBrewer_1.1-2    BiocGenerics_0.28.0   ggridges_0.5.1       
+ [70] Rcpp_1.0.2            plyr_1.8.4            base64enc_0.1-3      
+ [73] RCurl_1.95-4.12       rpart_4.1-15          viridis_0.5.1        
+ [76] pbapply_1.4-1         S4Vectors_0.20.1      zoo_1.8-6            
+ [79] haven_2.1.0           ggrepel_0.8.0.9000    fs_1.3.1             
+ [82] data.table_1.12.2     lmtest_0.9-37         RANN_2.6.1           
+ [85] mvtnorm_1.0-11        whisker_0.3-2         fitdistrplus_1.0-14  
+ [88] matrixStats_0.54.0    hms_0.5.0             lsei_1.2-0           
+ [91] evaluate_0.14         xtable_1.8-4          pbkrtest_0.4-7       
+ [94] XML_3.98-1.20         readxl_1.3.1          IRanges_2.16.0       
+ [97] gridExtra_2.3         compiler_3.5.3        KernSmooth_2.23-15   
+[100] crayon_1.3.4          minqa_1.2.4           R.oo_1.22.0          
+[103] htmltools_0.3.6       pcaPP_1.9-73          Formula_1.2-3        
+[106] rrcov_1.4-7           RcppParallel_4.4.3    lubridate_1.7.4      
+[109] DBI_1.0.0             tweenr_1.0.1          MASS_7.3-51.4        
+[112] boot_1.3-22           cli_1.1.0             R.methodsS3_1.7.1    
+[115] gdata_2.18.0          parallel_3.5.3        metap_1.1            
+[118] pkgconfig_2.0.2       fit.models_0.5-14     foreign_0.8-71       
+[121] plotly_4.9.0          xml2_1.2.0            foreach_1.4.4        
+[124] annotate_1.60.1       vipor_0.4.5           estimability_1.3     
+[127] rvest_0.3.4           bibtex_0.4.2          digest_0.6.20        
+[130] sctransform_0.2.0     RcppAnnoy_0.0.12      tsne_0.1-3           
+[133] cellranger_1.1.0      rmarkdown_1.13        leiden_0.3.1         
+[136] htmlTable_1.13.1      uwot_0.1.3            gtools_3.8.1         
+[139] nloptr_1.2.1          nlme_3.1-140          jsonlite_1.6         
+[142] viridisLite_0.3.0     pillar_1.4.2          lattice_0.20-38      
+[145] httr_1.4.1            DEoptimR_1.0-8        survival_2.44-1.1    
+[148] GO.db_3.7.0           glue_1.3.1            png_0.1-7            
+[151] iterators_1.0.10      bit_1.1-14            stringi_1.4.3        
+[154] blob_1.1.1            latticeExtra_0.6-28   caTools_1.17.1.2     
+[157] memoise_1.1.0         irlba_2.3.3           future.apply_1.3.0   
+[160] ape_5.3              </code></pre>
 </div>
 </div>
 

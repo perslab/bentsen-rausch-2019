@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee803f0dcf5819af424b5f215836f7c9a8cbae6ddtargetblanke803f0da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/e803f0dcf5819af424b5f215836f7c9a8cbae6dd" target="_blank">e803f0d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee803f0dcf5819af424b5f215836f7c9a8cbae6ddtargetblanke803f0da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -588,35 +588,48 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
-    Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
-    Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/10_wc_pseudobulk.Rmd
+    Modified:   analysis/11_wc_astro_wgcna.Rmd
+    Modified:   analysis/13_olig_pseudotime.Rmd
+    Modified:   analysis/15_tany_wgcna_pseudo.Rmd
+    Modified:   analysis/6_glial_dge.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +668,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/e803f0dcf5819af424b5f215836f7c9a8cbae6dd/analysis/8_astro_wgcna.Rmd" target="_blank">e803f0d</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+wflow_publish(c(“analysis/8_astro_wgcna.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/8_astro_wgcna.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -735,7 +782,10 @@ library(gProfileR)
 library(here)
 library(eulerr)
 library(ggExtra)
-library(cowplot)</code></pre>
+library(cowplot)
+library(future)
+plan(&quot;multiprocess&quot;, workers=40)
+options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
 </div>
 <div id="extract-astrocytes-for-wgcna" class="section level1">
 <h1>Extract Astrocytes for WGCNA</h1>
@@ -745,13 +795,41 @@ library(cowplot)</code></pre>
 <pre class="r"><code>enableWGCNAThreads()</code></pre>
 <pre><code>Allowing parallel execution with up to 79 working processes.</code></pre>
 <pre class="r"><code>datExpr &lt;- as.matrix(t(astro[[&quot;SCT&quot;]]@scale.data[astro[[&quot;SCT&quot;]]@var.features,]))
-gsg &lt;- goodSamplesGenes(datExpr, verbose = 3)</code></pre>
-<pre><code> Flagging genes and samples with too many missing values...
-  ..step 1</code></pre>
-<pre class="r"><code>gsg$allOK</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>sampleTree2 &lt;- hclust(parDist(datExpr), method = &quot;average&quot;)
-plot(sampleTree2, label = F)</code></pre>
+powers &lt;- c(c(1:10), seq(from = 12, to = 40, by = 2))
+sft &lt;- pickSoftThreshold(datExpr,
+  dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = &quot;p&quot;),
+  networkType = &quot;signed&quot;
+)</code></pre>
+<pre><code>   Power SFT.R.sq  slope truncated.R.sq  mean.k. median.k.   max.k.
+1      1  0.15300 105.00          0.626 2.50e+03  2.50e+03 2520.000
+2      2  0.00719 -13.00          0.916 1.25e+03  1.25e+03 1280.000
+3      3  0.49400 -62.20          0.691 6.29e+02  6.28e+02  658.000
+4      4  0.76800 -48.60          0.749 3.16e+02  3.15e+02  349.000
+5      5  0.96800 -34.90          0.963 1.59e+02  1.58e+02  190.000
+6      6  0.97600 -23.30          0.988 8.05e+01  7.96e+01  107.000
+7      7  0.95800 -15.70          0.974 4.07e+01  4.00e+01   62.600
+8      8  0.94600 -11.40          0.951 2.07e+01  2.02e+01   38.300
+9      9  0.48400 -13.50          0.347 1.06e+01  1.02e+01   24.600
+10    10  0.48700 -10.40          0.358 5.41e+00  5.14e+00   16.500
+11    12  0.48800  -6.67          0.376 1.45e+00  1.31e+00    8.350
+12    14  0.96000  -3.21          0.951 4.03e-01  3.38e-01    4.770
+13    16  0.93900  -2.50          0.922 1.20e-01  8.73e-02    2.950
+14    18  0.97900  -2.00          0.973 3.99e-02  2.27e-02    1.940
+15    20  0.97200  -1.65          0.964 1.55e-02  5.95e-03    1.330
+16    22  0.91200  -1.49          0.891 7.22e-03  1.57e-03    0.949
+17    24  0.31500  -2.03          0.122 3.97e-03  4.18e-04    0.768
+18    26  0.94700  -1.27          0.941 2.48e-03  1.12e-04    0.630
+19    28  0.40600  -1.58          0.302 1.68e-03  3.04e-05    0.521
+20    30  0.40500  -1.50          0.299 1.21e-03  8.32e-06    0.434
+21    32  0.40800  -1.44          0.297 9.15e-04  2.30e-06    0.363
+22    34  0.37200  -1.33          0.192 7.10e-04  6.44e-07    0.305
+23    36  0.37300  -1.32          0.195 5.65e-04  1.82e-07    0.256
+24    38  0.35400  -1.59          0.224 4.58e-04  5.22e-08    0.216
+25    40  0.33900  -1.85          0.153 3.77e-04  1.52e-08    0.190</code></pre>
+<pre class="r"><code>cex1 &lt;- 0.9
+plot(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Scale Free Topology Model Fit, signed R^2&quot;, type = &quot;n&quot;, main = paste(&quot;Scale independence&quot;))
+text(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], labels = powers, cex = cex1, col = &quot;red&quot;)
+abline(h = 0.80, col = &quot;red&quot;)</code></pre>
 <p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
@@ -790,41 +868,9 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>powers &lt;- c(c(1:10), seq(from = 12, to = 40, by = 2))
-sft &lt;- pickSoftThreshold(datExpr,
-  dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = &quot;p&quot;),
-  networkType = &quot;signed&quot;
-)</code></pre>
-<pre><code>   Power SFT.R.sq  slope truncated.R.sq  mean.k. median.k.   max.k.
-1      1  0.15300 105.00          0.626 2.50e+03  2.50e+03 2520.000
-2      2  0.00719 -13.00          0.916 1.25e+03  1.25e+03 1280.000
-3      3  0.49400 -62.20          0.691 6.29e+02  6.28e+02  658.000
-4      4  0.76800 -48.60          0.749 3.16e+02  3.15e+02  349.000
-5      5  0.96800 -34.90          0.963 1.59e+02  1.58e+02  190.000
-6      6  0.97600 -23.30          0.988 8.05e+01  7.96e+01  107.000
-7      7  0.95800 -15.70          0.974 4.07e+01  4.00e+01   62.600
-8      8  0.94600 -11.40          0.951 2.07e+01  2.02e+01   38.300
-9      9  0.48400 -13.50          0.347 1.06e+01  1.02e+01   24.600
-10    10  0.48700 -10.40          0.358 5.41e+00  5.14e+00   16.500
-11    12  0.48800  -6.67          0.376 1.45e+00  1.31e+00    8.350
-12    14  0.96000  -3.21          0.951 4.03e-01  3.38e-01    4.770
-13    16  0.93900  -2.50          0.922 1.20e-01  8.73e-02    2.950
-14    18  0.97900  -2.00          0.973 3.99e-02  2.27e-02    1.940
-15    20  0.97200  -1.65          0.964 1.55e-02  5.95e-03    1.330
-16    22  0.91200  -1.49          0.891 7.22e-03  1.57e-03    0.949
-17    24  0.31500  -2.03          0.122 3.97e-03  4.18e-04    0.768
-18    26  0.94700  -1.27          0.941 2.48e-03  1.12e-04    0.630
-19    28  0.40600  -1.58          0.302 1.68e-03  3.04e-05    0.521
-20    30  0.40500  -1.50          0.299 1.21e-03  8.32e-06    0.434
-21    32  0.40800  -1.44          0.297 9.15e-04  2.30e-06    0.363
-22    34  0.37200  -1.33          0.192 7.10e-04  6.44e-07    0.305
-23    36  0.37300  -1.32          0.195 5.65e-04  1.82e-07    0.256
-24    38  0.35400  -1.59          0.224 4.58e-04  5.22e-08    0.216
-25    40  0.33900  -1.85          0.153 3.77e-04  1.52e-08    0.190</code></pre>
-<pre class="r"><code>cex1 &lt;- 0.9
-plot(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Scale Free Topology Model Fit, signed R^2&quot;, type = &quot;n&quot;, main = paste(&quot;Scale independence&quot;))
-text(sft$fitIndices[, 1], -sign(sft$fitIndices[, 3]) * sft$fitIndices[, 2], labels = powers, cex = cex1, col = &quot;red&quot;)
-abline(h = 0.80, col = &quot;red&quot;)</code></pre>
+<pre class="r"><code># Mean Connectivity Plot
+plot(sft$fitIndices[, 1], sft$fitIndices[, 5], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Mean Connectivity&quot;, type = &quot;n&quot;, main = paste(&quot;Mean connectivity&quot;))
+text(sft$fitIndices[, 1], sft$fitIndices[, 5], labels = powers, cex = cex1, col = &quot;red&quot;)</code></pre>
 <p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
@@ -851,47 +897,6 @@ Date
 <tr>
 <td>
 <a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-4-2.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Mean Connectivity Plot
-plot(sft$fitIndices[, 1], sft$fitIndices[, 5], xlab = &quot;Soft Threshold (power)&quot;, ylab = &quot;Mean Connectivity&quot;, type = &quot;n&quot;, main = paste(&quot;Mean connectivity&quot;))
-text(sft$fitIndices[, 1], sft$fitIndices[, 5], labels = powers, cex = cex1, col = &quot;red&quot;)</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-3">
-Past versions of unnamed-chunk-4-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-4-3.png" target="_blank">9cf1e45</a>
 </td>
 <td>
 Full Name
@@ -1016,18 +1021,16 @@ Full Name
 </table>
 </div>
 </div>
-<p>#Calculate Eigengenes and Merge Close Modules</p>
-<pre class="r"><code>MEs &lt;- moduleEigengenes(datExpr, dynamicColors)$eigengenes # this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+</div>
+<div id="calculate-eigengenes" class="section level1">
+<h1>Calculate Eigengenes</h1>
+<pre class="r"><code>MEs &lt;- moduleEigengenes(datExpr, dynamicColors)$eigengenes
 ME1 &lt;- MEs
 row.names(ME1) &lt;- row.names(datExpr)
-# Calculate dissimilarity of module eigengenes
 MEDiss &lt;- 1 - cor(MEs)
-# Cluster module eigengenes
 METree &lt;- hclust(as.dist(MEDiss), method = &quot;average&quot;)
-# Plot the result
 plot(METree, main = &quot;Clustering of module eigengenes&quot;, xlab = &quot;&quot;, sub = &quot;&quot;)
 MEDissThres &lt;- 0.2
-# Plot the cut line into the dendrogram
 abline(h = MEDissThres, col = &quot;red&quot;)</code></pre>
 <p><img src="figure/8_astro_wgcna.Rmd/merge%20close%20modules-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1068,8 +1071,8 @@ Full Name
 </div>
 </div>
 </div>
-<div id="the-merged-module-colors" class="section level1">
-<h1>The merged module colors</h1>
+<div id="merge-modules" class="section level1">
+<h1>Merge modules</h1>
 <pre class="r"><code>merge &lt;- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
 <pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
    multiSetMEs: Calculating module MEs.
@@ -1084,6 +1087,9 @@ mergedMEs &lt;- merge$newMEs
 moduleColors &lt;- mergedColors
 MEs &lt;- mergedMEs
 modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+</div>
+<div id="plot-merged-modules" class="section level1">
+<h1>Plot merged modules</h1>
 <pre class="r"><code>plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
   c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
   dendroLabels = FALSE, hang = 0.03,
@@ -1127,20 +1133,18 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code># Rename to moduleColors
-moduleColors &lt;- mergedColors
-# Construct numerical labels corresponding to the colors
-# colorOrder = c(&quot;grey&quot;, standardColors(50));
-# moduleLabels = match(moduleColors, colorOrder)-1
+<pre class="r"><code>moduleColors &lt;- mergedColors
 MEs &lt;- mergedMEs
 modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
-<pre class="r"><code># type gene name, prints out gene names also in that module
-modules &lt;- MEs
+</div>
+<div id="generate-function-to-look-up-genes-in-each-module" class="section level1">
+<h1>Generate function to look up genes in each module</h1>
+<pre class="r"><code>modules &lt;- MEs
 c_modules &lt;- data.frame(moduleColors)
-row.names(c_modules) &lt;- colnames(datExpr) # assign gene names as row names
-module.list.set1 &lt;- substring(colnames(modules), 3) # removes ME from start of module names
+row.names(c_modules) &lt;- colnames(datExpr) 
+module.list.set1 &lt;- substring(colnames(modules), 3) 
 index.set1 &lt;- 0
-Network &lt;- list() # create lists of genes for each module
+Network &lt;- list() 
 for (i in 1:length(module.list.set1)) {
   index.set1 &lt;- which(c_modules == module.list.set1[i])
   Network[[i]] &lt;- row.names(c_modules)[index.set1]
@@ -1149,47 +1153,7 @@ names(Network) &lt;- module.list.set1
 lookup &lt;- function(gene, network) {
   return(network[names(network)[grep(gene, network)]])
 } # load function</code></pre>
-</div>
-<div id="get-hubgenes-and-kme" class="section level1">
-<h1>Get hubgenes and kME</h1>
-<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)), function(x) {
-  dat &lt;- modulekME[Network[[x]], ]
-  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
-  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
-  return(gene)
-})
-
-names(hubgenes) &lt;- names(Network)
-d &lt;- bind_rows(hubgenes, .id=&quot;id&quot;)</code></pre>
-<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
-<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector
-
-Warning in bind_rows_(x, .id): binding character and factor vector,
-coercing into character vector</code></pre>
-<pre class="r"><code>write_csv(d, path = here(&quot;output/glia/wgcna/astro_wgcna_genemodules.csv&quot;))</code></pre>
-<pre class="r"><code>MEs %&gt;% select(-MEgrey) -&gt; MEs
+<pre class="r"><code>MEs %&gt;% dplyr::select(-MEgrey) -&gt; MEs
 data &lt;- data.frame(MEs,
   day = astro$day, trt = astro$trt,
   sample = as.factor(astro$sample), group = astro$group,
@@ -1229,7 +1193,17 @@ coercion</code></pre>
 <pre class="r"><code>sig$symbol[findInterval(sig$symbol, c(1e-200,0.001)) == 1L] &lt;- &quot;***&quot; </code></pre>
 <pre><code>Warning in findInterval(sig$symbol, c(1e-200, 0.001)): NAs introduced by
 coercion</code></pre>
-<pre class="r"><code>lapply(unique(colnames(MEs)), function(me) {
+<pre class="r"><code>sig %&gt;% group_by(id) %&gt;% dplyr::summarise(max=max(estimate)) %&gt;% arrange(-max) %&gt;% mutate(pubname = paste0(&quot;sn-astro-M&quot;, seq_len(8))) -&gt; name_mods
+
+rename_mods &lt;- name_mods$id
+names(rename_mods) &lt;- name_mods$pubname
+write_csv(data.frame(x=names(rename_mods), y=as.character(rename_mods)), 
+          path = here(&quot;output/glia/wgcna/sn_astro_translatelabels.csv&quot;))
+
+MEs &lt;- rename(MEs, !!!rename_mods)
+data &lt;- rename(data, !!!rename_mods)
+
+lapply(unique(colnames(MEs)), function(me) {
   tryCatch({
    print(ggplot(data = data[sample(nrow(data)), ], aes(x = group, y = get(me))) +
       geom_quasirandom(aes(fill = sample), shape = 21, size = 2, alpha = .75) +
@@ -1246,7 +1220,75 @@ coercion</code></pre>
   }
   )
 })</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-11.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-12.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-13.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-14.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-15.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[8]]</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-9-16.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>write_csv(sig, path=here(&quot;output/glia/wgcna/astro_wgcna_linearmodel_testing.csv&quot;))</code></pre>
+</div>
+<div id="filter-metadata-table-and-correlate-with-eigengenes" class="section level1">
+<h1>Filter metadata table and correlate with eigengenes</h1>
+<pre class="r"><code>nGenes &lt;- ncol(datExpr)
+nSamples &lt;- nrow(datExpr) 
+MEs &lt;- orderMEs(MEs)
+astro$group &lt;- paste0(astro$trt, &quot;_&quot;, astro$day)
+
+MEs %&gt;%
+  as.data.frame() %&gt;%
+  mutate(sample = astro$sample, day = astro$day) %&gt;%
+  melt() %&gt;%
+  dplyr::group_by(sample, variable) %&gt;%
+  dplyr::summarise(mean_mod = median(value)) -&gt; me_heatmap
+me_heatmap %&gt;%
+  dplyr::group_by(variable) %&gt;%
+  mutate(scaled_mod = scale(mean_mod)) -&gt; me_heatmap
+
+sigmods &lt;- paste0(&quot;sn-astro-M&quot;,seq_len(4))
+
+me_heatmap$day &lt;- as.character(astro$day[match(me_heatmap$sample, astro$sample)])
+me_heatmap$day &lt;- gsub(me_heatmap$day, pattern=&quot;Day-&quot;, replacement = &quot;D&quot;)
+me_heatmap$trt &lt;- as.character(astro$trt[match(me_heatmap$sample, astro$sample)])
+me_heatmap$trt &lt;- gsub(me_heatmap$trt, pattern=&quot;PF&quot;, replacement = &quot;Veh&quot;)
+me_heatmap$sample &lt;- fct_relevel(me_heatmap$sample, &quot;1_FGF&quot;, &quot;2_FGF&quot;, 
+                                 &quot;3_FGF&quot;, &quot;1_Veh&quot;, &quot;2_Veh&quot;, &quot;3_Veh&quot;, &quot;37_FGF&quot;, &quot;45_FGF&quot;, &quot;28_Veh&quot;, &quot;38_Veh&quot;)</code></pre>
+<pre><code>Warning: Unknown levels in `f`: 1_Veh, 2_Veh, 3_Veh, 28_Veh, 38_Veh</code></pre>
+<pre class="r"><code>me_heatmap &lt;- me_heatmap[me_heatmap$variable %in% c(sigmods), ]
+me_heatmap$order &lt;- paste0(me_heatmap$trt,&quot;_&quot;,me_heatmap$day)
+me_heatmap$order &lt;- fct_relevel(me_heatmap$order, c(&quot;Veh_Day1&quot;,&quot;FGF_Day1&quot;,&quot;Veh_Day5&quot;,&quot;FGF_Day5&quot;))</code></pre>
+<pre><code>Warning: Unknown levels in `f`: Veh_Day1, FGF_Day1, Veh_Day5, FGF_Day5</code></pre>
+<pre class="r"><code>diffmod_heatmap &lt;- ggplot(me_heatmap, aes(variable, sample)) +
+  geom_tile(aes(fill = scaled_mod), colour = &quot;white&quot;, size=.5) + ylab(NULL) + xlab(NULL) +
+  scale_fill_gsea(limits=c(-2,3), name=&quot;Scaled ME\nExpression&quot;) +
+  facet_grid(order ~ ., scales = &quot;free&quot;, switch=&quot;y&quot;) + theme_pubr(border = T, legend=&quot;right&quot;) + ggpubr::labs_pubr() +
+  scale_x_discrete(position=&quot;top&quot;) +
+  theme(axis.text.y = element_blank(), panel.spacing = unit(.25, &quot;lines&quot;),  axis.ticks.y = element_blank(), 
+        axis.ticks.x = element_blank(), axis.text.x = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), &quot;cm&quot;), legend.title = element_text(size=8, hjust=0.5, angle=90), 
+        legend.text = element_text(size=7, face=&quot;bold&quot;)) + 
+  guides(fill = guide_colorbar(barwidth = .75, barheight = 5, title.position = &quot;left&quot;)) +
+  theme_figure
+diffmod_heatmap</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-1.png" width="288" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
 Past versions of unnamed-chunk-10-1.png
@@ -1284,670 +1326,47 @@ Full Name
 </table>
 </div>
 </div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
-Past versions of unnamed-chunk-10-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-2.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-3">
-Past versions of unnamed-chunk-10-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-3.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-4">
-Past versions of unnamed-chunk-10-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-4.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-5">
-Past versions of unnamed-chunk-10-5.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-5.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-6">
-Past versions of unnamed-chunk-10-6.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-6.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-7">
-Past versions of unnamed-chunk-10-7.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-7.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-8.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-8">
-Past versions of unnamed-chunk-10-8.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-8" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-8.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-9.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-9">
-Past versions of unnamed-chunk-10-9.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-9" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-9.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-10.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-10">
-Past versions of unnamed-chunk-10-10.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-10" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-10.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-11.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-11">
-Past versions of unnamed-chunk-10-11.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-11" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-11.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[4]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-12.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-12">
-Past versions of unnamed-chunk-10-12.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-12" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-12.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[5]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-13.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-13">
-Past versions of unnamed-chunk-10-13.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-13" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-13.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[6]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-14.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-14">
-Past versions of unnamed-chunk-10-14.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-14" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-14.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[7]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-15.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-15">
-Past versions of unnamed-chunk-10-15.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-15" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-15.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[8]]</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-10-16.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-16">
-Past versions of unnamed-chunk-10-16.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-16" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-10-16.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># moddat &lt;- bind_rows(mod, .id=&quot;id&quot;)
-write_csv(sig, path=here(&quot;output/glia/wgcna/astro_wgcna_linearmodel_testing.csv&quot;))</code></pre>
-<p>#Filter metadata table and correlate with eigengenes</p>
-<pre class="r"><code>nGenes &lt;- ncol(datExpr)
-nSamples &lt;- nrow(datExpr) # datExpr[,c((nrow(datExpr)-9):nrow(datExpr))]
-# Recalculate MEs with color labels
-MEs &lt;- orderMEs(MEs)
-astro$group &lt;- paste0(astro$trt, &quot;_&quot;, astro$day)
-var &lt;- model.matrix(~ 0 + astro$group)
-# colnames(var)&lt;-c(&quot;DV&quot;,&quot;FGF1&quot;,&quot;FGF19&quot;, &quot;V&quot;)
-moduleTraitCor &lt;- cor(MEs, var, use = &quot;p&quot;)
-moduleTraitPvalue &lt;- corPvalueStudent(moduleTraitCor, nSamples)
-cor &lt;- melt(moduleTraitCor)
-cor$Var2 &lt;- str_split(cor$Var2, &quot;group&quot;, n = 2, simplify = T)[, 2]
-MEs %&gt;%
-  as.data.frame() %&gt;%
-  mutate(sample = astro$sample, day = astro$day) %&gt;%
-  melt() %&gt;%
-  dplyr::group_by(sample, variable) %&gt;%
-  dplyr::summarise(mean_mod = median(value)) %&gt;%
-  filter(variable != &quot;MEgrey&quot;) -&gt; me_heatmap
-me_heatmap %&gt;%
-  dplyr::group_by(variable) %&gt;%
-  mutate(scaled_mod = scale(mean_mod)) -&gt; me_heatmap
-me_heatmap$day &lt;- as.character(astro$day[match(me_heatmap$sample, astro$sample)])
-me_heatmap$trt &lt;- as.character(astro$trt[match(me_heatmap$sample, astro$sample)])
-me_heatmap$sample &lt;- fct_relevel(me_heatmap$sample, &quot;1_FGF&quot;, &quot;2_FGF&quot;, &quot;3_FGF&quot;, &quot;1_PF&quot;, &quot;2_PF&quot;, &quot;3_PF&quot;, &quot;37_FGF&quot;, &quot;45_FGF&quot;, &quot;28_PF&quot;, &quot;38_PF&quot;)
-me_heatmap &lt;- me_heatmap[me_heatmap$variable %in% c(&quot;MEgreen&quot;, &quot;MEred&quot;, &quot;MEblue&quot;, &quot;MEblack&quot;), ]
-me_heatmap$variable &lt;- as.factor(as.character(me_heatmap$variable))
-me_heatmap$variable &lt;- str_to_title(sapply(strsplit(as.character(me_heatmap$variable), &quot;ME&quot;),&quot;[&quot;, 2))
-me_heatmap$variable &lt;- fct_relevel(me_heatmap$variable, &quot;Red&quot;, &quot;Black&quot;, &quot;Green&quot;, &quot;Blue&quot;)
-diffmod_heatmap &lt;- ggplot(me_heatmap, aes(sample, variable)) +
-  geom_tile(aes(fill = scaled_mod), colour = &quot;white&quot;, size=.5) + ylab(NULL) + xlab(NULL) +
-  scale_fill_gsea(limits=c(-2,3), name=&quot;Scaled\nExpression&quot;) +
-  facet_grid(. ~ day + trt, scales = &quot;free_x&quot;) + theme_pubr(border = T, legend=&quot;right&quot;) + ggpubr::labs_pubr() +
-  theme(axis.text.x = element_blank(), panel.spacing = unit(.25, &quot;lines&quot;),  axis.ticks.x = element_blank())
-diffmod_heatmap</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-11-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<div id="get-hubgenes-and-kme" class="section level1">
+<h1>Get hubgenes and kME</h1>
+<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)-1), function(x) {
+  dat &lt;- modulekME[Network[[x]], ]
+  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
+  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+names(hubgenes) &lt;-  names(rename_mods)[match(names(Network)[-length(Network)], 
+                                             gsub(as.character(rename_mods),pattern = &quot;ME&quot;,replacement = &quot;&quot;))]
+d &lt;- bind_rows(hubgenes, .id=&quot;id&quot;)</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre class="r"><code>write_csv(d, path = here(&quot;output/glia/wgcna/astro_wgcna_genemodules.csv&quot;))</code></pre>
 </div>
 <div id="calculate-go-enrichment" class="section level1">
 <h1>Calculate GO enrichment</h1>
-<pre class="r"><code>goterms &lt;- lapply(hubgenes[c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;black&quot;)], function(x) {
+<pre class="r"><code>goterms &lt;- lapply(hubgenes[c(sigmods)], function(x) {
   x &lt;- gprofiler(x,
     ordered_query = T, organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
     src_filter = c(&quot;GO:BP&quot;, &quot;GO:MF&quot;, &quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
@@ -1972,9 +1391,7 @@ goterms %&gt;%
   select(p.value, padj, term.name, domain, id) %&gt;%
   arrange(id) -&gt; goplot
 
-goplot$id &lt;- str_to_title(fct_relevel(goplot$id, &quot;red&quot;, &quot;green&quot;, &quot;black&quot;,&quot; blue&quot;))</code></pre>
-<pre><code>Warning: Unknown levels in `f`: blue</code></pre>
-<pre class="r"><code>goterm &lt;- ggplot(goplot, aes(x = str_to_title(str_wrap(term.name, 15)), y = -log10(padj), fill = domain)) + 
+goterm &lt;- ggplot(goplot, aes(x = str_to_title(str_wrap(term.name, 15)), y = -log10(padj), fill = domain)) + 
   geom_col() + scale_fill_npg() +
   facet_wrap(. ~ id, scales = &quot;free_x&quot;, ncol = 2) + 
   theme_pubr(legend = &quot;right&quot;) + 
@@ -1989,8 +1406,7 @@ goplot$id &lt;- str_to_title(fct_relevel(goplot$id, &quot;red&quot;, &quot;green
 </div>
 <div id="plot-gene-networks" class="section level1">
 <h1>Plot gene networks</h1>
-<pre class="r"><code>color &lt;- c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;black&quot;)
-lapply(color, function(col) {
+<pre class="r"><code>lapply(sigmods, function(col) {
   maxsize &lt;- 15
   hubs &lt;- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
 }) %&gt;% bind_rows() -&gt; hub_plot </code></pre>
@@ -2021,21 +1437,463 @@ coercing into character vector</code></pre>
 <pre class="r"><code>adj[hub_plot$genes, hub_plot$genes] %&gt;% 
   graph.adjacency(mode = &quot;undirected&quot;, weighted = T, diag = FALSE) %&gt;%
   as_tbl_graph(g1) %&gt;% upgrade_graph() %&gt;% activate(nodes) %&gt;% dplyr::mutate(mod=hub_plot$mod) %&gt;% 
-  dplyr::mutate(kme=hub_plot$kme) %&gt;% activate(edges) %&gt;% dplyr::filter(weight&gt;.15) %&gt;% activate(nodes) %&gt;% filter(!node_is_isolated()) -&gt; hub_plot
+  dplyr::mutate(kme=hub_plot$kme) %&gt;% activate(edges) %&gt;% dplyr::filter(weight&gt;.15) %&gt;% activate(nodes) %&gt;% 
+  filter(!node_is_isolated()) %&gt;% 
+  dplyr::mutate(color = ifelse(name %in% c(&quot;Npas3&quot;,&quot;Sparcl1&quot;,&quot;Ndrg2&quot;,&quot;Aqp4&quot;,&quot;Apoe&quot;,&quot;Gfap&quot;), yes=&quot;red&quot;, no=&quot;black&quot;)) -&gt; hub_plot
 
+set.seed(&quot;21&quot;)
 geneplot &lt;- ggraph(hub_plot,  layout = &#39;kk&#39;) + 
   geom_edge_link(color=&quot;darkgrey&quot;, aes(alpha = weight), show.legend = F)  + 
-  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name), fontface=&quot;bold&quot;, size=3) +
-  geom_node_point(aes(fill=mod, size=kme), shape=21, alpha=0.5) + 
-  scale_size(range = c(2,15), name = &quot;kME&quot;) + 
-  scale_fill_manual(values = c(&quot;black&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;red&quot;), name = &quot;Module&quot;) +
+  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name, color=color), fontface=&quot;bold&quot;, size=3, repel=T) +
+  geom_node_point(aes(fill = mod, size=kme), shape=21, alpha=0.5) + 
+  scale_size(range = c(1,5), name = &quot;kME&quot;) +
+  ggsci::scale_fill_npg(name=&quot;Module&quot;) +
   guides(fill = guide_legend(override.aes = list(size=5)),
-         size = guide_legend(override.aes = list(size=c(5,7,9,11)))) + 
+         size = guide_legend(override.aes = list(size=c(1,2,3,4)))) + 
   theme_graph() + theme(legend.title.align=0.5,
-                        legend.box = &quot;horizontal&quot;, legend.position = c(0.8, 0.3))
+                        legend.box = &quot;horizontal&quot;, 
+                        legend.position = c(0.1, 0.9),
+                        legend.margin = margin(-0.5,0,0,0, unit=&quot;cm&quot;),
+                        legend.title = element_text(size=10, face=&quot;bold&quot;),
+                        legend.text = element_text(size=8, face=&quot;bold&quot;)) +
+  scale_color_manual(values=c(&quot;gray0&quot;,&quot;red&quot;)) + guides(color=FALSE) +
+  coord_cartesian(clip=&quot;off&quot;)
 geneplot</code></pre>
 <p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(geneplot, filename=here(&quot;output/mod_graph.png&quot;), h=7, w=7)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-13-1.png" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-figure" class="section level1">
+<h1>Plot figure</h1>
+<pre class="r"><code>plot_grid(diffmod_heatmap, geneplot, rel_widths = c(1,1.5), align=&quot;hv&quot;, axis=&quot;tb&quot;, labels=&quot;auto&quot;, scale=0.95)</code></pre>
+<pre><code>Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database</code></pre>
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database</code></pre>
+<pre><code>Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font
+family &#39;Arial Narrow&#39; not found in PostScript font database</code></pre>
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database</code></pre>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="read-in-gene-sets" class="section level1">
 <h1>Read in gene sets</h1>
@@ -2043,15 +1901,15 @@ geneplot</code></pre>
 mcao1 &lt;- read_tsv(here(&quot;data/mcao1.txt&quot;))
 mcao3 &lt;- read_tsv(here(&quot;data/mcao_d3.txt&quot;))
 mcao7 &lt;- read_tsv(here(&quot;data/mcaod7.txt&quot;))
-nr &lt;- readxl::read_xlsx(here(&quot;data/neur_astro_induce.xlsx&quot;))
-sr &lt;- readxl::read_xlsx(here(&quot;data/synaptic_activity_induced.xlsx&quot;))
+ni &lt;- readxl::read_xlsx(here(&quot;data/neur_astro_induce.xlsx&quot;))
+na &lt;- readxl::read_xlsx(here(&quot;data/synaptic_activity_induced.xlsx&quot;))
 
-nr %&gt;%
+ni %&gt;%
   select(gene_name, `Fold Change`, padj_deseq2) %&gt;%
-  filter(`Fold Change` &gt; 2, padj_deseq2 &lt; 0.05) -&gt; nr
-sr %&gt;%
+  filter(`Fold Change` &gt; 2, padj_deseq2 &lt; 0.05) -&gt; ni
+na %&gt;%
   select(gene_name, Fold_Change, DESeq2_padj) %&gt;%
-  filter(Fold_Change &gt; 2, DESeq2_padj &lt; 0.05) -&gt; sr
+  filter(Fold_Change &gt; 2, DESeq2_padj &lt; 0.05) -&gt; na
 
 
 mcao1 %&gt;%
@@ -2089,7 +1947,7 @@ mcao7_uniq &lt;- mcao7_gene$Gene.symbol[!mcao7_gene$Gene.symbol %in% lps_gene$Ge
 <div id="test-module-enrichment-in-gene-sets" class="section level1">
 <h1>Test module enrichment in gene sets</h1>
 <pre class="r"><code>d %&gt;%
-  filter(id %in% c(&quot;red&quot;, &quot;green&quot;,&quot;blue&quot;,&quot;black&quot;)) %&gt;%
+  filter(id %in% sigmods) %&gt;%
   group_by(id) -&gt; astro_mod
 astro_mod %&gt;%
   group_split() %&gt;%
@@ -2102,60 +1960,27 @@ lapply(astro_gene, function(x) {
   c &lt;- 1 - phyper(sum(x %in% mcao3_uniq), length(mcao3_uniq), 5000, length(x), log.p = F)
   d &lt;- 1 - phyper(sum(x %in% mcao7_uniq), length(mcao7_uniq), 5000, length(x), log.p = F)
   e &lt;- 1 - phyper(sum(x %in% panreact), length(panreact), 5000, length(x), log.p = F)
-  f &lt;- 1 - phyper(sum(x %in% nr$gene_name), length(nr$gene_name), 5000, length(x), log.p = F)
-  g &lt;- 1 - phyper(sum(x %in% sr$gene_name), length(sr$gene_name), 5000, length(x), log.p = F)
-  return(data.frame(A1 = a, A2 = b, PAN = e, NR = f, SR = g))
+  f &lt;- 1 - phyper(sum(x %in% ni$gene_name), length(ni$gene_name), 5000, length(x), log.p = F)
+  g &lt;- 1 - phyper(sum(x %in% na$gene_name), length(na$gene_name), 5000, length(x), log.p = F)
+  return(data.frame(A1 = a, A2 = b, PAN = e, NeurI = f, `NeurA` = g))
 }) %&gt;% bind_rows() -&gt; overlap_test
 
 as.data.frame(sapply(overlap_test, function(x) p.adjust(x, n = dim(overlap_test)[1] * dim(overlap_test)[2]))) -&gt; overlap_test
 overlap_test$mod &lt;- mod_names
 overlap_pval &lt;- reshape2::melt(overlap_test)
-set_plot &lt;- ggplot(overlap_pval, aes(x = fct_relevel(mod, &quot;red&quot;, &quot;black&quot;, &quot;green&quot;,&quot;blue&quot;), y = variable)) + geom_tile(size = 1, color = &quot;white&quot;, fill=&quot;grey99&quot;) +
-  geom_point(aes(size = if_else(-log10(value)&lt;1.3,true = 0, false = -log10(value)), fill = if_else(-log10(value)&lt;1.3,true = &quot;black&quot;, false = &quot;red&quot;)), shape=21) + 
-  scale_size(name= expression(-log[10] ~ pvalue)) + 
-  scale_fill_manual(values=c(&quot;black&quot;,&quot;red&quot;), guide=F) + coord_flip() + theme_pubr(legend = &quot;right&quot;) + xlab(NULL) + ylab(NULL) + labs_pubr() + 
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) 
+set_plot &lt;- ggplot(overlap_pval, aes(y = mod, 
+                                     x = fct_relevel(variable,&quot;NeurA&quot;,&quot;NeurI&quot;,&quot;PAN&quot;,&quot;A2&quot;,&quot;A1&quot;))) + 
+  geom_tile(size = 1, color = &quot;white&quot;, fill=&quot;grey99&quot;) +
+  geom_point(aes(size = if_else(-log10(value)&lt;1.3,true = 0, false = -log10(value))), alpha=0.25) + 
+  scale_size(name= expression(bold(-log[10] ~ pvalue)), breaks = c(2,4,8)) + 
+  scale_fill_manual(values=c(&quot;black&quot;,&quot;red&quot;), guide=F) + coord_flip() + 
+  theme_pubr(legend = &quot;right&quot;) + xlab(NULL) + ylab(NULL) + 
+  theme(plot.margin = unit(c(0, 0, 0, 0), &quot;cm&quot;),
+        legend.title = element_text(size=8), 
+        legend.text = element_text(size=7, face=&quot;bold&quot;),
+        axis.text.x = element_text(angle=45, hjust=1)) + theme_figure
 set_plot</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
-Past versions of unnamed-chunk-16-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/8_astro_wgcna.Rmd/unnamed-chunk-16-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>plot_grid(diffmod_heatmap, set_plot, align = &quot;hv&quot;, axis=&quot;tb&quot;, rel_widths = c(1.5,1))</code></pre>
-<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/8_astro_wgcna.Rmd/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
 Past versions of unnamed-chunk-17-1.png
@@ -2193,7 +2018,325 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(here(&quot;output/astro_charact.png&quot;), h=3,w=10)</code></pre>
+</div>
+<div id="generate-top-half-of-figure" class="section level1">
+<h1>Generate top half of figure</h1>
+<pre class="r"><code>topleft &lt;- plot_grid(diffmod_heatmap, set_plot, align = &quot;v&quot;, axis=&quot;lr&quot;, labels=&quot;a&quot;, ncol=1, rel_heights = c(3,1), scale=0.95)
+topright &lt;- plot_grid(geneplot, labels=c(&quot;b&quot;), scale=0.95)</code></pre>
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+font family &#39;Arial Narrow&#39; not found in PostScript font database</code></pre>
+<pre class="r"><code>top_astro &lt;- plot_grid(topleft,topright, ncol=2, rel_widths = c(1,1.25))
+save(top_astro, file = here(&quot;data/figures/fig4_nuc_top.RData&quot;))
+ggsave(here(&quot;data/figures/fig4_nuc_astro.png&quot;), h=6,w=8)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2221,17 +2364,18 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] cowplot_1.0.0         ggExtra_0.9           eulerr_5.1.0         
- [4] here_0.1              gProfileR_0.6.7       RColorBrewer_1.1-2   
- [7] igraph_1.2.4.1        ggpubr_0.2.1          magrittr_1.5         
-[10] ggbeeswarm_0.6.0      lme4_1.1-21           Matrix_1.2-17        
-[13] emmeans_1.3.5.1       ggsci_2.9             parallelDist_0.2.4   
-[16] reshape2_1.4.3        ggraph_1.0.2          tidygraph_1.1.2      
-[19] forcats_0.4.0         stringr_1.4.0         dplyr_0.8.3          
-[22] purrr_0.3.2           readr_1.3.1.9000      tidyr_0.8.3          
-[25] tibble_2.1.3          ggplot2_3.2.1         tidyverse_1.2.1      
-[28] genefilter_1.64.0     cluster_2.1.0         WGCNA_1.68           
-[31] fastcluster_1.1.25    dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
+ [1] future_1.14.0         cowplot_1.0.0         ggExtra_0.9          
+ [4] eulerr_5.1.0          here_0.1              gProfileR_0.6.7      
+ [7] RColorBrewer_1.1-2    igraph_1.2.4.1        ggpubr_0.2.1         
+[10] magrittr_1.5          ggbeeswarm_0.6.0      lme4_1.1-21          
+[13] Matrix_1.2-17         emmeans_1.3.5.1       ggsci_2.9            
+[16] parallelDist_0.2.4    reshape2_1.4.3        ggraph_1.0.2         
+[19] tidygraph_1.1.2       forcats_0.4.0         stringr_1.4.0        
+[22] dplyr_0.8.3           purrr_0.3.2           readr_1.3.1.9000     
+[25] tidyr_0.8.3           tibble_2.1.3          ggplot2_3.2.1        
+[28] tidyverse_1.2.1       genefilter_1.64.0     cluster_2.1.0        
+[31] WGCNA_1.68            fastcluster_1.1.25    dynamicTreeCut_1.63-1
+[34] Seurat_3.0.3.9036    
 
 loaded via a namespace (and not attached):
   [1] estimability_1.3      R.methodsS3_1.7.1     coda_0.19-3          
@@ -2240,56 +2384,56 @@ loaded via a namespace (and not attached):
  [10] data.table_1.12.2     rpart_4.1-15          RCurl_1.95-4.12      
  [13] doParallel_1.0.14     generics_0.0.2        metap_1.1            
  [16] BiocGenerics_0.28.0   preprocessCore_1.44.0 TH.data_1.0-10       
- [19] RSQLite_2.1.1         RANN_2.6.1            future_1.14.0        
- [22] bit_1.1-14            xml2_1.2.0            lubridate_1.7.4      
- [25] httpuv_1.5.1          assertthat_0.2.1      viridis_0.5.1        
- [28] xfun_0.8              hms_0.5.0             evaluate_0.14        
- [31] promises_1.0.1        DEoptimR_1.0-8        caTools_1.17.1.2     
- [34] readxl_1.3.1          DBI_1.0.0             htmlwidgets_1.3      
- [37] stats4_3.5.3          backports_1.1.4       annotate_1.60.1      
- [40] gbRd_0.4-11           RcppParallel_4.4.3    vctrs_0.2.0          
- [43] Biobase_2.42.0        ROCR_1.0-7            withr_2.1.2          
- [46] ggforce_0.3.0.9000    robustbase_0.93-5     checkmate_1.9.4      
- [49] sctransform_0.2.0     ape_5.3               lazyeval_0.2.2       
- [52] crayon_1.3.4          labeling_0.3          pkgconfig_2.0.2      
- [55] tweenr_1.0.1          nlme_3.1-140          vipor_0.4.5          
- [58] nnet_7.3-12           rlang_0.4.0           globals_0.12.4       
- [61] miniUI_0.1.1.1        sandwich_2.5-1        modelr_0.1.4         
- [64] rsvd_1.0.2            cellranger_1.1.0      rprojroot_1.3-2      
- [67] polyclip_1.10-0       matrixStats_0.54.0    lmtest_0.9-37        
- [70] boot_1.3-22           zoo_1.8-6             base64enc_0.1-3      
- [73] beeswarm_0.2.3        whisker_0.3-2         ggridges_0.5.1       
- [76] png_0.1-7             viridisLite_0.3.0     bitops_1.0-6         
- [79] R.oo_1.22.0           KernSmooth_2.23-15    blob_1.1.1           
- [82] workflowr_1.4.0       robust_0.4-18.1       S4Vectors_0.20.1     
- [85] ggsignif_0.5.0        scales_1.0.0          memoise_1.1.0        
- [88] plyr_1.8.4            ica_1.0-2             gplots_3.0.1.1       
- [91] bibtex_0.4.2          gdata_2.18.0          compiler_3.5.3       
- [94] lsei_1.2-0            rrcov_1.4-7           fitdistrplus_1.0-14  
- [97] cli_1.1.0             listenv_0.7.0         pbapply_1.4-1        
-[100] htmlTable_1.13.1      Formula_1.2-3         MASS_7.3-51.4        
-[103] tidyselect_0.2.5      stringi_1.4.3         highr_0.8            
-[106] yaml_2.2.0            latticeExtra_0.6-28   ggrepel_0.8.1        
-[109] grid_3.5.3            tools_3.5.3           future.apply_1.3.0   
-[112] parallel_3.5.3        rstudioapi_0.10       foreach_1.4.4        
-[115] foreign_0.8-71        git2r_0.25.2          gridExtra_2.3        
-[118] farver_1.1.0          Rtsne_0.15            digest_0.6.20        
-[121] shiny_1.3.2           Rcpp_1.0.2            broom_0.5.2          
-[124] SDMTools_1.1-221.1    later_0.8.0           RcppAnnoy_0.0.12     
-[127] httr_1.4.1            AnnotationDbi_1.44.0  npsurv_0.4-0         
-[130] Rdpack_0.11-0         colorspace_1.4-1      rvest_0.3.4          
-[133] XML_3.98-1.20         fs_1.3.1              reticulate_1.13      
-[136] IRanges_2.16.0        splines_3.5.3         uwot_0.1.3           
-[139] plotly_4.9.0          fit.models_0.5-14     xtable_1.8-4         
-[142] jsonlite_1.6          nloptr_1.2.1          zeallot_0.1.0        
-[145] R6_2.4.0              Hmisc_4.2-0           pillar_1.4.2         
-[148] htmltools_0.3.6       mime_0.7              glue_1.3.1           
-[151] minqa_1.2.4           codetools_0.2-16      tsne_0.1-3           
-[154] pcaPP_1.9-73          mvtnorm_1.0-11        lattice_0.20-38      
-[157] pbkrtest_0.4-7        leiden_0.3.1          gtools_3.8.1         
-[160] GO.db_3.7.0           survival_2.44-1.1     rmarkdown_1.13       
-[163] munsell_0.5.0         iterators_1.0.10      impute_1.56.0        
-[166] haven_2.1.0           gtable_0.3.0         </code></pre>
+ [19] RSQLite_2.1.1         RANN_2.6.1            bit_1.1-14           
+ [22] xml2_1.2.0            lubridate_1.7.4       httpuv_1.5.1         
+ [25] assertthat_0.2.1      viridis_0.5.1         xfun_0.8             
+ [28] hms_0.5.0             evaluate_0.14         promises_1.0.1       
+ [31] DEoptimR_1.0-8        caTools_1.17.1.2      readxl_1.3.1         
+ [34] DBI_1.0.0             htmlwidgets_1.3       stats4_3.5.3         
+ [37] backports_1.1.4       annotate_1.60.1       gbRd_0.4-11          
+ [40] RcppParallel_4.4.3    vctrs_0.2.0           Biobase_2.42.0       
+ [43] ROCR_1.0-7            withr_2.1.2           ggforce_0.3.0.9000   
+ [46] robustbase_0.93-5     checkmate_1.9.4       sctransform_0.2.0    
+ [49] ape_5.3               lazyeval_0.2.2        crayon_1.3.4         
+ [52] labeling_0.3          pkgconfig_2.0.2       tweenr_1.0.1         
+ [55] nlme_3.1-140          vipor_0.4.5           nnet_7.3-12          
+ [58] rlang_0.4.0           globals_0.12.4        miniUI_0.1.1.1       
+ [61] sandwich_2.5-1        modelr_0.1.4          rsvd_1.0.2           
+ [64] cellranger_1.1.0      rprojroot_1.3-2       polyclip_1.10-0      
+ [67] matrixStats_0.54.0    lmtest_0.9-37         boot_1.3-22          
+ [70] zoo_1.8-6             base64enc_0.1-3       beeswarm_0.2.3       
+ [73] whisker_0.3-2         ggridges_0.5.1        png_0.1-7            
+ [76] viridisLite_0.3.0     bitops_1.0-6          R.oo_1.22.0          
+ [79] KernSmooth_2.23-15    blob_1.1.1            workflowr_1.4.0      
+ [82] robust_0.4-18.1       S4Vectors_0.20.1      ggsignif_0.5.0       
+ [85] scales_1.0.0          memoise_1.1.0         plyr_1.8.4           
+ [88] ica_1.0-2             gplots_3.0.1.1        bibtex_0.4.2         
+ [91] gdata_2.18.0          compiler_3.5.3        lsei_1.2-0           
+ [94] rrcov_1.4-7           fitdistrplus_1.0-14   cli_1.1.0            
+ [97] listenv_0.7.0         pbapply_1.4-1         htmlTable_1.13.1     
+[100] Formula_1.2-3         MASS_7.3-51.4         tidyselect_0.2.5     
+[103] stringi_1.4.3         highr_0.8             yaml_2.2.0           
+[106] latticeExtra_0.6-28   ggrepel_0.8.0.9000    grid_3.5.3           
+[109] tools_3.5.3           future.apply_1.3.0    parallel_3.5.3       
+[112] rstudioapi_0.10       foreach_1.4.4         foreign_0.8-71       
+[115] git2r_0.25.2          gridExtra_2.3         farver_1.1.0         
+[118] Rtsne_0.15            digest_0.6.20         shiny_1.3.2          
+[121] Rcpp_1.0.2            broom_0.5.2           SDMTools_1.1-221.1   
+[124] later_0.8.0           RcppAnnoy_0.0.12      httr_1.4.1           
+[127] AnnotationDbi_1.44.0  npsurv_0.4-0          Rdpack_0.11-0        
+[130] colorspace_1.4-1      rvest_0.3.4           XML_3.98-1.20        
+[133] fs_1.3.1              reticulate_1.13       IRanges_2.16.0       
+[136] splines_3.5.3         uwot_0.1.3            plotly_4.9.0         
+[139] fit.models_0.5-14     xtable_1.8-4          jsonlite_1.6         
+[142] nloptr_1.2.1          zeallot_0.1.0         R6_2.4.0             
+[145] Hmisc_4.2-0           pillar_1.4.2          htmltools_0.3.6      
+[148] mime_0.7              glue_1.3.1            minqa_1.2.4          
+[151] codetools_0.2-16      tsne_0.1-3            pcaPP_1.9-73         
+[154] mvtnorm_1.0-11        lattice_0.20-38       pbkrtest_0.4-7       
+[157] leiden_0.3.1          gtools_3.8.1          GO.db_3.7.0          
+[160] survival_2.44-1.1     rmarkdown_1.13        munsell_0.5.0        
+[163] iterators_1.0.10      impute_1.56.0         haven_2.1.0          
+[166] gtable_0.3.0         </code></pre>
 </div>
 </div>
 
