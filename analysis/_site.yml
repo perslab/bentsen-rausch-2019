@@ -1,7 +1,7 @@
-name: fgf_alldata
+name: bentsen-rausch-2019
 output_dir: ../docs
 navbar:
-  title: fgf_alldata
+  title: bentsen-rausch-2019
   left:
   - text: Home
     href: index.html

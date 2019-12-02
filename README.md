@@ -1,4 +1,4 @@
-# fgf_alldata
+# bentsen-rausch-2019
 
 A [workflowr][] project.
 
