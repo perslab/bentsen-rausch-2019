@@ -3,10 +3,6 @@ title: "Astrocyte WGCNA"
 output: html_notebook
 ---
 
-```{r include = FALSE}
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
-```
-
 # Load Libraries
 ```{r,  warnings=F, message=F}
 library(Seurat)
@@ -30,24 +26,31 @@ library(here)
 library(eulerr)
 library(ggExtra)
 library(cowplot)
+library(future)
+plan("multiprocess", workers=40)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
 ```
 
 # Extract Astrocytes for WGCNA
 ```{r, warnings=FALSE, message=FALSE, include=F}
-fgf.glia.sub <- readRDS("/projects/dylan/fgf_24/data/glia/glia_seur_filtered.RDS")
+fgf.glia.sub <- readRDS(here("data/glia/glia_seur_filtered.RDS"))
 fgf.glia.sub %>%
   subset(ident = c("Astro")) %>%
   SCTransform(return.only.var.genes = F, verbose = F, variable.features.n = 5000) -> astro
 ```
 
+
+
 # Calculate softpower
 ```{r}
 enableWGCNAThreads()
 datExpr <- as.matrix(t(astro[["SCT"]]@scale.data[astro[["SCT"]]@var.features,]))
-gsg <- goodSamplesGenes(datExpr, verbose = 3)
-gsg$allOK
-sampleTree2 <- hclust(parDist(datExpr), method = "average")
-plot(sampleTree2, label = F)
 powers <- c(c(1:10), seq(from = 12, to = 40, by = 2))
 sft <- pickSoftThreshold(datExpr,
   dataIsExpr = TRUE, powerVector = powers, corOptions = list(use = "p"),
@@ -92,23 +95,19 @@ plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
 ) # plot the modules with colors
 ```
 
-#Calculate Eigengenes and Merge Close Modules
+# Calculate Eigengenes 
 ```{r merge close modules}
-MEs <- moduleEigengenes(datExpr, dynamicColors)$eigengenes # this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+MEs <- moduleEigengenes(datExpr, dynamicColors)$eigengenes
 ME1 <- MEs
 row.names(ME1) <- row.names(datExpr)
-# Calculate dissimilarity of module eigengenes
 MEDiss <- 1 - cor(MEs)
-# Cluster module eigengenes
 METree <- hclust(as.dist(MEDiss), method = "average")
-# Plot the result
 plot(METree, main = "Clustering of module eigengenes", xlab = "", sub = "")
 MEDissThres <- 0.2
-# Plot the cut line into the dendrogram
 abline(h = MEDissThres, col = "red")
 ```
 
-# The merged module colors
+# Merge modules
 ```{r}
 merge <- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
 mergedColors <- merge$colors
@@ -117,30 +116,26 @@ moduleColors <- mergedColors
 MEs <- mergedMEs
 modulekME <- signedKME(datExpr, MEs)
 ```
-
+# Plot merged modules
 ```{r}
 plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
   c("Dynamic Tree Cut", "Merged dynamic"),
   dendroLabels = FALSE, hang = 0.03,
   addGuide = TRUE, guideHang = 0.05
 )
-# Rename to moduleColors
 moduleColors <- mergedColors
-# Construct numerical labels corresponding to the colors
-# colorOrder = c("grey", standardColors(50));
-# moduleLabels = match(moduleColors, colorOrder)-1
 MEs <- mergedMEs
 modulekME <- signedKME(datExpr, MEs)
 ```
 
+# Generate function to look up genes in each module
 ```{r}
-# type gene name, prints out gene names also in that module
 modules <- MEs
 c_modules <- data.frame(moduleColors)
-row.names(c_modules) <- colnames(datExpr) # assign gene names as row names
-module.list.set1 <- substring(colnames(modules), 3) # removes ME from start of module names
+row.names(c_modules) <- colnames(datExpr) 
+module.list.set1 <- substring(colnames(modules), 3) 
 index.set1 <- 0
-Network <- list() # create lists of genes for each module
+Network <- list() 
 for (i in 1:length(module.list.set1)) {
   index.set1 <- which(c_modules == module.list.set1[i])
   Network[[i]] <- row.names(c_modules)[index.set1]
@@ -151,22 +146,8 @@ lookup <- function(gene, network) {
 } # load function
 ```
 
-# Get hubgenes and kME
 ```{r}
-hubgenes <- lapply(seq_len(length(Network)), function(x) {
-  dat <- modulekME[Network[[x]], ]
-  dat <- dat[order(-dat[paste0("kME", names(Network)[x])]), ]
-  gene <- data.frame(gene=rownames(dat),kme=dat[,x]) 
-  return(gene)
-})
-
-names(hubgenes) <- names(Network)
-d <- bind_rows(hubgenes, .id="id")
-write_csv(d, path = here("output/glia/wgcna/astro_wgcna_genemodules.csv"))
-```
-
-```{r}
-MEs %>% select(-MEgrey) -> MEs
+MEs %>% dplyr::select(-MEgrey) -> MEs
 data <- data.frame(MEs,
   day = astro$day, trt = astro$trt,
   sample = as.factor(astro$sample), group = astro$group,
@@ -203,6 +184,16 @@ sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] <- "*"
 sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] <- "**"
 sig$symbol[findInterval(sig$symbol, c(1e-200,0.001)) == 1L] <- "***" 
 
+sig %>% group_by(id) %>% dplyr::summarise(max=max(estimate)) %>% arrange(-max) %>% mutate(pubname = paste0("sn-astro-M", seq_len(8))) -> name_mods
+
+rename_mods <- name_mods$id
+names(rename_mods) <- name_mods$pubname
+write_csv(data.frame(x=names(rename_mods), y=as.character(rename_mods)), 
+          path = here("output/glia/wgcna/sn_astro_translatelabels.csv"))
+
+MEs <- rename(MEs, !!!rename_mods)
+data <- rename(data, !!!rename_mods)
+
 lapply(unique(colnames(MEs)), function(me) {
   tryCatch({
    print(ggplot(data = data[sample(nrow(data)), ], aes(x = group, y = get(me))) +
@@ -221,52 +212,69 @@ lapply(unique(colnames(MEs)), function(me) {
   )
 })
 
-# moddat <- bind_rows(mod, .id="id")
 write_csv(sig, path=here("output/glia/wgcna/astro_wgcna_linearmodel_testing.csv"))
 ```
 
-
-#Filter metadata table and correlate with eigengenes
-```{r, fig.height=2.5, fig.width=5}
+# Filter metadata table and correlate with eigengenes
+```{r, fig.height=5, fig.width=3}
 nGenes <- ncol(datExpr)
-nSamples <- nrow(datExpr) # datExpr[,c((nrow(datExpr)-9):nrow(datExpr))]
-# Recalculate MEs with color labels
+nSamples <- nrow(datExpr) 
 MEs <- orderMEs(MEs)
 astro$group <- paste0(astro$trt, "_", astro$day)
-var <- model.matrix(~ 0 + astro$group)
-# colnames(var)<-c("DV","FGF1","FGF19", "V")
-moduleTraitCor <- cor(MEs, var, use = "p")
-moduleTraitPvalue <- corPvalueStudent(moduleTraitCor, nSamples)
-cor <- melt(moduleTraitCor)
-cor$Var2 <- str_split(cor$Var2, "group", n = 2, simplify = T)[, 2]
+
 MEs %>%
   as.data.frame() %>%
   mutate(sample = astro$sample, day = astro$day) %>%
   melt() %>%
   dplyr::group_by(sample, variable) %>%
-  dplyr::summarise(mean_mod = median(value)) %>%
-  filter(variable != "MEgrey") -> me_heatmap
+  dplyr::summarise(mean_mod = median(value)) -> me_heatmap
 me_heatmap %>%
   dplyr::group_by(variable) %>%
   mutate(scaled_mod = scale(mean_mod)) -> me_heatmap
+
+sigmods <- paste0("sn-astro-M",seq_len(4))
+
 me_heatmap$day <- as.character(astro$day[match(me_heatmap$sample, astro$sample)])
+me_heatmap$day <- gsub(me_heatmap$day, pattern="Day-", replacement = "D")
 me_heatmap$trt <- as.character(astro$trt[match(me_heatmap$sample, astro$sample)])
-me_heatmap$sample <- fct_relevel(me_heatmap$sample, "1_FGF", "2_FGF", "3_FGF", "1_PF", "2_PF", "3_PF", "37_FGF", "45_FGF", "28_PF", "38_PF")
-me_heatmap <- me_heatmap[me_heatmap$variable %in% c("MEgreen", "MEred", "MEblue", "MEblack"), ]
-me_heatmap$variable <- as.factor(as.character(me_heatmap$variable))
-me_heatmap$variable <- str_to_title(sapply(strsplit(as.character(me_heatmap$variable), "ME"),"[", 2))
-me_heatmap$variable <- fct_relevel(me_heatmap$variable, "Red", "Black", "Green", "Blue")
-diffmod_heatmap <- ggplot(me_heatmap, aes(sample, variable)) +
+me_heatmap$trt <- gsub(me_heatmap$trt, pattern="PF", replacement = "Veh")
+me_heatmap$sample <- fct_relevel(me_heatmap$sample, "1_FGF", "2_FGF", 
+                                 "3_FGF", "1_Veh", "2_Veh", "3_Veh", "37_FGF", "45_FGF", "28_Veh", "38_Veh")
+me_heatmap <- me_heatmap[me_heatmap$variable %in% c(sigmods), ]
+me_heatmap$order <- paste0(me_heatmap$trt,"_",me_heatmap$day)
+me_heatmap$order <- fct_relevel(me_heatmap$order, c("Veh_Day1","FGF_Day1","Veh_Day5","FGF_Day5"))
+
+diffmod_heatmap <- ggplot(me_heatmap, aes(variable, sample)) +
   geom_tile(aes(fill = scaled_mod), colour = "white", size=.5) + ylab(NULL) + xlab(NULL) +
-  scale_fill_gsea(limits=c(-2,3), name="Scaled\nExpression") +
-  facet_grid(. ~ day + trt, scales = "free_x") + theme_pubr(border = T, legend="right") + ggpubr::labs_pubr() +
-  theme(axis.text.x = element_blank(), panel.spacing = unit(.25, "lines"),  axis.ticks.x = element_blank())
+  scale_fill_gsea(limits=c(-2,3), name="Scaled ME\nExpression") +
+  facet_grid(order ~ ., scales = "free", switch="y") + theme_pubr(border = T, legend="right") + ggpubr::labs_pubr() +
+  scale_x_discrete(position="top") +
+  theme(axis.text.y = element_blank(), panel.spacing = unit(.25, "lines"),  axis.ticks.y = element_blank(), 
+        axis.ticks.x = element_blank(), axis.text.x = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), "cm"), legend.title = element_text(size=8, hjust=0.5, angle=90), 
+        legend.text = element_text(size=7, face="bold")) + 
+  guides(fill = guide_colorbar(barwidth = .75, barheight = 5, title.position = "left")) +
+  theme_figure
 diffmod_heatmap
+```
+
+# Get hubgenes and kME
+```{r}
+hubgenes <- lapply(seq_len(length(Network)-1), function(x) {
+  dat <- modulekME[Network[[x]], ]
+  dat <- dat[order(-dat[paste0("kME", names(Network)[x])]), ]
+  gene <- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+names(hubgenes) <-  names(rename_mods)[match(names(Network)[-length(Network)], 
+                                             gsub(as.character(rename_mods),pattern = "ME",replacement = ""))]
+d <- bind_rows(hubgenes, .id="id")
+write_csv(d, path = here("output/glia/wgcna/astro_wgcna_genemodules.csv"))
 ```
 
 # Calculate GO enrichment
 ```{r, fig.height=6, fig.width=12}
-goterms <- lapply(hubgenes[c("red", "green", "blue", "black")], function(x) {
+goterms <- lapply(hubgenes[c(sigmods)], function(x) {
   x <- gprofiler(x,
     ordered_query = T, organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
     src_filter = c("GO:BP", "GO:MF", "REAC", "KEGG"), hier_filtering = "strong",
@@ -291,8 +299,6 @@ goterms %>%
   select(p.value, padj, term.name, domain, id) %>%
   arrange(id) -> goplot
 
-goplot$id <- str_to_title(fct_relevel(goplot$id, "red", "green", "black"," blue"))
-
 goterm <- ggplot(goplot, aes(x = str_to_title(str_wrap(term.name, 15)), y = -log10(padj), fill = domain)) + 
   geom_col() + scale_fill_npg() +
   facet_wrap(. ~ id, scales = "free_x", ncol = 2) + 
@@ -309,8 +315,7 @@ goterm <- ggplot(goplot, aes(x = str_to_title(str_wrap(term.name, 15)), y = -log
 
 # Plot gene networks
 ```{r, fig.width=5, fig.height=5}
-color <- c("red","green","blue","black")
-lapply(color, function(col) {
+lapply(sigmods, function(col) {
   maxsize <- 15
   hubs <- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
 }) %>% bind_rows() -> hub_plot 
@@ -318,20 +323,33 @@ lapply(color, function(col) {
 adj[hub_plot$genes, hub_plot$genes] %>% 
   graph.adjacency(mode = "undirected", weighted = T, diag = FALSE) %>%
   as_tbl_graph(g1) %>% upgrade_graph() %>% activate(nodes) %>% dplyr::mutate(mod=hub_plot$mod) %>% 
-  dplyr::mutate(kme=hub_plot$kme) %>% activate(edges) %>% dplyr::filter(weight>.15) %>% activate(nodes) %>% filter(!node_is_isolated()) -> hub_plot
+  dplyr::mutate(kme=hub_plot$kme) %>% activate(edges) %>% dplyr::filter(weight>.15) %>% activate(nodes) %>% 
+  filter(!node_is_isolated()) %>% 
+  dplyr::mutate(color = ifelse(name %in% c("Npas3","Sparcl1","Ndrg2","Aqp4","Apoe","Gfap"), yes="red", no="black")) -> hub_plot
 
+set.seed("21")
 geneplot <- ggraph(hub_plot,  layout = 'kk') + 
   geom_edge_link(color="darkgrey", aes(alpha = weight), show.legend = F)  + 
-  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name), fontface="bold", size=3) +
-  geom_node_point(aes(fill=mod, size=kme), shape=21, alpha=0.5) + 
-  scale_size(range = c(2,15), name = "kME") + 
-  scale_fill_manual(values = c("black","blue","green","red"), name = "Module") +
+  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name, color=color), fontface="bold", size=3, repel=T) +
+  geom_node_point(aes(fill = mod, size=kme), shape=21, alpha=0.5) + 
+  scale_size(range = c(1,5), name = "kME") +
+  ggsci::scale_fill_npg(name="Module") +
   guides(fill = guide_legend(override.aes = list(size=5)),
-         size = guide_legend(override.aes = list(size=c(5,7,9,11)))) + 
+         size = guide_legend(override.aes = list(size=c(1,2,3,4)))) + 
   theme_graph() + theme(legend.title.align=0.5,
-                        legend.box = "horizontal", legend.position = c(0.8, 0.3))
+                        legend.box = "horizontal", 
+                        legend.position = c(0.1, 0.9),
+                        legend.margin = margin(-0.5,0,0,0, unit="cm"),
+                        legend.title = element_text(size=10, face="bold"),
+                        legend.text = element_text(size=8, face="bold")) +
+  scale_color_manual(values=c("gray0","red")) + guides(color=FALSE) +
+  coord_cartesian(clip="off")
 geneplot
-ggsave(geneplot, filename=here("output/mod_graph.png"), h=7, w=7)
+```
+
+# Plot figure
+```{r, fig.width=8, fig.height=5}
+plot_grid(diffmod_heatmap, geneplot, rel_widths = c(1,1.5), align="hv", axis="tb", labels="auto", scale=0.95)
 ```
 
 # Read in gene sets
@@ -340,15 +358,15 @@ lps1 <- read_tsv(here("data/lps1.txt"))
 mcao1 <- read_tsv(here("data/mcao1.txt"))
 mcao3 <- read_tsv(here("data/mcao_d3.txt"))
 mcao7 <- read_tsv(here("data/mcaod7.txt"))
-nr <- readxl::read_xlsx(here("data/neur_astro_induce.xlsx"))
-sr <- readxl::read_xlsx(here("data/synaptic_activity_induced.xlsx"))
+ni <- readxl::read_xlsx(here("data/neur_astro_induce.xlsx"))
+na <- readxl::read_xlsx(here("data/synaptic_activity_induced.xlsx"))
 
-nr %>%
+ni %>%
   select(gene_name, `Fold Change`, padj_deseq2) %>%
-  filter(`Fold Change` > 2, padj_deseq2 < 0.05) -> nr
-sr %>%
+  filter(`Fold Change` > 2, padj_deseq2 < 0.05) -> ni
+na %>%
   select(gene_name, Fold_Change, DESeq2_padj) %>%
-  filter(Fold_Change > 2, DESeq2_padj < 0.05) -> sr
+  filter(Fold_Change > 2, DESeq2_padj < 0.05) -> na
 
 
 mcao1 %>%
@@ -388,7 +406,7 @@ mcao7_uniq <- mcao7_gene$Gene.symbol[!mcao7_gene$Gene.symbol %in% lps_gene$Gene.
 # Test module enrichment in gene sets
 ```{r, fig.height=3, fig.width=5}
 d %>%
-  filter(id %in% c("red", "green","blue","black")) %>%
+  filter(id %in% sigmods) %>%
   group_by(id) -> astro_mod
 astro_mod %>%
   group_split() %>%
@@ -401,24 +419,33 @@ lapply(astro_gene, function(x) {
   c <- 1 - phyper(sum(x %in% mcao3_uniq), length(mcao3_uniq), 5000, length(x), log.p = F)
   d <- 1 - phyper(sum(x %in% mcao7_uniq), length(mcao7_uniq), 5000, length(x), log.p = F)
   e <- 1 - phyper(sum(x %in% panreact), length(panreact), 5000, length(x), log.p = F)
-  f <- 1 - phyper(sum(x %in% nr$gene_name), length(nr$gene_name), 5000, length(x), log.p = F)
-  g <- 1 - phyper(sum(x %in% sr$gene_name), length(sr$gene_name), 5000, length(x), log.p = F)
-  return(data.frame(A1 = a, A2 = b, PAN = e, NR = f, SR = g))
+  f <- 1 - phyper(sum(x %in% ni$gene_name), length(ni$gene_name), 5000, length(x), log.p = F)
+  g <- 1 - phyper(sum(x %in% na$gene_name), length(na$gene_name), 5000, length(x), log.p = F)
+  return(data.frame(A1 = a, A2 = b, PAN = e, NeurI = f, `NeurA` = g))
 }) %>% bind_rows() -> overlap_test
 
 as.data.frame(sapply(overlap_test, function(x) p.adjust(x, n = dim(overlap_test)[1] * dim(overlap_test)[2]))) -> overlap_test
 overlap_test$mod <- mod_names
 overlap_pval <- reshape2::melt(overlap_test)
-set_plot <- ggplot(overlap_pval, aes(x = fct_relevel(mod, "red", "black", "green","blue"), y = variable)) + geom_tile(size = 1, color = "white", fill="grey99") +
-  geom_point(aes(size = if_else(-log10(value)<1.3,true = 0, false = -log10(value)), fill = if_else(-log10(value)<1.3,true = "black", false = "red")), shape=21) + 
-  scale_size(name= expression(-log[10] ~ pvalue)) + 
-  scale_fill_manual(values=c("black","red"), guide=F) + coord_flip() + theme_pubr(legend = "right") + xlab(NULL) + ylab(NULL) + labs_pubr() + 
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) 
+set_plot <- ggplot(overlap_pval, aes(y = mod, 
+                                     x = fct_relevel(variable,"NeurA","NeurI","PAN","A2","A1"))) + 
+  geom_tile(size = 1, color = "white", fill="grey99") +
+  geom_point(aes(size = if_else(-log10(value)<1.3,true = 0, false = -log10(value))), alpha=0.25) + 
+  scale_size(name= expression(bold(-log[10] ~ pvalue)), breaks = c(2,4,8)) + 
+  scale_fill_manual(values=c("black","red"), guide=F) + coord_flip() + 
+  theme_pubr(legend = "right") + xlab(NULL) + ylab(NULL) + 
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        legend.title = element_text(size=8), 
+        legend.text = element_text(size=7, face="bold"),
+        axis.text.x = element_text(angle=45, hjust=1)) + theme_figure
 set_plot
 ```
 
-```{r, fig.height=3, fig.width=8}
-plot_grid(diffmod_heatmap, set_plot, align = "hv", axis="tb", rel_widths = c(1.5,1))
-ggsave(here("output/astro_charact.png"), h=3,w=10)
+# Generate top half of figure
+```{r, fig.height=6, fig.width=8}
+topleft <- plot_grid(diffmod_heatmap, set_plot, align = "v", axis="lr", labels="a", ncol=1, rel_heights = c(3,1), scale=0.95)
+topright <- plot_grid(geneplot, labels=c("b"), scale=0.95)
+top_astro <- plot_grid(topleft,topright, ncol=2, rel_widths = c(1,1.25))
+save(top_astro, file = here("data/figures/fig4_nuc_top.RData"))
+ggsave(here("data/figures/fig4_nuc_astro.png"), h=6,w=8)
 ```
-

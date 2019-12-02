@@ -2,8 +2,8 @@
 title: "Ventricle WGCNA"
 output: html_notebook
 ---
-# Load Libraries
 
+# Load Libraries
 ```{r, warnings=F, message=F}
 library(Seurat)
 library(WGCNA)
@@ -21,10 +21,18 @@ library(gProfileR)
 library(ggpubr)
 library(here)
 library(ggforce)
+library(tidygraph)
+library(igraph)
+library(ggraph)
+library(cowplot)
+library(future)
+plan("multiprocess", workers=40)
+options(future.globals.maxSize = 4000 * 1024^2)
 ```
 
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
 ```
 
 # Extract Cells for WGCNA
@@ -79,21 +87,17 @@ plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
 
 # Calculate Eigengenes and Merge Close Modules
 ```{r merge close modules}
-MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes #this matrix gives correlations between cells and module eigengenes (a high value indicates that the cell is highly correlated with the genes in that module)
+MEs = moduleEigengenes(datExpr, dynamicColors)$eigengenes 
 ME1<-MEs
 row.names(ME1)<-row.names(datExpr)
-# Calculate dissimilarity of module eigengenes
 MEDiss = 1-cor(MEs);
-# Cluster module eigengenes
 METree = hclust(as.dist(MEDiss), method = "average");
-# Plot the result
 plot(METree, main = "Clustering of module eigengenes",xlab = "", sub = "")
 MEDissThres = 0.2
-# Plot the cut line into the dendrogram
 abline(h=MEDissThres, col = "red")
 ```
 
-# The merged module colors
+# Merge modules
 ```{r}
 merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
 mergedColors = merge$colors
@@ -109,27 +113,23 @@ plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
 c("Dynamic Tree Cut", "Merged dynamic"),
 dendroLabels = FALSE, hang = 0.03,
 addGuide = TRUE, guideHang = 0.05)
-# Rename to moduleColors
 moduleColors = mergedColors
-# Construct numerical labels corresponding to the colors
-# colorOrder = c("grey", standardColors(50));
-# moduleLabels = match(moduleColors, colorOrder)-1
 MEs = mergedMEs
 modulekME = signedKME(datExpr,MEs)
 ```
 
+# Generate function to look up genes in each network
 ```{r}
-#type gene name, prints out gene names also in that module
 modules<-MEs
 c_modules<-data.frame(moduleColors)
-row.names(c_modules)<-colnames(datExpr) #assign gene names as row names
-module.list.set1<-substring(colnames(modules),3) #removes ME from start of module names
+row.names(c_modules)<-colnames(datExpr) 
+module.list.set1<-substring(colnames(modules),3) 
 index.set1<-0
-Network=list() #create lists of genes for each module
+Network=list() 
 for (i in 1:length(module.list.set1)){index.set1<-which(c_modules==module.list.set1[i])
 Network[[i]]<-row.names(c_modules)[index.set1]}
 names(Network)<-module.list.set1
-lookup<-function(gene,network){return(network[names(network)[grep(gene,network)]])} #load function
+lookup<-function(gene,network){return(network[names(network)[grep(gene,network)]])} 
 ```
 
 # Filter metadata table and correlate with eigengenes
@@ -139,7 +139,6 @@ nSamples = nrow(datExpr)
 MEs = orderMEs(MEs)
 ventric$group<-paste0(ventric$trt,"_",ventric$day)
 var<-model.matrix(~0+ventric$group)
-#colnames(var)<-c("DV","FGF1","FGF19", "V")
 moduleTraitCor <- cor(MEs, var, use="p")
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples)
 cor<-melt(moduleTraitCor)
@@ -157,11 +156,12 @@ hubgenes<-lapply(seq_len(length(Network)), function(x) {
   gene<-rownames(dat)
   return(gene)
 })
+
 names(hubgenes)<-names(Network)
 d <- unlist(hubgenes)
 d <- data.frame(gene = d, 
            vec = names(d))
-write_csv(d, path=here("output/glia/wgcna/allglia_wgcna_genemodules.csv"))
+write_csv(d, path=here("output/glia/wgcna/allglia_wgcna_genemodules_nokme.csv"))
 ```
 
 # Build linear models for differential expression
@@ -172,8 +172,13 @@ data<-data.frame(MEs, day=ventric$day, trt=ventric$trt,
                  batch=ventric$batch, celltype=Idents(ventric), 
                  groupall=paste0(Idents(ventric), ventric$group))
 
+# loop through modules and perform linear regression
 mod<-lapply(colnames(MEs), function(me) {
+  # interaction between treatmet group and cell type
+  # random effect for batch
+  # random effect for sample
   mod<-lmer(MEs[[me]] ~ group*celltype + (1|batch) + (1|sample), data=data)
+  # use emmeans to test pariwaise differences
   pairwise<-emmeans(mod, pairwise ~ group|celltype)
   plot<-data.frame(plot(pairwise, plotIt=F)$data)
   sig<-as.data.frame(pairwise$contrasts)
@@ -195,6 +200,7 @@ mod<-lapply(colnames(MEs), function(me) {
 names(mod) <- colnames(MEs)
 sig <- bind_rows(mod, .id="id")
 sig$symbol <- sig$p.value
+# set ranges for significance markings
 sig$symbol[findInterval(sig$symbol, c(0.1,2)) == 1L] <-NA
 sig$symbol[findInterval(sig$symbol, c(0.01,0.1)) == 1L] <- "*"
 sig$symbol[findInterval(sig$symbol, c(0.001,0.01)) == 1L] <- "**"
@@ -215,10 +221,10 @@ lapply(unique(data$variable), function(x) {
   )
 })
 
-# moddat <- bind_rows(mod, .id="id")
 write_csv(sig, path=here("output/glia/wgcna/allglia_wgcna_linearmodel_testing.csv"))
 ```
 
+# Plot change at D1 v change at D5 in each model per cell-type
 ```{r}
 sig %>%
   unite(start, end, col = "comparison", remove = F) %>%
@@ -228,55 +234,123 @@ sig %>%
   separate(`FGF_Day-1`, into = c("estimate_1", "p.value_1"), sep = ",") %>%
   separate(`FGF_Day-5`, into = c("estimate_5", "p.value_5"), sep = ",") %>%
   mutate(id = gsub(id, pattern = "ME", replacement = "")) %>%
-  mutate(col = if_else(as.numeric(p.value_1) < 0.1 | as.numeric(p.value_5) < 0.1, true = id, false = "grey")) %>%
+  mutate(col = if_else(as.numeric(p.value_1) < 0.1 | as.numeric(p.value_5) < 0.1, true = id, false = "white")) %>%
   mutate(sig = if_else(as.numeric(p.value_1) < 0.1 & as.numeric(p.value_5) < 0.1, true = "red",
     false = if_else(as.numeric(p.value_1) < 0.1, true = "blue",
       false = if_else(as.numeric(p.value_5) < 0.1, true = "black", false = "")
     )
   )) %>%
-  mutate(label = if_else(sig == "blue", true = "DE at Day 1", false = "")) -> plot
+  mutate(id = ifelse(col=="white", yes = NA, no = paste0("sn-glia-M", as.numeric(fct_relevel(as.factor(col), "white", after=Inf))))) -> plot
 
 cols <- unique(plot$col)
 names(cols) <- cols
 
-ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
+multmod_plot <- ggplot(plot, aes(x = as.numeric(estimate_1), y = as.numeric(estimate_5))) +
   geom_point(data = filter(plot, sig != ""), aes(shape = celltype), size = 4) +
   scale_shape(name="Cell-Type") +
   geom_mark_ellipse(data = plot %>% filter(sig == "blue", p.value_1 != 0.0230780280327769), color = "black", linetype = "dashed") +
-  geom_point(size = 4, aes(color = col, shape = celltype)) + coord_flip() + geom_hline(yintercept = 0) +
-  scale_color_manual(values = cols, name = "Modules") +
-  geom_vline(xintercept = 0) +
-  annotate(
-    geom = "curve", x = 0.045, y = 0.02, xend = 0.03, yend = 0.005,
-    curvature = .3, arrow = arrow(length = unit(2, "mm"))
-  ) + annotate(geom = "label", x = 0.045, y = 0.022, label = "DE only at Day 1", hjust = "left") +
-  annotate(
-    geom = "curve", x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,
-    curvature = .3, arrow = arrow(length = unit(2, "mm"))
-  ) + annotate(geom = "label", x = -0.005, y = 0.0275, label = "DE at both", hjust = "left") +
-  annotate(
-    geom = "curve", x = 0.01, y = 0.015, xend = -0.011, yend = 0.02,
-    curvature = .3, arrow = arrow(length = unit(2, "mm"))
-  ) + annotate(geom = "label", x = 0.015, y = 0.01, label = "DE only at Day 5", hjust = "left") + theme_bw() + xlab("Day 1 Estimate") +
-  ylab("Day 5 Estimate") + labs_pubr()
-ggsave(here("output/wgcna_res.png"), w=8, h=5)
+  geom_point(size = 5, color = "grey70", aes(shape = celltype)) +
+  geom_point(size = 4, aes(color = factor(id), shape = celltype)) + 
+  coord_flip(clip="off") + geom_hline(yintercept = 0, linetype="dashed") +
+  scale_color_npg(name = "Modules", na.value="grey",
+                  labels=c("sn-glia-M1","sn-glia-M2","sn-glia-M3","sn-glia-M4","sn-glia-M5","p>0.05")) +
+  geom_vline(xintercept = 0, linetype="dashed") +
+  annotate(geom = "curve", x = 0.045, y = 0.02, xend = 0.03, yend = 0.005, curvature = .3, 
+           arrow = arrow(length = unit(2, "mm"))) + 
+  annotate(geom = "label", x = 0.045, y = 0.0225, label = "Up at D1", hjust = "left", ) +
+  annotate(geom = "curve", x = -0.01, y = 0.03, xend = -0.025, yend = 0.035,curvature = .3, 
+           arrow = arrow(length = unit(2, "mm"))) + 
+  annotate(geom = "label", x = -0.005, y = 0.025, label = "Down at D1\n Up at D5", hjust = "left") +
+  annotate(geom = "curve", x = 0.01, y = 0.015, xend = -0.011, yend = 0.02, curvature = .3, 
+           arrow = arrow(length = unit(2, "mm"))) + 
+  annotate(geom = "label", x = 0.015, y = 0.01, label = "Up at D5", hjust = "left") +  
+  annotate(geom = "curve", x = -0.02, y = -0.009, xend = -0.013, yend = 0.002, curvature = .3, 
+           arrow = arrow(length = unit(2, "mm"))) + 
+  annotate(geom = "label", x = -0.02, y = -0.02, label = "Down at D1", hjust = "left") + 
+  theme_bw() + 
+  xlab(expression(bold(Day1~beta))) +
+  ylab(expression(bold(Day5~beta))) + 
+  guides(shape = guide_legend(override.aes = list(size=4), 
+                              title.theme = element_text(face="bold", size=8),
+                              label.theme = element_text(face="bold", size=8)),
+         color =  guide_legend(title.theme = element_text(size=8, face="bold"), 
+                               label.theme = element_text(face="bold", size=8))) +
+  theme_figure
+
+ggsave(here("data/figures/wgcna_res.png"), w=8, h=5)
+```
+
+# Plot gene networks
+```{r, fig.width=12, fig.height=5}
+hubgenes <- lapply(seq_len(length(Network)), function(x) {
+  dat <- modulekME[Network[[x]], ]
+  dat <- dat[order(-dat[paste0("kME", names(Network)[x])]), ]
+  gene <- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+
+names(hubgenes)<- names(Network)
+
+color <- c("black","green","magenta")
+lapply(color, function(col) {
+  maxsize <- 15
+  hubs <- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -> hub_plot 
+
+
+hub_plot <- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %>% 
+  graph.adjacency(mode = "undirected", weighted = T, diag = FALSE) %>%
+  as_tbl_graph(g1) %>% upgrade_graph() %>% activate(nodes) %>%
+    dplyr::mutate(mod=x$mod) %>%
+    dplyr::mutate(kme=x$kme)  %>% 
+    activate(edges) %>% dplyr::filter(weight>.15)}
+)
+
+hub_plot <- lapply(hub_plot, function(x) {
+  x  %>% 
+    activate(nodes) %>% 
+    dplyr::mutate(color = ifelse(name %in% c("Gfap","Itgav","Vim","Sprr1a"), yes="red", no="black"))
+})
+
+
+
+set.seed("139")
+plotlist <- lapply(hub_plot,  function(x) {
+  print(ggraph(x,  layout = 'fr') + 
+  geom_edge_link(color="darkgrey", aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, 1)) + geom_node_text(aes(label = name, color=color), fontface="bold", size=3, repel = T) +
+  geom_node_point(shape=21, alpha=0.5, fill="grey70", size=3) + 
+    scale_color_manual(values=c("gray0","red")) +
+  theme_graph() + theme(legend.position = "none", plot.title = element_text(hjust=0.5, vjust=1), plot.margin = unit(c(0, 0, 0, 0), "cm")) + coord_cartesian(clip = "off"))
+})
+
+genenet <- plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], ncol=1, labels=c("f"), scale=0.9)
+```
+```{r, fig.width=12, fig.height=12}
+load(here("data/figures/fig3/fig3_top.RData"))
+fig_bot <- plot_grid(multmod_plot, genenet, nrow=1, align="hv", axis="tblr", labels=c("e",""), rel_widths =c(1.25,1), scale=c(0.9,1))
+save(fig_bot, file = here("data/figures/fig3/fig3_bot.RData"))
+fig_full <- plot_grid(fig3_top,fig_bot, ncol=1, rel_heights = c(1.5,1))
+ggsave2(fig_full, filename = here("data/figures/fig3/fig3_arranged.tiff"), h=12, w=12, dpi = 600, compression="lzw")
+fig_full
 ```
 
 
 # Find GO term enrichment of modules
 ```{r, fig.height=10}
-names(mod)<-colnames(MEs)[grepl("^ME", colnames(MEs))]
-go_col <- unique(plot$col)[-grep("grey", unique(plot$col))]
+go_col <- unique(plot$col)[-2]
 goterms<-lapply(go_col, function(x) { 
-  x<-gprofiler(hubgenes[[x]], ordered_query = T, 
+  gprofiler(as.character(hubgenes[[x]]$gene), ordered_query = T, 
                organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
                            src_filter = c("GO:BP","REAC","KEGG"), hier_filtering = "strong",
                            min_isect_size = 3, 
                            sort_by_structure = T,exclude_iea = T, 
-                           min_set_size = 10, max_set_size = 300,correction_method = "fdr")
-  x<-x[order(x$p.value),]
-  return(x)
+                           min_set_size = 10, max_set_size = 300,correction_method = "fdr") %>% 
+    arrange(p.value) -> got
+  return(got)
 })
+
 
 names(goterms) <- go_col
 goterms %>% bind_rows(.id="id") %>%
