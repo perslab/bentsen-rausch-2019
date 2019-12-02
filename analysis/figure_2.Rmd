@@ -3,7 +3,7 @@ title: "Figure 2"
 output: html_notebook
 ---
 
-#Load Libraries
+# Load Libraries
 ```{r, message=F, warning=FALSE}
 library(Seurat)
 library(tidyverse)
@@ -25,8 +25,6 @@ library(gProfileR)
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
 
-
-#Set chunk options
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 source(here("code/sc_functions.R"))
@@ -38,7 +36,7 @@ fgf.agrp <- readRDS(here("data/neuron/agrp_neur.RDS"))
 fgf.agrp@meta.data %>% select(sample, group, trt, day, batch)-> meta
 ```
 
-#Extrad Agrp neuron embedding values
+# Extract Agrp neuron embedding values
 ```{r}
 embed <- data.frame(Embeddings(fgf.agrp, reduction = "pca")[,1:10])
 embed$sample <- meta$sample
@@ -55,7 +53,7 @@ ggplot(embed, aes(x = sample, y=value)) +
 ggsave(filename = here("output/neuron/agrp_pc_graph.png"), width = 10)
 ```
 
-#Plot PCs which show greatest differences between groups
+# Plot PCs which show greatest differences between groups
 ```{r}
 data.frame(Embeddings(fgf.agrp, reduction = "pca")[,4:5]) %>% 
   dplyr::rename(PC4 = PC_4, PC5 = PC_5) %>% mutate(group = fgf.agrp$group) %>%
@@ -79,7 +77,7 @@ pcplot2
 dev.off()
 ```
 
-#Test enrichment of pc5 genes
+# Test enrichment of pc5 genes
 ```{r}
 pc5 <- rownames(fgf.agrp@reductions$pca[order(fgf.agrp@reductions$pca[,5]),])[1:50]
 gprofiler(pc5, organism = "mmusculus", significant = T, custom_bg = rownames(fgf.agrp),
@@ -102,7 +100,7 @@ ego5 %>%
   theme_figure -> pc5go
 ```
 
-#Show Agrp/Npy changes
+# Show Agrp/Npy changes
 ```{r}
 data.frame(t(fgf.agrp[["SCT"]]@data[c("Agrp","Npy"),])) %>% 
   mutate(group = fgf.agrp$group) %>%
@@ -118,7 +116,7 @@ data.frame(t(fgf.agrp[["SCT"]]@data[c("Agrp","Npy"),])) %>%
   ylab("Normalized Expression") + xlab(NULL) + scale_fill_jco() + theme_figure -> agrp_npy_exp
 ```
 
-#Individual measurements of KK-Ay (supplementary)
+# Individual measurements of KK-Ay (supplementary)
 ```{r}
 readxl::read_xlsx(here("data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx"), sheet = 1, range = "A6:V14", col_names = T) %>%
   melt(id.vars = "Days") %>%
@@ -139,7 +137,7 @@ ggplot(kk_fi, aes(x = Days, y = value, color = variable)) + geom_line() +
 ggsave(filename = here("data/figures/fig2/fig2supp_kk_indiv_fi.tiff"), width = 8, h=4, compression="lzw")
 ```
 
-#Group measurements of KK-Ay (Fig 2E)
+# Group measurements of KK-Ay (Fig 2E)
 ```{r}
 kk_bg %>% dplyr::group_by(Days, trt) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %>%
   mutate(trt = ifelse(grepl("F", trt), yes = "FGF-1", no = "Veh")) %>%
@@ -160,9 +158,10 @@ kk_fi %>% dplyr::group_by(Days, trt) %>% dplyr::summarise(mean = mean(value), sd
   ylab("Daily food intake (g)") + xlab("Days") +
   theme(legend.direction = "vertical", legend.position = c(.15,.9), 
         legend.background = element_blank()) + theme_figure -> kk_fi_plot
+plot_grid(kk_bg_plot, kk_fi_plot)
 ```
 
-#Individual measurements of Mc4r -/- (supplementary)
+# Individual measurements of Mc4r -/- (supplementary)
 ```{r}
 readxl::read_xlsx(here("data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx"), sheet = 2, range="A6:Q14", col_names = T) %>% 
   melt(id.vars="Days") %>% mutate(variable = c(rep(paste0("Veh", seq_len(8)), each=8), rep(paste0("FGF-1", seq_len(8)), each=8))) %>% 
@@ -178,7 +177,7 @@ readxl::read_xlsx(here("data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx"), shee
 ggplot(mc4_fi, aes(x=Days, y=value, color=variable)) + geom_line() + geom_point()
 ggsave(filename = here("data/figures/fig2/fig2supp_mc4_indiv_fi.tiff"), width = 8, h=4, compression="lzw")
 ```
-#Group measurements of Mc4r -/- (Fig 2E)
+# Group measurements of Mc4r -/- (Fig 2E)
 ```{r}
 mc4_bg %>% dplyr::group_by(Days, trt) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %>%
   mutate(trt = ifelse(grepl("F", trt), yes = "FGF-1", no = "Veh-PF")) %>%
@@ -197,9 +196,11 @@ mc4_fi %>% dplyr::group_by(Days, trt) %>% dplyr::summarise(mean = mean(value), s
   ylab("Daily food intake (g)") + xlab("Days") + ylim(c(0,10)) +
   scale_x_continuous(breaks=c(0,1,7,14,21,28)) +
   theme(legend.direction = "vertical", legend.position = c(.15,.9), legend.background = element_blank()) + theme_figure -> mc4_fi_plot
+
+plot_grid(mc4_bg_plot, mc4_fi_plot)
 ```
 
-#Individual measurements of Shu (supplementary)
+# Individual measurements of Shu (supplementary)
 ```{r}
 readxl::read_xlsx(here("data/mouse_data/fig2/191116_Agouti_Mc4r_SHU.xlsx"), sheet = 3, range="A6:AF12", col_names = T) %>% 
   melt(id.vars="Days") %>% 
@@ -219,7 +220,7 @@ ggplot(shu_fi, aes(x=Days, y=value, color=variable)) + geom_line() + geom_point(
 ggsave(filename = here("data/figures/fig2/fig2supp_shu_indiv_fi.tiff"), width = 8, h=4, compression="lzw")
 ```
 
-#Group measurements of Mc4r -/- (Fig 2E)
+# Group measurements of Mc4r -/- (Fig 2E)
 ```{r}
 shu_bg %>% dplyr::group_by(Days, group) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se=sd/length(value)) %>%
   ggplot(aes(x=Days, y=mean, color=group)) + geom_point(size=0.5) + geom_line() + 
@@ -238,8 +239,10 @@ shu_fi %>% dplyr::group_by(Days, group) %>% dplyr::summarise(mean = mean(value),
   scale_x_continuous(breaks=c(0,1,7,14,21,28)) +
   guides(color=guide_legend(ncol=2)) +
   theme(legend.position = c(.3,.95), legend.background = element_blank()) + theme_figure -> shu_fi_plot
+plot_grid(shu_bg_plot, shu_fi_plot)
 ```
 
+# Build figure
 ```{r, fig.width=9, fig.height=10}
 top <- plot_grid(pcplot2, pc5go, agrp_npy_exp, nrow=1, labels=c("auto"), scale=0.95, 
                  rel_widths = c(2,1.5,1), align="hv", axis = "tb")
