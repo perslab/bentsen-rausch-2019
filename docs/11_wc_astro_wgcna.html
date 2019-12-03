@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef007730089c70607dd8c86851013b6cff30fd4b0targetblankf007730a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/f007730089c70607dd8c86851013b6cff30fd4b0" target="_blank">f007730</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef007730089c70607dd8c86851013b6cff30fd4b0targetblankf007730a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,32 +591,42 @@ Ignored files:
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
-    Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
     Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/13_olig_pseudotime.Rmd
+    Modified:   analysis/15_tany_wgcna_pseudo.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +665,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f007730089c70607dd8c86851013b6cff30fd4b0/analysis/11_wc_astro_wgcna.Rmd" target="_blank">f007730</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-03
+</td>
+<td>
+wflow_publish(c(“analysis/10_wc_pseudobulk.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/11_wc_astro_wgcna.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -714,6 +758,8 @@ library(gProfileR)
 library(ggpubr)
 library(cowplot)
 library(here)
+library(tidygraph)
+library(ggraph)
 library(ggExtra)</code></pre>
 </div>
 <div id="extract-cells-for-wgcna" class="section level1">
@@ -955,8 +1001,8 @@ Full Name
 </div>
 </div>
 </div>
-<div id="calculate-eigengenes-and-merge-close-modules" class="section level1">
-<h1>Calculate Eigengenes and Merge Close Modules</h1>
+<div id="calculate-eigengenes" class="section level1">
+<h1>Calculate Eigengenes</h1>
 <pre class="r"><code>MEs &lt;- moduleEigengenes(datExpr, dynamicColors)$eigengenes 
 ME1 &lt;- MEs
 row.names(ME1) &lt;- row.names(datExpr)
@@ -1004,8 +1050,8 @@ Full Name
 </div>
 </div>
 </div>
-<div id="the-merged-module-colors" class="section level1">
-<h1>The merged module colors</h1>
+<div id="merge-modules" class="section level1">
+<h1>Merge Modules</h1>
 <pre class="r"><code>merge &lt;- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
 <pre><code> mergeCloseModules: Merging modules whose distance is less than 0.2
    multiSetMEs: Calculating module MEs.
@@ -1069,6 +1115,9 @@ Full Name
 <pre class="r"><code>moduleColors &lt;- mergedColors
 MEs &lt;- mergedMEs
 modulekME &lt;- signedKME(datExpr, MEs)</code></pre>
+</div>
+<div id="generate-function-to-look-up-genes-in-each-module" class="section level1">
+<h1>Generate function to look up genes in each module</h1>
 <pre class="r"><code>modules &lt;- MEs
 c_modules &lt;- data.frame(moduleColors)
 row.names(c_modules) &lt;- colnames(datExpr) 
@@ -1134,22 +1183,9 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>hubgenes&lt;-lapply(seq_len(length(Network)), function(x) {
-  dat&lt;-modulekME[Network[[x]],]
-  dat&lt;-dat[order(-dat[paste0(&quot;kME&quot;,names(Network)[x])]),]
-  gene&lt;-rownames(dat)
-  return(gene)
-})
-
-names(hubgenes)&lt;-names(Network)
-d &lt;- unlist(hubgenes)
-d &lt;- data.frame(gene = d, 
-           vec = names(d))
-
-write_csv(d, path=here(&quot;output/glia/wgcna/wc_astro_genemods.csv&quot;))</code></pre>
 </div>
-<div id="run-linear-model-to-calculate-sig-diff-mods" class="section level1">
-<h1>Run linear model to calculate sig diff mods</h1>
+<div id="run-linear-regression-to-calculate-sig-diff-mods" class="section level1">
+<h1>Run linear regression to calculate sig diff mods</h1>
 <pre class="r"><code>data &lt;- data.frame(MEs,
   trt = ventric$trt,
   sample = as.factor(ventric$sample),
@@ -1174,6 +1210,10 @@ control$checkConv, : Model failed to converge with max|grad| = 0.00943197
 control$checkConv, : Model failed to converge with max|grad| = 0.00238047
 (tol = 0.002, component 1)</code></pre>
 <pre class="r"><code>names(mod) &lt;- colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))]
+sig &lt;- bind_rows(mod, .id=&quot;id&quot;)
+write_csv(sig, path = here(&quot;output/glia/wgcna/wc_astro_linmod.csv&quot;))
+
+
 mod &lt;- data.frame(unlist(mod))
 mod %&gt;%
   add_rownames(&quot;test&quot;) %&gt;%
@@ -1191,25 +1231,144 @@ data.frame(test) %&gt;%
   slice(2:nrow(.)) %&gt;%
   select(p, estimate, mod) %&gt;%
   mutate(p = as.numeric(as.character(p)), estimate = as.numeric(as.character(estimate))) %&gt;%
-  filter(p &lt; 0.05, abs(estimate) &gt; 0.005) %&gt;%
-  arrange(log10(p) * abs(estimate)) -&gt; astro_mods</code></pre>
+  arrange(log10(p)*abs(estimate)) %&gt;%
+  mutate(pubname = paste0(&quot;sc-astro-M&quot;, paste0(seq_len(length(estimate)))))  -&gt; astro_mods</code></pre>
 <pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
-<pre class="r"><code>astro_mods$mod &lt;- gsub(astro_mods$mod, pattern = &quot;ME&quot;, replacement = &quot;&quot;)</code></pre>
-<pre class="r"><code>data &lt;- data.frame(MEs,
-  trt = ventric$trt,
-  sample = as.factor(ventric$sample)
-)
+<pre class="r"><code>astro_mods %&gt;% filter(p &lt; 0.05, abs(estimate) &gt; 0.005) %&gt;% pull(pubname) -&gt; sigmods
 
-data &lt;- melt(data, id.vars = c(&quot;trt&quot;, &quot;sample&quot;))
-data %&gt;% filter(variable %in% paste0(&quot;ME&quot;, astro_mods$mod[1:4])) -&gt; data
-boxplot &lt;- ggplot(data = data, aes(x = fct_reorder(sample, value), y = as.numeric(value))) +
-  geom_boxplot(aes(fill = trt), notch = T, outlier.shape = NA) +
-  facet_wrap(. ~ variable, scales = &quot;free_y&quot;, ncol = 2) +
-  theme_pubr(legend = &quot;none&quot;) + geom_hline(yintercept = 0, linetype = &quot;dashed&quot;) +
-  coord_cartesian(ylim = quantile(data$value, c(0.001, 0.999))) + xlab(&quot;Sample&quot;) +
-  ylab(&quot;ME Expression&quot;) + theme(axis.text.x = element_blank())
+rename_mods &lt;- astro_mods$mod
+names(rename_mods) &lt;- astro_mods$pubname
+MEs &lt;- rename(MEs, !!!rename_mods)
+data &lt;- rename(data, !!!rename_mods)
+write_csv(data.frame(pubname = names(rename_mods), color = as.character(rename_mods)),
+          path = here(&quot;output/glia/wgcna/wc_astro_translatelabels.csv&quot;))</code></pre>
+</div>
+<div id="hubgene-information" class="section level1">
+<h1>hubgene information</h1>
+<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)-1), function(x) {
+  dat &lt;- modulekME[Network[[x]], ]
+  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
+  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+
+names(hubgenes) &lt;-  names(rename_mods)[match(names(Network)[-length(Network)], 
+                                             gsub(as.character(rename_mods),pattern = &quot;ME&quot;,replacement = &quot;&quot;))]
+d &lt;- dplyr::bind_rows(hubgenes, .id = &quot;id&quot;)</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre class="r"><code>write_csv(d, path = here(&quot;output/glia/wgcna/wc_astro_wgcna_genemods.csv&quot;))</code></pre>
+</div>
+<div id="boxplot-summary-of-diff-exp-modules" class="section level1">
+<h1>boxplot summary of diff exp modules</h1>
+<pre class="r"><code>data &lt;- melt(data, id.vars = c(&quot;trt&quot;, &quot;sample&quot;))</code></pre>
+<pre><code>Warning: attributes are not identical across measure variables; they will
+be dropped</code></pre>
+<pre class="r"><code>data %&gt;% filter(variable %in% sigmods) -&gt; data
+data$trt &lt;- gsub(data$trt, pattern = &quot;PF&quot;, replacement = &quot;Veh&quot;)
+boxplot &lt;- ggplot(data = data, 
+                  aes(x = fct_relevel(variable,&quot;sc-astro-M1&quot;,&quot;sc-astro-M3&quot;,
+                                      &quot;sc-astro-M2&quot;,&quot;sc-astro-M9&quot;,&quot;sc-astro-M5&quot;,&quot;sc-astro-M6&quot;), 
+                      y = as.numeric(value))) +
+  geom_boxplot(aes(fill=trt), width=0.5, notch=T, outlier.shape = NA) +
+  theme_pubr(legend=&quot;right&quot;) + 
+  geom_hline(yintercept = 0, linetype = &quot;dashed&quot;) + xlab(NULL) +
+  ylab(&quot;ME Expression&quot;) + 
+  theme(axis.text.x = element_blank(), 
+        axis.title.y = element_text(size=10, face=&quot;bold&quot;),
+        legend.text = element_text(size=8, face=&quot;bold&quot;),
+        legend.title = element_text(size=10, face=&quot;bold&quot;), 
+        plot.margin = unit(c(0, 0, 0, 0), &quot;cm&quot;)) +
+  ylim(c(-0.025,0.025)) + scale_fill_manual(name=&quot;Treatment&quot;, values = c(&quot;gray30&quot;, &quot;gray80&quot;)) + theme_figure
+
 boxplot</code></pre>
-<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 781 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-12-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
 Past versions of unnamed-chunk-12-1.png
@@ -1247,58 +1406,10 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>astro_umap &lt;- as.data.frame(Embeddings(ventric, reduction = &quot;umap&quot;)[, 1:2])
-astro_umap$trt &lt;- as.character(ventric$trt)
-astro_plot &lt;- ggplot(astro_umap, aes(UMAP_1, UMAP_2, colour = trt)) +
-  geom_point(alpha = 0.5, size = .5) + xlim(c(-6, 0)) + scale_colour_discrete(name = &quot;Treatment&quot;) +
-  guides(colour = guide_legend(override.aes = list(size = 5))) +
-  ylim(c(-7.5, 0)) + theme_pubr()
-umap_gg &lt;- ggMarginal(astro_plot, groupColour = T, groupFill = T, margins = &quot;y&quot;)</code></pre>
-<pre><code>Warning: Removed 146 rows containing missing values (geom_point).</code></pre>
-<pre class="r"><code>plot_grid(umap_gg, boxplot, align = &quot;hv&quot;, rel_widths = c(1, 1.5), scale = 0.9)</code></pre>
-<pre><code>Warning: Graphs cannot be vertically aligned unless the axis parameter is
-set. Placing graphs unaligned.</code></pre>
-<pre><code>Warning: Graphs cannot be horizontally aligned unless the axis parameter is
-set. Placing graphs unaligned.</code></pre>
-<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
-Past versions of unnamed-chunk-13-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-13-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-13-1.png" target="_blank">3b5cbe7</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<pre class="r"><code>goterms &lt;- lapply(hubgenes[astro_mods$mod], function(x) {
+<div id="go-term-enrichment" class="section level1">
+<h1>go term enrichment</h1>
+<pre class="r"><code>goterms &lt;- lapply(hubgenes[sigmods], function(x) {
   x &lt;- gprofiler(x,
     ordered_query = T, organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
     src_filter = c(&quot;GO:BP&quot;, &quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
@@ -1308,20 +1419,28 @@ Full Name
   )
   x &lt;- x[order(x$p.value), ]
   return(x)
-})</code></pre>
+})
+
+godat &lt;- bind_rows(goterms, .id=&quot;id&quot;)
+write_csv(godat, path = here(&quot;output/glia/wgcna/wc_astro_wgcna_goterms.csv&quot;))</code></pre>
+</div>
+<div id="test-overlap-with-nuclei-modules" class="section level1">
+<h1>test overlap with nuclei modules</h1>
 <pre class="r"><code>nuc_mods &lt;- read_csv(file = here(&quot;output/glia/wgcna/astro_wgcna_genemodules.csv&quot;))
 nuc_mods %&gt;%
   as.data.frame() %&gt;%
-  filter(id != &quot;grey&quot;) %&gt;%
+  filter(id %in% c(paste0(&quot;sn-astro-M&quot;, seq_len(4)))) %&gt;%
   dplyr::group_by(id) %&gt;%
   dplyr::group_split() %&gt;%
   map(&quot;gene&quot;) -&gt; nuc_gene
 
-names(nuc_gene) &lt;- unique(nuc_mods$id)[1:8]
+nuc_mods %&gt;% as.data.frame() %&gt;%
+  filter(id %in% c(paste0(&quot;sn-astro-M&quot;, seq_len(4)))) %&gt;%
+  dplyr::group_by(id) %&gt;% group_keys() %&gt;% pull() -&gt; names(nuc_gene)
 
 wc_nuc_overlap &lt;- sapply(nuc_gene, function(x) {
-  sapply(hubgenes[c(&quot;darkorange&quot;, &quot;darkgreen&quot;, &quot;cyan&quot;, &quot;lightcyan&quot;)], function(y) {
-    1 - phyper(sum(x %in% y), length(y), 5000 - length(y), length(x), log.p = F)
+  sapply(hubgenes[sigmods], function(y) {
+    1 - phyper(sum(x %in% y$gene), length(y$gene), 5000 - length(y$gene), length(x), log.p = F)
   })
 })
 
@@ -1337,12 +1456,30 @@ wc_nuc_overlap %&gt;%
     )
   )) -&gt; wc_nuc_overlap
 
-overlap &lt;- ggplot(wc_nuc_overlap, aes(x = Var1, y = Var2, fill = -log10(value + 2e-16), label = sig)) +
-  geom_tile(size = 1, color = &quot;white&quot;) + coord_flip() + theme_bw() + ylab(NULL) + xlab(&quot;Module&quot;) +
-  scale_fill_gsea(name = expression(-log[10] ~ pvalue)) + geom_text()
+write_csv(wc_nuc_overlap, path = here(&quot;output/glia/wgcna/astro_mod_overlaps_pval.csv&quot;))
 
-overlap</code></pre>
-<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+overlap &lt;- ggplot(wc_nuc_overlap, aes(x = fct_relevel(Var1, &quot;sc-astro-M1&quot;, &quot;sc-astro-M3&quot;,&quot;sc-astro-M2&quot;,&quot;sc-astro-M9&quot;,
+                                                      &quot;sc-astro-M5&quot;,&quot;sc-astro-M6&quot;),
+                                      y = fct_relevel(Var2, &quot;sn-astro-M4&quot;,
+                                                      &quot;sn-astro-M3&quot;,&quot;sn-astro-M2&quot;,&quot;sn-astro-M1&quot;))) +
+  geom_tile(size = 1, color = &quot;white&quot;, fill=&quot;grey99&quot;) +
+  geom_point(aes(size = if_else(-log10(value)&lt;1.3,true = 0, false = -log10(value))), alpha=0.25) + 
+  scale_size(name= expression(bold(-log[10] ~ pvalue)), breaks = c(2,4,8)) + 
+  scale_fill_manual(values=c(&quot;black&quot;,&quot;red&quot;), guide=F) + 
+  theme_pubr(legend = &quot;right&quot;) + xlab(NULL) + ylab(NULL) + 
+  theme(axis.text.x = element_text(angle=45, hjust=1), 
+        legend.title = element_text(size=8), 
+        legend.text = element_text(size=7, face=&quot;bold&quot;),
+        plot.margin = unit(c(0, 0, 0, 0), &quot;cm&quot;)) + theme_figure
+
+overlap </code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-as-grid" class="section level1">
+<h1>plot as grid</h1>
+<pre class="r"><code>plot_grid(boxplot, overlap, align=&quot;v&quot;, axis=&quot;tblr&quot;, labels=c(&quot;f&quot;), ncol=1)</code></pre>
+<pre><code>Warning: Removed 781 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
 Past versions of unnamed-chunk-15-1.png
@@ -1380,7 +1517,120 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>save.image(file = here(&quot;output/glia/wgcna/astro_wgcna.RDS&quot;))</code></pre>
+</div>
+<div id="plot-gene-networks" class="section level1">
+<h1>Plot gene networks</h1>
+<pre class="r"><code>color &lt;- c(&quot;sc-astro-M1&quot;,&quot;sc-astro-M3&quot;)
+lapply(color, function(col) {
+  maxsize &lt;- 15
+  hubs &lt;- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -&gt; hub_plot 
+
+
+hub_plot &lt;- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %&gt;% 
+  graph.adjacency(mode = &quot;undirected&quot;, weighted = T, diag = FALSE) %&gt;%
+  as_tbl_graph(g1) %&gt;% upgrade_graph() %&gt;% activate(nodes) %&gt;% dplyr::mutate(mod=x$mod) %&gt;%
+  dplyr::mutate(kme=x$kme)  %&gt;% 
+    dplyr::mutate(color = ifelse(name %in% c(&quot;Slc1a2&quot;,&quot;Slc1a3&quot;,&quot;Slc6a11&quot;,&quot;Aqp4&quot;,&quot;Sparcl1&quot;,&quot;Sparc&quot;,&quot;Psap&quot;,&quot;Clu&quot;,&quot;Plat&quot;,&quot;Cpe&quot;), yes=&quot;red&quot;,no=&quot;black&quot;)) %&gt;%
+  activate(edges)}
+)
+
+set.seed(&quot;139&quot;)
+plotlist &lt;- lapply(hub_plot, function(x) {
+  print(ggraph(x,  layout = &#39;fr&#39;) + 
+  geom_edge_link(color=&quot;darkgrey&quot;, aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, .5)) + geom_node_text(aes(label = name, color=color), fontface=&quot;bold&quot;, size=3, repel=T) +
+  scale_color_manual(values=c(&quot;gray0&quot;,&quot;red&quot;)) + guides(color=FALSE) +
+  geom_node_point(shape=21, alpha=0.5, fill=&quot;grey70&quot;, size=4) + 
+  theme_graph() + theme(legend.position = &quot;none&quot;, plot.title = element_text(hjust=0.5, vjust=1)) + 
+    coord_cartesian(clip = &quot;off&quot;))
+})</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-16-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="arrange-figure" class="section level1">
+<h1>arrange figure</h1>
+<pre class="r"><code>genenet &lt;- plot_grid(plotlist[[1]], plotlist[[2]], ncol=1, labels = c(&quot;f&quot;), scale=0.8)
+nets &lt;- plot_grid(boxplot, overlap, align=&quot;v&quot;, axis=&quot;tblr&quot;, labels=c(&quot;e&quot;), ncol=1, scale=0.95, rel_heights = c(2,1))</code></pre>
+<pre><code>Warning: Removed 781 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre class="r"><code>wc_astro_res &lt;- plot_grid(nets, genenet, rel_widths = c(1.5,1), nrow=1)
+
+load(here(&quot;data/figures/fig4/fig4_nuc_top.RData&quot;))
+fig4 &lt;- plot_grid(top_astro, wc_astro_res, ncol=1, align=&quot;hv&quot;, rel_heights = c(1,1.25), axis=&quot;lr&quot;)
+transcriptomics_4 &lt;- plot_grid(top_astro, fig4, rel_widths = c(1,1))
+transcriptomics_4</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-17-1.png" width="1248" style="display: block; margin: auto;" /></p>
+</div>
+<div id="aqp4gfap-quantification" class="section level1">
+<h1>Aqp4/Gfap Quantification</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig4/191118_Aqp4_Gfap.xlsx&quot;), range=&quot;A5:E9&quot;) %&gt;%
+  select(1,2,4,5) %&gt;% 
+  reshape2::melt() %&gt;% 
+  mutate(gene = c(rep(&quot;Aqp4&quot;, 8), rep(&quot;Gfap&quot;,8))) %&gt;% 
+  separate(variable, &quot;[...]&quot;, into = &quot;trt&quot;) -&gt; aq_gf_quants</code></pre>
+<pre><code>Warning: Expected 1 pieces. Additional pieces discarded in 16 rows [1, 2,
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].</code></pre>
+<pre class="r"><code>aq_gf_quants %&gt;% dplyr::group_by(trt,  gene) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=gene, y=mean, fill=fct_relevel(trt,&quot;Veh&quot;,&quot;FGF1&quot;), color = fct_relevel(trt,&quot;Veh&quot;,&quot;FGF1&quot;))) + 
+  geom_col(width=0.9, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=gene, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = aq_gf_quants, inherit.aes = F, aes(x=gene, y=value, fill=fct_relevel(trt,&quot;Veh&quot;,&quot;FGF1&quot;)), 
+              alpha=0.85, shape=21, position = position_jitterdodge(0.2)) + xlab(NULL) + 
+  ylab(expression(bold(Volume~(mu*m^3)))) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) +
+  scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
+  geom_signif(y_position=c(1.5e6), xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c(&quot;*&quot;,&quot;**&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  theme_pubr() + theme(legend.position=&quot;none&quot;, axis.text.x=element_text(angle=45, hjust=1)) + theme_figure -&gt; aq_gf
+aqp4_gfap &lt;- cowplot::plot_grid(ggplot() + theme_void(), aq_gf, nrow=1, scale=c(1,0.75), labels=&quot;g&quot;, rel_widths = c(2.05,1))
+aqp4_gfap</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="agrpgfap-overlap" class="section level1">
+<h1>Agrp/Gfap overlap</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig4/191118_GFAP_AGRP.xlsx&quot;), range=&quot;A5:B9&quot;) %&gt;%
+  reshape2::melt() -&gt; ga_quants
+ga_quants %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x = variable, y = mean, fill = variable, color = variable)) + 
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + 
+  geom_jitter(data = ga_quants, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(1000), xmin=c(1.2), xmax=c(1.8),
+              annotation=c(&quot;**&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  ylab(expression(bold(GFAP/Agrp~contact~volume~(mu*m^3/hpf)))) + scale_fill_manual(values=c(&quot;gray80&quot;,&quot;gray30&quot;), name=&quot;&quot;) + 
+  scale_color_manual(values=c(&quot;gray80&quot;,&quot;gray30&quot;), name=&quot;&quot;) +
+  theme_pubr() + theme(legend.position = &quot;none&quot;, axis.text.x = element_text(angle=45,hjust=1)) + theme_figure -&gt; gfap_agrp
+gfap_agrp &lt;- cowplot::plot_grid(ggplot() + theme_void(), gfap_agrp, nrow=1, scale=c(1,0.75), labels=&quot;h&quot;, rel_widths = c(1.5,1))
+gfap_agrp</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="em-of-paps-quantification" class="section level1">
+<h1>EM of PAPs quantification</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig4/EM_glial_contact.xlsx&quot;), range=&quot;A4:B8&quot;) %&gt;%
+  reshape2::melt() -&gt; em_quants
+em_quants %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) +
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = em_quants, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(85), xmin=c(1.2), xmax=c(1.8),
+              annotation=c(&quot;***&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  ylab(&quot;% Astrocytic coverage&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) +
+  theme_pubr() + theme(legend.position = &quot;none&quot;,axis.text.x = element_text(angle=45, hjust=1)) + 
+  coord_cartesian(clip=&quot;off&quot;) + theme_figure -&gt; em_bp
+pap &lt;- cowplot::plot_grid(ggplot() + theme_void(), em_bp, nrow=1, scale=c(1,0.75), labels=&quot;i&quot;, rel_widths = c(1.5,1))
+pap</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="generate-full-figure" class="section level1">
+<h1>Generate full figure</h1>
+<pre class="r"><code>validation &lt;- plot_grid(aqp4_gfap, gfap_agrp, pap, nrow=1, align=&quot;h&quot;, axis=&quot;tb&quot;, rel_widths = c(1.5,1,1))
+plot_grid(transcriptomics_4, validation, ncol=1, align=&quot;h&quot;, axis=&quot;tblr&quot;, rel_heights = c(1.75,1))</code></pre>
+<p><img src="figure/11_wc_astro_wgcna.Rmd/unnamed-chunk-21-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(filename = here(&quot;data/figures/fig4/fig4.tiff&quot;), width = 13, h=10, compression=&quot;lzw&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1408,73 +1658,75 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggExtra_0.9           here_0.1              cowplot_1.0.0        
- [4] ggpubr_0.2.1          magrittr_1.5          gProfileR_0.6.7      
- [7] igraph_1.2.4.1        reshape2_1.4.3        forcats_0.4.0        
-[10] stringr_1.4.0         dplyr_0.8.3           purrr_0.3.2          
-[13] readr_1.3.1.9000      tidyr_0.8.3           tibble_2.1.3         
-[16] tidyverse_1.2.1       genefilter_1.64.0     ggbeeswarm_0.6.0     
-[19] ggplot2_3.2.1         lme4_1.1-21           Matrix_1.2-17        
-[22] emmeans_1.3.5.1       ggsci_2.9             parallelDist_0.2.4   
-[25] cluster_2.1.0         WGCNA_1.68            fastcluster_1.1.25   
-[28] dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
+ [1] ggExtra_0.9           ggraph_1.0.2          tidygraph_1.1.2      
+ [4] here_0.1              cowplot_1.0.0         ggpubr_0.2.1         
+ [7] magrittr_1.5          gProfileR_0.6.7       igraph_1.2.4.1       
+[10] reshape2_1.4.3        forcats_0.4.0         stringr_1.4.0        
+[13] dplyr_0.8.3           purrr_0.3.2           readr_1.3.1.9000     
+[16] tidyr_0.8.3           tibble_2.1.3          tidyverse_1.2.1      
+[19] genefilter_1.64.0     ggbeeswarm_0.6.0      ggplot2_3.2.1        
+[22] lme4_1.1-21           Matrix_1.2-17         emmeans_1.3.5.1      
+[25] ggsci_2.9             parallelDist_0.2.4    cluster_2.1.0        
+[28] WGCNA_1.68            fastcluster_1.1.25    dynamicTreeCut_1.63-1
+[31] Seurat_3.0.3.9036    
 
 loaded via a namespace (and not attached):
-  [1] reticulate_1.13       R.utils_2.9.0         tidyselect_0.2.5     
-  [4] robust_0.4-18.1       RSQLite_2.1.1         AnnotationDbi_1.44.0 
-  [7] htmlwidgets_1.3       grid_3.5.3            Rtsne_0.15           
- [10] munsell_0.5.0         codetools_0.2-16      ica_1.0-2            
- [13] preprocessCore_1.44.0 miniUI_0.1.1.1        future_1.14.0        
- [16] withr_2.1.2           colorspace_1.4-1      Biobase_2.42.0       
- [19] highr_0.8             knitr_1.23            rstudioapi_0.10      
- [22] stats4_3.5.3          ROCR_1.0-7            robustbase_0.93-5    
- [25] ggsignif_0.5.0        gbRd_0.4-11           listenv_0.7.0        
- [28] labeling_0.3          Rdpack_0.11-0         git2r_0.25.2         
- [31] bit64_0.9-7           rprojroot_1.3-2       vctrs_0.2.0          
- [34] coda_0.19-3           generics_0.0.2        TH.data_1.0-10       
- [37] xfun_0.8              R6_2.4.0              doParallel_1.0.14    
- [40] rsvd_1.0.2            bitops_1.0-6          assertthat_0.2.1     
- [43] promises_1.0.1        SDMTools_1.1-221.1    scales_1.0.0         
- [46] multcomp_1.4-10       nnet_7.3-12           beeswarm_0.2.3       
- [49] gtable_0.3.0          npsurv_0.4-0          globals_0.12.4       
- [52] sandwich_2.5-1        workflowr_1.4.0       rlang_0.4.0          
- [55] zeallot_0.1.0         splines_3.5.3         lazyeval_0.2.2       
- [58] acepack_1.4.1         impute_1.56.0         broom_0.5.2          
- [61] checkmate_1.9.4       modelr_0.1.4          yaml_2.2.0           
- [64] backports_1.1.4       httpuv_1.5.1          Hmisc_4.2-0          
- [67] tools_3.5.3           ellipsis_0.2.0.1      gplots_3.0.1.1       
- [70] RColorBrewer_1.1-2    BiocGenerics_0.28.0   ggridges_0.5.1       
- [73] Rcpp_1.0.2            plyr_1.8.4            base64enc_0.1-3      
- [76] RCurl_1.95-4.12       rpart_4.1-15          pbapply_1.4-1        
- [79] S4Vectors_0.20.1      zoo_1.8-6             haven_2.1.0          
- [82] ggrepel_0.8.1         fs_1.3.1              data.table_1.12.2    
- [85] lmtest_0.9-37         RANN_2.6.1            mvtnorm_1.0-11       
- [88] whisker_0.3-2         fitdistrplus_1.0-14   matrixStats_0.54.0   
- [91] mime_0.7              hms_0.5.0             lsei_1.2-0           
- [94] evaluate_0.14         xtable_1.8-4          XML_3.98-1.20        
- [97] readxl_1.3.1          IRanges_2.16.0        gridExtra_2.3        
-[100] compiler_3.5.3        KernSmooth_2.23-15    crayon_1.3.4         
-[103] minqa_1.2.4           R.oo_1.22.0           htmltools_0.3.6      
-[106] later_0.8.0           pcaPP_1.9-73          Formula_1.2-3        
-[109] rrcov_1.4-7           RcppParallel_4.4.3    lubridate_1.7.4      
-[112] DBI_1.0.0             MASS_7.3-51.4         boot_1.3-22          
-[115] cli_1.1.0             R.methodsS3_1.7.1     gdata_2.18.0         
-[118] parallel_3.5.3        metap_1.1             pkgconfig_2.0.2      
-[121] fit.models_0.5-14     foreign_0.8-71        plotly_4.9.0         
-[124] xml2_1.2.0            foreach_1.4.4         annotate_1.60.1      
-[127] vipor_0.4.5           estimability_1.3      rvest_0.3.4          
-[130] bibtex_0.4.2          digest_0.6.20         sctransform_0.2.0    
-[133] RcppAnnoy_0.0.12      tsne_0.1-3            cellranger_1.1.0     
-[136] rmarkdown_1.13        leiden_0.3.1          htmlTable_1.13.1     
-[139] uwot_0.1.3            shiny_1.3.2           gtools_3.8.1         
-[142] nloptr_1.2.1          nlme_3.1-140          jsonlite_1.6         
-[145] viridisLite_0.3.0     pillar_1.4.2          lattice_0.20-38      
-[148] httr_1.4.1            DEoptimR_1.0-8        survival_2.44-1.1    
-[151] GO.db_3.7.0           glue_1.3.1            png_0.1-7            
-[154] iterators_1.0.10      bit_1.1-14            stringi_1.4.3        
-[157] blob_1.1.1            latticeExtra_0.6-28   caTools_1.17.1.2     
-[160] memoise_1.1.0         irlba_2.3.3           future.apply_1.3.0   
-[163] ape_5.3              </code></pre>
+  [1] estimability_1.3      R.methodsS3_1.7.1     coda_0.19-3          
+  [4] acepack_1.4.1         bit64_0.9-7           knitr_1.23           
+  [7] irlba_2.3.3           multcomp_1.4-10       R.utils_2.9.0        
+ [10] data.table_1.12.2     rpart_4.1-15          RCurl_1.95-4.12      
+ [13] doParallel_1.0.14     generics_0.0.2        metap_1.1            
+ [16] BiocGenerics_0.28.0   preprocessCore_1.44.0 TH.data_1.0-10       
+ [19] RSQLite_2.1.1         RANN_2.6.1            future_1.14.0        
+ [22] bit_1.1-14            xml2_1.2.0            lubridate_1.7.4      
+ [25] httpuv_1.5.1          assertthat_0.2.1      viridis_0.5.1        
+ [28] xfun_0.8              hms_0.5.0             promises_1.0.1       
+ [31] evaluate_0.14         DEoptimR_1.0-8        caTools_1.17.1.2     
+ [34] readxl_1.3.1          DBI_1.0.0             htmlwidgets_1.3      
+ [37] stats4_3.5.3          backports_1.1.4       annotate_1.60.1      
+ [40] gbRd_0.4-11           RcppParallel_4.4.3    vctrs_0.2.0          
+ [43] Biobase_2.42.0        ROCR_1.0-7            withr_2.1.2          
+ [46] ggforce_0.3.0.9000    robustbase_0.93-5     checkmate_1.9.4      
+ [49] sctransform_0.2.0     ape_5.3               lazyeval_0.2.2       
+ [52] crayon_1.3.4          labeling_0.3          pkgconfig_2.0.2      
+ [55] tweenr_1.0.1          nlme_3.1-140          vipor_0.4.5          
+ [58] rematch_1.0.1         nnet_7.3-12           rlang_0.4.0          
+ [61] globals_0.12.4        miniUI_0.1.1.1        sandwich_2.5-1       
+ [64] modelr_0.1.4          rsvd_1.0.2            cellranger_1.1.0     
+ [67] rprojroot_1.3-2       polyclip_1.10-0       matrixStats_0.54.0   
+ [70] lmtest_0.9-37         boot_1.3-22           zoo_1.8-6            
+ [73] base64enc_0.1-3       beeswarm_0.2.3        whisker_0.3-2        
+ [76] ggridges_0.5.1        png_0.1-7             viridisLite_0.3.0    
+ [79] bitops_1.0-6          R.oo_1.22.0           KernSmooth_2.23-15   
+ [82] blob_1.1.1            workflowr_1.4.0       robust_0.4-18.1      
+ [85] S4Vectors_0.20.1      ggsignif_0.5.0        scales_1.0.0         
+ [88] memoise_1.1.0         plyr_1.8.4            ica_1.0-2            
+ [91] gplots_3.0.1.1        bibtex_0.4.2          gdata_2.18.0         
+ [94] compiler_3.5.3        lsei_1.2-0            RColorBrewer_1.1-2   
+ [97] rrcov_1.4-7           fitdistrplus_1.0-14   cli_1.1.0            
+[100] listenv_0.7.0         pbapply_1.4-1         htmlTable_1.13.1     
+[103] Formula_1.2-3         MASS_7.3-51.4         tidyselect_0.2.5     
+[106] stringi_1.4.3         highr_0.8             yaml_2.2.0           
+[109] latticeExtra_0.6-28   ggrepel_0.8.0.9000    grid_3.5.3           
+[112] tools_3.5.3           future.apply_1.3.0    parallel_3.5.3       
+[115] rstudioapi_0.10       foreach_1.4.4         foreign_0.8-71       
+[118] git2r_0.25.2          gridExtra_2.3         farver_1.1.0         
+[121] Rtsne_0.15            digest_0.6.20         shiny_1.3.2          
+[124] Rcpp_1.0.2            broom_0.5.2           SDMTools_1.1-221.1   
+[127] later_0.8.0           RcppAnnoy_0.0.12      httr_1.4.1           
+[130] AnnotationDbi_1.44.0  npsurv_0.4-0          Rdpack_0.11-0        
+[133] colorspace_1.4-1      rvest_0.3.4           XML_3.98-1.20        
+[136] fs_1.3.1              reticulate_1.13       IRanges_2.16.0       
+[139] splines_3.5.3         uwot_0.1.3            plotly_4.9.0         
+[142] fit.models_0.5-14     xtable_1.8-4          jsonlite_1.6         
+[145] nloptr_1.2.1          zeallot_0.1.0         R6_2.4.0             
+[148] Hmisc_4.2-0           mime_0.7              pillar_1.4.2         
+[151] htmltools_0.3.6       glue_1.3.1            minqa_1.2.4          
+[154] codetools_0.2-16      tsne_0.1-3            pcaPP_1.9-73         
+[157] mvtnorm_1.0-11        lattice_0.20-38       leiden_0.3.1         
+[160] gtools_3.8.1          GO.db_3.7.0           survival_2.44-1.1    
+[163] rmarkdown_1.13        munsell_0.5.0         iterators_1.0.10     
+[166] impute_1.56.0         haven_2.1.0           gtable_0.3.0         </code></pre>
 </div>
 </div>
 

@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef007730089c70607dd8c86851013b6cff30fd4b0targetblankf007730a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/f007730089c70607dd8c86851013b6cff30fd4b0" target="_blank">f007730</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef007730089c70607dd8c86851013b6cff30fd4b0targetblankf007730a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,32 +591,42 @@ Ignored files:
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
-    Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
     Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/13_olig_pseudotime.Rmd
+    Modified:   analysis/15_tany_wgcna_pseudo.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -660,6 +670,23 @@ Message
 html
 </td>
 <td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/12_oligo_labeltransfer.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
 <a href="https://rawcdn.githack.com/perslab/fgf_alldata/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/12_oligo_labeltransfer.html" target="_blank">3b5cbe7</a>
 </td>
 <td>
@@ -696,6 +723,8 @@ wflow_git_commit(all = T)
 </div>
 </div>
 </div>
+<div id="load-libraries" class="section level1">
+<h1>Load libraries</h1>
 <pre class="r"><code>library(GEOquery)</code></pre>
 <pre><code>Loading required package: Biobase</code></pre>
 <pre><code>Loading required package: BiocGenerics</code></pre>
@@ -728,7 +757,7 @@ Attaching package: &#39;BiocGenerics&#39;</code></pre>
 <pre><code>Setting options(&#39;download.file.method.GEOquery&#39;=&#39;auto&#39;)</code></pre>
 <pre><code>Setting options(&#39;GEOquery.inmemory.gpl&#39;=FALSE)</code></pre>
 <pre class="r"><code>library(here)</code></pre>
-<pre><code>here() starts at /nfsdata/projects/dylan/fgf_alldata</code></pre>
+<pre><code>here() starts at /nfsdata/projects/dylan/bentsen-rausch-2019</code></pre>
 <pre class="r"><code>library(Seurat)
 library(tidyverse)</code></pre>
 <pre><code>── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
@@ -759,6 +788,12 @@ Attaching package: &#39;rstatix&#39;</code></pre>
     filter</code></pre>
 <pre class="r"><code>plan(multiprocess, workers=30)
 options(future.globals.maxSize = 8000 * 1024^2)</code></pre>
+</div>
+<div id="load-data" class="section level1">
+<h1>Load Data</h1>
+</div>
+<div id="read-in-marques-et-al-data" class="section level1">
+<h1>Read in Marques et al data</h1>
 <pre class="r"><code>gse&lt;-getGEO(&quot;GSE75330&quot;, GSEMatrix=T)
 counts&lt;-fread(&quot;/projects/dylan/fgf1/oligodendrocyte_figure/GSE75330_Marques_et_al_mol_counts2.tab&quot;)
 counts&lt;-as.data.frame(counts)
@@ -770,6 +805,9 @@ cellid&lt;-data.frame(sapply(cellid, function(x) as.character(x)), stringsAsFact
 counts&lt;-counts[,colnames(counts)%in%cellid$cell]
 cellid&lt;-cellid[cellid$cell%in%colnames(counts),]
 cellid&lt;-cellid[match(colnames(counts),cellid$cell),]</code></pre>
+</div>
+<div id="prep-marques-et-al-data" class="section level1">
+<h1>Prep Marques et al data</h1>
 <pre class="r"><code>CreateSeuratObject(counts=counts) %&gt;% 
   SCTransform(verbose = F, return.only.var.genes = F) %&gt;% 
   RunPCA(verbose=T) %&gt;% RunUMAP(dims=1:10) -&gt; branco</code></pre>
@@ -1805,6 +1843,9 @@ branco_sub&lt;-RenameIdents(branco_sub, &quot;NFOL1&quot;=&quot;NFOL&quot;)
 branco_sub&lt;-RenameIdents(branco_sub, &quot;NFOL2&quot;=&quot;NFOL&quot;)
 branco_sub&lt;-RenameIdents(branco_sub, &quot;MFOL1&quot;=&quot;MFOL&quot;)
 branco_sub&lt;-RenameIdents(branco_sub, &quot;MFOL2&quot;=&quot;MFOL&quot;)</code></pre>
+</div>
+<div id="propagate-labels" class="section level1">
+<h1>Propagate labels</h1>
 <pre class="r"><code>oliglist &lt;- list(branco=branco_sub, olig=olig)
 olig.features &lt;- SelectIntegrationFeatures(object.list = oliglist, nfeatures = 3000)
 oliglist &lt;- PrepSCTIntegration(object.list = oliglist, anchor.features = olig.features, 
@@ -1853,6 +1894,9 @@ Full Name
 </table>
 </div>
 </div>
+</div>
+<div id="filter-data" class="section level1">
+<h1>Filter data</h1>
 <pre class="r"><code>olig &lt;- AddMetaData(object = olig, metadata = predictions)
 table(olig$predicted.id)</code></pre>
 <pre><code>
@@ -1898,6 +1942,9 @@ Full Name
 </div>
 </div>
 <pre class="r"><code>olig_sub&lt;-subset(olig, subset=prediction.score.max&gt;0.5)</code></pre>
+</div>
+<div id="recluster-data" class="section level1">
+<h1>Recluster data</h1>
 <pre class="r"><code>olig_sub %&gt;% 
   ScaleData(verbose = F, vars.to.regress = c(&quot;percent.mito&quot;,&quot;percent.ribo&quot;)) %&gt;% 
   RunPCA(verbose=T) %&gt;% FindNeighbors(dims = 1:20) %&gt;% RunUMAP(dims = 1:20) %&gt;% 
@@ -1910,7 +1957,7 @@ Number of edges: 509268
 Running Louvain algorithm...
 Maximum modularity in 10 random starts: 0.9281
 Number of communities: 8
-Elapsed time: 2 seconds</code></pre>
+Elapsed time: 3 seconds</code></pre>
 <pre class="r"><code>DimPlot(olig_sub, label = T)</code></pre>
 <pre><code>Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
 Please use `as_label()` or `as_name()` instead.
@@ -1953,6 +2000,9 @@ Full Name
 </table>
 </div>
 </div>
+</div>
+<div id="filter-data-1" class="section level1">
+<h1>Filter data</h1>
 <pre class="r"><code>olig_sub &lt;- subset(olig_sub, ident=c(3,4,6), invert=T)
 olig_sub %&gt;% 
   ScaleData(verbose = F, vars.to.regress = c(&quot;percent.mito&quot;,&quot;percent.ribo&quot;)) %&gt;% 
@@ -2010,7 +2060,6 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>saveRDS(olig_sub, here(&quot;data/glia/olig_labeled.RDS&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2050,7 +2099,7 @@ loaded via a namespace (and not attached):
   [1] Rtsne_0.15          colorspace_1.4-1    rio_0.5.16         
   [4] ggridges_0.5.1      rprojroot_1.3-2     fs_1.3.1           
   [7] rstudioapi_0.10     leiden_0.3.1        listenv_0.7.0      
- [10] npsurv_0.4-0        ggrepel_0.8.1       RSpectra_0.15-0    
+ [10] npsurv_0.4-0        ggrepel_0.8.0.9000  RSpectra_0.15-0    
  [13] lubridate_1.7.4     xml2_1.2.0          codetools_0.2-16   
  [16] splines_3.5.3       R.methodsS3_1.7.1   lsei_1.2-0         
  [19] knitr_1.23          zeallot_0.1.0       jsonlite_1.6       
@@ -2087,6 +2136,7 @@ loaded via a namespace (and not attached):
 [112] git2r_0.25.2        metap_1.1           digest_0.6.20      
 [115] R.utils_2.9.0       RcppParallel_4.4.3  munsell_0.5.0      
 [118] viridisLite_0.3.0  </code></pre>
+</div>
 </div>
 
 
