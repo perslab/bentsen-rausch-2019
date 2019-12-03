@@ -5,48 +5,54 @@ output:
   workflowr::wflow_html:
     toc: false
 editor_options:
-  chunk_output_type: console
+  chunk_output_type: litera
 ---
 
 
 # Project overview
 
-A single ICV injection of FGF1 induces permanent normalization of blood glucose levels in multiple models of type 2 diabetes. To understand the effects of FGF1 and identify cell-type specific responses key to blood glucose normalization, we performed multiple high throughput transcriptomic analyses at different timepoints in cohorts of male ob/ob mice. 
+A single intracerebral ventricular injection of FGF1 induces permanent normalization of blood glucose levels in multiple rodent models of type 2 diabetes. To understand the effects of FGF1 and identify cell-type specific responses key to blood glucose normalization, we performed multiple high throughput transcriptomic analyses at different timepoints in cohorts of male ob/ob mice. 
 
-<br>
-![Experimental Design](fgf1_experiment.png) <br>
+<br> ![Experimental Design](fgf1_experiment.png) <br>
 
 All the results and plots presented in the pages below should be
 reproduceible on your computer.
 
-## These are the results of analyses of neuronal populations in snRNA-seq data. 
+## How does FGF1 effect neuronal populations of the hypothalamus
 
-1. [Preparation of neuronal data for downstream analysis](2_neuron_processing.html)
+1. [FGF1 acutely inhibits AgRP neurons](figure_1.html)
 
-2. [Identification of responsive neuronal populations](3_neuron_dge_analysis.html)
+2. [Unmapped neuronal populations show a limited transcriptomic response to FGF1](supp1.Rmd)
 
-3. [Analysis of Agrp neurons](4_agrp_analysis.html)
+2. [FGF1 requires functional melanocortin signalling to normalize blood glucose levels](figure_2.html)
 
-## These are the results of my analyses of glial cells from snRNA-seq data. 
+## How does FGF1 effect glial populations of the hypothalamus
 
-1. [Identification of responsive glial populations and there similarities](6_glial_dge.html) 
+1. [Tanycytes, ependymal cells, and astrocytes respond strongly 24 hrs post injection](6_glial_dge.html) 
 
-2. [WGCNA performed on macroglia reveals common processes across cell types](7_ventricular_wgcna.html) 
+2. [WGCNA reveals a shared program across glia 24 hrs post injection](7_ventricular_wgcna.html) 
 
-3. [WGCNA on astrocytes reveals biphasic activation](8_astro_wgcna.html) 
+3. [Astrocyte specific analysis reveals neuroprotection and neuronal-glial interaction](8_astro_wgcna.html) 
 
-## These are the results of my whole cell analyses.
+## Increased sampling 5 days post treatment confirms findings and reveals novel responses
 
-1. [Identification of responsive populations and there similarities](10_wc_pseudobulk.html) 
+1. [Astrocytes and oligodendrocytes are the most responsive cell types at day 5](10_wc_pseudobulk.html) 
 
-2. [WGCNA performed on astrocytes and overlaps between modules identified in snRNAseq](11_astro_wgcna.html) 
-3. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
+2. [WGCNA on astrocytes confirms snRNAseq findings](11_astro_wgcna.html) 
 
-4. [Oligodendrocyte pseudotime analysis](13_olig_pseudotime.html)
+#3. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
 
-5. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
+6. [Tanycytes activate specific gene programs across the 3rd ventricle](15_tany_wgcna_pseudo.html)
 
-6. [Tanycyte pseudoventricle analysis](15_tany_wgcna_pseudo.html)
+4. [FGF1 increases a pool of differentiating oligodendrocytes](13_olig_pseudotime.html)
 
-<br>
-![Twitter](twitter.png) <br>
+#5. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
+
+## Bulk RNA-seq reveals chronic effects of FGF1
+
+1. [FGF1 increases synaptic plasticity up to 42 days post treatment](13_olig_pseudotime.html)
+
+# Credits 
+
+This project was led by [Dylan Rausch] (https://twitter.com/dylanrausch) and [Marie Bentsen] (https://cbmr.ku.dk/staff_overview/?pure=en%2Fpersons%2Fmarie-aare-bentsen(1f862ab6-010b-422f-b1aa-61b4a9557aa1)%2Fpublications.html) at the University of Copenhagen NNF CBMR (https://cbmr.ku.dk/) and University of Washington (https://endocrinology.uw.edu/)
+
