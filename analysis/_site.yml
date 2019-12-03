@@ -12,7 +12,7 @@ navbar:
   right:
   - icon: fa-github
     text: Source code
-    href: https://github.com/perslab/fgf_alldata
+    href: https://github.com/perslab/bentsen-rausch-2019
 output:
   workflowr::wflow_html:
     toc: yes
