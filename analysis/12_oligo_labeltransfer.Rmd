@@ -3,6 +3,7 @@ title: "Olig Analysis"
 output: html_notebook
 ---
 
+# Load libraries
 ```{r}
 library(GEOquery)
 library(here)
@@ -20,6 +21,7 @@ options(future.globals.maxSize = 8000 * 1024^2)
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 ```
 
+# Load Data
 ```{r, include=FALSE}
 glia <- readRDS(here("data/filtglia.RDS"))
 olig <- subset(glia, ident=c("Olig","OPC","COP"))
@@ -28,6 +30,7 @@ olig %>%
   RunPCA(verbose=T) -> olig 
 ```
 
+# Read in Marques et al data
 ```{r}
 gse<-getGEO("GSE75330", GSEMatrix=T)
 counts<-fread("/projects/dylan/fgf1/oligodendrocyte_figure/GSE75330_Marques_et_al_mol_counts2.tab")
@@ -42,6 +45,7 @@ cellid<-cellid[cellid$cell%in%colnames(counts),]
 cellid<-cellid[match(colnames(counts),cellid$cell),]
 ```
 
+# Prep Marques et al data
 ```{r}
 CreateSeuratObject(counts=counts) %>% 
   SCTransform(verbose = F, return.only.var.genes = F) %>% 
@@ -60,6 +64,7 @@ branco_sub<-RenameIdents(branco_sub, "MFOL1"="MFOL")
 branco_sub<-RenameIdents(branco_sub, "MFOL2"="MFOL")
 ```
 
+# Propagate labels 
 ```{r}
 oliglist <- list(branco=branco_sub, olig=olig)
 olig.features <- SelectIntegrationFeatures(object.list = oliglist, nfeatures = 3000)
@@ -73,6 +78,7 @@ predictions <- TransferData(anchorset = olig.anchors, refdata = branco_sub@activ
 hist(predictions$prediction.score.max)
 ```
 
+# Filter data
 ```{r}
 olig <- AddMetaData(object = olig, metadata = predictions)
 table(olig$predicted.id)
@@ -80,6 +86,7 @@ DimPlot(olig, group.by = "predicted.id")
 olig_sub<-subset(olig, subset=prediction.score.max>0.5)
 ```
 
+# Recluster data
 ```{r}
 olig_sub %>% 
   ScaleData(verbose = F, vars.to.regress = c("percent.mito","percent.ribo")) %>% 
@@ -88,6 +95,7 @@ olig_sub %>%
 DimPlot(olig_sub, label = T)
 ```
 
+# Filter data
 ```{r}
 olig_sub <- subset(olig_sub, ident=c(3,4,6), invert=T)
 olig_sub %>% 
@@ -98,7 +106,7 @@ Idents(olig_sub)<-"predicted.id"
 DimPlot(olig_sub, label = T)
 ```
 
-```{r}
+```{r, echo=F, include=F}
 saveRDS(olig_sub, here("data/glia/olig_labeled.RDS"))
 ```
 

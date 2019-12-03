@@ -3,10 +3,6 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-```{r include = FALSE}
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
-```
-
 # Load Libraries
 
 ```{r, warnings=F, message=F}
@@ -26,7 +22,14 @@ library(gProfileR)
 library(ggpubr)
 library(cowplot)
 library(here)
+library(tidygraph)
+library(ggraph)
 library(ggExtra)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
 ```
 
 # Extract Cells for WGCNA
@@ -87,7 +90,7 @@ plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
 ) # plot the modules with colors
 ```
 
-# Calculate Eigengenes and Merge Close Modules
+# Calculate Eigengenes 
 ```{r merge close modules}
 MEs <- moduleEigengenes(datExpr, dynamicColors)$eigengenes 
 ME1 <- MEs
@@ -99,7 +102,7 @@ MEDissThres <- 0.2
 abline(h = MEDissThres, col = "red")
 ```
 
-# The merged module colors
+# Merge Modules
 ```{r}
 merge <- mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)
 mergedColors <- merge$colors
@@ -121,6 +124,7 @@ MEs <- mergedMEs
 modulekME <- signedKME(datExpr, MEs)
 ```
 
+# Generate function to look up genes in each module
 ```{r}
 modules <- MEs
 c_modules <- data.frame(moduleColors)
@@ -152,23 +156,7 @@ ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value), colour = "white") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab("Treatment") + ylab(NULL)
 ```
 
-```{r}
-hubgenes<-lapply(seq_len(length(Network)), function(x) {
-  dat<-modulekME[Network[[x]],]
-  dat<-dat[order(-dat[paste0("kME",names(Network)[x])]),]
-  gene<-rownames(dat)
-  return(gene)
-})
-
-names(hubgenes)<-names(Network)
-d <- unlist(hubgenes)
-d <- data.frame(gene = d, 
-           vec = names(d))
-
-write_csv(d, path=here("output/glia/wgcna/wc_astro_genemods.csv"))
-```
-
-# Run linear model to calculate sig diff mods
+# Run linear regression to calculate sig diff mods
 ```{r, warnings=F, message=F}
 data <- data.frame(MEs,
   trt = ventric$trt,
@@ -189,6 +177,10 @@ mod <- lapply(colnames(MEs)[grepl("^ME", colnames(MEs))], function(me) {
 })
 
 names(mod) <- colnames(MEs)[grepl("^ME", colnames(MEs))]
+sig <- bind_rows(mod, .id="id")
+write_csv(sig, path = here("output/glia/wgcna/wc_astro_linmod.csv"))
+
+
 mod <- data.frame(unlist(mod))
 mod %>%
   add_rownames("test") %>%
@@ -202,41 +194,61 @@ data.frame(test) %>%
   slice(2:nrow(.)) %>%
   select(p, estimate, mod) %>%
   mutate(p = as.numeric(as.character(p)), estimate = as.numeric(as.character(estimate))) %>%
-  filter(p < 0.05, abs(estimate) > 0.005) %>%
-  arrange(log10(p) * abs(estimate)) -> astro_mods
-astro_mods$mod <- gsub(astro_mods$mod, pattern = "ME", replacement = "")
+  arrange(log10(p)*abs(estimate)) %>%
+  mutate(pubname = paste0("sc-astro-M", paste0(seq_len(length(estimate)))))  -> astro_mods
+
+astro_mods %>% filter(p < 0.05, abs(estimate) > 0.005) %>% pull(pubname) -> sigmods
+
+rename_mods <- astro_mods$mod
+names(rename_mods) <- astro_mods$pubname
+MEs <- rename(MEs, !!!rename_mods)
+data <- rename(data, !!!rename_mods)
+write_csv(data.frame(pubname = names(rename_mods), color = as.character(rename_mods)),
+          path = here("output/glia/wgcna/wc_astro_translatelabels.csv"))
+
 ```
 
-```{r, fig.height=4, fig.width=6}
-data <- data.frame(MEs,
-  trt = ventric$trt,
-  sample = as.factor(ventric$sample)
-)
+# hubgene information
+```{r}
+hubgenes <- lapply(seq_len(length(Network)-1), function(x) {
+  dat <- modulekME[Network[[x]], ]
+  dat <- dat[order(-dat[paste0("kME", names(Network)[x])]), ]
+  gene <- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
 
+names(hubgenes) <-  names(rename_mods)[match(names(Network)[-length(Network)], 
+                                             gsub(as.character(rename_mods),pattern = "ME",replacement = ""))]
+d <- dplyr::bind_rows(hubgenes, .id = "id")
+write_csv(d, path = here("output/glia/wgcna/wc_astro_wgcna_genemods.csv"))
+```
+
+# boxplot summary of diff exp modules
+```{r, fig.height=2, fig.width=4}
 data <- melt(data, id.vars = c("trt", "sample"))
-data %>% filter(variable %in% paste0("ME", astro_mods$mod[1:4])) -> data
-boxplot <- ggplot(data = data, aes(x = fct_reorder(sample, value), y = as.numeric(value))) +
-  geom_boxplot(aes(fill = trt), notch = T, outlier.shape = NA) +
-  facet_wrap(. ~ variable, scales = "free_y", ncol = 2) +
-  theme_pubr(legend = "none") + geom_hline(yintercept = 0, linetype = "dashed") +
-  coord_cartesian(ylim = quantile(data$value, c(0.001, 0.999))) + xlab("Sample") +
-  ylab("ME Expression") + theme(axis.text.x = element_blank())
+data %>% filter(variable %in% sigmods) -> data
+data$trt <- gsub(data$trt, pattern = "PF", replacement = "Veh")
+boxplot <- ggplot(data = data, 
+                  aes(x = fct_relevel(variable,"sc-astro-M1","sc-astro-M3",
+                                      "sc-astro-M2","sc-astro-M9","sc-astro-M5","sc-astro-M6"), 
+                      y = as.numeric(value))) +
+  geom_boxplot(aes(fill=trt), width=0.5, notch=T, outlier.shape = NA) +
+  theme_pubr(legend="right") + 
+  geom_hline(yintercept = 0, linetype = "dashed") + xlab(NULL) +
+  ylab("ME Expression") + 
+  theme(axis.text.x = element_blank(), 
+        axis.title.y = element_text(size=10, face="bold"),
+        legend.text = element_text(size=8, face="bold"),
+        legend.title = element_text(size=10, face="bold"), 
+        plot.margin = unit(c(0, 0, 0, 0), "cm")) +
+  ylim(c(-0.025,0.025)) + scale_fill_manual(name="Treatment", values = c("gray30", "gray80")) + theme_figure
+
 boxplot
 ```
 
+# go term enrichment
 ```{r}
-astro_umap <- as.data.frame(Embeddings(ventric, reduction = "umap")[, 1:2])
-astro_umap$trt <- as.character(ventric$trt)
-astro_plot <- ggplot(astro_umap, aes(UMAP_1, UMAP_2, colour = trt)) +
-  geom_point(alpha = 0.5, size = .5) + xlim(c(-6, 0)) + scale_colour_discrete(name = "Treatment") +
-  guides(colour = guide_legend(override.aes = list(size = 5))) +
-  ylim(c(-7.5, 0)) + theme_pubr()
-umap_gg <- ggMarginal(astro_plot, groupColour = T, groupFill = T, margins = "y")
-plot_grid(umap_gg, boxplot, align = "hv", rel_widths = c(1, 1.5), scale = 0.9)
-```
-
-```{r}
-goterms <- lapply(hubgenes[astro_mods$mod], function(x) {
+goterms <- lapply(hubgenes[sigmods], function(x) {
   x <- gprofiler(x,
     ordered_query = T, organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
     src_filter = c("GO:BP", "REAC", "KEGG"), hier_filtering = "strong",
@@ -247,22 +259,28 @@ goterms <- lapply(hubgenes[astro_mods$mod], function(x) {
   x <- x[order(x$p.value), ]
   return(x)
 })
+
+godat <- bind_rows(goterms, .id="id")
+write_csv(godat, path = here("output/glia/wgcna/wc_astro_wgcna_goterms.csv"))
 ```
 
-```{r}
+# test overlap with nuclei modules
+```{r, fig.width=4, fig.height=4}
 nuc_mods <- read_csv(file = here("output/glia/wgcna/astro_wgcna_genemodules.csv"))
 nuc_mods %>%
   as.data.frame() %>%
-  filter(id != "grey") %>%
+  filter(id %in% c(paste0("sn-astro-M", seq_len(4)))) %>%
   dplyr::group_by(id) %>%
   dplyr::group_split() %>%
   map("gene") -> nuc_gene
 
-names(nuc_gene) <- unique(nuc_mods$id)[1:8]
+nuc_mods %>% as.data.frame() %>%
+  filter(id %in% c(paste0("sn-astro-M", seq_len(4)))) %>%
+  dplyr::group_by(id) %>% group_keys() %>% pull() -> names(nuc_gene)
 
 wc_nuc_overlap <- sapply(nuc_gene, function(x) {
-  sapply(hubgenes[c("darkorange", "darkgreen", "cyan", "lightcyan")], function(y) {
-    1 - phyper(sum(x %in% y), length(y), 5000 - length(y), length(x), log.p = F)
+  sapply(hubgenes[sigmods], function(y) {
+    1 - phyper(sum(x %in% y$gene), length(y$gene), 5000 - length(y$gene), length(x), log.p = F)
   })
 })
 
@@ -278,14 +296,137 @@ wc_nuc_overlap %>%
     )
   )) -> wc_nuc_overlap
 
-overlap <- ggplot(wc_nuc_overlap, aes(x = Var1, y = Var2, fill = -log10(value + 2e-16), label = sig)) +
-  geom_tile(size = 1, color = "white") + coord_flip() + theme_bw() + ylab(NULL) + xlab("Module") +
-  scale_fill_gsea(name = expression(-log[10] ~ pvalue)) + geom_text()
+write_csv(wc_nuc_overlap, path = here("output/glia/wgcna/astro_mod_overlaps_pval.csv"))
 
-overlap
+overlap <- ggplot(wc_nuc_overlap, aes(x = fct_relevel(Var1, "sc-astro-M1", "sc-astro-M3","sc-astro-M2","sc-astro-M9",
+                                                      "sc-astro-M5","sc-astro-M6"),
+                                      y = fct_relevel(Var2, "sn-astro-M4",
+                                                      "sn-astro-M3","sn-astro-M2","sn-astro-M1"))) +
+  geom_tile(size = 1, color = "white", fill="grey99") +
+  geom_point(aes(size = if_else(-log10(value)<1.3,true = 0, false = -log10(value))), alpha=0.25) + 
+  scale_size(name= expression(bold(-log[10] ~ pvalue)), breaks = c(2,4,8)) + 
+  scale_fill_manual(values=c("black","red"), guide=F) + 
+  theme_pubr(legend = "right") + xlab(NULL) + ylab(NULL) + 
+  theme(axis.text.x = element_text(angle=45, hjust=1), 
+        legend.title = element_text(size=8), 
+        legend.text = element_text(size=7, face="bold"),
+        plot.margin = unit(c(0, 0, 0, 0), "cm")) + theme_figure
+
+overlap 
 ```
 
+# plot as grid
+```{r, fig.width=5, fig.height=5}
+plot_grid(boxplot, overlap, align="v", axis="tblr", labels=c("f"), ncol=1)
+```
+
+# Plot gene networks
+```{r, fig.width=5, fig.height=5}
+color <- c("sc-astro-M1","sc-astro-M3")
+lapply(color, function(col) {
+  maxsize <- 15
+  hubs <- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -> hub_plot 
+
+
+hub_plot <- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %>% 
+  graph.adjacency(mode = "undirected", weighted = T, diag = FALSE) %>%
+  as_tbl_graph(g1) %>% upgrade_graph() %>% activate(nodes) %>% dplyr::mutate(mod=x$mod) %>%
+  dplyr::mutate(kme=x$kme)  %>% 
+    dplyr::mutate(color = ifelse(name %in% c("Slc1a2","Slc1a3","Slc6a11","Aqp4","Sparcl1","Sparc","Psap","Clu","Plat","Cpe"), yes="red",no="black")) %>%
+  activate(edges)}
+)
+
+set.seed("139")
+plotlist <- lapply(hub_plot, function(x) {
+  print(ggraph(x,  layout = 'fr') + 
+  geom_edge_link(color="darkgrey", aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, .5)) + geom_node_text(aes(label = name, color=color), fontface="bold", size=3, repel=T) +
+  scale_color_manual(values=c("gray0","red")) + guides(color=FALSE) +
+  geom_node_point(shape=21, alpha=0.5, fill="grey70", size=4) + 
+  theme_graph() + theme(legend.position = "none", plot.title = element_text(hjust=0.5, vjust=1)) + 
+    coord_cartesian(clip = "off"))
+})
+```
+
+# arrange figure
+```{r, fig.height=6, fig.width=13}
+genenet <- plot_grid(plotlist[[1]], plotlist[[2]], ncol=1, labels = c("f"), scale=0.8)
+nets <- plot_grid(boxplot, overlap, align="v", axis="tblr", labels=c("e"), ncol=1, scale=0.95, rel_heights = c(2,1))
+wc_astro_res <- plot_grid(nets, genenet, rel_widths = c(1.5,1), nrow=1)
+
+load(here("data/figures/fig4/fig4_nuc_top.RData"))
+fig4 <- plot_grid(top_astro, wc_astro_res, ncol=1, align="hv", rel_heights = c(1,1.25), axis="lr")
+transcriptomics_4 <- plot_grid(top_astro, fig4, rel_widths = c(1,1))
+transcriptomics_4
+```
+
+# Aqp4/Gfap Quantification
 ```{r}
-save.image(file = here("output/glia/wgcna/astro_wgcna.RDS"))
+readxl::read_xlsx(here("data/mouse_data/fig4/191118_Aqp4_Gfap.xlsx"), range="A5:E9") %>%
+  select(1,2,4,5) %>% 
+  reshape2::melt() %>% 
+  mutate(gene = c(rep("Aqp4", 8), rep("Gfap",8))) %>% 
+  separate(variable, "[...]", into = "trt") -> aq_gf_quants
+aq_gf_quants %>% dplyr::group_by(trt,  gene) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>%
+  ggplot(aes(x=gene, y=mean, fill=fct_relevel(trt,"Veh","FGF1"), color = fct_relevel(trt,"Veh","FGF1"))) + 
+  geom_col(width=0.9, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=gene, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = aq_gf_quants, inherit.aes = F, aes(x=gene, y=value, fill=fct_relevel(trt,"Veh","FGF1")), 
+              alpha=0.85, shape=21, position = position_jitterdodge(0.2)) + xlab(NULL) + 
+  ylab(expression(bold(Volume~(mu*m^3)))) + scale_fill_manual("Treatment", values=c("gray80","gray30")) + 
+  scale_color_manual("Treatment", values=c("gray80","gray30")) +
+  scale_y_continuous(labels = function(x) format(x, scientific = TRUE)) +
+  geom_signif(y_position=c(1.5e6), xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c("*","**"), tip_length=0, size = 0.5, textsize = 5, color="black") +
+  theme_pubr() + theme(legend.position="none", axis.text.x=element_text(angle=45, hjust=1)) + theme_figure -> aq_gf
+aqp4_gfap <- cowplot::plot_grid(ggplot() + theme_void(), aq_gf, nrow=1, scale=c(1,0.75), labels="g", rel_widths = c(2.05,1))
+aqp4_gfap
 ```
 
+# Agrp/Gfap overlap
+```{r}
+readxl::read_xlsx(here("data/mouse_data/fig4/191118_GFAP_AGRP.xlsx"), range="A5:B9") %>%
+  reshape2::melt() -> ga_quants
+ga_quants %>% dplyr::group_by(variable) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>%
+  ggplot(aes(x = variable, y = mean, fill = variable, color = variable)) + 
+  geom_col(width=1, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + 
+  geom_jitter(data = ga_quants, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(1000), xmin=c(1.2), xmax=c(1.8),
+              annotation=c("**"), tip_length=0, size = 0.5, textsize = 5, color="black") +
+  ylab(expression(bold(GFAP/Agrp~contact~volume~(mu*m^3/hpf)))) + scale_fill_manual(values=c("gray80","gray30"), name="") + 
+  scale_color_manual(values=c("gray80","gray30"), name="") +
+  theme_pubr() + theme(legend.position = "none", axis.text.x = element_text(angle=45,hjust=1)) + theme_figure -> gfap_agrp
+gfap_agrp <- cowplot::plot_grid(ggplot() + theme_void(), gfap_agrp, nrow=1, scale=c(1,0.75), labels="h", rel_widths = c(1.5,1))
+gfap_agrp
+```
+
+# EM of PAPs quantification
+```{r}
+readxl::read_xlsx(here("data/mouse_data/fig4/EM_glial_contact.xlsx"), range="A4:B8") %>%
+  reshape2::melt() -> em_quants
+em_quants %>% dplyr::group_by(variable) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>%
+  ggplot(aes(x=variable, y=mean, fill=variable, color = variable)) +
+  geom_col(width=1, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) +
+  geom_jitter(data = em_quants, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(85), xmin=c(1.2), xmax=c(1.8),
+              annotation=c("***"), tip_length=0, size = 0.5, textsize = 5, color="black") +
+  ylab("% Astrocytic coverage") + scale_fill_manual("Treatment", values=c("gray80","gray30")) + 
+  scale_color_manual("Treatment", values=c("gray80","gray30")) +
+  theme_pubr() + theme(legend.position = "none",axis.text.x = element_text(angle=45, hjust=1)) + 
+  coord_cartesian(clip="off") + theme_figure -> em_bp
+pap <- cowplot::plot_grid(ggplot() + theme_void(), em_bp, nrow=1, scale=c(1,0.75), labels="i", rel_widths = c(1.5,1))
+pap
+```
+
+# Generate full figure
+```{r, fig.width=13, fig.height=10}
+validation <- plot_grid(aqp4_gfap, gfap_agrp, pap, nrow=1, align="h", axis="tb", rel_widths = c(1.5,1,1))
+plot_grid(transcriptomics_4, validation, ncol=1, align="h", axis="tblr", rel_heights = c(1.75,1))
+ggsave(filename = here("data/figures/fig4/fig4.tiff"), width = 13, h=10, compression="lzw")
+```

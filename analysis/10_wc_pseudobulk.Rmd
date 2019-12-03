@@ -3,10 +3,6 @@ title: "wc pseudobulk"
 output: html_notebook
 ---
 
-```{r include = FALSE}
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
-```
-
 # Load libraries
 ```{r}
 library(DESeq2)
@@ -23,7 +19,12 @@ library(ggupset)
 library(gProfileR)
 library(here)
 library(ggrepel)
+library(ggsci)
 plan(multiprocess, workers = 30)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 source(here("code/sc_functions.R"))
 ```
 
@@ -96,14 +97,13 @@ names(boxplot) <- unique(Idents(glia_sub))
 genenum <- melt(boxplot)
 colnames(genenum) <- c("number", "CellType")
 write_csv(genenum, here("output/glia/wc_resamplingresults.csv"))
-ggplot(genenum, aes(x = reorder(CellType, -number), y = number, fill = CellType)) +
+dge_re_wc <- ggplot(genenum, aes(x = reorder(CellType, -number), y = number, fill = CellType)) +
   geom_boxplot(notch = T) + theme_pubr() +
   theme(
-    legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.title = element_text(hjust = .5, face = "bold")
-  ) +
-  xlab("Cell Type") + ylab("Number of DE Genes")
-ggsave("dge_resample.pdf", w = 20)
+    legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1)
+  ) + 
+  xlab(NULL) + ylab("Number DEG") + scale_fill_jco() + theme_figure
+dge_re_wc
 ```
 
 # Generate Pseudo Counts
@@ -186,11 +186,11 @@ volc_list <- volc_list[as.logical(unlist(lapply(volc_list, function(x) !min(x$pa
 plotlist <- mapply(x = volc_list, y = names(volc_list), function(x, y) {
   tryCatch({
     ggplot(x, aes(y = (-log10(padj)), x = log2FoldChange, fill = factor(col), label = label)) +
-      xlab(expression(Log[2] * ~ Fold * ~Change)) + ylab(expression(-Log[10] * ~pvalue)) +
+      xlab(expression(bold(Log[2]~Fold~Change))) + ylab(expression(bold(-log[10]~pvalue))) +
       geom_point(shape = 21, size = 3, alpha = 0.75) + geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-      geom_vline(xintercept = c(-.5, .5), linetype = "dashed") + geom_text_repel() + theme_pubr() + 
-      labs_pubr() + theme(legend.position = "none") +
-      scale_fill_manual(values = wes_palette("Royal1", 4, type = "discrete")) + ggtitle(y)
+      geom_vline(xintercept = c(-.5, .5), linetype = "dashed") + geom_text_repel(bg.colour="white", fontface="bold", size=3) + theme_pubr() + 
+      theme(legend.position = "none")  + 
+      scale_fill_manual(values = c("1" = "red", "2" = "blue", "3" = "darkgreen", "4" = "grey")) + theme_figure
   },
   error = function(err) {
     print(err)
@@ -198,10 +198,19 @@ plotlist <- mapply(x = volc_list, y = names(volc_list), function(x, y) {
   )
 }, SIMPLIFY = F)
 
-plot_grid(plotlist = plotlist, ncol = 3)
+astro_volc <- plot_grid(plotlist[[1]]) 
+plot_grid(dge_re_wc, astro_volc)
 ggsave("wc_de.pdf", w = 20, h = 20)
 ```
-# Overlap
+
+# Arrange Figure
+```{r, fig.width=12, fig.height=4}
+mid <- plot_grid(dge_re_wc, astro_volc, labels = c("c","d"), scale=0.9, nrow=1)
+mid
+save(mid, file = here("data/figures/fig4/fig4_wc_deg.RData"))
+```
+
+# Overlap across celltypes
 ```{r}
 res_glia <- lapply(dds_list, function(x) {
   data.frame(x[[2]]) %>%
@@ -223,7 +232,7 @@ ggplot(resglia, aes(x = Celltype)) +
 ```
 
 # GO terms up
-```{r}
+```{r fig.width=20, fig.height=20}
 res_up <- lapply(dds_list, function(x) {
   data.frame(x[[2]]) %>%
     add_rownames("gene") %>%
@@ -251,9 +260,9 @@ names(goup) <- names(dds_list)
 bind_rows(goup, .id = "id") %>%
   group_by(id) %>%
   top_n(5, -p.value) %>%
-  ggplot(aes(x = str_wrap(term.name, 30), y = -log10(p.value), fill = domain)) + geom_col() + facet_wrap(. ~ id, scales = "free_y") +
+  ggplot(aes(x = str_wrap(term.name, 30), y = -log10(p.value), fill = domain)) + geom_col() + 
+  facet_wrap(. ~ id, scales = "free_y") +
   coord_flip() + theme_pubr()
-ggsave("gotermup.pdf", w = 20)
 
 mapply(x = goup, y = names(goup), function(x, y) {
   write_csv(x, path = sprintf(here("output/glia/wc_up_goterm_%s.csv"), y))
@@ -261,7 +270,7 @@ mapply(x = goup, y = names(goup), function(x, y) {
 ```
 
 # GO terms down
-```{r}
+```{r fig.width=20, fig.height=20}
 res_down <- lapply(dds_list, function(x) {
   data.frame(x[[2]]) %>%
     add_rownames("gene") %>%
@@ -289,14 +298,13 @@ bind_rows(godown, .id = "id") %>%
   top_n(5, -p.value) %>%
   ggplot(aes(x = str_wrap(term.name, 30), y = -log10(p.value), fill = domain)) + geom_col() + facet_wrap(. ~ id, scales = "free_y") +
   coord_flip() + theme_pubr()
-ggsave("gotermdown.pdf", w = 20)
 
 mapply(x = godown, y = names(godown), function(x, y) {
   write_csv(x, path = sprintf(here("output/glia/wc_down_goterm_%s.csv"), y))
 })
 ```
 
-# Cell Numbers
+# Quantify Cell Numbers
 ```{r}
 colourCount <- length(unique(Idents(glia_sub)))
 getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
