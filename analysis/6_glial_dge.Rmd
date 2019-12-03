@@ -22,42 +22,46 @@ plan(multiprocess, workers=40)
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
 
-# Functions
-```{r}
-source(here("code/sc_functions.R"))
-```
-
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
 ```
-
 
 # Generate Glial Plots
 ```{r}
 fgf.glia.sub<-readRDS(here("data/glia/glia_seur_filtered.RDS"))
-```
+fgf.glia.sub <- RenameIdents(fgf.glia.sub, "COP" = "OPC_COP")
 
-# Start Plotting
-```{r}
-tsne_embed<-data.frame(Embeddings(fgf.glia.sub, reduction = "umap"))
 fgf.glia.sub$group<-paste0(fgf.glia.sub$trt, "_", fgf.glia.sub$day)
-tsne_embed$group<-fgf.glia.sub$group
-tsne_embed$celltype<-Idents(fgf.glia.sub)
-tsne_embed<-tsne_embed[sample(nrow(tsne_embed)),]
+data.frame(Embeddings(fgf.glia.sub, reduction = "umap")) %>% 
+  mutate(group = fgf.glia.sub$group) %>%
+  mutate(celltype = Idents(fgf.glia.sub)) %>%
+  .[sample(nrow(.)),] %>%
+  mutate(group = replace(group, group == "FGF_Day-5", "FGF_d5")) %>% 
+  mutate(group = replace(group, group == "FGF_Day-1", "FGF_d1")) %>% 
+  mutate(group = replace(group, group == "PF_Day-1", "Veh_d1")) %>%
+  mutate(group = replace(group, group == "PF_Day-5", "Veh_d5")) -> umap_embed
+colnames(umap_embed)[1:2] <- c("UMAP1", "UMAP2")
 
-label.df <- data.frame(cluster=levels(tsne_embed$celltype),label=levels(tsne_embed$celltype))
-label.df_2 <- tsne_embed %>% 
+label.df <- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
+label.df_2 <- umap_embed %>% 
   dplyr::group_by(celltype) %>% 
-  dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2))
+  dplyr::summarize(x = median(UMAP1), y = median(UMAP2))
 
-p1<-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=celltype)) + 
-  geom_point(alpha=0.75, size=2)  + 
-  geom_label(data = label.df_2, aes(label = celltype, x=x, y=y), size=3, fontface="bold", inherit.aes = F, nudge_x = 1)  +
-  theme_pubr() + theme(legend.position = "none") + ggsci::scale_color_igv()
-p2<-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=group)) + 
-  geom_point(alpha=.75, size=2) + 
+p1<-ggplot(umap_embed, aes(x=UMAP1, y=UMAP2, colour=celltype)) + 
+  geom_point(alpha=0.5, size=2)  + 
+  geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
+                  size=3, fontface="bold", inherit.aes = F, bg.colour="white")  +
+  theme_pubr(legend="none") + ggsci::scale_color_igv() + theme_figure
+p1
+```
+# Integration across timepoints and treatment
+```{r}
+p2<-ggplot(umap_embed, aes(x=UMAP1, y=UMAP2, colour=group)) + 
+  geom_point(alpha=.5, size=1) + 
   ggsci::scale_color_igv() + 
-  theme_pubr(legend = "none")
+  theme_pubr(legend = "none") + theme_figure
+p2
 ```
 
 # Get colors for matching
@@ -104,9 +108,8 @@ genenum<-melt(boxplot)
 colnames(genenum)<-c("number","CellType")
 genenum <- write_csv(genenum, path = here("output/glia/glia_resampling_output.csv"))
 deplot_re <- ggplot(genenum, aes(x=reorder(CellType, -number), y=number, fill=CellType)) + 
-  geom_boxplot(outlier.shape = NA, notch = T, alpha=1) + scale_fill_manual(values = colvec) + theme_pubr() +
-  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "none") + 
-  ylab("Differentially Expressed\n Genes") + xlab(NULL) 
+  geom_boxplot(notch = T, alpha=1) + scale_fill_manual(values = colvec)  +
+  ylab("Number DEG") + xlab(NULL)  + theme_pubr(legend="none") + theme_figure
 deplot_re
 ```
 
@@ -157,7 +160,7 @@ dds_list<-lapply(pseudo_counts, function(x){
 ```
 
 # Volcano Plot of DE genes
-```{r volcano plot, fig.width=12, fig.height=4}
+```{r volcano plot, fig.width=12, fig.height=6}
 volc_list<-lapply(dds_list, function(x) {
   x[[2]] %>% na.omit() %>% data.frame() %>% add_rownames("gene") %>% 
     mutate(siglog=ifelse(padj<0.05&abs(log2FoldChange)>1, yes=T, no=F)) %>% 
@@ -170,22 +173,83 @@ volc_list<-lapply(dds_list, function(x) {
     dplyr::select(gene, log2FoldChange, padj, col, label)
 })
 
-mapply(x=volc_list, y = names(volc_list), function(x,y) {
-  write_csv(x, path = here(sprintf("output/glia/%s_glia_pseudobulk_dge.csv", y)))
+mapply(x = volc_list, y = names(volc_list), function(x, y) {
+  write_csv(x, path = here(sprintf("output/glia/nuclei/d1_%s_pseudobulk_dge.csv",y)))
 })
 
-plotlist<-mapply(x=volc_list[c("Astro","Tany","Epend", "VLMC")], y= c("Astro","Tany","Epend", "VLMC"), function(x,y){
+plotlist<-mapply(x=volc_list, y=names(volc_list), function(x,y){
     ggplot(x, aes(y=(-log10(padj)), x=log2FoldChange, colour=factor(col), label=label)) + 
     xlab(expression(Log[2]*~Fold*~Change)) + ylab(expression(-Log[10]*~pvalue)) + 
     geom_point(size=3, alpha=0.75) + geom_hline(yintercept = -log10(0.05), linetype="dashed") + 
     geom_vline(xintercept = c(-1,1), linetype="dashed") + geom_text_repel(colour="black") + theme_pubr() +
     theme(legend.position = "none", title = element_text(vjust=0.5)) + 
-    scale_colour_manual(values = wes_palette("Royal1", 3, type="discrete")[c(2,1,3)]) + ggtitle(y)}, SIMPLIFY = FALSE)
-devolc_plot <- plot_grid(plotlist=plotlist[c(1,2)], ncol=2)
-devolc_plot
+    scale_colour_manual(values = wes_palette("Royal1", 3, type="discrete")[c(2,1,3)]) + 
+    ggtitle(y)}, SIMPLIFY = FALSE)
+plot_grid(plotlist = plotlist, ncol=3)
+ggsave(here("data/figures/supp/allvolplots.pdf"))
+devolc_plot <- plot_grid(plotlist=plotlist[c("Astro","Tany")], ncol=2)
+```
+# Go Term enrichment across cell-types
+```{r}
+pos_genes <- lapply(dds_list[c("Tany","Astro","Epend")], function(x) {
+  x[[2]] %>% na.omit() %>% data.frame() %>% add_rownames("gene") %>% 
+    filter(padj<0.05, log2FoldChange>1) %>% pull("gene")
+})
+
+neg_genes <- lapply(dds_list[c("Tany","Astro","Epend")], function(x) {
+  x[[2]] %>% na.omit() %>% data.frame() %>% add_rownames("gene") %>% 
+    filter(padj<0.05, log2FoldChange<(-1)) %>% pull("gene")
+})
+
+pos_path <- lapply(pos_genes, function(x) {
+  gprofiler(x, organism = "mmusculus", significant = T, 
+                           src_filter = c("GO:BP","REAC", "KEGG"), hier_filtering = "strong",
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 500,correction_method = "fdr") %>%
+    arrange(p.value) 
+})
+
+neg_path <- lapply(neg_genes, function(x) {
+  gprofiler(x, organism = "mmusculus", significant = T, 
+                           src_filter = c("GO:BP","REAC", "KEGG"), hier_filtering = "strong",
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 500,correction_method = "fdr") %>%
+    arrange(p.value)
+})
+
+pos_go <- bind_rows(pos_path, .id="id")
+write_csv(pos_go, here("output/glia/nucd1_pos_go.csv"))
+neg_go <- bind_rows(neg_path, .id="id")
+write_csv(neg_go, here("output/glia/nucd1_neg_go.csv"))
+```
+# GO term plot of upregulated genes
+```{r, fig.width=5, fig.height=4}
+pos_go %>% dplyr::group_by(id) %>% dplyr::slice(1:5) %>% dplyr::pull(term.id) -> go_id
+pos_go %>% filter(term.id%in%go_id)  %>% 
+  ggplot(aes(x=fct_relevel(id,"Tany","Epend","Astro"), y=str_to_title(str_wrap(term.name, 40), locale = "en"))) +
+  geom_point(aes(size=(-log10(p.value)), fill=domain), shape=21,  alpha=0.5) +
+  scale_size(name = expression(bold(-log[10]*pvalue)), range=c(3,8)) + 
+  ggsci::scale_fill_npg(name = "Database", labels=c("GO:BP","KEGG","REAC")) + 
+  xlab(NULL) + ylab(NULL) + theme_bw() + theme_figure +
+  theme(axis.text.y = element_text(size=7, face="bold")) + 
+  guides(fill = guide_legend(override.aes = list(size=4), title.theme = element_text(face="bold", size=8), 
+                             label.theme = element_text(face="bold", size=8)),
+         size =  guide_legend(title.theme = element_text(size=8), 
+                              label.theme = element_text(face="bold", size=8)))  -> pos_go_plot
+pos_go_plot
+```
+# Go term plot of downregulated genes
+```{r}
+neg_go %>% dplyr::group_by(id) %>% dplyr::slice(1:5) %>% ggplot(aes(x=fct_relevel(id,"Tany","Epend","Astro"), y=str_wrap(term.name, 30))) + 
+  geom_point(aes(size=(-log10(p.value)), fill=domain), shape=21, alpha=0.75) +
+  scale_size(name = expression(log[10]*pvalue), range=c(3,10)) + ggsci::scale_fill_npg(name = "Database") + xlab(NULL) + ylab(NULL) + 
+  theme_figure + guides(fill = guide_legend(override.aes = list(size=6))) -> neg_go_plot
+neg_go_plot
 ```
 
-# Overlap
+# Overlap between cell-types
 ```{r}
 res_glia_1<-lapply(dds_list, function(x) {
   data.frame(x[[2]]) %>% add_rownames("gene") %>% na.omit(x) %>% 
@@ -198,19 +262,22 @@ resglia %>%
   dplyr::summarize(Celltype = list(id)) -> resglia
 
 upset <- ggplot(resglia, aes(x=Celltype)) +
-    geom_bar(fill=c(rep("black",3),"red","red","red", rep("black",4))) + theme_pubr() +
-    scale_x_upset(n_intersections = 10)
+    geom_bar(fill=c(rep("black",3),"#E64B35B2","#E64B35B2","#E64B35B2", rep("black",4))) + theme_pubr() +
+    scale_x_upset(n_intersections = 10) + xlab(NULL) + ylab("Number DEG") + theme_figure
 upset
 ```
 
-```{r, fig.height=6, fig.width=12}
-top <- plot_grid(p1, deplot_re, labels=c("A","B"), scale=0.9)
-bot <- plot_grid(devolc_plot, upset, axis="t", align="h", rel_widths = c(2,1), labels=c("C","D"))
-fig <- plot_grid(top, bot, ncol=1, align="hv", axis="tblr", rel_heights = c(1,1.25,2.5))
-fig
+# Generate part of figure
+```{r, fig.height=7, fig.width=12}
+top <- plot_grid(p1, deplot_re, labels=c("a","b"), scale=0.95, align="hv", axis="tb")
+mid <- plot_grid(pos_go_plot, upset, axis="t", scale=0.95, align="hv", labels=c("c","d"), rel_widths = c(1,1))
+fig3_top <- plot_grid(top, mid, ncol=1, align="hv", axis="tblr", rel_heights = c(1,1.1))
+fig3_top
+ggsave2(fig3_top, filename = here("data/figures/fig3/fig3_top.png"), h=7, w=12)
+save(fig3_top, file = here("data/figures/fig3/fig3_top.RData"))
 ```
 
-# Correlation
+# Correlation (Supplementary figure)
 ```{r}
 library(ggcorrplot)
 ranks<-lapply(dds_list, function(x) {
