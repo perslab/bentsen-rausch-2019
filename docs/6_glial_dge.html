@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef28adb7fc6385d1d85f1f9817c9d5d2affbe0076targetblankf28adb7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/f28adb7fc6385d1d85f1f9817c9d5d2affbe0076" target="_blank">f28adb7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef28adb7fc6385d1d85f1f9817c9d5d2affbe0076targetblankf28adb7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,32 +591,43 @@ Ignored files:
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
-    Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
-    Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/10_wc_pseudobulk.Rmd
+    Modified:   analysis/11_wc_astro_wgcna.Rmd
+    Modified:   analysis/13_olig_pseudotime.Rmd
+    Modified:   analysis/15_tany_wgcna_pseudo.Rmd
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +666,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f28adb7fc6385d1d85f1f9817c9d5d2affbe0076/analysis/6_glial_dge.Rmd" target="_blank">f28adb7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-03
+</td>
+<td>
+wflow_publish(c(“analysis/6_glial_dge.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/6_glial_dge.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -697,35 +742,40 @@ library(gProfileR)
 plan(multiprocess, workers=40)
 options(future.globals.maxSize = 4000 * 1024^2)</code></pre>
 </div>
-<div id="functions" class="section level1">
-<h1>Functions</h1>
-<pre class="r"><code>source(here(&quot;code/sc_functions.R&quot;))</code></pre>
-</div>
 <div id="generate-glial-plots" class="section level1">
 <h1>Generate Glial Plots</h1>
-<pre class="r"><code>fgf.glia.sub&lt;-readRDS(here(&quot;data/glia/glia_seur_filtered.RDS&quot;))</code></pre>
-</div>
-<div id="start-plotting" class="section level1">
-<h1>Start Plotting</h1>
-<pre class="r"><code>tsne_embed&lt;-data.frame(Embeddings(fgf.glia.sub, reduction = &quot;umap&quot;))
+<pre class="r"><code>fgf.glia.sub&lt;-readRDS(here(&quot;data/glia/glia_seur_filtered.RDS&quot;))
+fgf.glia.sub &lt;- RenameIdents(fgf.glia.sub, &quot;COP&quot; = &quot;OPC_COP&quot;)
+
 fgf.glia.sub$group&lt;-paste0(fgf.glia.sub$trt, &quot;_&quot;, fgf.glia.sub$day)
-tsne_embed$group&lt;-fgf.glia.sub$group
-tsne_embed$celltype&lt;-Idents(fgf.glia.sub)
-tsne_embed&lt;-tsne_embed[sample(nrow(tsne_embed)),]
+data.frame(Embeddings(fgf.glia.sub, reduction = &quot;umap&quot;)) %&gt;% 
+  mutate(group = fgf.glia.sub$group) %&gt;%
+  mutate(celltype = Idents(fgf.glia.sub)) %&gt;%
+  .[sample(nrow(.)),] %&gt;%
+  mutate(group = replace(group, group == &quot;FGF_Day-5&quot;, &quot;FGF_d5&quot;)) %&gt;% 
+  mutate(group = replace(group, group == &quot;FGF_Day-1&quot;, &quot;FGF_d1&quot;)) %&gt;% 
+  mutate(group = replace(group, group == &quot;PF_Day-1&quot;, &quot;Veh_d1&quot;)) %&gt;%
+  mutate(group = replace(group, group == &quot;PF_Day-5&quot;, &quot;Veh_d5&quot;)) -&gt; umap_embed
+colnames(umap_embed)[1:2] &lt;- c(&quot;UMAP1&quot;, &quot;UMAP2&quot;)
 
-label.df &lt;- data.frame(cluster=levels(tsne_embed$celltype),label=levels(tsne_embed$celltype))
-label.df_2 &lt;- tsne_embed %&gt;% 
+label.df &lt;- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
+label.df_2 &lt;- umap_embed %&gt;% 
   dplyr::group_by(celltype) %&gt;% 
-  dplyr::summarize(x = median(UMAP_1), y = median(UMAP_2))
+  dplyr::summarize(x = median(UMAP1), y = median(UMAP2))
 
-p1&lt;-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=celltype)) + 
-  geom_point(alpha=0.75, size=2)  + 
-  geom_label(data = label.df_2, aes(label = celltype, x=x, y=y), size=3, fontface=&quot;bold&quot;, inherit.aes = F, nudge_x = 1)  +
-  theme_pubr() + theme(legend.position = &quot;none&quot;) + ggsci::scale_color_igv()
-p2&lt;-ggplot(tsne_embed, aes(x=UMAP_1, y=UMAP_2, colour=group)) + 
-  geom_point(alpha=.75, size=2) + 
+p1&lt;-ggplot(umap_embed, aes(x=UMAP1, y=UMAP2, colour=celltype)) + 
+  geom_point(alpha=0.5, size=2)  + 
+  geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
+                  size=3, fontface=&quot;bold&quot;, inherit.aes = F, bg.colour=&quot;white&quot;)  +
+  theme_pubr(legend=&quot;none&quot;) + ggsci::scale_color_igv() + theme_figure
+p1</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /> # Integration across timepoints and treatment</p>
+<pre class="r"><code>p2&lt;-ggplot(umap_embed, aes(x=UMAP1, y=UMAP2, colour=group)) + 
+  geom_point(alpha=.5, size=1) + 
   ggsci::scale_color_igv() + 
-  theme_pubr(legend = &quot;none&quot;)</code></pre>
+  theme_pubr(legend = &quot;none&quot;) + theme_figure
+p2</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="get-colors-for-matching" class="section level1">
 <h1>Get colors for matching</h1>
@@ -768,48 +818,10 @@ genenum&lt;-melt(boxplot)
 colnames(genenum)&lt;-c(&quot;number&quot;,&quot;CellType&quot;)
 genenum &lt;- write_csv(genenum, path = here(&quot;output/glia/glia_resampling_output.csv&quot;))
 deplot_re &lt;- ggplot(genenum, aes(x=reorder(CellType, -number), y=number, fill=CellType)) + 
-  geom_boxplot(outlier.shape = NA, notch = T, alpha=1) + scale_fill_manual(values = colvec) + theme_pubr() +
-  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = &quot;none&quot;) + 
-  ylab(&quot;Differentially Expressed\n Genes&quot;) + xlab(NULL) 
+  geom_boxplot(notch = T, alpha=1) + scale_fill_manual(values = colvec)  +
+  ylab(&quot;Number DEG&quot;) + xlab(NULL)  + theme_pubr(legend=&quot;none&quot;) + theme_figure
 deplot_re</code></pre>
-<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/9cf1e45a5b1b231666442fc52295671005aadcd5/docs/figure/6_glial_dge.Rmd/unnamed-chunk-9-1.png" target="_blank">9cf1e45</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="generate-pseudo-counts-1" class="section level1">
 <h1>Generate Pseudo Counts</h1>
@@ -883,10 +895,10 @@ Warning: Deprecated, use tibble::rownames_to_column() instead.
 Warning: Deprecated, use tibble::rownames_to_column() instead.
 
 Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
-<pre class="r"><code>mapply(x=volc_list, y = names(volc_list), function(x,y) {
-  write_csv(x, path = here(sprintf(&quot;output/glia/%s_glia_pseudobulk_dge.csv&quot;, y)))
+<pre class="r"><code>mapply(x = volc_list, y = names(volc_list), function(x, y) {
+  write_csv(x, path = here(sprintf(&quot;output/glia/nuclei/d1_%s_pseudobulk_dge.csv&quot;,y)))
 })</code></pre>
-<pre><code>               Astro          Olig           Micro          COP           
+<pre><code>               Astro          Olig           Micro          OPC_COP       
 gene           Character,8681 Character,9346 Character,6068 Character,2820
 log2FoldChange Numeric,8681   Numeric,9346   Numeric,6068   Numeric,2820  
 padj           Numeric,8681   Numeric,9346   Numeric,6068   Numeric,2820  
@@ -898,15 +910,15 @@ log2FoldChange Numeric,3731   Numeric,732   Numeric,956   Numeric,1478
 padj           Numeric,3731   Numeric,732   Numeric,956   Numeric,1478  
 col            Character,3731 Character,732 Character,956 Character,1478
 label          Character,3731 Character,732 Character,956 Character,1478</code></pre>
-<pre class="r"><code>plotlist&lt;-mapply(x=volc_list[c(&quot;Astro&quot;,&quot;Tany&quot;,&quot;Epend&quot;, &quot;VLMC&quot;)], y= c(&quot;Astro&quot;,&quot;Tany&quot;,&quot;Epend&quot;, &quot;VLMC&quot;), function(x,y){
+<pre class="r"><code>plotlist&lt;-mapply(x=volc_list, y=names(volc_list), function(x,y){
     ggplot(x, aes(y=(-log10(padj)), x=log2FoldChange, colour=factor(col), label=label)) + 
     xlab(expression(Log[2]*~Fold*~Change)) + ylab(expression(-Log[10]*~pvalue)) + 
     geom_point(size=3, alpha=0.75) + geom_hline(yintercept = -log10(0.05), linetype=&quot;dashed&quot;) + 
     geom_vline(xintercept = c(-1,1), linetype=&quot;dashed&quot;) + geom_text_repel(colour=&quot;black&quot;) + theme_pubr() +
     theme(legend.position = &quot;none&quot;, title = element_text(vjust=0.5)) + 
-    scale_colour_manual(values = wes_palette(&quot;Royal1&quot;, 3, type=&quot;discrete&quot;)[c(2,1,3)]) + ggtitle(y)}, SIMPLIFY = FALSE)
-devolc_plot &lt;- plot_grid(plotlist=plotlist[c(1,2)], ncol=2)
-devolc_plot</code></pre>
+    scale_colour_manual(values = wes_palette(&quot;Royal1&quot;, 3, type=&quot;discrete&quot;)[c(2,1,3)]) + 
+    ggtitle(y)}, SIMPLIFY = FALSE)
+plot_grid(plotlist = plotlist, ncol=3)</code></pre>
 <p><img src="figure/6_glial_dge.Rmd/volcano%20plot-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-volcano-plot-1">
@@ -945,39 +957,68 @@ Full Name
 </table>
 </div>
 </div>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/allvolplots.pdf&quot;))
+devolc_plot &lt;- plot_grid(plotlist=plotlist[c(&quot;Astro&quot;,&quot;Tany&quot;)], ncol=2)</code></pre>
 </div>
-<div id="overlap" class="section level1">
-<h1>Overlap</h1>
-<pre class="r"><code>res_glia_1&lt;-lapply(dds_list, function(x) {
-  data.frame(x[[2]]) %&gt;% add_rownames(&quot;gene&quot;) %&gt;% na.omit(x) %&gt;% 
-    filter(padj&lt;0.05) %&gt;% arrange(padj) %&gt;% select(gene) -&gt; x
+<div id="go-term-enrichment-across-cell-types" class="section level1">
+<h1>Go Term enrichment across cell-types</h1>
+<pre class="r"><code>pos_genes &lt;- lapply(dds_list[c(&quot;Tany&quot;,&quot;Astro&quot;,&quot;Epend&quot;)], function(x) {
+  x[[2]] %&gt;% na.omit() %&gt;% data.frame() %&gt;% add_rownames(&quot;gene&quot;) %&gt;% 
+    filter(padj&lt;0.05, log2FoldChange&gt;1) %&gt;% pull(&quot;gene&quot;)
 })</code></pre>
 <pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.
 
 Warning: Deprecated, use tibble::rownames_to_column() instead.
 
-Warning: Deprecated, use tibble::rownames_to_column() instead.
-
-Warning: Deprecated, use tibble::rownames_to_column() instead.
-
-Warning: Deprecated, use tibble::rownames_to_column() instead.
-
-Warning: Deprecated, use tibble::rownames_to_column() instead.
+Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre class="r"><code>neg_genes &lt;- lapply(dds_list[c(&quot;Tany&quot;,&quot;Astro&quot;,&quot;Epend&quot;)], function(x) {
+  x[[2]] %&gt;% na.omit() %&gt;% data.frame() %&gt;% add_rownames(&quot;gene&quot;) %&gt;% 
+    filter(padj&lt;0.05, log2FoldChange&lt;(-1)) %&gt;% pull(&quot;gene&quot;)
+})</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.
 
 Warning: Deprecated, use tibble::rownames_to_column() instead.
 
 Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
-<pre class="r"><code>resglia&lt;-bind_rows(res_glia_1, .id=&quot;id&quot;)
-resglia %&gt;%
-  dplyr::group_by(gene) %&gt;%
-  dplyr::summarize(Celltype = list(id)) -&gt; resglia
+<pre class="r"><code>pos_path &lt;- lapply(pos_genes, function(x) {
+  gprofiler(x, organism = &quot;mmusculus&quot;, significant = T, 
+                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 500,correction_method = &quot;fdr&quot;) %&gt;%
+    arrange(p.value) 
+})
 
-upset &lt;- ggplot(resglia, aes(x=Celltype)) +
-    geom_bar(fill=c(rep(&quot;black&quot;,3),&quot;red&quot;,&quot;red&quot;,&quot;red&quot;, rep(&quot;black&quot;,4))) + theme_pubr() +
-    scale_x_upset(n_intersections = 10)
-upset</code></pre>
-<pre><code>Warning: Removed 13 rows containing non-finite values (stat_count).</code></pre>
-<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+neg_path &lt;- lapply(neg_genes, function(x) {
+  gprofiler(x, organism = &quot;mmusculus&quot;, significant = T, 
+                           src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;, &quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
+                           min_isect_size = 3, 
+                           sort_by_structure = T,exclude_iea = T, 
+                           min_set_size = 10, max_set_size = 500,correction_method = &quot;fdr&quot;) %&gt;%
+    arrange(p.value)
+})
+
+pos_go &lt;- bind_rows(pos_path, .id=&quot;id&quot;)
+write_csv(pos_go, here(&quot;output/glia/nucd1_pos_go.csv&quot;))
+neg_go &lt;- bind_rows(neg_path, .id=&quot;id&quot;)
+write_csv(neg_go, here(&quot;output/glia/nucd1_neg_go.csv&quot;))</code></pre>
+</div>
+<div id="go-term-plot-of-upregulated-genes" class="section level1">
+<h1>GO term plot of upregulated genes</h1>
+<pre class="r"><code>pos_go %&gt;% dplyr::group_by(id) %&gt;% dplyr::slice(1:5) %&gt;% dplyr::pull(term.id) -&gt; go_id
+pos_go %&gt;% filter(term.id%in%go_id)  %&gt;% 
+  ggplot(aes(x=fct_relevel(id,&quot;Tany&quot;,&quot;Epend&quot;,&quot;Astro&quot;), y=str_to_title(str_wrap(term.name, 40), locale = &quot;en&quot;))) +
+  geom_point(aes(size=(-log10(p.value)), fill=domain), shape=21,  alpha=0.5) +
+  scale_size(name = expression(bold(-log[10]*pvalue)), range=c(3,8)) + 
+  ggsci::scale_fill_npg(name = &quot;Database&quot;, labels=c(&quot;GO:BP&quot;,&quot;KEGG&quot;,&quot;REAC&quot;)) + 
+  xlab(NULL) + ylab(NULL) + theme_bw() + theme_figure +
+  theme(axis.text.y = element_text(size=7, face=&quot;bold&quot;)) + 
+  guides(fill = guide_legend(override.aes = list(size=4), title.theme = element_text(face=&quot;bold&quot;, size=8), 
+                             label.theme = element_text(face=&quot;bold&quot;, size=8)),
+         size =  guide_legend(title.theme = element_text(size=8), 
+                              label.theme = element_text(face=&quot;bold&quot;, size=8)))  -&gt; pos_go_plot
+pos_go_plot</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
 Past versions of unnamed-chunk-12-1.png
@@ -1015,12 +1056,18 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>top &lt;- plot_grid(p1, deplot_re, labels=c(&quot;A&quot;,&quot;B&quot;), scale=0.9)
-bot &lt;- plot_grid(devolc_plot, upset, axis=&quot;t&quot;, align=&quot;h&quot;, rel_widths = c(2,1), labels=c(&quot;C&quot;,&quot;D&quot;))</code></pre>
-<pre><code>Warning: Removed 13 rows containing non-finite values (stat_count).</code></pre>
-<pre class="r"><code>fig &lt;- plot_grid(top, bot, ncol=1, align=&quot;hv&quot;, axis=&quot;tblr&quot;, rel_heights = c(1,1.25,2.5))
-fig</code></pre>
-<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="go-term-plot-of-downregulated-genes" class="section level1">
+<h1>Go term plot of downregulated genes</h1>
+<pre class="r"><code>neg_go %&gt;% dplyr::group_by(id) %&gt;% dplyr::slice(1:5) %&gt;% ggplot(aes(x=fct_relevel(id,&quot;Tany&quot;,&quot;Epend&quot;,&quot;Astro&quot;), y=str_wrap(term.name, 30))) + 
+  geom_point(aes(size=(-log10(p.value)), fill=domain), shape=21, alpha=0.75) +
+  scale_size(name = expression(log[10]*pvalue), range=c(3,10)) + ggsci::scale_fill_npg(name = &quot;Database&quot;) + xlab(NULL) + ylab(NULL) + 
+  theme_figure + guides(fill = guide_legend(override.aes = list(size=6))) -&gt; neg_go_plot
+neg_go_plot</code></pre>
+<pre><code>Warning: Unknown levels in `f`: Astro
+
+Warning: Unknown levels in `f`: Astro</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
 Past versions of unnamed-chunk-13-1.png
@@ -1059,39 +1106,37 @@ Full Name
 </div>
 </div>
 </div>
-<div id="correlation" class="section level1">
-<h1>Correlation</h1>
-<pre class="r"><code>library(ggcorrplot)
-ranks&lt;-lapply(dds_list, function(x) {
-  x&lt;-data.frame(x[[2]])
-  x&lt;-na.omit(x)
-  y &lt;- (-log10(x$pvalue))*(x$log2FoldChange)
-  z &lt;- rownames(x)
-  df&lt;-data.frame(order=y,gene=z)
-  df&lt;-df[order(-df$order),]
-})
+<div id="overlap-between-cell-types" class="section level1">
+<h1>Overlap between cell-types</h1>
+<pre class="r"><code>res_glia_1&lt;-lapply(dds_list, function(x) {
+  data.frame(x[[2]]) %&gt;% add_rownames(&quot;gene&quot;) %&gt;% na.omit(x) %&gt;% 
+    filter(padj&lt;0.05) %&gt;% arrange(padj) %&gt;% select(gene) -&gt; x
+})</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.
 
-corframe&lt;-Reduce(function(x, y) merge(x, y, all=T, by=c(&quot;gene&quot;)), ranks)</code></pre>
-<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
-&#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result
+Warning: Deprecated, use tibble::rownames_to_column() instead.
 
-Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
-&#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result</code></pre>
-<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
-&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result
+Warning: Deprecated, use tibble::rownames_to_column() instead.
 
-Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
-&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result</code></pre>
-<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
-&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are
-duplicated in the result</code></pre>
-<pre class="r"><code>colnames(corframe)&lt;-c(&quot;gene&quot;,names(ranks))
-corframe&lt;-corframe[,-1]
-dim(corframe[complete.cases(corframe),])</code></pre>
-<pre><code>[1] 363   8</code></pre>
-<pre class="r"><code>plotcor &lt;- cor(corframe, method = &quot;spearman&quot;, use=&quot;complete.obs&quot;)
-ggcorrplot(plotcor, hc.order = T, type=&quot;lower&quot;) + 
-  ggsci::scale_fill_gsea(limit = c(0,1))</code></pre>
+Warning: Deprecated, use tibble::rownames_to_column() instead.
+
+Warning: Deprecated, use tibble::rownames_to_column() instead.
+
+Warning: Deprecated, use tibble::rownames_to_column() instead.
+
+Warning: Deprecated, use tibble::rownames_to_column() instead.
+
+Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre class="r"><code>resglia&lt;-bind_rows(res_glia_1, .id=&quot;id&quot;)
+resglia %&gt;%
+  dplyr::group_by(gene) %&gt;%
+  dplyr::summarize(Celltype = list(id)) -&gt; resglia
+
+upset &lt;- ggplot(resglia, aes(x=Celltype)) +
+    geom_bar(fill=c(rep(&quot;black&quot;,3),&quot;#E64B35B2&quot;,&quot;#E64B35B2&quot;,&quot;#E64B35B2&quot;, rep(&quot;black&quot;,4))) + theme_pubr() +
+    scale_x_upset(n_intersections = 10) + xlab(NULL) + ylab(&quot;Number DEG&quot;) + theme_figure
+upset</code></pre>
+<pre><code>Warning: Removed 13 rows containing non-finite values (stat_count).</code></pre>
 <p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
@@ -1130,6 +1175,52 @@ Full Name
 </table>
 </div>
 </div>
+</div>
+<div id="generate-part-of-figure" class="section level1">
+<h1>Generate part of figure</h1>
+<pre class="r"><code>top &lt;- plot_grid(p1, deplot_re, labels=c(&quot;a&quot;,&quot;b&quot;), scale=0.95, align=&quot;hv&quot;, axis=&quot;tb&quot;)
+mid &lt;- plot_grid(pos_go_plot, upset, axis=&quot;t&quot;, scale=0.95, align=&quot;hv&quot;, labels=c(&quot;c&quot;,&quot;d&quot;), rel_widths = c(1,1))</code></pre>
+<pre><code>Warning: Removed 13 rows containing non-finite values (stat_count).</code></pre>
+<pre class="r"><code>fig3_top &lt;- plot_grid(top, mid, ncol=1, align=&quot;hv&quot;, axis=&quot;tblr&quot;, rel_heights = c(1,1.1))
+fig3_top</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave2(fig3_top, filename = here(&quot;data/figures/fig3/fig3_top.png&quot;), h=7, w=12)
+save(fig3_top, file = here(&quot;data/figures/fig3/fig3_top.RData&quot;))</code></pre>
+</div>
+<div id="correlation-supplementary-figure" class="section level1">
+<h1>Correlation (Supplementary figure)</h1>
+<pre class="r"><code>library(ggcorrplot)
+ranks&lt;-lapply(dds_list, function(x) {
+  x&lt;-data.frame(x[[2]])
+  x&lt;-na.omit(x)
+  y &lt;- (-log10(x$pvalue))*(x$log2FoldChange)
+  z &lt;- rownames(x)
+  df&lt;-data.frame(order=y,gene=z)
+  df&lt;-df[order(-df$order),]
+})
+
+corframe&lt;-Reduce(function(x, y) merge(x, y, all=T, by=c(&quot;gene&quot;)), ranks)</code></pre>
+<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
+&#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result
+
+Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
+&#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result</code></pre>
+<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
+&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result
+
+Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
+&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are duplicated in the result</code></pre>
+<pre><code>Warning in merge.data.frame(x, y, all = T, by = c(&quot;gene&quot;)): column names
+&#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39;, &#39;order.x&#39;, &#39;order.y&#39; are
+duplicated in the result</code></pre>
+<pre class="r"><code>colnames(corframe)&lt;-c(&quot;gene&quot;,names(ranks))
+corframe&lt;-corframe[,-1]
+dim(corframe[complete.cases(corframe),])</code></pre>
+<pre><code>[1] 363   8</code></pre>
+<pre class="r"><code>plotcor &lt;- cor(corframe, method = &quot;spearman&quot;, use=&quot;complete.obs&quot;)
+ggcorrplot(plotcor, hc.order = T, type=&quot;lower&quot;) + 
+  ggsci::scale_fill_gsea(limit = c(0,1))</code></pre>
+<p><img src="figure/6_glial_dge.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1162,7 +1253,7 @@ other attached packages:
  [3] ggupset_0.1.0.9000          wesanderson_0.3.6.9000     
  [5] here_0.1                    ggpubr_0.2.1               
  [7] magrittr_1.5                reshape2_1.4.3             
- [9] ggrepel_0.8.1               forcats_0.4.0              
+ [9] ggrepel_0.8.0.9000          forcats_0.4.0              
 [11] stringr_1.4.0               dplyr_0.8.3                
 [13] purrr_0.3.2                 readr_1.3.1.9000           
 [15] tidyr_0.8.3                 tibble_2.1.3               
