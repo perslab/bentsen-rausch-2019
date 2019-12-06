@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -394,7 +394,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/perslab/fgf_alldata">
+  <a href="https://github.com/perslab/bentsen-rausch-2019">
     <span class="fa fa-github"></span>
      
     Source code
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee3263689fa62351c7d14b380b69563c16abc16a1targetblanke326368a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/e3263689fa62351c7d14b380b69563c16abc16a1" target="_blank">e326368</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee3263689fa62351c7d14b380b69563c16abc16a1targetblanke326368a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -588,35 +588,46 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/olig_ttest_padj.csv
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
     Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
     Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +666,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/b713020c9b4b15e9fc0fa09131f361c940963652/analysis/15_tany_wgcna_pseudo.Rmd" target="_blank">b713020</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-06
+</td>
+<td>
+wflow_publish(“analysis/15_tany_wgcna_pseudo.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/15_tany_wgcna_pseudo.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -714,7 +759,9 @@ library(gProfileR)
 library(ggpubr)
 library(princurve)
 library(here)
-library(cowplot)</code></pre>
+library(cowplot)
+library(tidygraph)
+library(ggraph)</code></pre>
 </div>
 <div id="extract-cells-for-wgcna" class="section level1">
 <h1>Extract Cells for WGCNA</h1>
@@ -723,17 +770,18 @@ library(cowplot)</code></pre>
 <h1>Calculate Pseudoventricle Scores</h1>
 <pre class="r"><code>pcembed &lt;- as.matrix(Embeddings(ventric, reduction = &quot;pca&quot;)[,c(1:2)])
 y &lt;- principal_curve(pcembed)
-color &lt;- as.factor(ventric$predicted.id)
-levels(color) &lt;- c(&quot;#E41A1C&quot;, &quot;#377EB8&quot;, &quot;#4DAF4A&quot;, &quot;#984EA3&quot;)
+# color &lt;- as.factor(ventric$predicted.id)
+# levels(color) &lt;- c(&quot;#E41A1C&quot;, &quot;#377EB8&quot;, &quot;#4DAF4A&quot;, &quot;#984EA3&quot;)
 df = data.frame(y$s[order(y$lambda), ])
 colnames(df) = c(&quot;x&quot;, &quot;y&quot;)
 points &lt;- data.frame(id = ventric$predicted.id, Embeddings(ventric, reduction = &quot;pca&quot;)[,c(1:2)])
 rand &lt;- sample(nrow(points), 3000)
 princ_plot &lt;- ggplot(data = df, aes(x, y)) +
   geom_point(data = points[rand,], aes(x=PC_1, y=PC_2, colour=factor(id)), size = 2, inherit.aes = F, alpha=0.5) + 
-  geom_line(size = 2, color = &quot;black&quot;) + 
-  theme_pubr(legend = &quot;none&quot;) + 
-  xlim(c(-20,10)) + coord_flip() + xlab(&quot;PC_1&quot;) + ylab(&quot;PC_2&quot;) + theme( axis.text.x = element_text(angle=45, hjust=1))
+  geom_line(arrow = arrow(length=unit(0.30,&quot;cm&quot;), ends=&quot;last&quot;, type = &quot;closed&quot;), size = 2, color = &quot;orange&quot;) + 
+  ggpubr::theme_pubr(legend = &quot;none&quot;) + 
+  ggsci::scale_color_jco() +
+  xlim(c(-20,10)) + coord_flip() + xlab(&quot;PC1&quot;) + ylab(&quot;PC2&quot;) +  theme_figure
 ventric$height &lt;- y$lambda
 princ_plot</code></pre>
 <pre><code>Warning: Removed 37 rows containing missing values (geom_point).</code></pre>
@@ -1128,8 +1176,10 @@ moduleColors = mergedColors
 # moduleLabels = match(moduleColors, colorOrder)-1
 MEs = mergedMEs
 modulekME = signedKME(datExpr,MEs)</code></pre>
-<pre class="r"><code>#type gene name, prints out gene names also in that module
-modules&lt;-MEs
+</div>
+<div id="type-gene-name-prints-out-gene-names-also-in-that-module" class="section level1">
+<h1>Type gene name, prints out gene names also in that module</h1>
+<pre class="r"><code>modules&lt;-MEs
 c_modules&lt;-data.frame(moduleColors)
 row.names(c_modules)&lt;-colnames(datExpr) #assign gene names as row names
 module.list.set1&lt;-substring(colnames(modules),3) #removes ME from start of module names
@@ -1145,7 +1195,7 @@ lookup&lt;-function(gene,network){return(network[names(network)[grep(gene,networ
 <pre class="r"><code>nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)
 MEs = orderMEs(MEs)
-MEs %&gt;% select(-MEgrey) -&gt; MEs
+MEs %&gt;% dplyr::select(-MEgrey) -&gt; MEs
 var&lt;-model.matrix(~0+ventric$trt)
 moduleTraitCor &lt;- cor(MEs, var, use=&quot;p&quot;)
 cor&lt;-moduleTraitCor[abs(moduleTraitCor[,1])&gt;.2,]
@@ -1193,6 +1243,9 @@ Full Name
 </table>
 </div>
 </div>
+</div>
+<div id="get-hubgenes" class="section level1">
+<h1>Get hubgenes</h1>
 <pre class="r"><code>hubgenes&lt;-lapply(seq_len(length(Network)), function(x) {
   dat&lt;-modulekME[Network[[x]],]
   dat&lt;-dat[order(-dat[paste0(&quot;kME&quot;,names(Network)[x])]),]
@@ -1206,40 +1259,9 @@ d &lt;- data.frame(gene = d,
            vec = names(d))
 
 write_csv(d, path=here(&quot;output/glia/wgcna/wc_tany_wgcna_genemodules.csv&quot;))</code></pre>
-<p>#Function to calculate SEM and Average</p>
-<pre class="r"><code>summarySE &lt;- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
-                      conf.interval=.95, .drop=TRUE) {
-    library(plyr)
-
-    # New version of length which can handle NA&#39;s: if na.rm==T, don&#39;t count them
-    length2 &lt;- function (x, na.rm=FALSE) {
-        if (na.rm) sum(!is.na(x))
-        else       length(x)
-    }
-
-    # This does the summary. For each group&#39;s data frame, return a vector with
-    # N, mean, and sd
-    datac &lt;- ddply(data, groupvars, .drop=.drop,
-      .fun = function(xx, col) {
-        c(N    = length2(xx[[col]], na.rm=na.rm),
-          mean = mean   (xx[[col]], na.rm=na.rm),
-          sd   = sd     (xx[[col]], na.rm=na.rm)
-        )
-      },
-      measurevar
-    )
-
-    # Rename the &quot;mean&quot; column    
-    datac$se &lt;- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
-
-    # Confidence interval multiplier for standard error
-    # Calculate t-statistic for confidence interval: 
-    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult &lt;- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci &lt;- datac$se * ciMult
-
-    return(datac)
-}</code></pre>
+</div>
+<div id="linear-regression" class="section level1">
+<h1>Linear regression</h1>
 <pre class="r"><code>data&lt;-data.frame(MEs, trt = ventric$trt, 
                  sample = as.factor(ventric$sample),
                  batch = as.factor(ventric$batch), 
@@ -1258,12 +1280,16 @@ plot &lt;- lapply(colnames(MEs), function(x) {
   x$type&lt;-as.factor(data$type)
   x&lt;-melt(x, id.vars=c(&quot;trt&quot;,&quot;bin&quot;,&quot;type&quot;))
   x&lt;-x[complete.cases(x),]
-  plotval &lt;- summarySE(x, measurevar=&quot;value&quot;, groupvars = c(&quot;trt&quot;,&quot;bin&quot;))
+  x %&gt;% dplyr::group_by(trt, bin) %&gt;%
+    dplyr::summarise(mean = mean(value), sd=sd(value), se = sd/sqrt(length(value))) -&gt;plotval
   return(plotval)
 })
 
 names(plot) &lt;- colnames(MEs)
 plot_df &lt;- bind_rows(plot, .id=&quot;id&quot;)</code></pre>
+</div>
+<div id="plotting" class="section level1">
+<h1>Plotting</h1>
 <pre class="r"><code>mod &lt;- lapply(colnames(MEs)[grepl(&quot;^ME&quot;, colnames(MEs))], function(me) {
   tryCatch({
     mod &lt;- lmer(data[[me]] ~ trt*bin + (1 | batch) + (1 | sample), data = data)
@@ -1311,62 +1337,63 @@ detach(&quot;package:here&quot;, unload = T)
 library(here)
 write_csv(as.data.frame(plotval_frame), path = here(&quot;output/glia/wgcna/wc_tany_pseudovent_linmod.csv&quot;))
 
-mod_df %&gt;% filter(p.adj&lt;0.05) -&gt; sig_df
+mod_df %&gt;% dplyr::group_by(id) %&gt;% 
+  dplyr::summarise(order = quantile(-log10(p.adj),.75)*(quantile(abs(estimate),.75))) %&gt;% 
+  arrange(-order) %&gt;% 
+  mutate(pubname = paste0(&quot;sc-tany-M&quot;,seq_len(length(order)))) %&gt;% dplyr::select(1,3) -&gt; rename
+write_csv(as.data.frame(rename), path = here(&quot;output/glia/wgcna/wc_tany_colortopubname.csv&quot;))
+
+mod_df %&gt;% filter(p.adj&lt;0.05, estimate&gt;0) -&gt; sig_df
 sig_mods &lt;- names(which(table(sig_df$id) &gt; 5))
 height_type &lt;- ggplot() + geom_density(data=data, aes(x=(-height), fill=type), inherit.aes = F, alpha=0.25) + coord_flip() + 
-  theme_pubr(legend = &quot;none&quot;) + xlab(&quot;Pseudo-ventrivcle Height&quot;) + ylab(NULL) + theme(axis.text.x = element_blank(),  axis.text.y = element_blank())
-mod &lt;- ggplot(plotval_frame[plotval_frame$id%in%c(sig_mods),], aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
+  theme_pubr(legend = &quot;none&quot;) + xlab(&quot;Pseudo-ventricle Height&quot;) + ylab(NULL) + scale_fill_jco() + theme(axis.text.x = element_blank(),  axis.text.y = element_blank()) + theme_figure
+plotval_frame$pubname &lt;- rename$pubname[match(plotval_frame$id, rename$id)]
+
+mod &lt;- ggplot(plotval_frame, 
+              aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se, width=.1)) +
+  geom_line() + geom_point() + scale_color_manual(values=c(&quot;#000000&quot;,&quot;#999999&quot;)) +
+  geom_text(color=&quot;black&quot;,size=3,aes(y= mean + .5), position=position_dodge(.9), angle=90) +
+  coord_flip() +
+  facet_wrap(vars(pubname), scales=&quot;free&quot;, nrow=4) + theme_pubr() + ylab(&quot;Scaled ME Expression&quot;) +
+  xlab(NULL) +
+  theme(legend.position=&quot;none&quot;, axis.text.y = element_blank(), 
+        axis.text.x = element_text(angle=45, hjust=1)) + theme_figure
+mod</code></pre>
+<pre><code>Warning: Removed 1871 rows containing missing values (geom_text).</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/alltany_mods_pseudovent.pdf&quot;), width = 12, h=12)</code></pre>
+<pre><code>Warning: Removed 1871 rows containing missing values (geom_text).</code></pre>
+<pre class="r"><code>mod_sig &lt;- ggplot(plotval_frame[plotval_frame$id%in%c(sig_mods),], aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se, width=.1)) +
   geom_line() + geom_point() + scale_color_manual(values=c(&quot;#000000&quot;,&quot;#999999&quot;)) +
   geom_text(color=&quot;black&quot;,size=3,aes(y= mean + .5), position=position_dodge(.9), angle=90) + coord_flip() +
-  facet_wrap(vars(id), scales=&quot;free&quot;, nrow=1) + theme_pubr() + ylab(&quot;Scaled ME Expression&quot;) + xlab(NULL) +
-  theme(legend.position=&quot;none&quot;, axis.text.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) </code></pre>
+  facet_wrap(vars(pubname), scales=&quot;free&quot;, nrow=1) + theme_pubr() + ylab(&quot;Scaled ME Expression&quot;) + xlab(NULL) +
+  theme(legend.position=&quot;none&quot;, axis.text.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) + theme_figure</code></pre>
+</div>
+<div id="umap-plot" class="section level1">
+<h1>UMAP plot</h1>
 <pre class="r"><code>ventric_umap &lt;- as.data.frame(Embeddings(ventric, reduction=&quot;umap&quot;))
 ventric_umap$`Cell Type` &lt;- ventric$predicted.id
-umap &lt;- ggplot(ventric_umap, aes(x=UMAP_1, y=UMAP_2, color=`Cell Type`)) + geom_point(alpha=0.5) + theme_void() + theme(legend.position = &quot;top&quot;)</code></pre>
-<pre class="r"><code>tany_day5 &lt;- plot_grid(umap, princ_plot, height_type, mod, rel_widths = c(2,1,1,2.5), align = &quot;hv&quot;, axis=&quot;tb&quot;, nrow=1, scale=0.9)</code></pre>
+ggplot(ventric_umap, aes(x=UMAP_1, y=UMAP_2, color=`Cell Type`)) + 
+  geom_point(alpha=0.5) + xlab(&quot;UMAP1&quot;) + ylab(&quot;UMAP2&quot;) + ggpubr::theme_pubr() + 
+  ggsci::scale_color_jco(labels=c(expression(alpha[1]~Tanycyte), expression(alpha[2]~Tanycyte),
+                                  expression(beta[1]~Tanycyte), expression(beta[2]~Tanycyte))) +
+  coord_cartesian(clip=&quot;off&quot;) +
+  guides(color = guide_legend(override.aes = list(size=3))) +
+  theme(legend.position = c(0.93,0.2), legend.background = element_blank(), 
+        legend.title = element_blank(), legend.key.size = unit(0, &#39;lines&#39;)) -&gt; umap
+umap</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="arrange-plot" class="section level1">
+<h1>Arrange plot</h1>
+<pre class="r"><code>tany_day5 &lt;- plot_grid(umap, princ_plot, height_type, ggplot() + theme_void(), mod_sig, rel_widths = c(2,1,1,1, 2), align = &quot;hv&quot;, axis=&quot;tb&quot;, nrow=1, scale=0.9, labels=c(&quot;a&quot;,&quot;b&quot;,&quot;&quot;,&quot;&quot;,&quot;c&quot;))</code></pre>
 <pre><code>Warning: Removed 37 rows containing missing values (geom_point).</code></pre>
 <pre><code>Warning: Removed 122 rows containing missing values (geom_path).</code></pre>
-<pre><code>Warning: Removed 174 rows containing missing values (geom_text).</code></pre>
+<pre><code>Warning: Removed 131 rows containing missing values (geom_text).</code></pre>
 <pre class="r"><code>tany_day5</code></pre>
-<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-16-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
-Past versions of unnamed-chunk-16-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-16-1.png" target="_blank">3b5cbe7</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /> # Calculate GO term enrichment</p>
 <pre class="r"><code>goterms&lt;-lapply(hubgenes[gsub(sig_mods,pattern = &quot;ME&quot;,replacement = &quot;&quot;)], function(x) { 
   x&lt;-gprofiler(x, ordered_query = T, organism = &quot;mmusculus&quot;, significant = T, custom_bg = colnames(datExpr),
                            src_filter = c(&quot;GO:BP&quot;,&quot;REAC&quot;,&quot;KEGG&quot;), hier_filtering = &quot;strong&quot;,
@@ -1382,6 +1409,104 @@ goterms %&gt;% bind_rows(.id=&quot;id&quot;) %&gt;%
 
 write_csv(godat, path=here(&quot;output/glia/wgcna/wc_wgcna_tany_goterms.csv&quot;))
 save.image(file = here(&quot;output/glia/wgcna/wc_tany_results.RData&quot;))</code></pre>
+</div>
+<div id="plot-go-terms" class="section level1">
+<h1>Plot GO terms</h1>
+<pre class="r"><code>goterms[[1]] %&gt;% 
+  select(domain, term.name, p.value, overlap.size) %&gt;% arrange(p.value) %&gt;% top_n(5, -p.value) %&gt;%
+  mutate(x = fct_reorder(str_to_title(str_wrap(term.name,20)), -p.value)) %&gt;% 
+  mutate(y = -log10(p.value)) %&gt;%
+  ggplot(aes(x,y)) + 
+  geom_col(colour=&quot;black&quot;, width = 1, fill=&quot;gray80&quot;, size=1) +
+  theme_pubr(legend=&quot;none&quot;) + 
+  theme(axis.text.y = element_text(size=8)) +
+  scale_size(range = c(5,10)) + 
+  ggsci::scale_fill_lancet() +
+  coord_flip() +
+  xlab(NULL) + ylab(expression(bold(-log[10]~pvalue))) +
+  theme_figure -&gt; tany_sc1
+tany_sc1</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>goterms[[3]] %&gt;% 
+  select(domain, term.name, p.value, overlap.size) %&gt;% arrange(p.value) %&gt;% top_n(5, -p.value) %&gt;%
+  mutate(x = fct_reorder(str_to_title(str_wrap(term.name,20)), -p.value)) %&gt;% 
+  mutate(y = -log10(p.value)) %&gt;%
+  ggplot(aes(x,y)) + 
+  geom_col(colour=&quot;black&quot;, width = 1, fill=&quot;gray80&quot;, size=1) +
+  theme_pubr(legend=&quot;none&quot;) + 
+  theme(axis.text.y = element_text(size=8)) +
+  scale_size(range = c(5,10)) + 
+  ggsci::scale_fill_lancet() +
+  coord_flip() +
+  xlab(NULL) + ylab(expression(bold(-log[10]~pvalue))) +
+  theme_figure -&gt; tany_sc3
+tany_sc3</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-17-2.png" width="672" style="display: block; margin: auto;" /> # Gene network plots</p>
+<pre class="r"><code>hubgenes &lt;- lapply(seq_len(length(Network)), function(x) {
+  dat &lt;- modulekME[Network[[x]], ]
+  dat &lt;- dat[order(-dat[paste0(&quot;kME&quot;, names(Network)[x])]), ]
+  gene &lt;- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+
+
+names(hubgenes) &lt;- names(Network)
+
+color &lt;- c(&quot;darkgreen&quot;)
+lapply(color, function(col) {
+  maxsize &lt;- 15
+  hubs &lt;- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -&gt; hub_plot 
+
+
+hub_plot &lt;- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %&gt;% 
+  graph.adjacency(mode = &quot;undirected&quot;, weighted = T, diag = FALSE) %&gt;%
+  as_tbl_graph(g1) %&gt;% upgrade_graph() %&gt;% activate(nodes) %&gt;% dplyr::mutate(mod=x$mod) %&gt;%
+  dplyr::mutate(kme=x$kme)  %&gt;% 
+  activate(edges)}
+)
+
+hub_plot[[1]] %&gt;% activate(nodes) %&gt;% mutate(color = ifelse(name == &quot;Vim&quot;, yes=&quot;red&quot;, no = &quot;black&quot;)) -&gt; hub_plot
+
+set.seed(&quot;139&quot;)
+ggraph(hub_plot,  layout = &#39;kk&#39;) + 
+  geom_edge_link(color=&quot;darkgrey&quot;, aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, .5)) + geom_node_text(aes(label = name, color=color), fontface=&quot;bold&quot;, size=4, repel=T) +
+  geom_node_point(shape=21, alpha=0.5, fill=&quot;grey70&quot;, size=3) + scale_color_manual(values=c(&quot;gray0&quot;,&quot;red&quot;)) +
+  theme_graph() + theme(legend.position = &quot;none&quot;, plot.title = element_text(hjust=0.5, vjust=1)) + 
+    coord_cartesian(clip = &quot;off&quot;) -&gt; genenet
+genenet</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /> # Vimentin quantification</p>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig5/191118_Vim_quantification.xlsx&quot;), range=&quot;A5:B9&quot;) %&gt;%
+  reshape2::melt() -&gt; vim
+
+vim %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x = variable, y = mean, fill = variable, color = variable)) + 
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + 
+  geom_jitter(data = vim, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(7.5e6), xmin=c(1.2), xmax=c(1.8),
+              annotation=c(&quot;*&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  ylab(expression(bold(Volume~(mu*m^3)))) + scale_fill_manual(values=c(&quot;gray80&quot;,&quot;gray30&quot;), name=&quot;&quot;) + 
+  scale_color_manual(values=c(&quot;gray80&quot;,&quot;gray30&quot;), name=&quot;&quot;) +
+  theme_pubr() + theme(legend.position = &quot;none&quot;, axis.text.x = element_text(angle=45,hjust=1)) + theme_figure -&gt; vim_quant
+
+vim_plot &lt;- cowplot::plot_grid(ggplot() + theme_void(), vim_quant, nrow=1, scale=0.8, labels=c(&quot;e&quot;), rel_widths = c(2,1))</code></pre>
+</div>
+<div id="arrange-bottom-half-of-plot" class="section level1">
+<h1>Arrange bottom half of plot</h1>
+<pre class="r"><code>sc1 &lt;- plot_grid(genenet, tany_sc1, scale=c(1,.8), labels=&quot;d&quot;)
+tany_bot &lt;- plot_grid(sc1, vim_plot, rel_widths = c(1.25,1))
+tany_bot</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="arrange-full-figure" class="section level1">
+<h1>Arrange full figure</h1>
+<pre class="r"><code>plot_grid(tany_day5, tany_bot, ncol=1, rel_heights = c(1.25,1))</code></pre>
+<p><img src="figure/15_tany_wgcna_pseudo.Rmd/unnamed-chunk-21-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(filename = here(&quot;data/figures/fig5/fig5.tiff&quot;), width = 12, h=7, compression=&quot;lzw&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1409,70 +1534,74 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] here_0.1              plyr_1.8.4            cowplot_1.0.0        
- [4] princurve_2.1.4       ggpubr_0.2.1          magrittr_1.5         
- [7] gProfileR_0.6.7       igraph_1.2.4.1        reshape2_1.4.3       
-[10] forcats_0.4.0         stringr_1.4.0         dplyr_0.8.3          
-[13] purrr_0.3.2           readr_1.3.1.9000      tidyr_0.8.3          
-[16] tibble_2.1.3          tidyverse_1.2.1       genefilter_1.64.0    
-[19] ggbeeswarm_0.6.0      ggplot2_3.2.1         lme4_1.1-21          
-[22] Matrix_1.2-17         emmeans_1.3.5.1       ggsci_2.9            
-[25] parallelDist_0.2.4    cluster_2.1.0         WGCNA_1.68           
-[28] fastcluster_1.1.25    dynamicTreeCut_1.63-1 Seurat_3.0.3.9036    
+ [1] here_0.1              ggraph_1.0.2          tidygraph_1.1.2      
+ [4] cowplot_1.0.0         princurve_2.1.4       ggpubr_0.2.1         
+ [7] magrittr_1.5          gProfileR_0.6.7       igraph_1.2.4.1       
+[10] reshape2_1.4.3        forcats_0.4.0         stringr_1.4.0        
+[13] dplyr_0.8.3           purrr_0.3.2           readr_1.3.1.9000     
+[16] tidyr_0.8.3           tibble_2.1.3          tidyverse_1.2.1      
+[19] genefilter_1.64.0     ggbeeswarm_0.6.0      ggplot2_3.2.1        
+[22] lme4_1.1-21           Matrix_1.2-17         emmeans_1.3.5.1      
+[25] ggsci_2.9             parallelDist_0.2.4    cluster_2.1.0        
+[28] WGCNA_1.68            fastcluster_1.1.25    dynamicTreeCut_1.63-1
+[31] Seurat_3.0.3.9036    
 
 loaded via a namespace (and not attached):
-  [1] reticulate_1.13       R.utils_2.9.0         tidyselect_0.2.5     
-  [4] robust_0.4-18.1       RSQLite_2.1.1         AnnotationDbi_1.44.0 
-  [7] htmlwidgets_1.3       grid_3.5.3            Rtsne_0.15           
- [10] munsell_0.5.0         codetools_0.2-16      ica_1.0-2            
- [13] preprocessCore_1.44.0 future_1.14.0         withr_2.1.2          
- [16] colorspace_1.4-1      Biobase_2.42.0        highr_0.8            
- [19] knitr_1.23            rstudioapi_0.10       stats4_3.5.3         
- [22] ROCR_1.0-7            robustbase_0.93-5     ggsignif_0.5.0       
- [25] gbRd_0.4-11           listenv_0.7.0         labeling_0.3         
- [28] Rdpack_0.11-0         git2r_0.25.2          bit64_0.9-7          
- [31] rprojroot_1.3-2       vctrs_0.2.0           coda_0.19-3          
- [34] generics_0.0.2        TH.data_1.0-10        xfun_0.8             
- [37] R6_2.4.0              doParallel_1.0.14     rsvd_1.0.2           
- [40] bitops_1.0-6          assertthat_0.2.1      SDMTools_1.1-221.1   
- [43] scales_1.0.0          multcomp_1.4-10       nnet_7.3-12          
- [46] beeswarm_0.2.3        gtable_0.3.0          npsurv_0.4-0         
- [49] globals_0.12.4        sandwich_2.5-1        workflowr_1.4.0      
- [52] rlang_0.4.0           zeallot_0.1.0         splines_3.5.3        
- [55] lazyeval_0.2.2        acepack_1.4.1         impute_1.56.0        
- [58] broom_0.5.2           checkmate_1.9.4       modelr_0.1.4         
- [61] yaml_2.2.0            backports_1.1.4       Hmisc_4.2-0          
- [64] tools_3.5.3           gplots_3.0.1.1        RColorBrewer_1.1-2   
- [67] BiocGenerics_0.28.0   ggridges_0.5.1        Rcpp_1.0.2           
- [70] base64enc_0.1-3       RCurl_1.95-4.12       rpart_4.1-15         
- [73] pbapply_1.4-1         S4Vectors_0.20.1      zoo_1.8-6            
- [76] haven_2.1.0           ggrepel_0.8.1         fs_1.3.1             
- [79] data.table_1.12.2     lmtest_0.9-37         RANN_2.6.1           
- [82] mvtnorm_1.0-11        whisker_0.3-2         fitdistrplus_1.0-14  
- [85] matrixStats_0.54.0    hms_0.5.0             lsei_1.2-0           
- [88] evaluate_0.14         xtable_1.8-4          XML_3.98-1.20        
- [91] readxl_1.3.1          IRanges_2.16.0        gridExtra_2.3        
- [94] compiler_3.5.3        KernSmooth_2.23-15    crayon_1.3.4         
- [97] minqa_1.2.4           R.oo_1.22.0           htmltools_0.3.6      
-[100] pcaPP_1.9-73          Formula_1.2-3         rrcov_1.4-7          
-[103] RcppParallel_4.4.3    lubridate_1.7.4       DBI_1.0.0            
-[106] MASS_7.3-51.4         boot_1.3-22           cli_1.1.0            
-[109] R.methodsS3_1.7.1     gdata_2.18.0          parallel_3.5.3       
-[112] metap_1.1             pkgconfig_2.0.2       fit.models_0.5-14    
-[115] foreign_0.8-71        plotly_4.9.0          xml2_1.2.0           
-[118] foreach_1.4.4         annotate_1.60.1       vipor_0.4.5          
-[121] estimability_1.3      rvest_0.3.4           bibtex_0.4.2         
-[124] digest_0.6.20         sctransform_0.2.0     RcppAnnoy_0.0.12     
-[127] tsne_0.1-3            cellranger_1.1.0      rmarkdown_1.13       
-[130] leiden_0.3.1          htmlTable_1.13.1      uwot_0.1.3           
-[133] gtools_3.8.1          nloptr_1.2.1          nlme_3.1-140         
-[136] jsonlite_1.6          viridisLite_0.3.0     pillar_1.4.2         
-[139] lattice_0.20-38       httr_1.4.1            DEoptimR_1.0-8       
-[142] survival_2.44-1.1     GO.db_3.7.0           glue_1.3.1           
-[145] png_0.1-7             iterators_1.0.10      bit_1.1-14           
-[148] stringi_1.4.3         blob_1.1.1            latticeExtra_0.6-28  
-[151] caTools_1.17.1.2      memoise_1.1.0         irlba_2.3.3          
-[154] future.apply_1.3.0    ape_5.3              </code></pre>
+  [1] estimability_1.3      R.methodsS3_1.7.1     coda_0.19-3          
+  [4] acepack_1.4.1         bit64_0.9-7           knitr_1.23           
+  [7] irlba_2.3.3           multcomp_1.4-10       R.utils_2.9.0        
+ [10] data.table_1.12.2     rpart_4.1-15          RCurl_1.95-4.12      
+ [13] doParallel_1.0.14     generics_0.0.2        metap_1.1            
+ [16] BiocGenerics_0.28.0   preprocessCore_1.44.0 TH.data_1.0-10       
+ [19] RSQLite_2.1.1         RANN_2.6.1            future_1.14.0        
+ [22] bit_1.1-14            xml2_1.2.0            lubridate_1.7.4      
+ [25] assertthat_0.2.1      viridis_0.5.1         xfun_0.8             
+ [28] hms_0.5.0             evaluate_0.14         DEoptimR_1.0-8       
+ [31] caTools_1.17.1.2      readxl_1.3.1          DBI_1.0.0            
+ [34] htmlwidgets_1.3       stats4_3.5.3          ellipsis_0.2.0.1     
+ [37] backports_1.1.4       annotate_1.60.1       gbRd_0.4-11          
+ [40] RcppParallel_4.4.3    vctrs_0.2.0           Biobase_2.42.0       
+ [43] ROCR_1.0-7            withr_2.1.2           ggforce_0.3.0.9000   
+ [46] robustbase_0.93-5     checkmate_1.9.4       sctransform_0.2.0    
+ [49] ape_5.3               lazyeval_0.2.2        crayon_1.3.4         
+ [52] pkgconfig_2.0.2       labeling_0.3          tweenr_1.0.1         
+ [55] nlme_3.1-140          vipor_0.4.5           rematch_1.0.1        
+ [58] nnet_7.3-12           rlang_0.4.0           globals_0.12.4       
+ [61] sandwich_2.5-1        modelr_0.1.4          rsvd_1.0.2           
+ [64] cellranger_1.1.0      rprojroot_1.3-2       polyclip_1.10-0      
+ [67] matrixStats_0.54.0    lmtest_0.9-37         boot_1.3-22          
+ [70] zoo_1.8-6             base64enc_0.1-3       beeswarm_0.2.3       
+ [73] whisker_0.3-2         ggridges_0.5.1        png_0.1-7            
+ [76] viridisLite_0.3.0     bitops_1.0-6          R.oo_1.22.0          
+ [79] KernSmooth_2.23-15    blob_1.1.1            workflowr_1.4.0      
+ [82] robust_0.4-18.1       S4Vectors_0.20.1      ggsignif_0.5.0       
+ [85] scales_1.0.0          memoise_1.1.0         plyr_1.8.4           
+ [88] ica_1.0-2             gplots_3.0.1.1        bibtex_0.4.2         
+ [91] gdata_2.18.0          compiler_3.5.3        lsei_1.2-0           
+ [94] RColorBrewer_1.1-2    rrcov_1.4-7           fitdistrplus_1.0-14  
+ [97] cli_1.1.0             listenv_0.7.0         pbapply_1.4-1        
+[100] htmlTable_1.13.1      Formula_1.2-3         MASS_7.3-51.4        
+[103] tidyselect_0.2.5      stringi_1.4.3         highr_0.8            
+[106] yaml_2.2.0            latticeExtra_0.6-28   ggrepel_0.8.0.9000   
+[109] grid_3.5.3            tools_3.5.3           future.apply_1.3.0   
+[112] parallel_3.5.3        rstudioapi_0.10       foreach_1.4.4        
+[115] foreign_0.8-71        git2r_0.25.2          gridExtra_2.3        
+[118] farver_1.1.0          Rtsne_0.15            digest_0.6.20        
+[121] Rcpp_1.0.2            broom_0.5.2           SDMTools_1.1-221.1   
+[124] RcppAnnoy_0.0.12      httr_1.4.1            AnnotationDbi_1.44.0 
+[127] npsurv_0.4-0          Rdpack_0.11-0         colorspace_1.4-1     
+[130] rvest_0.3.4           XML_3.98-1.20         fs_1.3.1             
+[133] reticulate_1.13       IRanges_2.16.0        splines_3.5.3        
+[136] uwot_0.1.3            plotly_4.9.0          fit.models_0.5-14    
+[139] xtable_1.8-4          jsonlite_1.6          nloptr_1.2.1         
+[142] zeallot_0.1.0         R6_2.4.0              Hmisc_4.2-0          
+[145] pillar_1.4.2          htmltools_0.3.6       glue_1.3.1           
+[148] minqa_1.2.4           codetools_0.2-16      tsne_0.1-3           
+[151] pcaPP_1.9-73          mvtnorm_1.0-11        lattice_0.20-38      
+[154] leiden_0.3.1          gtools_3.8.1          GO.db_3.7.0          
+[157] survival_2.44-1.1     rmarkdown_1.13        munsell_0.5.0        
+[160] iterators_1.0.10      impute_1.56.0         haven_2.1.0          
+[163] gtable_0.3.0         </code></pre>
 </div>
 </div>
 
