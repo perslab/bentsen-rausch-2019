@@ -1,0 +1,345 @@
+---
+title: "Figure 7"
+output: html_notebook
+---
+
+# Libraries
+```{r}
+library(DESeq2)
+library(tidyverse)
+library(ggplot2)
+library(AnnotationDbi)
+library(org.Mm.eg.db)
+library(fgsea)
+library(AnnotationDbi)
+library(org.Mm.eg.db)
+library(gProfileR)
+library(ggrepel)
+library(grid)
+library(ggsignif)
+library(cowplot)
+library(here)
+```
+
+# Load Day1 and Day 42 data
+```{r}
+source(here("code/sc_functions.R"))
+genecountlist<-list.files(here("data/bulk/"), 
+                          pattern = ".*Bentsen.*ReadsPerGene.out.tab", full.names = T) 
+
+genecountlist %>% str_remove_all("bulk_|SHU_|r2_") %>% 
+  str_extract(pattern = "G.*Bentsen.*_RNA") %>% 
+  str_split("_", simplify = T) %>% data.frame() %>% 
+  dplyr::select(4:6) %>% 
+  dplyr::rename(prep=X4, treat=X5, day=X6) %>% 
+  unite("group",c(treat,day), remove = F) -> meta
+
+genecounts<-lapply(genecountlist, function(x) 
+  read.table(x, sep="\t", skip = 4, row.names = 1,
+             colClasses = c("character", "NULL", "NULL" , "numeric")))
+genemat <- do.call("cbind",genecounts)
+
+colnames(genemat) <- paste0("Sample_",seq_len(dim(genemat)[2]))
+genemat %>% dplyr::select(7:30) %>%
+  mutate(gene = mapIds(org.Mm.eg.db, keys=rownames(genemat), keytype = "ENSEMBL", column="SYMBOL")) %>% 
+  na.omit() %>% filter(!duplicated(gene)) %>% column_to_rownames("gene") -> genemat
+
+meta[c(7:30),] -> meta
+```
+
+# Load Novo generated data
+```{r}
+load(here("data/bulk/dds.RData"))
+counts(dds) %>% data.frame() %>% 
+  mutate(gene = mapIds(org.Mm.eg.db, keys=rownames(counts(dds)), keytype = "ENSEMBL", column="SYMBOL")) %>% 
+  na.omit() %>% filter(!duplicated(gene)) %>% column_to_rownames("gene") -> nn_genemat
+
+merge(genemat, nn_genemat, by="row.names") %>% column_to_rownames("Row.names") -> countmat
+  
+group <- if_else(condition = grepl("FGF", as.character(dds$Treatment_abbrv)), true = "FGF1_d5", false = "veh_d5")
+prep <- rep("NN", 23)
+seq_batch <- rep("run1", 23)
+nn <-data.frame("group"=group, "prep"=prep)
+nn %>% separate(group, into = c("treat","day"), remove = F) -> meta_nn
+meta <- bind_rows(meta, meta_nn)
+dds <- DESeqDataSetFromMatrix(as.matrix(countmat), colData = meta, design = ~ 0 + group)
+keep <- rowSums(counts(dds) >= 10) > 20
+dds <- dds[keep,]
+dds <- DESeq(dds)
+```
+
+# Identify DEG at each time point
+```{r, fig.height=8}
+res_1 <- results(dds, contrast = c("group","FGF1_d1","veh_d1"))
+res_5 <- results(dds, contrast = c("group","FGF1_d5","veh_d5"))
+res_42 <- results(dds, contrast = c("group","FGF1_d42","veh_d42"))
+
+res_42 %>% as.data.frame() %>% add_rownames("gene") %>% 
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column="ENTREZID", keytype = "SYMBOL")) %>% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %>% arrange(-stat) %>% na.omit -> res_42
+write_csv(res_42, path = here("output/bulk/d42deg.csv"))
+
+res_5 %>% as.data.frame() %>% add_rownames("gene") %>%
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column="ENTREZID", keytype = "SYMBOL")) %>% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %>% arrange(-stat) %>% na.omit -> res_5
+write_csv(res_5, path = here("output/bulk/d5deg.csv"))
+
+res_1 %>% as.data.frame() %>% add_rownames("gene") %>% 
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column="ENTREZID", keytype = "SYMBOL")) %>% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %>% arrange(-stat) %>% na.omit -> res_1
+resdf <- bind_rows(d1=res_1, d5=res_5, d42=res_42, .id = "id")
+write_csv(res_1, path = here("output/bulk/d1deg.csv"))
+
+
+p1 <- ggplot(res_1, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p1_adj <- ggplot(res_1, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+p5 <- ggplot(res_5, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p5_adj <- ggplot(res_5, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+p42 <- ggplot(res_42, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p42_adj <- ggplot(res_42, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+resdf %>% dplyr::mutate(dir = ifelse(log2FoldChange>0, yes="1", no="2")) %>% dplyr::filter(pvalue<0.05, abs(log2FoldChange)>0.5) %>% 
+  dplyr::group_by(id,dir) %>% dplyr::count() %>% 
+  mutate(n = ifelse(dir==2, yes = -n, no = n)) %>% ungroup() %>% mutate(id = fct_relevel(id,"d1","d5","d42")) -> degnum
+
+ggplot(degnum, aes(x=id, y=n)) + 
+  geom_bar(aes(x=id,y=n,fill=id), stat="identity",position="identity", colour="black", alpha=0.75, width=0.7) + 
+  geom_text(data = dplyr::filter(degnum, n<0), aes(label=abs(n)), vjust=1.3, size=3.5) +
+  geom_text(data = dplyr::filter(degnum, n>0), aes(label=abs(n)), vjust=-.3, size=3.5) +
+  ggsci::scale_fill_npg()  +
+  scale_y_continuous(labels=abs) +
+  scale_x_discrete(labels=c("d1" = "Day 1", "d5" = "Day 5","d42" = "Day 42")) +
+  coord_cartesian(clip = "off") + ggpubr::theme_pubr(legend="none") + 
+  ylab("Number DEG") + xlab(NULL) + 
+  annotate(geom = "segment", y = 50, yend = 750, x = .5, xend = .5, arrow=arrow(length = unit(2, "mm")), size=0.5) +
+  annotate(geom = "segment", y = -50, yend = -750, x = .5, xend = .5, arrow=arrow(length = unit(2, "mm")), size=0.5) + 
+  annotate(geom = "text", y = c(1100,-1100), x = .5, label = c("Upregulated", "Downregulated"), angle=90, 
+           color="black", size=3, fontface="bold") -> degnum_plot
+degnum_plot
+```
+
+# Generate data for RRHO
+```{r}
+rank <- data.frame(gene = res_1$gene, rank1 = seq(1:nrow(res_1)), stat1 = res_1$stat)
+rank5 <- data.frame(gene = res_5$gene, rank5 = seq(1:nrow(res_5)), stat5 = res_5$stat)
+ranks <- merge(rank5, rank, by="gene")
+ranks$unigene <- mapIds(org.Mm.eg.db, keys = as.character(ranks$gene), keytype = "SYMBOL", column = "UNIGENE")
+ranks$gene <- as.character(ranks$gene)
+ranks <- arrange(ranks, rank5)
+ranks <- ranks[,c(6,1,2,4,3,5)]
+write.table(ranks, here("data/bulk/rrho/ranks1ranks5.txt"),quote = F, row.names = F, sep="\t")
+```
+
+# Genes up at D1 and down at D5
+```{r}
+read.table(here("data/bulk/rrho/rank5rank1/rankrank.regionA.txt")) %>% pull(V2) %>% as.character() -> genes
+genes <- genes[-1]
+sum(rank5$stat5>0)-length(genes)
+sum(rank$stat1>0)-length(genes)
+venn.plot <- VennDiagram::draw.pairwise.venn(area1 = sum(ranks$stat5>0), area2 = sum(ranks$stat1>0), 
+                                             cross.area = length(genes), scaled = T, euler.d = T)
+pdf(file = here("data/figures/fig7/rank1rank5Venn_diagram_bothup.pdf"))
+grid.draw(venn.plot)
+dev.off()
+
+gprofiler(genes, organism = "mmusculus", src_filter = c("GO:BP","KEGG","REAC"),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = "strong") %>% arrange(p.value) -> res
+write_csv(res, path = here("data/bulk/rrho/goterms_coup_d1d5.csv"))
+
+ggplot(res %>% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) +
+  geom_col(width=1, colour="black", fill="gray80") + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure -> rank5rank1a
+rank5rank1a
+```
+
+# Genes up at D1 and up at D5
+```{r}
+read.table(here("data/bulk/rrho/rank5rank1/rankrank.regionB.txt")) %>% pull(V2) %>% as.character() -> genes
+genes <- genes[-1]
+sum(rank5$stat5>0)-length(genes)
+sum(rank$stat1>0)-length(genes)
+venn.plot <- VennDiagram::draw.pairwise.venn(area1 = sum(rank5$stat5>0), area2 = sum(rank$stat1>0), 
+                                             cross.area = length(genes), scaled = T, euler.d = T)
+pdf(file = here("data/figures/fig7/rank1rank5Venn_diagram_d1upd5down.pdf"))
+grid.draw(venn.plot)
+dev.off()
+
+gprofiler(genes, organism = "mmusculus", 
+          src_filter = c("GO:BP","KEGG","REAC"),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = "strong") %>% arrange(p.value) -> res
+write_csv(res, path = here("data/bulk/rrho/goterms_upd1downd5.csv"))
+
+ggplot(res %>% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) + 
+  geom_col(width=1, colour="black", fill="gray80") + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure ->  rank5rank1b
+rank5rank1b
+```
+
+```{r}
+rank <- data.frame(gene = res_5$gene, rank5 = seq(1:nrow(res_5)), stat5 = res_5$stat)
+rank42 <- data.frame(gene = res_42$gene, rank42 = seq(1:nrow(res_42)), stat42 = res_42$stat)
+ranks <- merge(rank42, rank, by="gene")
+ranks$gene <- as.character(ranks$gene)
+ranks$unigene <- mapIds(org.Mm.eg.db, keys = as.character(ranks$gene), keytype = "SYMBOL", column = "UNIGENE")
+ranks <- arrange(ranks, rank5)
+ranks <- ranks[,c(6,1,4,2,5,3)]
+write.table(ranks, here("data/bulk/rrho/ranks42.txt"),quote = F, row.names = F, sep="\t")
+```
+
+# Genes up at D5 and Down at D42
+```{r}
+read.table(here("data/bulk/rrho/rank5rank42/rankrank.regionC.txt")) %>% pull(V2) %>% as.character() -> genes
+genes <- genes[-1]
+venn.plot <- VennDiagram::draw.pairwise.venn(area1 = sum(rank5$stat5>0),
+                                             area2 = sum(rank42$stat42<0), 
+                                             cross.area = length(genes), 
+                                             scaled = T, euler.d = T)
+pdf(file = here("data/figures/fig7/rank5rank42Venn_diagram_d5upd42down.pdf"))
+grid.draw(venn.plot)
+dev.off()
+
+gprofiler(genes, organism = "mmusculus", 
+          src_filter = c("GO:BP","KEGG","REAC"),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = "strong") %>% arrange(p.value) -> res
+write_csv(res, path = here("data/bulk/rrho/goterms_upd5downd42.csv"))
+
+ggplot(res %>% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) + 
+  geom_col(width=1, colour="black", fill="gray80") + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure  -> rank5rank42c
+rank5rank42c
+```
+# GO term analysis of bulk data
+```{r}
+res_42 %>% filter(pvalue < 0.05, abs(log2FoldChange)>0.5) %>% pull(gene) %>% 
+  gProfileR::gprofiler(., organism = "mmusculus", src_filter = c("GO:BP","KEGG","REAC"),
+                          hier_filtering = "strong", min_isect_size = 3,significant = T,
+                          min_set_size = 5, max_set_size = 300, correction_method = "fdr", 
+                          custom_bg = rownames(dds)) %>% 
+  arrange(p.value) -> goup_42
+
+write_csv(res, path = here("output/bulk/goterms_d42.csv"))
+
+goup_42 %>% dplyr::select(domain, term.name, term.id, p.value, intersection, overlap.size) %>% 
+  separate(intersection, into = c(paste0("gene", 1:max(goup_42$overlap.size)), remove=T)) %>% 
+  reshape2::melt(id.vars=c("domain", "term.name","term.id", "p.value","overlap.size")) %>% na.omit() %>% 
+  dplyr::select(-variable) %>% 
+  dplyr::mutate(dir = ifelse(res_42[match(value, toupper(res_42$gene)),"log2FoldChange"] > 0, yes = 1, no = -1)) %>%
+  dplyr::group_by(term.name, term.id, p.value) %>% 
+  dplyr::summarize(dir = sum(dir), overlap.size = mean(overlap.size), domain = unique(domain)) %>%
+  mutate(zscore = dir/sqrt(overlap.size)) -> ego_plot
+
+ggplot(ego_plot, aes(x = zscore, y = -log10(p.value), label=str_wrap(str_to_sentence(term.name),30))) + 
+  geom_point(aes(size = overlap.size, fill = domain), shape=21, alpha=0.5) + 
+  scale_size(range=c(2,10)) + ggsci::scale_fill_npg() +
+  geom_text_repel(data = filter(ego_plot, -log10(p.value)>3, zscore>1|zscore<(-1)), 
+                  bg.colour="white", 
+                  min.segment.length = unit(0, 'lines'), lineheight=0.75, point.padding =NA) +
+  ggpubr::theme_pubr(legend="none") + coord_cartesian(clip="off") + 
+  xlab("z-score") + ylab(expression(bold(-log[10]~pvalue))) +
+  geom_vline(xintercept = c(-1,1), linetype="dashed", color="black") +
+  geom_hline(yintercept = 1.3, linetype="dashed", color="black") +
+  xlim(c(-4,4)) +
+  annotate(geom = "label", x = c(-2.5,2.5), y = 5.5, 
+           label=c("Enriched for\n downregulated genes", "Enriched for\n upregulated genes"), size=3, fontface="bold") + 
+  coord_cartesian(clip="off") + theme_figure -> goterm_plot
+goterm_plot
+```
+
+# Specific gene plots (glia)
+```{r}
+topGenes <- c("Gfap", "Vim", "Gpr17",  "Aqp4",  "Bmp4", "S100a10")
+fiss <- lapply(topGenes, function(x) plotCounts(dds, x, c("group"), returnData = TRUE)) 
+for(i in 1:6) fiss[[i]]$gene <- rep(topGenes[i], 47)
+fiss <- do.call(rbind, fiss)
+fiss$day <- as.numeric(sapply(strsplit(as.character(fiss$group),"_d"),"[",2))
+fiss$trt <- as.character(sapply(strsplit(as.character(fiss$group),"_d"),"[",1))
+fiss$gene <- fct_relevel(fiss$gene, "Gfap", "Vim", "Gpr17",  "Aqp4",  "S100a10", "Bmp4")
+fiss %>% dplyr::group_by(gene, trt, day) %>% dplyr::summarize(mean = mean(count), sd= sd(count), se = sd/sqrt(length(count))) %>% 
+  ggplot(aes(x=day, y=mean, colour=trt)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) + geom_line(aes(linetype=trt)) +
+  geom_errorbar(aes(x=day, ymin=mean-se, ymax=mean+se), width=0.2) +
+  scale_color_manual(values = c("gray30", "gray80")) +
+  scale_x_log10() + scale_y_log10() +
+  facet_wrap(~gene, scales="free_y", ncol=3) + ggpubr::theme_pubr(legend="none") + 
+  xlab("Day") + ylab("Normalized Counts") + theme_figure -> gliagene_plots
+gliagene_plots
+```
+# Specific gene plots (Neurons)
+```{r, fig.height=2, fig.width=3.5}
+topGenes <- c("Agrp", "Npy", "Mef2c")
+fiss <- lapply(topGenes, function(x) plotCounts(dds, x, c("group"), returnData = TRUE)) 
+for(i in 1:3) fiss[[i]]$gene <- rep(topGenes[i], 47)
+fiss <- do.call(rbind, fiss)
+fiss$day <- as.numeric(sapply(strsplit(as.character(fiss$group),"_d"),"[",2))
+fiss$trt <- as.character(sapply(strsplit(as.character(fiss$group),"_d"),"[",1))
+fiss$gene <- fct_relevel(fiss$gene, "Agrp", "Npy", "Mef2c")
+fiss %>% dplyr::group_by(gene, trt, day) %>% dplyr::summarize(mean = mean(count), sd= sd(count), se = sd/sqrt(length(count))) %>% 
+  ggplot(aes(x=day, y=mean, colour=trt)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) + geom_line(aes(linetype=trt)) +
+  geom_errorbar(aes(x=day, ymin=mean-se, ymax=mean+se), width=0.2) +
+  scale_color_manual(values = c("gray30", "gray80")) +
+  scale_x_log10() + scale_y_log10() +
+  facet_wrap(~gene, scales="free_y", ncol=3) + ggpubr::theme_pubr(legend="none") + 
+  xlab("Day") + ylab("Normalized Counts") + theme_figure -> neurgene_plots 
+neurgene_plots
+```
+# Quantification of  rt-pcr
+```{r}
+rtpcr <- readxl::read_xlsx(here("data/mouse_data/fig7/RT-PCR_Agrp_Npy.xlsx"), range="A4:H9", .name_repair = "minimal")[,c(1,2,7,8)]
+colnames(rtpcr) <- c("Veh_1","FGF1_1","Veh_2","FGF1_2")
+
+rtpcr %>%  reshape2::melt() %>%
+  mutate(gene = c(rep("Agrp", 10), rep("Npy",10))) %>% 
+  separate(variable, "_", into = "trt") %>% mutate(trt = fct_relevel(trt,"Veh","FGF1")) -> agnpy_quants
+
+agnpy_quants %>% dplyr::group_by(trt,gene) %>% dplyr::summarise(mean = mean(value), sd= sd(value), se=sd/sqrt(length(value))) %>%
+  ggplot(aes(x=gene, y=mean, fill=fct_relevel(trt,"Veh","FGF1"), color = trt)) + 
+  geom_col(width=0.9, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=gene, ymin = mean-se, ymax=mean+se), width=0.2, position=position_dodge(.9), size=1) +
+  geom_jitter(data = agnpy_quants, inherit.aes = F, aes(x=gene, y=value, fill=trt), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) + 
+  ylab("Gene/18S") + 
+  scale_fill_manual("Treatment", values=c("gray80","gray30")) + 
+  geom_signif(y_position= agnpy_quants %>% filter(gene == "Npy") %>% pull(value) %>% max(),
+                           , xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c("*","ns"), tip_length=0, size = 0.5, textsize = 6, color="black") + coord_cartesian(clip="off") +
+  scale_color_manual("Treatment", values=c("gray80","gray30")) +
+  theme_classic() + theme(legend.position="none") + theme_figure -> agnpy
+agnpy
+cowplot::plot_grid( agnpy, nrow=1, scale=0.9, labels="auto", rel_widths = c(2,1))
+ggsave(here("data/figures/fig6/agnpy.tiff"), width=5, h=2, dpi=600, compression = "lzw")
+```
+# Quantification of DCV
+```{r}
+readxl::read_xlsx(here("data/mouse_data/fig7/DCV.xlsx"), range="A5:D115") %>%   
+  reshape2::melt() %>% separate(variable, "\r\n", into = c("trt", "day")) %>%
+  mutate(day = gsub(day, pattern ="[(|)]", replacement = "")) %>% 
+  mutate(day = fct_relevel(day, "5 days", "28 days"), trt = fct_relevel(trt,"Vehicle","FGF1")) -> dcv
+
+ggplot(dcv, aes(x=day, y=value, fill=trt)) + geom_boxplot(outlier.shape = NA, alpha=0.5) + 
+  geom_jitter(alpha=0.5, shape=21, position = position_jitterdodge(.5), size=0.25) + xlab(NULL) +
+  geom_signif(y_position=c(dcv %>% dplyr::group_by(day) %>% dplyr::summarise(med = median(value)) %>% pull(med) + 20), 
+              xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c("ns","*"), tip_length=0, size = 0.5, textsize = 5, color="black") +
+  ylab("% DCVs/synapse") + scale_fill_manual("Treatment", values=c("gray80","gray30")) + theme_classic() +
+  theme(legend.position = "none", legend.background = element_blank()) -> dcv_plot
+dcv_plot
+```
+# Arrange final figure
+```{r, fig.height=12, fig.width=12}
+rrhod1d5 <- plot_grid(rank5rank1a, rank5rank1b,"", rank5rank42c, ncol=1, rel_heights = c(1.1,1,.025,1), align="hv")
+rrhoplot <- plot_grid(ggplot() + theme_void(), rrhod1d5, rel_widths = c(1.25,1))
+top <- cowplot::plot_grid(degnum_plot, rrhoplot, rel_widths = c(1,1.5), labels="auto")
+mid <- cowplot::plot_grid(gliagene_plots,neurgene_plots, agnpy,rel_widths = c(2,2,1), labels=c("c","d","e"), scale=0.9, align="hv", 
+                          axis = "tb", nrow=1)
+dcv_fig <- cowplot::plot_grid(ggplot() + theme_void(), dcv_plot, scale=0.9, align="hv",rel_widths = c(1,1))
+bottom <- cowplot::plot_grid(goterm_plot, dcv_fig, rel_widths = c(1.25,1), labels=c("e","f"), scale=0.9, align="v")
+cowplot::plot_grid(top,mid,bottom, ncol=1, align="hv", rel_heights = c(1.65,1,1.5))
+ggsave(here("data/figures/fig7/fig7_arranged.tiff"), width=12, h=13, dpi=600, compression = "lzw")
+```
+
