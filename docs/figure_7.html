@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Figure 7</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/perslab/bentsen-rausch-2019">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Figure 7</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-12-06
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Environment:</strong> objects present </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongobjectspresent" class="panel-collapse collapse">
+<div class="panel-body">
+
+<p>
+The global environment had objects present when the code in the R Markdown file was run. These objects can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment. Use <code>wflow_publish</code> or <code>wflow_build</code> to ensure that the code is always run in an empty environment.
+</p>
+<p>
+The following objects were defined in the global environment when these results were created:
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+Class
+</th>
+<th style="text-align:left;">
+Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+environment
+</td>
+<td style="text-align:left;">
+56 bytes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+env
+</td>
+<td style="text-align:left;">
+environment
+</td>
+<td style="text-align:left;">
+56 bytes
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191021code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191021)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191021code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191021)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef5c47a7301e54e0c07cee8ee762b78d45b7676ectargetblankf5c47a7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/f5c47a7301e54e0c07cee8ee762b78d45b7676ec" target="_blank">f5c47a7</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreef5c47a7301e54e0c07cee8ee762b78d45b7676ectargetblankf5c47a7a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
+    Ignored:    test_files/
+
+Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/olig_ttest_padj.csv
+    Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
+    Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
+    Untracked:  data/filtglia.RDS
+    Untracked:  data/glia/
+    Untracked:  data/lps1.txt
+    Untracked:  data/mcao1.txt
+    Untracked:  data/mcao_d3.txt
+    Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
+    Untracked:  data/neur_astro_induce.xlsx
+    Untracked:  data/neuron/
+    Untracked:  data/synaptic_activity_induced.xlsx
+    Untracked:  olig_ttest_padj.csv
+    Untracked:  output/agrp_pcgenes.csv
+    Untracked:  output/all_wc_markers.csv
+    Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
+    Untracked:  output/glia/
+    Untracked:  output/glial_markergenes.csv
+    Untracked:  output/integrated_all_markergenes.csv
+    Untracked:  output/integrated_neuronmarkers.csv
+    Untracked:  output/neuron/
+    Untracked:  suppglia.Rmd
+    Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f5c47a7301e54e0c07cee8ee762b78d45b7676ec/analysis/figure_7.Rmd" target="_blank">f5c47a7</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-06
+</td>
+<td>
+wflow_publish(“analysis/figure_7.Rmd”)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="libraries" class="section level1">
+<h1>Libraries</h1>
+<pre class="r"><code>library(DESeq2)</code></pre>
+<pre><code>Loading required package: S4Vectors</code></pre>
+<pre><code>Loading required package: stats4</code></pre>
+<pre><code>Loading required package: BiocGenerics</code></pre>
+<pre><code>Loading required package: parallel</code></pre>
+<pre><code>
+Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:parallel&#39;:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    anyDuplicated, append, as.data.frame, basename, cbind,
+    colMeans, colnames, colSums, dirname, do.call, duplicated,
+    eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rowMeans, rownames, rowSums, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which, which.max,
+    which.min</code></pre>
+<pre><code>
+Attaching package: &#39;S4Vectors&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:base&#39;:
+
+    expand.grid</code></pre>
+<pre><code>Loading required package: IRanges</code></pre>
+<pre><code>Loading required package: GenomicRanges</code></pre>
+<pre><code>Loading required package: GenomeInfoDb</code></pre>
+<pre><code>Loading required package: SummarizedExperiment</code></pre>
+<pre><code>Loading required package: Biobase</code></pre>
+<pre><code>Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>Loading required package: DelayedArray</code></pre>
+<pre><code>Loading required package: matrixStats</code></pre>
+<pre><code>
+Attaching package: &#39;matrixStats&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:Biobase&#39;:
+
+    anyMissing, rowMedians</code></pre>
+<pre><code>Loading required package: BiocParallel</code></pre>
+<pre><code>
+Attaching package: &#39;DelayedArray&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:matrixStats&#39;:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    aperm, apply</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>✔ ggplot2 3.2.1          ✔ purrr   0.3.2     
+✔ tibble  2.1.3          ✔ dplyr   0.8.3     
+✔ tidyr   0.8.3          ✔ stringr 1.4.0     
+✔ readr   1.3.1.9000     ✔ forcats 0.4.0     </code></pre>
+<pre><code>── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::collapse()   masks IRanges::collapse()
+✖ dplyr::combine()    masks Biobase::combine(), BiocGenerics::combine()
+✖ dplyr::count()      masks matrixStats::count()
+✖ dplyr::desc()       masks IRanges::desc()
+✖ tidyr::expand()     masks S4Vectors::expand()
+✖ dplyr::filter()     masks stats::filter()
+✖ dplyr::first()      masks S4Vectors::first()
+✖ dplyr::lag()        masks stats::lag()
+✖ ggplot2::Position() masks BiocGenerics::Position(), base::Position()
+✖ purrr::reduce()     masks GenomicRanges::reduce(), IRanges::reduce()
+✖ dplyr::rename()     masks S4Vectors::rename()
+✖ purrr::simplify()   masks DelayedArray::simplify()
+✖ dplyr::slice()      masks IRanges::slice()</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(AnnotationDbi)</code></pre>
+<pre><code>
+Attaching package: &#39;AnnotationDbi&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    select</code></pre>
+<pre class="r"><code>library(org.Mm.eg.db)</code></pre>
+<pre><code></code></pre>
+<pre class="r"><code>library(fgsea)</code></pre>
+<pre><code>Loading required package: Rcpp</code></pre>
+<pre class="r"><code>library(AnnotationDbi)
+library(org.Mm.eg.db)
+library(gProfileR)
+library(ggrepel)
+library(grid)
+library(ggsignif)
+library(cowplot)</code></pre>
+<pre><code>
+********************************************************</code></pre>
+<pre><code>Note: As of version 1.0.0, cowplot does not change the</code></pre>
+<pre><code>  default ggplot2 theme anymore. To recover the previous</code></pre>
+<pre><code>  behavior, execute:
+  theme_set(theme_cowplot())</code></pre>
+<pre><code>********************************************************</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>here() starts at /nfsdata/projects/dylan/bentsen-rausch-2019</code></pre>
+</div>
+<div id="load-day1-and-day-42-data" class="section level1">
+<h1>Load Day1 and Day 42 data</h1>
+<pre class="r"><code>source(here(&quot;code/sc_functions.R&quot;))
+genecountlist&lt;-list.files(here(&quot;data/bulk/&quot;), 
+                          pattern = &quot;.*Bentsen.*ReadsPerGene.out.tab&quot;, full.names = T) 
+
+genecountlist %&gt;% str_remove_all(&quot;bulk_|SHU_|r2_&quot;) %&gt;% 
+  str_extract(pattern = &quot;G.*Bentsen.*_RNA&quot;) %&gt;% 
+  str_split(&quot;_&quot;, simplify = T) %&gt;% data.frame() %&gt;% 
+  dplyr::select(4:6) %&gt;% 
+  dplyr::rename(prep=X4, treat=X5, day=X6) %&gt;% 
+  unite(&quot;group&quot;,c(treat,day), remove = F) -&gt; meta
+
+genecounts&lt;-lapply(genecountlist, function(x) 
+  read.table(x, sep=&quot;\t&quot;, skip = 4, row.names = 1,
+             colClasses = c(&quot;character&quot;, &quot;NULL&quot;, &quot;NULL&quot; , &quot;numeric&quot;)))
+genemat &lt;- do.call(&quot;cbind&quot;,genecounts)
+
+colnames(genemat) &lt;- paste0(&quot;Sample_&quot;,seq_len(dim(genemat)[2]))
+genemat %&gt;% dplyr::select(7:30) %&gt;%
+  mutate(gene = mapIds(org.Mm.eg.db, keys=rownames(genemat), keytype = &quot;ENSEMBL&quot;, column=&quot;SYMBOL&quot;)) %&gt;% 
+  na.omit() %&gt;% filter(!duplicated(gene)) %&gt;% column_to_rownames(&quot;gene&quot;) -&gt; genemat</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>meta[c(7:30),] -&gt; meta</code></pre>
+</div>
+<div id="load-novo-generated-data" class="section level1">
+<h1>Load Novo generated data</h1>
+<pre class="r"><code>load(here(&quot;data/bulk/dds.RData&quot;))
+counts(dds) %&gt;% data.frame() %&gt;% 
+  mutate(gene = mapIds(org.Mm.eg.db, keys=rownames(counts(dds)), keytype = &quot;ENSEMBL&quot;, column=&quot;SYMBOL&quot;)) %&gt;% 
+  na.omit() %&gt;% filter(!duplicated(gene)) %&gt;% column_to_rownames(&quot;gene&quot;) -&gt; nn_genemat</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>merge(genemat, nn_genemat, by=&quot;row.names&quot;) %&gt;% column_to_rownames(&quot;Row.names&quot;) -&gt; countmat
+  
+group &lt;- if_else(condition = grepl(&quot;FGF&quot;, as.character(dds$Treatment_abbrv)), true = &quot;FGF1_d5&quot;, false = &quot;veh_d5&quot;)
+prep &lt;- rep(&quot;NN&quot;, 23)
+seq_batch &lt;- rep(&quot;run1&quot;, 23)
+nn &lt;-data.frame(&quot;group&quot;=group, &quot;prep&quot;=prep)
+nn %&gt;% separate(group, into = c(&quot;treat&quot;,&quot;day&quot;), remove = F) -&gt; meta_nn
+meta &lt;- bind_rows(meta, meta_nn)</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding factor and character vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding factor and character vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector
+
+Warning in bind_rows_(x, .id): binding character and factor vector,
+coercing into character vector</code></pre>
+<pre class="r"><code>dds &lt;- DESeqDataSetFromMatrix(as.matrix(countmat), colData = meta, design = ~ 0 + group)</code></pre>
+<pre><code>converting counts to integer mode</code></pre>
+<pre><code>Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in
+design formula are characters, converting to factors</code></pre>
+<pre class="r"><code>keep &lt;- rowSums(counts(dds) &gt;= 10) &gt; 20
+dds &lt;- dds[keep,]
+dds &lt;- DESeq(dds)</code></pre>
+<pre><code>estimating size factors</code></pre>
+<pre><code>estimating dispersions</code></pre>
+<pre><code>gene-wise dispersion estimates</code></pre>
+<pre><code>mean-dispersion relationship</code></pre>
+<pre><code>final dispersion estimates</code></pre>
+<pre><code>fitting model and testing</code></pre>
+<pre><code>-- replacing outliers and refitting for 4 genes
+-- DESeq argument &#39;minReplicatesForReplace&#39; = 7 
+-- original counts are preserved in counts(dds)</code></pre>
+<pre><code>estimating dispersions</code></pre>
+<pre><code>fitting model and testing</code></pre>
+</div>
+<div id="identify-deg-at-each-time-point" class="section level1">
+<h1>Identify DEG at each time point</h1>
+<pre class="r"><code>res_1 &lt;- results(dds, contrast = c(&quot;group&quot;,&quot;FGF1_d1&quot;,&quot;veh_d1&quot;))
+res_5 &lt;- results(dds, contrast = c(&quot;group&quot;,&quot;FGF1_d5&quot;,&quot;veh_d5&quot;))
+res_42 &lt;- results(dds, contrast = c(&quot;group&quot;,&quot;FGF1_d42&quot;,&quot;veh_d42&quot;))
+
+res_42 %&gt;% as.data.frame() %&gt;% add_rownames(&quot;gene&quot;) %&gt;% 
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column=&quot;ENTREZID&quot;, keytype = &quot;SYMBOL&quot;)) %&gt;% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %&gt;% arrange(-stat) %&gt;% na.omit -&gt; res_42</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>write_csv(res_42, path = here(&quot;output/bulk/d42deg.csv&quot;))
+
+res_5 %&gt;% as.data.frame() %&gt;% add_rownames(&quot;gene&quot;) %&gt;%
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column=&quot;ENTREZID&quot;, keytype = &quot;SYMBOL&quot;)) %&gt;% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %&gt;% arrange(-stat) %&gt;% na.omit -&gt; res_5</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>write_csv(res_5, path = here(&quot;output/bulk/d5deg.csv&quot;))
+
+res_1 %&gt;% as.data.frame() %&gt;% add_rownames(&quot;gene&quot;) %&gt;% 
+  mutate(entrez = mapIds(org.Mm.eg.db, keys=gene, column=&quot;ENTREZID&quot;, keytype = &quot;SYMBOL&quot;)) %&gt;% 
+  mutate(order = log2FoldChange*-log10(pvalue)) %&gt;% arrange(-stat) %&gt;% na.omit -&gt; res_1</code></pre>
+<pre><code>Warning: Deprecated, use tibble::rownames_to_column() instead.</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>resdf &lt;- bind_rows(d1=res_1, d5=res_5, d42=res_42, .id = &quot;id&quot;)
+write_csv(res_1, path = here(&quot;output/bulk/d1deg.csv&quot;))
+
+
+p1 &lt;- ggplot(res_1, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p1_adj &lt;- ggplot(res_1, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+p5 &lt;- ggplot(res_5, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p5_adj &lt;- ggplot(res_5, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+p42 &lt;- ggplot(res_42, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point()
+p42_adj &lt;- ggplot(res_42, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+resdf %&gt;% dplyr::mutate(dir = ifelse(log2FoldChange&gt;0, yes=&quot;1&quot;, no=&quot;2&quot;)) %&gt;% dplyr::filter(pvalue&lt;0.05, abs(log2FoldChange)&gt;0.5) %&gt;% 
+  dplyr::group_by(id,dir) %&gt;% dplyr::count() %&gt;% 
+  mutate(n = ifelse(dir==2, yes = -n, no = n)) %&gt;% ungroup() %&gt;% mutate(id = fct_relevel(id,&quot;d1&quot;,&quot;d5&quot;,&quot;d42&quot;)) -&gt; degnum
+
+ggplot(degnum, aes(x=id, y=n)) + 
+  geom_bar(aes(x=id,y=n,fill=id), stat=&quot;identity&quot;,position=&quot;identity&quot;, colour=&quot;black&quot;, alpha=0.75, width=0.7) + 
+  geom_text(data = dplyr::filter(degnum, n&lt;0), aes(label=abs(n)), vjust=1.3, size=3.5) +
+  geom_text(data = dplyr::filter(degnum, n&gt;0), aes(label=abs(n)), vjust=-.3, size=3.5) +
+  ggsci::scale_fill_npg()  +
+  scale_y_continuous(labels=abs) +
+  scale_x_discrete(labels=c(&quot;d1&quot; = &quot;Day 1&quot;, &quot;d5&quot; = &quot;Day 5&quot;,&quot;d42&quot; = &quot;Day 42&quot;)) +
+  coord_cartesian(clip = &quot;off&quot;) + ggpubr::theme_pubr(legend=&quot;none&quot;) + 
+  ylab(&quot;Number DEG&quot;) + xlab(NULL) + 
+  annotate(geom = &quot;segment&quot;, y = 50, yend = 750, x = .5, xend = .5, arrow=arrow(length = unit(2, &quot;mm&quot;)), size=0.5) +
+  annotate(geom = &quot;segment&quot;, y = -50, yend = -750, x = .5, xend = .5, arrow=arrow(length = unit(2, &quot;mm&quot;)), size=0.5) + 
+  annotate(geom = &quot;text&quot;, y = c(1100,-1100), x = .5, label = c(&quot;Upregulated&quot;, &quot;Downregulated&quot;), angle=90, 
+           color=&quot;black&quot;, size=3, fontface=&quot;bold&quot;) -&gt; degnum_plot
+degnum_plot</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="generate-data-for-rrho" class="section level1">
+<h1>Generate data for RRHO</h1>
+<pre class="r"><code>rank &lt;- data.frame(gene = res_1$gene, rank1 = seq(1:nrow(res_1)), stat1 = res_1$stat)
+rank5 &lt;- data.frame(gene = res_5$gene, rank5 = seq(1:nrow(res_5)), stat5 = res_5$stat)
+ranks &lt;- merge(rank5, rank, by=&quot;gene&quot;)
+ranks$unigene &lt;- mapIds(org.Mm.eg.db, keys = as.character(ranks$gene), keytype = &quot;SYMBOL&quot;, column = &quot;UNIGENE&quot;)</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>ranks$gene &lt;- as.character(ranks$gene)
+ranks &lt;- arrange(ranks, rank5)
+ranks &lt;- ranks[,c(6,1,2,4,3,5)]
+write.table(ranks, here(&quot;data/bulk/rrho/ranks1ranks5.txt&quot;),quote = F, row.names = F, sep=&quot;\t&quot;)</code></pre>
+</div>
+<div id="genes-up-at-d1-and-down-at-d5" class="section level1">
+<h1>Genes up at D1 and down at D5</h1>
+<pre class="r"><code>read.table(here(&quot;data/bulk/rrho/rank5rank1/rankrank.regionA.txt&quot;)) %&gt;% pull(V2) %&gt;% as.character() -&gt; genes
+genes &lt;- genes[-1]
+sum(rank5$stat5&gt;0)-length(genes)</code></pre>
+<pre><code>[1] 5148</code></pre>
+<pre class="r"><code>sum(rank$stat1&gt;0)-length(genes)</code></pre>
+<pre><code>[1] 5052</code></pre>
+<pre class="r"><code>venn.plot &lt;- VennDiagram::draw.pairwise.venn(area1 = sum(ranks$stat5&gt;0), area2 = sum(ranks$stat1&gt;0), 
+                                             cross.area = length(genes), scaled = T, euler.d = T)</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = here(&quot;data/figures/fig7/rank1rank5Venn_diagram_bothup.pdf&quot;))
+grid.draw(venn.plot)
+dev.off()</code></pre>
+<pre><code>png 
+  2 </code></pre>
+<pre class="r"><code>gprofiler(genes, organism = &quot;mmusculus&quot;, src_filter = c(&quot;GO:BP&quot;,&quot;KEGG&quot;,&quot;REAC&quot;),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = &quot;strong&quot;) %&gt;% arrange(p.value) -&gt; res
+write_csv(res, path = here(&quot;data/bulk/rrho/goterms_coup_d1d5.csv&quot;))
+
+ggplot(res %&gt;% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) +
+  geom_col(width=1, colour=&quot;black&quot;, fill=&quot;gray80&quot;) + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure -&gt; rank5rank1a
+rank5rank1a</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="genes-up-at-d1-and-up-at-d5" class="section level1">
+<h1>Genes up at D1 and up at D5</h1>
+<pre class="r"><code>read.table(here(&quot;data/bulk/rrho/rank5rank1/rankrank.regionB.txt&quot;)) %&gt;% pull(V2) %&gt;% as.character() -&gt; genes
+genes &lt;- genes[-1]
+sum(rank5$stat5&gt;0)-length(genes)</code></pre>
+<pre><code>[1] 5472</code></pre>
+<pre class="r"><code>sum(rank$stat1&gt;0)-length(genes)</code></pre>
+<pre><code>[1] 5376</code></pre>
+<pre class="r"><code>venn.plot &lt;- VennDiagram::draw.pairwise.venn(area1 = sum(rank5$stat5&gt;0), area2 = sum(rank$stat1&gt;0), 
+                                             cross.area = length(genes), scaled = T, euler.d = T)</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = here(&quot;data/figures/fig7/rank1rank5Venn_diagram_d1upd5down.pdf&quot;))
+grid.draw(venn.plot)
+dev.off()</code></pre>
+<pre><code>png 
+  2 </code></pre>
+<pre class="r"><code>gprofiler(genes, organism = &quot;mmusculus&quot;, 
+          src_filter = c(&quot;GO:BP&quot;,&quot;KEGG&quot;,&quot;REAC&quot;),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = &quot;strong&quot;) %&gt;% arrange(p.value) -&gt; res
+write_csv(res, path = here(&quot;data/bulk/rrho/goterms_upd1downd5.csv&quot;))
+
+ggplot(res %&gt;% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) + 
+  geom_col(width=1, colour=&quot;black&quot;, fill=&quot;gray80&quot;) + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure -&gt;  rank5rank1b
+rank5rank1b</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rank &lt;- data.frame(gene = res_5$gene, rank5 = seq(1:nrow(res_5)), stat5 = res_5$stat)
+rank42 &lt;- data.frame(gene = res_42$gene, rank42 = seq(1:nrow(res_42)), stat42 = res_42$stat)
+ranks &lt;- merge(rank42, rank, by=&quot;gene&quot;)
+ranks$gene &lt;- as.character(ranks$gene)
+ranks$unigene &lt;- mapIds(org.Mm.eg.db, keys = as.character(ranks$gene), keytype = &quot;SYMBOL&quot;, column = &quot;UNIGENE&quot;)</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>ranks &lt;- arrange(ranks, rank5)
+ranks &lt;- ranks[,c(6,1,4,2,5,3)]
+write.table(ranks, here(&quot;data/bulk/rrho/ranks42.txt&quot;),quote = F, row.names = F, sep=&quot;\t&quot;)</code></pre>
+</div>
+<div id="genes-up-at-d5-and-down-at-d42" class="section level1">
+<h1>Genes up at D5 and Down at D42</h1>
+<pre class="r"><code>read.table(here(&quot;data/bulk/rrho/rank5rank42/rankrank.regionC.txt&quot;)) %&gt;% pull(V2) %&gt;% as.character() -&gt; genes
+genes &lt;- genes[-1]
+venn.plot &lt;- VennDiagram::draw.pairwise.venn(area1 = sum(rank5$stat5&gt;0),
+                                             area2 = sum(rank42$stat42&lt;0), 
+                                             cross.area = length(genes), 
+                                             scaled = T, euler.d = T)</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = here(&quot;data/figures/fig7/rank5rank42Venn_diagram_d5upd42down.pdf&quot;))
+grid.draw(venn.plot)
+dev.off()</code></pre>
+<pre><code>png 
+  2 </code></pre>
+<pre class="r"><code>gprofiler(genes, organism = &quot;mmusculus&quot;, 
+          src_filter = c(&quot;GO:BP&quot;,&quot;KEGG&quot;,&quot;REAC&quot;),significant = T, ordered_query = T,
+          max_set_size = 300, min_set_size = 10, hier_filtering = &quot;strong&quot;) %&gt;% arrange(p.value) -&gt; res
+write_csv(res, path = here(&quot;data/bulk/rrho/goterms_upd5downd42.csv&quot;))
+
+ggplot(res %&gt;% slice(1:5), aes(x=fct_reorder(str_wrap(str_to_sentence(term.name),30), -p.value), y=-log10(p.value))) + 
+  geom_col(width=1, colour=&quot;black&quot;, fill=&quot;gray80&quot;) + 
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab(expression(bold(-log[10]~pvalue))) +
+  coord_flip() + ggpubr::theme_pubr() + xlab(NULL) + theme(axis.text.y = element_text(lineheight=0.75)) + theme_figure  -&gt; rank5rank42c
+rank5rank42c</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /> # GO term analysis of bulk data</p>
+<pre class="r"><code>res_42 %&gt;% filter(pvalue &lt; 0.05, abs(log2FoldChange)&gt;0.5) %&gt;% pull(gene) %&gt;% 
+  gProfileR::gprofiler(., organism = &quot;mmusculus&quot;, src_filter = c(&quot;GO:BP&quot;,&quot;KEGG&quot;,&quot;REAC&quot;),
+                          hier_filtering = &quot;strong&quot;, min_isect_size = 3,significant = T,
+                          min_set_size = 5, max_set_size = 300, correction_method = &quot;fdr&quot;, 
+                          custom_bg = rownames(dds)) %&gt;% 
+  arrange(p.value) -&gt; goup_42
+
+write_csv(res, path = here(&quot;output/bulk/goterms_d42.csv&quot;))
+
+goup_42 %&gt;% dplyr::select(domain, term.name, term.id, p.value, intersection, overlap.size) %&gt;% 
+  separate(intersection, into = c(paste0(&quot;gene&quot;, 1:max(goup_42$overlap.size)), remove=T)) %&gt;% 
+  reshape2::melt(id.vars=c(&quot;domain&quot;, &quot;term.name&quot;,&quot;term.id&quot;, &quot;p.value&quot;,&quot;overlap.size&quot;)) %&gt;% na.omit() %&gt;% 
+  dplyr::select(-variable) %&gt;% 
+  dplyr::mutate(dir = ifelse(res_42[match(value, toupper(res_42$gene)),&quot;log2FoldChange&quot;] &gt; 0, yes = 1, no = -1)) %&gt;%
+  dplyr::group_by(term.name, term.id, p.value) %&gt;% 
+  dplyr::summarize(dir = sum(dir), overlap.size = mean(overlap.size), domain = unique(domain)) %&gt;%
+  mutate(zscore = dir/sqrt(overlap.size)) -&gt; ego_plot</code></pre>
+<pre><code>Warning: Expected 21 pieces. Missing pieces filled with `NA` in 60 rows [1,
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+<pre class="r"><code>ggplot(ego_plot, aes(x = zscore, y = -log10(p.value), label=str_wrap(str_to_sentence(term.name),30))) + 
+  geom_point(aes(size = overlap.size, fill = domain), shape=21, alpha=0.5) + 
+  scale_size(range=c(2,10)) + ggsci::scale_fill_npg() +
+  geom_text_repel(data = filter(ego_plot, -log10(p.value)&gt;3, zscore&gt;1|zscore&lt;(-1)), 
+                  bg.colour=&quot;white&quot;, 
+                  min.segment.length = unit(0, &#39;lines&#39;), lineheight=0.75, point.padding =NA) +
+  ggpubr::theme_pubr(legend=&quot;none&quot;) + coord_cartesian(clip=&quot;off&quot;) + 
+  xlab(&quot;z-score&quot;) + ylab(expression(bold(-log[10]~pvalue))) +
+  geom_vline(xintercept = c(-1,1), linetype=&quot;dashed&quot;, color=&quot;black&quot;) +
+  geom_hline(yintercept = 1.3, linetype=&quot;dashed&quot;, color=&quot;black&quot;) +
+  xlim(c(-4,4)) +
+  annotate(geom = &quot;label&quot;, x = c(-2.5,2.5), y = 5.5, 
+           label=c(&quot;Enriched for\n downregulated genes&quot;, &quot;Enriched for\n upregulated genes&quot;), size=3, fontface=&quot;bold&quot;) + 
+  coord_cartesian(clip=&quot;off&quot;) + theme_figure -&gt; goterm_plot</code></pre>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<pre class="r"><code>goterm_plot</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="specific-gene-plots-glia" class="section level1">
+<h1>Specific gene plots (glia)</h1>
+<pre class="r"><code>topGenes &lt;- c(&quot;Gfap&quot;, &quot;Vim&quot;, &quot;Gpr17&quot;,  &quot;Aqp4&quot;,  &quot;Bmp4&quot;, &quot;S100a10&quot;)
+fiss &lt;- lapply(topGenes, function(x) plotCounts(dds, x, c(&quot;group&quot;), returnData = TRUE)) 
+for(i in 1:6) fiss[[i]]$gene &lt;- rep(topGenes[i], 47)
+fiss &lt;- do.call(rbind, fiss)
+fiss$day &lt;- as.numeric(sapply(strsplit(as.character(fiss$group),&quot;_d&quot;),&quot;[&quot;,2))
+fiss$trt &lt;- as.character(sapply(strsplit(as.character(fiss$group),&quot;_d&quot;),&quot;[&quot;,1))
+fiss$gene &lt;- fct_relevel(fiss$gene, &quot;Gfap&quot;, &quot;Vim&quot;, &quot;Gpr17&quot;,  &quot;Aqp4&quot;,  &quot;S100a10&quot;, &quot;Bmp4&quot;)
+fiss %&gt;% dplyr::group_by(gene, trt, day) %&gt;% dplyr::summarize(mean = mean(count), sd= sd(count), se = sd/sqrt(length(count))) %&gt;% 
+  ggplot(aes(x=day, y=mean, colour=trt)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) + geom_line(aes(linetype=trt)) +
+  geom_errorbar(aes(x=day, ymin=mean-se, ymax=mean+se), width=0.2) +
+  scale_color_manual(values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
+  scale_x_log10() + scale_y_log10() +
+  facet_wrap(~gene, scales=&quot;free_y&quot;, ncol=3) + ggpubr::theme_pubr(legend=&quot;none&quot;) + 
+  xlab(&quot;Day&quot;) + ylab(&quot;Normalized Counts&quot;) + theme_figure -&gt; gliagene_plots
+gliagene_plots</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> # Specific gene plots (Neurons)</p>
+<pre class="r"><code>topGenes &lt;- c(&quot;Agrp&quot;, &quot;Npy&quot;, &quot;Mef2c&quot;)
+fiss &lt;- lapply(topGenes, function(x) plotCounts(dds, x, c(&quot;group&quot;), returnData = TRUE)) 
+for(i in 1:3) fiss[[i]]$gene &lt;- rep(topGenes[i], 47)
+fiss &lt;- do.call(rbind, fiss)
+fiss$day &lt;- as.numeric(sapply(strsplit(as.character(fiss$group),&quot;_d&quot;),&quot;[&quot;,2))
+fiss$trt &lt;- as.character(sapply(strsplit(as.character(fiss$group),&quot;_d&quot;),&quot;[&quot;,1))
+fiss$gene &lt;- fct_relevel(fiss$gene, &quot;Agrp&quot;, &quot;Npy&quot;, &quot;Mef2c&quot;)
+fiss %&gt;% dplyr::group_by(gene, trt, day) %&gt;% dplyr::summarize(mean = mean(count), sd= sd(count), se = sd/sqrt(length(count))) %&gt;% 
+  ggplot(aes(x=day, y=mean, colour=trt)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) + geom_line(aes(linetype=trt)) +
+  geom_errorbar(aes(x=day, ymin=mean-se, ymax=mean+se), width=0.2) +
+  scale_color_manual(values = c(&quot;gray30&quot;, &quot;gray80&quot;)) +
+  scale_x_log10() + scale_y_log10() +
+  facet_wrap(~gene, scales=&quot;free_y&quot;, ncol=3) + ggpubr::theme_pubr(legend=&quot;none&quot;) + 
+  xlab(&quot;Day&quot;) + ylab(&quot;Normalized Counts&quot;) + theme_figure -&gt; neurgene_plots 
+neurgene_plots</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-12-1.png" width="336" style="display: block; margin: auto;" /> # Quantification of rt-pcr</p>
+<pre class="r"><code>rtpcr &lt;- readxl::read_xlsx(here(&quot;data/mouse_data/fig7/RT-PCR_Agrp_Npy.xlsx&quot;), range=&quot;A4:H9&quot;, .name_repair = &quot;minimal&quot;)[,c(1,2,7,8)]
+colnames(rtpcr) &lt;- c(&quot;Veh_1&quot;,&quot;FGF1_1&quot;,&quot;Veh_2&quot;,&quot;FGF1_2&quot;)
+
+rtpcr %&gt;%  reshape2::melt() %&gt;%
+  mutate(gene = c(rep(&quot;Agrp&quot;, 10), rep(&quot;Npy&quot;,10))) %&gt;% 
+  separate(variable, &quot;_&quot;, into = &quot;trt&quot;) %&gt;% mutate(trt = fct_relevel(trt,&quot;Veh&quot;,&quot;FGF1&quot;)) -&gt; agnpy_quants</code></pre>
+<pre><code>No id variables; using all as measure variables</code></pre>
+<pre><code>Warning: Expected 1 pieces. Additional pieces discarded in 20 rows [1, 2,
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].</code></pre>
+<pre class="r"><code>agnpy_quants %&gt;% dplyr::group_by(trt,gene) %&gt;% dplyr::summarise(mean = mean(value), sd= sd(value), se=sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=gene, y=mean, fill=fct_relevel(trt,&quot;Veh&quot;,&quot;FGF1&quot;), color = trt)) + 
+  geom_col(width=0.9, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=gene, ymin = mean-se, ymax=mean+se), width=0.2, position=position_dodge(.9), size=1) +
+  geom_jitter(data = agnpy_quants, inherit.aes = F, aes(x=gene, y=value, fill=trt), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.25)) + xlab(NULL) + 
+  ylab(&quot;Gene/18S&quot;) + 
+  scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + 
+  geom_signif(y_position= agnpy_quants %&gt;% filter(gene == &quot;Npy&quot;) %&gt;% pull(value) %&gt;% max(),
+                           , xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c(&quot;*&quot;,&quot;ns&quot;), tip_length=0, size = 0.5, textsize = 6, color=&quot;black&quot;) + coord_cartesian(clip=&quot;off&quot;) +
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) +
+  theme_classic() + theme(legend.position=&quot;none&quot;) + theme_figure -&gt; agnpy
+agnpy</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cowplot::plot_grid( agnpy, nrow=1, scale=0.9, labels=&quot;auto&quot;, rel_widths = c(2,1))</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/fig6/agnpy.tiff&quot;), width=5, h=2, dpi=600, compression = &quot;lzw&quot;)</code></pre>
+</div>
+<div id="quantification-of-dcv" class="section level1">
+<h1>Quantification of DCV</h1>
+<pre class="r"><code>readxl::read_xlsx(here(&quot;data/mouse_data/fig7/DCV.xlsx&quot;), range=&quot;A5:D115&quot;) %&gt;%   
+  reshape2::melt() %&gt;% separate(variable, &quot;\r\n&quot;, into = c(&quot;trt&quot;, &quot;day&quot;)) %&gt;%
+  mutate(day = gsub(day, pattern =&quot;[(|)]&quot;, replacement = &quot;&quot;)) %&gt;% 
+  mutate(day = fct_relevel(day, &quot;5 days&quot;, &quot;28 days&quot;), trt = fct_relevel(trt,&quot;Vehicle&quot;,&quot;FGF1&quot;)) -&gt; dcv</code></pre>
+<pre><code>No id variables; using all as measure variables</code></pre>
+<pre class="r"><code>ggplot(dcv, aes(x=day, y=value, fill=trt)) + geom_boxplot(outlier.shape = NA, alpha=0.5) + 
+  geom_jitter(alpha=0.5, shape=21, position = position_jitterdodge(.5), size=0.25) + xlab(NULL) +
+  geom_signif(y_position=c(dcv %&gt;% dplyr::group_by(day) %&gt;% dplyr::summarise(med = median(value)) %&gt;% pull(med) + 20), 
+              xmin=c(0.9,1.9), xmax=c(1.1,2.1),
+              annotation=c(&quot;ns&quot;,&quot;*&quot;), tip_length=0, size = 0.5, textsize = 5, color=&quot;black&quot;) +
+  ylab(&quot;% DCVs/synapse&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + theme_classic() +
+  theme(legend.position = &quot;none&quot;, legend.background = element_blank()) -&gt; dcv_plot
+dcv_plot</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /> # Arrange final figure</p>
+<pre class="r"><code>rrhod1d5 &lt;- plot_grid(rank5rank1a, rank5rank1b,&quot;&quot;, rank5rank42c, ncol=1, rel_heights = c(1.1,1,.025,1), align=&quot;hv&quot;)</code></pre>
+<pre><code>Warning in as_grob.default(plot): Cannot convert object of class character
+into a grob.</code></pre>
+<pre><code>Warning: Graphs cannot be vertically aligned unless the axis parameter is
+set. Placing graphs unaligned.</code></pre>
+<pre><code>Warning: Graphs cannot be horizontally aligned unless the axis parameter is
+set. Placing graphs unaligned.</code></pre>
+<pre class="r"><code>rrhoplot &lt;- plot_grid(ggplot() + theme_void(), rrhod1d5, rel_widths = c(1.25,1))
+top &lt;- cowplot::plot_grid(degnum_plot, rrhoplot, rel_widths = c(1,1.5), labels=&quot;auto&quot;)
+mid &lt;- cowplot::plot_grid(gliagene_plots,neurgene_plots, agnpy,rel_widths = c(2,2,1), labels=c(&quot;c&quot;,&quot;d&quot;,&quot;e&quot;), scale=0.9, align=&quot;hv&quot;, 
+                          axis = &quot;tb&quot;, nrow=1)
+dcv_fig &lt;- cowplot::plot_grid(ggplot() + theme_void(), dcv_plot, scale=0.9, align=&quot;hv&quot;,rel_widths = c(1,1))
+bottom &lt;- cowplot::plot_grid(goterm_plot, dcv_fig, rel_widths = c(1.25,1), labels=c(&quot;e&quot;,&quot;f&quot;), scale=0.9, align=&quot;v&quot;)
+cowplot::plot_grid(top,mid,bottom, ncol=1, align=&quot;hv&quot;, rel_heights = c(1.65,1,1.5))</code></pre>
+<p><img src="figure/figure_7.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/fig7/fig7_arranged.tiff&quot;), width=12, h=13, dpi=600, compression = &quot;lzw&quot;)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_DK.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_DK.UTF-8        LC_COLLATE=en_DK.UTF-8    
+ [5] LC_MONETARY=en_DK.UTF-8    LC_MESSAGES=en_DK.UTF-8   
+ [7] LC_PAPER=en_DK.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_DK.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+ [1] grid      parallel  stats4    stats     graphics  grDevices utils    
+ [8] datasets  methods   base     
+
+other attached packages:
+ [1] here_0.1                    cowplot_1.0.0              
+ [3] ggsignif_0.5.0              ggrepel_0.8.0.9000         
+ [5] gProfileR_0.6.7             fgsea_1.8.0                
+ [7] Rcpp_1.0.2                  org.Mm.eg.db_3.7.0         
+ [9] AnnotationDbi_1.44.0        forcats_0.4.0              
+[11] stringr_1.4.0               dplyr_0.8.3                
+[13] purrr_0.3.2                 readr_1.3.1.9000           
+[15] tidyr_0.8.3                 tibble_2.1.3               
+[17] ggplot2_3.2.1               tidyverse_1.2.1            
+[19] DESeq2_1.22.2               SummarizedExperiment_1.12.0
+[21] DelayedArray_0.8.0          BiocParallel_1.16.6        
+[23] matrixStats_0.54.0          Biobase_2.42.0             
+[25] GenomicRanges_1.34.0        GenomeInfoDb_1.18.2        
+[27] IRanges_2.16.0              S4Vectors_0.20.1           
+[29] BiocGenerics_0.28.0        
+
+loaded via a namespace (and not attached):
+ [1] colorspace_1.4-1       ellipsis_0.2.0.1       rprojroot_1.3-2       
+ [4] htmlTable_1.13.1       futile.logger_1.4.3    XVector_0.22.0        
+ [7] base64enc_0.1-3        fs_1.3.1               rstudioapi_0.10       
+[10] ggpubr_0.2.1           bit64_0.9-7            lubridate_1.7.4       
+[13] xml2_1.2.0             splines_3.5.3          geneplotter_1.60.0    
+[16] knitr_1.23             zeallot_0.1.0          Formula_1.2-3         
+[19] jsonlite_1.6           workflowr_1.4.0        rematch_1.0.1         
+[22] broom_0.5.2            annotate_1.60.1        cluster_2.1.0         
+[25] compiler_3.5.3         httr_1.4.1             backports_1.1.4       
+[28] assertthat_0.2.1       Matrix_1.2-17          lazyeval_0.2.2        
+[31] cli_1.1.0              formatR_1.7            acepack_1.4.1         
+[34] htmltools_0.3.6        tools_3.5.3            gtable_0.3.0          
+[37] glue_1.3.1             GenomeInfoDbData_1.2.0 reshape2_1.4.3        
+[40] fastmatch_1.1-0        cellranger_1.1.0       vctrs_0.2.0           
+[43] nlme_3.1-140           xfun_0.8               rvest_0.3.4           
+[46] XML_3.98-1.20          zlibbioc_1.28.0        scales_1.0.0          
+[49] hms_0.5.0              lambda.r_1.2.3         RColorBrewer_1.1-2    
+[52] yaml_2.2.0             memoise_1.1.0          gridExtra_2.3         
+[55] rpart_4.1-15           latticeExtra_0.6-28    stringi_1.4.3         
+[58] RSQLite_2.1.1          highr_0.8              genefilter_1.64.0     
+[61] checkmate_1.9.4        rlang_0.4.0            pkgconfig_2.0.2       
+[64] bitops_1.0-6           evaluate_0.14          lattice_0.20-38       
+[67] labeling_0.3           htmlwidgets_1.3        bit_1.1-14            
+[70] tidyselect_0.2.5       ggsci_2.9              plyr_1.8.4            
+[73] magrittr_1.5           R6_2.4.0               generics_0.0.2        
+[76] Hmisc_4.2-0            DBI_1.0.0              pillar_1.4.2          
+[79] haven_2.1.0            whisker_0.3-2          foreign_0.8-71        
+[82] withr_2.1.2            survival_2.44-1.1      RCurl_1.95-4.12       
+[85] nnet_7.3-12            modelr_0.1.4           crayon_1.3.4          
+[88] futile.options_1.0.1   rmarkdown_1.13         locfit_1.5-9.1        
+[91] readxl_1.3.1           data.table_1.12.2      blob_1.1.1            
+[94] git2r_0.25.2           digest_0.6.20          VennDiagram_1.6.20    
+[97] xtable_1.8-4           munsell_0.5.0         </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
