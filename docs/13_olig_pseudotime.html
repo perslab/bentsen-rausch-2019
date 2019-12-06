@@ -378,7 +378,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">fgf_alldata</a>
+      <a class="navbar-brand" href="index.html">bentsen-rausch-2019</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -394,7 +394,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/perslab/fgf_alldata">
+  <a href="https://github.com/perslab/bentsen-rausch-2019">
     <span class="fa fa-github"></span>
      
     Source code
@@ -441,13 +441,13 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-29
+<strong>Last updated:</strong> 2019-12-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fgf_alldata/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>bentsen-rausch-2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
@@ -577,10 +577,10 @@ environment
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229" target="_blank">3b5cbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee3263689fa62351c7d14b380b69563c16abc16a1targetblanke326368a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/perslab/fgf_alldata/tree/e3263689fa62351c7d14b380b69563c16abc16a1" target="_blank">e326368</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatree3b5cbe71bd539e4d50a69f2d6fa6c121142e3229targetblank3b5cbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomperslabfgfalldatatreee3263689fa62351c7d14b380b69563c16abc16a1targetblanke326368a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -588,35 +588,46 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    test_files/
 
 Untracked files:
+    Untracked:  analysis/figure_6.Rmd
+    Untracked:  analysis/figure_7.Rmd
+    Untracked:  analysis/olig_ttest_padj.csv
+    Untracked:  analysis/supp1.Rmd
     Untracked:  code/sc_functions.R
+    Untracked:  data/bulk/
     Untracked:  data/fgf_filtered_nuclei.RDS
+    Untracked:  data/figures/
     Untracked:  data/filtglia.RDS
     Untracked:  data/glia/
     Untracked:  data/lps1.txt
     Untracked:  data/mcao1.txt
     Untracked:  data/mcao_d3.txt
     Untracked:  data/mcaod7.txt
+    Untracked:  data/mouse_data/
     Untracked:  data/neur_astro_induce.xlsx
     Untracked:  data/neuron/
     Untracked:  data/synaptic_activity_induced.xlsx
-    Untracked:  dge_resample.pdf
-    Untracked:  docs/figure/1_initial_processing.Rmd/
-    Untracked:  docs/figure/9_wc_processing.Rmd/
-    Untracked:  gotermdown.pdf
-    Untracked:  gotermup.pdf
     Untracked:  olig_ttest_padj.csv
     Untracked:  output/agrp_pcgenes.csv
     Untracked:  output/all_wc_markers.csv
     Untracked:  output/allglia_wgcna_genemodules.csv
+    Untracked:  output/bulk/
+    Untracked:  output/fig.RData
+    Untracked:  output/fig4_part2.RData
     Untracked:  output/glia/
     Untracked:  output/glial_markergenes.csv
     Untracked:  output/integrated_all_markergenes.csv
     Untracked:  output/integrated_neuronmarkers.csv
     Untracked:  output/neuron/
     Untracked:  wc_de.pdf
+
+Unstaged changes:
+    Modified:   analysis/9_wc_processing.Rmd
+    Modified:   analysis/figure_1.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -657,6 +668,40 @@ Message
 <tbody>
 <tr>
 <td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/e3263689fa62351c7d14b380b69563c16abc16a1/analysis/13_olig_pseudotime.Rmd" target="_blank">e326368</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-12-06
+</td>
+<td>
+wflow_publish(“analysis/13_olig_pseudotime.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/perslab/fgf_alldata/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/13_olig_pseudotime.html" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 html
 </td>
 <td>
@@ -680,7 +725,7 @@ Build site.
 </div>
 </div>
 <pre class="r"><code>library(here)</code></pre>
-<pre><code>here() starts at /nfsdata/projects/dylan/fgf_alldata</code></pre>
+<pre><code>here() starts at /nfsdata/projects/dylan/bentsen-rausch-2019</code></pre>
 <pre class="r"><code>library(Seurat)
 library(monocle)</code></pre>
 <pre><code>Loading required package: Matrix</code></pre>
@@ -788,42 +833,11 @@ a &lt;- ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = trt)) +
 b &lt;- ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = type)) + 
   geom_point(alpha = 0.5, size=.5) + scale_colour_discrete(name=&quot;Treatment&quot;) +
   geom_label_repel(data = label.df_2, aes(label = type, x=x, y=y), size=3, fontface=&quot;bold&quot;, inherit.aes = F) +
-  guides(colour = guide_legend(override.aes = list(size=5))) + theme_pubr() + theme(legend.position = &quot;none&quot;) </code></pre>
-<pre class="r"><code>summarySE &lt;- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
-                      conf.interval=.95, .drop=TRUE) {
-    library(plyr)
-
-    # New version of length which can handle NA&#39;s: if na.rm==T, don&#39;t count them
-    length2 &lt;- function (x, na.rm=FALSE) {
-        if (na.rm) sum(!is.na(x))
-        else       length(x)
-    }
-
-    # This does the summary. For each group&#39;s data frame, return a vector with
-    # N, mean, and sd
-    datac &lt;- ddply(data, groupvars, .drop=.drop,
-      .fun = function(xx, col) {
-        c(N    = length2(xx[[col]], na.rm=na.rm),
-          mean = mean   (xx[[col]], na.rm=na.rm),
-          sd   = sd     (xx[[col]], na.rm=na.rm)
-        )
-      },
-      measurevar
-    )
-
-    # Rename the &quot;mean&quot; column    
-    names(datac)[4] &lt;- measurevar
-
-    datac$se &lt;- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
-
-    # Confidence interval multiplier for standard error
-    # Calculate t-statistic for confidence interval: 
-    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult &lt;- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci &lt;- datac$se * ciMult
-
-    return(datac)
-}</code></pre>
+  guides(colour = guide_legend(override.aes = list(size=5))) + theme_pubr() + theme(legend.position = &quot;none&quot;) 
+plot_grid(a,b)</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<div id="test-difference-in-cell-numbers" class="section level1">
+<h1>Test difference in cell numbers</h1>
 <pre class="r"><code>cell&lt;-as.data.frame.matrix(table(olig$orig.ident, olig@active.ident))
 cell$trt&lt;-as.factor(sapply(strsplit(rownames(cell),&quot;_&quot;),&quot;[&quot;,2))
 cell&lt;-melt(cell)
@@ -834,28 +848,39 @@ stat.test &lt;- cell %&gt;%
   add_significance(&quot;p.adj&quot;)</code></pre>
 <pre><code>Warning: `set_attrs()` is deprecated as of rlang 0.3.0
 This warning is displayed once per session.</code></pre>
-<pre class="r"><code>cell&lt;-summarySE(cell, measurevar=&quot;value&quot;, groupvars=c(&quot;trt&quot;,&quot;variable&quot;))
-plotval&lt;-cbind(cell, signif=stat.test$p.adj.signif)
-plotval$signif[plotval$trt!=&quot;FGF1&quot;]&lt;-NA
+<pre class="r"><code>cell %&gt;% dplyr::group_by(trt, variable) %&gt;% 
+  dplyr::summarise(mean=mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;% 
+  mutate(signif = stat.test$p.adj.signif) %&gt;% 
+  mutate(signif = ifelse(trt == &quot;FGF1&quot;, yes = NA, no = signif)) %&gt;% ungroup() -&gt; plotval
 write.csv(plotval, file=&quot;olig_ttest_padj.csv&quot;)
-c &lt;- ggplot(plotval, aes(x = variable, y = value, fill = trt, label = signif)) + 
-    geom_bar(position=position_dodge(), stat=&quot;identity&quot;) + geom_text(aes(y = c(500,1200,300,250,200, NA,NA,NA,NA,NA))) +
-    geom_errorbar(aes(ymin=value-se, ymax=value+se),size=.3,width=.2,position=position_dodge(.9)) +
-    xlab(NULL) + scale_fill_manual(values=c(&quot;#000000&quot;,&quot;#999999&quot;)) +
-    ylab(&quot;Mean Number\n of Cells&quot;) +
-    theme_pubr(legend = &quot;none&quot;) +
-    theme(axis.text.x = element_text(angle=45, hjust=1))</code></pre>
-<pre class="r"><code>top &lt;- plot_grid(b, a, c, scale=0.9, labels = &quot;AUTO&quot;, nrow = 1, rel_widths = c(1,1,1.25), align=&quot;h&quot;, axis=&quot;tb&quot;)</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values (geom_text).</code></pre>
-<pre class="r"><code>top</code></pre>
-<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+
+plotval %&gt;% mutate(variable = fct_relevel(variable, c(&quot;OPC&quot;,&quot;COP&quot;, &quot;NFOL&quot;,&quot;MFOL&quot;,&quot;MOL1&quot;))) %&gt;% 
+  mutate(trt = fct_relevel(trt, c(&quot;Vehicle&quot;,&quot;FGF1&quot;)))-&gt; plotval </code></pre>
+<pre><code>Warning: Unknown levels in `f`: Vehicle</code></pre>
+<pre class="r"><code>ggplot(plotval, aes(x = variable, y = mean, fill = trt)) + 
+    geom_bar(position=position_dodge(), stat=&quot;identity&quot;) + 
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se),size=.3,width=.2,position=position_dodge(.9)) +
+    xlab(NULL) + scale_fill_manual(values=c(&quot;gray80&quot;,&quot;gray30&quot;)) +
+    ylab(&quot;Number of cells&quot;) +
+    ggpubr::theme_pubr(legend = &quot;none&quot;) +
+    theme(axis.text.x = element_text(angle=45, hjust=1)) + 
+    geom_signif(y_position=c(plotval %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(max = max(mean)) %&gt;% pull(max) + 50), 
+                xmin = c(seq(0.9,4.9, by = 1)), xmax=c(seq(1.1,5.1, by = 1)),
+                annotation=c(plotval %&gt;% slice(6:10) %&gt;% pull(signif) %&gt;% as.character() %&gt;% toupper())[c(1,4,5,3,2)], 
+                tip_length=0, size = 0.5, textsize = 3, color=&quot;black&quot;, vjust = -1) + coord_cartesian(clip=&quot;off&quot;) -&gt; oligttest
+oligttest</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="prep-data-for-pseudotime-analysis" class="section level1">
+<h1>Prep data for pseudotime analysis</h1>
 <pre class="r"><code>cds &lt;- as.CellDataSet(olig)
 cds &lt;- estimateSizeFactors(cds)
 cds &lt;- estimateDispersions(cds)
 cds &lt;- detectGenes(cds, min_expr = 0.1)
 fData(cds)$use_for_ordering &lt;-
-    fData(cds)$num_cells_expressed &gt; 0.1 * ncol(cds)</code></pre>
-<pre class="r"><code>cds &lt;- reduceDimension(cds,
+    fData(cds)$num_cells_expressed &gt; 0.1 * ncol(cds)
+
+cds &lt;- reduceDimension(cds,
                               max_components = 2,
                               norm_method = &#39;log&#39;,
                               num_dim = 2,
@@ -869,7 +894,47 @@ cds &lt;- clusterCells(cds, verbose = T)</code></pre>
                  skip_rho_sigma = T,
                  verbose = F)
 plot_cell_clusters(cds, label_groups_by_cluster=FALSE,  color_cells_by = &quot;Cluster&quot;)</code></pre>
-<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/figure/13_olig_pseudotime.Rmd/unnamed-chunk-6-1.png" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="run-monocle" class="section level1">
+<h1>Run monocle</h1>
 <pre class="r"><code>olig_expressed_genes &lt;-  row.names(subset(fData(cds), num_cells_expressed &gt;= 10))
 
 clustering_DEG_genes &lt;-
@@ -895,7 +960,93 @@ cds &lt;-
 
 olig$pseudo &lt;- cds$Pseudotime
 plot_cell_trajectory(cds,color_by = &quot;predicted.id&quot;)</code></pre>
-<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/monocle_by_celltype.pdf&quot;))
+plot_cell_trajectory(cds, markers = &quot;Gpr17&quot;)</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/monocle_by_gpr17.pdf&quot;))
+plot_cell_trajectory(cds, color_by = &quot;Pseudotime&quot;)</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/monocle_by_pseudo.pdf&quot;))
+plot_cell_trajectory(cds, color_by = &quot;trt&quot;, alpha=0.5)</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-7-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(here(&quot;data/figures/supp/monocle_by_trt.pdf&quot;))</code></pre>
+</div>
+<div id="plot-pseudotime-on-umap-plots" class="section level1">
+<h1>Plot pseudotime on umap plots</h1>
+<pre class="r"><code>olig_plot$pseudo &lt;- olig$pseudo
+olig_plot$gpr17 &lt;- as.numeric(olig@assays[[&quot;SCT&quot;]]@data[&quot;Gpr17&quot;,])
+
+ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = pseudo)) + 
+  geom_point(alpha = 0.5, size=.5) + ggsci::scale_color_material(name=&quot;Pseudotime&quot;, guide = guide_colorbar(title.position = &quot;top&quot;), palette = &quot;blue-grey&quot;) +
+  ggpubr::theme_pubr() + xlab(NULL) + ylab(NULL) +
+  theme(legend.position = c(0.3,0.25), legend.direction =  &quot;horizontal&quot;,legend.title = element_text(hjust=0.5), legend.background = element_blank()) -&gt; olig_pseudo
+
+ggplot(olig_plot, aes(UMAP_1, UMAP_2, color = gpr17)) + 
+  geom_point(alpha = 0.75, size=.5) + ggsci::scale_color_material(name=&quot;Gpr17 Expression&quot;, palette = &quot;deep-orange&quot;,
+                                                                 guide = guide_colorbar(title.position = &quot;top&quot;)) +
+  ggpubr::theme_pubr() + xlab(NULL) + ylab(NULL) +
+  theme(legend.position = c(0.3,0.25), legend.direction =  &quot;horizontal&quot;,legend.title = element_text(hjust=0.5), legend.background = element_blank()) -&gt; olig_gpr17
+
+sc_olig &lt;- cowplot::plot_grid(b, addSmallLegend(olig_pseudo), oligttest, addSmallLegend(olig_gpr17), ncol=2, labels=&quot;auto&quot;, scale=0.9, align=&quot;hv&quot;)
+sc_olig</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/perslab/fgf_alldata/blob/f4dd96b825e214f809bafe1103a41ee6fc9ab892/docs/figure/13_olig_pseudotime.Rmd/unnamed-chunk-8-1.png" target="_blank">f4dd96b</a>
+</td>
+<td>
+Full Name
+</td>
+<td>
+2019-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>readxl::read_xlsx(path = here(&quot;data/mouse_data/fig6/191118_Gpr17.xlsx&quot;), range=&quot;A4:B10&quot;) %&gt;%
+  reshape2::melt() %&gt;% na.omit() -&gt; gpr17
+
+gpr17 %&gt;% dplyr::group_by(variable) %&gt;% dplyr::summarise(mean=mean(value), sd = sd(value), se = sd/sqrt(length(value))) %&gt;%
+  ggplot(aes(x=variable, y=mean, fill=variable, color=variable)) + 
+  geom_col(width=1, alpha=0.75, colour=&quot;black&quot;, position=&quot;dodge&quot;) +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position=position_dodge(.9), size=1) +
+  geom_jitter(data = gpr17, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) +
+  #geom_text(position = position_dodge2(width=.9, preserve=&quot;single&quot;), aes(y=value+se+1), face = &quot;bold&quot;, size=8) + 
+  ylab(&quot;GPR17+ Cells Per mm²&quot;) + scale_fill_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;)) + 
+  scale_color_manual(&quot;Treatment&quot;, values=c(&quot;gray80&quot;,&quot;gray30&quot;))+ theme_classic() +
+  theme(legend.position = &quot;none&quot;, legend.background = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank()) + 
+  geom_signif(y_position=max(gpr17$value), xmin=1.2, xmax=1.8,
+              annotation=c(&quot;*&quot;), tip_length=0, size = 0.5, textsize = 6, color=&quot;black&quot;) + coord_cartesian(clip=&quot;off&quot;) -&gt; gpr17_bp
+
+olig_val &lt;- cowplot::plot_grid(ggplot() + theme_void(), gpr17_bp, nrow=1, scale=0.9, labels=c(&quot;e&quot;,&quot;f&quot;), rel_widths = c(2,1))
+cowplot::plot_grid(sc_olig, olig_val, ncol=1, align=&quot;hv&quot;, rel_heights = c(1.75,1))</code></pre>
+<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
 Past versions of unnamed-chunk-9-1.png
@@ -933,69 +1084,7 @@ Full Name
 </table>
 </div>
 </div>
-<pre class="r"><code>lib_info_with_pseudo &lt;- pData(cds)
-t(monocle::reducedDimS(cds)) %&gt;%
-    as.data.frame() %&gt;%
-    select_(data_dim_1 = 1, data_dim_2 = 2) %&gt;%
-    rownames_to_column(&quot;sample_name&quot;) %&gt;%
-    mutate(sample_state) %&gt;% 
-    left_join(lib_info_with_pseudo %&gt;% rownames_to_column(&quot;sample_name&quot;), by = &quot;sample_name&quot;) %&gt;%
-  arrange(Pseudotime) -&gt; data_df</code></pre>
-<pre><code>Warning: select_() is deprecated. 
-Please use select() instead
-
-The &#39;programming&#39; vignette or the tidyeval book can help you
-to program with select() : https://tidyeval.tidyverse.org
-This warning is displayed once per session.</code></pre>
-<pre class="r"><code>reduced_dim_coords &lt;- reducedDimK(cds)
-
-pseudo &lt;- ggplot(data_df, aes(x=data_dim_1, y=data_dim_2, colour=Pseudotime)) + 
-  geom_point(size=0.5) + 
-  geom_point(data = data.frame(t(cds@reducedDimK)), aes(X1, X2), inherit.aes = F, size=0.2) + 
-  xlab(&quot;Dim 1&quot;) + ylab(&quot;Dim 2&quot;) +
-  theme_pubr(legend=&quot;right&quot;) + facet_wrap(.~trt)</code></pre>
-<pre class="r"><code>plot_grid(top, pseudo, ncol=1, labels = c(&quot;&quot;, &quot;D&quot;))</code></pre>
-<p><img src="figure/13_olig_pseudotime.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/perslab/fgf_alldata/blob/3b5cbe71bd539e4d50a69f2d6fa6c121142e3229/docs/figure/13_olig_pseudotime.Rmd/unnamed-chunk-11-1.png" target="_blank">3b5cbe7</a>
-</td>
-<td>
-Full Name
-</td>
-<td>
-2019-10-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>detach(&quot;package:here&quot;, unload = T)
-library(here)
-save.image(file = here(&quot;data/glia/olig_alldata.RData&quot;))</code></pre>
+<pre class="r"><code>#ggsave(&quot;figure_6.tiff&quot;, width=12, h=8, dpi=600, compression = &quot;lzw&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1024,59 +1113,61 @@ attached base packages:
  [8] datasets  methods   base     
 
 other attached packages:
- [1] here_0.1            plyr_1.8.4          cowplot_1.0.0      
- [4] reshape2_1.4.3      ggrepel_0.8.1       ggsci_2.9          
- [7] ggpubr_0.2.1        magrittr_1.5        rstatix_0.1.1      
-[10] forcats_0.4.0       stringr_1.4.0       dplyr_0.8.3        
-[13] purrr_0.3.2         readr_1.3.1.9000    tidyr_0.8.3        
-[16] tibble_2.1.3        tidyverse_1.2.1     monocle_2.10.1     
-[19] DDRTree_0.1.5       irlba_2.3.3         VGAM_1.1-1         
-[22] ggplot2_3.2.1       Biobase_2.42.0      BiocGenerics_0.28.0
-[25] Matrix_1.2-17       Seurat_3.0.3.9036  
+ [1] here_0.1            cowplot_1.0.0       reshape2_1.4.3     
+ [4] ggrepel_0.8.0.9000  ggsci_2.9           ggpubr_0.2.1       
+ [7] magrittr_1.5        rstatix_0.1.1       forcats_0.4.0      
+[10] stringr_1.4.0       dplyr_0.8.3         purrr_0.3.2        
+[13] readr_1.3.1.9000    tidyr_0.8.3         tibble_2.1.3       
+[16] tidyverse_1.2.1     monocle_2.10.1      DDRTree_0.1.5      
+[19] irlba_2.3.3         VGAM_1.1-1          ggplot2_3.2.1      
+[22] Biobase_2.42.0      BiocGenerics_0.28.0 Matrix_1.2-17      
+[25] Seurat_3.0.3.9036  
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.4      workflowr_1.4.0     
-  [4] igraph_1.2.4.1       lazyeval_0.2.2       densityClust_0.3    
-  [7] listenv_0.7.0        fastICA_1.2-1        digest_0.6.20       
- [10] htmltools_0.3.6      viridis_0.5.1        gdata_2.18.0        
- [13] cluster_2.1.0        ROCR_1.0-7           openxlsx_4.1.0.1    
- [16] limma_3.38.3         globals_0.12.4       modelr_0.1.4        
- [19] RcppParallel_4.4.3   matrixStats_0.54.0   R.utils_2.9.0       
- [22] docopt_0.6.1         colorspace_1.4-1     rvest_0.3.4         
- [25] haven_2.1.0          xfun_0.8             sparsesvd_0.1-4     
- [28] crayon_1.3.4         jsonlite_1.6         zeallot_0.1.0       
- [31] survival_2.44-1.1    zoo_1.8-6            ape_5.3             
- [34] glue_1.3.1           gtable_0.3.0         leiden_0.3.1        
- [37] car_3.0-3            future.apply_1.3.0   abind_1.4-5         
- [40] scales_1.0.0         pheatmap_1.0.12      bibtex_0.4.2        
- [43] Rcpp_1.0.2           metap_1.1            viridisLite_0.3.0   
- [46] reticulate_1.13      proxy_0.4-23         foreign_0.8-71      
- [49] rsvd_1.0.2           SDMTools_1.1-221.1   tsne_0.1-3          
- [52] htmlwidgets_1.3      httr_1.4.1           FNN_1.1.3           
- [55] gplots_3.0.1.1       RColorBrewer_1.1-2   ica_1.0-2           
- [58] pkgconfig_2.0.2      R.methodsS3_1.7.1    uwot_0.1.3          
- [61] labeling_0.3         tidyselect_0.2.5     rlang_0.4.0         
- [64] munsell_0.5.0        cellranger_1.1.0     tools_3.5.3         
- [67] cli_1.1.0            generics_0.0.2       broom_0.5.2         
- [70] ggridges_0.5.1       evaluate_0.14        yaml_2.2.0          
- [73] npsurv_0.4-0         knitr_1.23           fs_1.3.1            
- [76] fitdistrplus_1.0-14  zip_2.0.3            caTools_1.17.1.2    
- [79] RANN_2.6.1           pbapply_1.4-1        future_1.14.0       
- [82] nlme_3.1-140         whisker_0.3-2        slam_0.1-45         
- [85] R.oo_1.22.0          xml2_1.2.0           compiler_3.5.3      
- [88] rstudioapi_0.10      curl_4.0             plotly_4.9.0        
- [91] png_0.1-7            ggsignif_0.5.0       lsei_1.2-0          
- [94] stringi_1.4.3        highr_0.8            lattice_0.20-38     
- [97] HSMMSingleCell_1.2.0 vctrs_0.2.0          pillar_1.4.2        
-[100] combinat_0.0-8       Rdpack_0.11-0        lmtest_0.9-37       
-[103] RcppAnnoy_0.0.12     data.table_1.12.2    bitops_1.0-6        
-[106] gbRd_0.4-11          R6_2.4.0             rio_0.5.16          
-[109] KernSmooth_2.23-15   gridExtra_2.3        codetools_0.2-16    
-[112] MASS_7.3-51.4        gtools_3.8.1         assertthat_0.2.1    
-[115] rprojroot_1.3-2      withr_2.1.2          qlcMatrix_0.9.7     
-[118] sctransform_0.2.0    hms_0.5.0            grid_3.5.3          
-[121] rmarkdown_1.13       carData_3.0-2        Rtsne_0.15          
-[124] git2r_0.25.2         lubridate_1.7.4     </code></pre>
+  [4] plyr_1.8.4           igraph_1.2.4.1       lazyeval_0.2.2      
+  [7] densityClust_0.3     listenv_0.7.0        fastICA_1.2-1       
+ [10] digest_0.6.20        htmltools_0.3.6      viridis_0.5.1       
+ [13] gdata_2.18.0         cluster_2.1.0        ROCR_1.0-7          
+ [16] openxlsx_4.1.0.1     limma_3.38.3         globals_0.12.4      
+ [19] modelr_0.1.4         RcppParallel_4.4.3   matrixStats_0.54.0  
+ [22] R.utils_2.9.0        docopt_0.6.1         colorspace_1.4-1    
+ [25] rvest_0.3.4          haven_2.1.0          xfun_0.8            
+ [28] sparsesvd_0.1-4      crayon_1.3.4         jsonlite_1.6        
+ [31] zeallot_0.1.0        survival_2.44-1.1    zoo_1.8-6           
+ [34] ape_5.3              glue_1.3.1           gtable_0.3.0        
+ [37] leiden_0.3.1         car_3.0-3            future.apply_1.3.0  
+ [40] abind_1.4-5          scales_1.0.0         pheatmap_1.0.12     
+ [43] bibtex_0.4.2         Rcpp_1.0.2           metap_1.1           
+ [46] viridisLite_0.3.0    reticulate_1.13      proxy_0.4-23        
+ [49] foreign_0.8-71       rsvd_1.0.2           SDMTools_1.1-221.1  
+ [52] tsne_0.1-3           htmlwidgets_1.3      httr_1.4.1          
+ [55] FNN_1.1.3            gplots_3.0.1.1       RColorBrewer_1.1-2  
+ [58] ica_1.0-2            pkgconfig_2.0.2      R.methodsS3_1.7.1   
+ [61] uwot_0.1.3           labeling_0.3         tidyselect_0.2.5    
+ [64] rlang_0.4.0          munsell_0.5.0        cellranger_1.1.0    
+ [67] tools_3.5.3          cli_1.1.0            generics_0.0.2      
+ [70] broom_0.5.2          ggridges_0.5.1       evaluate_0.14       
+ [73] yaml_2.2.0           npsurv_0.4-0         knitr_1.23          
+ [76] fs_1.3.1             fitdistrplus_1.0-14  zip_2.0.3           
+ [79] caTools_1.17.1.2     RANN_2.6.1           pbapply_1.4-1       
+ [82] future_1.14.0        nlme_3.1-140         whisker_0.3-2       
+ [85] slam_0.1-45          R.oo_1.22.0          xml2_1.2.0          
+ [88] compiler_3.5.3       rstudioapi_0.10      curl_4.0            
+ [91] plotly_4.9.0         png_0.1-7            ggsignif_0.5.0      
+ [94] lsei_1.2-0           stringi_1.4.3        highr_0.8           
+ [97] lattice_0.20-38      HSMMSingleCell_1.2.0 vctrs_0.2.0         
+[100] pillar_1.4.2         combinat_0.0-8       Rdpack_0.11-0       
+[103] lmtest_0.9-37        RcppAnnoy_0.0.12     data.table_1.12.2   
+[106] bitops_1.0-6         gbRd_0.4-11          R6_2.4.0            
+[109] rio_0.5.16           KernSmooth_2.23-15   gridExtra_2.3       
+[112] codetools_0.2-16     MASS_7.3-51.4        gtools_3.8.1        
+[115] assertthat_0.2.1     rprojroot_1.3-2      withr_2.1.2         
+[118] qlcMatrix_0.9.7      sctransform_0.2.0    hms_0.5.0           
+[121] grid_3.5.3           rmarkdown_1.13       carData_3.0-2       
+[124] Rtsne_0.15           git2r_0.25.2         lubridate_1.7.4     
+[127] rematch_1.0.1       </code></pre>
+</div>
 </div>
 
 
