@@ -1,0 +1,118 @@
+---
+title: "Supplementary Figure 1"
+output: html_notebook
+---
+
+#Load Libraries
+```{r, message=F, warning=FALSE}
+library(Seurat)
+library(tidyverse)
+library(DESeq2)
+library(here)
+library(future)
+library(cluster)
+library(parallelDist)
+library(ggplot2)
+library(cowplot)
+library(ggrepel)
+library(future.apply)
+library(reshape2)
+library(gProfileR)
+library(ggsignif)
+plan("multiprocess", workers = 40)
+options(future.globals.maxSize = 4000 * 1024^2)
+```
+
+# Load data
+```{r}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
+fgf.neur <- readRDS(here("data/neuron/fgf_neur_mappingscores.RDS"))
+```
+
+# Filter and recluster unmapped data
+```{r}
+fgf.neur.unmap <- subset(fgf.neur, ref == "unmap")
+fgf.neur.unmap <- reprocess_subset(obj = fgf.neur.unmap, dims = 30, resolution = 0.3)
+DefaultAssay(fgf.neur.unmap) <- "SCT"
+lab.mark <- FindAllMarkers(fgf.neur.unmap, only.pos = T, logfc.threshold = 0.5)
+write_csv(x = lab.mark, here("output/neuron/neuron_clusters_unmapped.csv"))
+```
+
+# Plot unmapped neurons
+```{r}
+data.frame(Embeddings(fgf.neur.unmap, reduction = "umap")) %>% 
+  mutate(group = fgf.neur.unmap$group) %>%
+  mutate(celltype = Idents(fgf.neur.unmap)) %>%
+  sample_frac(1L) -> umap_embed
+colnames(umap_embed)[1:2] <- c("UMAP 1", "UMAP 2")
+
+label.df <- data.frame(cluster=levels(umap_embed$celltype),label=levels(umap_embed$celltype))
+label.df_2 <- umap_embed %>% 
+  group_by(celltype) %>% 
+  dplyr::summarize(x = median(`UMAP 1`), y = median(`UMAP 2`)) 
+
+prop_neur_byclus <- ggplot(umap_embed, aes(x=`UMAP 1`, y=`UMAP 2`, color=celltype)) + 
+  geom_point(size=0.5, alpha=0.5)  + 
+  geom_text_repel(data = label.df_2, aes(label = celltype, x=x, y=y), 
+                  size=2, 
+                  inherit.aes = F, bg.colour="white", fontface="bold",
+                  force=1, min.segment.length = unit(0, 'lines')) +
+  xlab("UMAP1") + ylab("UMAP2") +
+  ggpubr::theme_pubr(legend="none") + ggsci::scale_color_igv() + theme_figure 
+prop_neur_byclus
+ggsave("data/figures/supp/umap_plot.pdf")
+```
+
+# Extract color scheme
+```{r}
+g <- ggplot_build(prop_neur_byclus)
+cols<-data.frame(colours = as.character(unique(g$data[[1]]$colour)), 
+             label = as.character(unique(g$plot$data[, g$plot$labels$colour])))
+colvec<-as.character(cols$colours)
+names(colvec)<-as.character(cols$label)
+```
+
+# Resampling DEG
+```{r pseudobulk resampling, message=F, warning=FALSE}
+#Generate matrices
+split_mats <- splitbysamp(fgf.neur.unmap, split_by="sample")
+names(split_mats) <- unique(Idents(fgf.neur.unmap))
+pb<-replicate(100, gen_pseudo_counts(split_mats, ncells=10)) 
+names(pb) <- paste0(rep(names(split_mats)),"_",rep(1:100, each=length(names(split_mats))))
+# Generate DESeq2 Objects
+res<-rundeseq(pb)
+```
+
+# Boxplot
+```{r}
+degenes<-lapply(res, function(x) {
+  tryCatch({
+    y<-x[[2]]
+    y<-na.omit(y)
+    data.frame(y)%>%filter(padj<0.1)%>%nrow()}, 
+    error=function(err) {NA})
+})
+
+boxplot<-lapply(unique(Idents(fgf.neur.unmap)), function(x) {
+  z<-unlist(degenes[grep(paste0("^",x,"_"), names(degenes))])
+})
+
+names(boxplot)<-unique(Idents(fgf.neur.unmap))
+boxplot<-t(as.data.frame(do.call("rbind", boxplot)))
+rownames(boxplot)<-1:100
+genenum<-melt(boxplot)
+write_csv(genenum, path = here("output/neuron/genenum_supplemental.csv"))
+```
+
+# resampling results
+```{r fig 1 panel c}
+deboxplot<-ggplot(genenum,aes(x=reorder(Var2, -value), y=value, fill=factor(Var2))) + 
+  geom_boxplot(notch = T, alpha=0.75) + 
+  scale_fill_manual(values = colvec) +
+  ggpubr::theme_pubr() +
+  theme(axis.text.x = element_text(angle=45, hjust=1), legend.position = "none") + 
+  ylab("Number DEG") + xlab(NULL) + theme_figure
+deboxplot
+ggsave(here("data/figures/supp/deboxplot.pdf"))
+```
