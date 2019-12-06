@@ -55,5 +55,5 @@ reproduceible on your computer.
 
 # Credits 
 
-This project was led by [Dylan Rausch](https://twitter.com/dylanrausch) and [Marie Bentsen](https://cbmr.ku.dk/staff_overview/?pure=en%2Fpersons%2Fmarie-aare-bentsen(1f862ab6-010b-422f-b1aa-61b4a9557aa1)%2Fpublications.html) at the [University of Copenhagen NNF CBMR](https://cbmr.ku.dk/) and [University of Washington](https://endocrinology.uw.edu/)
+This project was led by [Dylan Rausch](https://twitter.com/dylanrausch) and [Marie Bentsen](https://cbmr.ku.dk/staff_overview/?pure=en%2Fpersons%2Fmarie-aare-bentsen(1f862ab6-010b-422f-b1aa-61b4a9557aa1)%2Fpublications.html) at the [University of Copenhagen NNF CBMR](https://cbmr.ku.dk/) and [University of Washington](https://endocrinology.uw.edu/) in the labs of [Dr. Tune Pers](https://cbmr.ku.dk/research/human-genomics-and-metagenomics-in-metabolism/pers-group/) and [Dr. Michael Schwartz](https://uwmdi.org/labs/schwartz-lab/)
 
