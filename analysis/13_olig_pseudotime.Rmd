@@ -20,6 +20,17 @@ library(ggpubr)
 
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
+```
+
+```{r include=FALSE}
+addSmallLegend <- function(myPlot, barwidth = 5, textSize = 8, spaceLegend = 0.1, title.position = "top", barheight = .5) {
+    myPlot +
+        guides(color = guide_colorbar(barwidth = barwidth, title.position = title.position, barheight = barheight)) +
+        theme(legend.title = element_text(size = textSize), 
+              legend.text  = element_text(size = textSize),
+              legend.key.size = unit(spaceLegend, "lines"))
+}
 ```
 
 ```{r, fig.width=10, fig.height=3}
@@ -39,46 +50,10 @@ b <- ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = type)) +
   geom_point(alpha = 0.5, size=.5) + scale_colour_discrete(name="Treatment") +
   geom_label_repel(data = label.df_2, aes(label = type, x=x, y=y), size=3, fontface="bold", inherit.aes = F) +
   guides(colour = guide_legend(override.aes = list(size=5))) + theme_pubr() + theme(legend.position = "none") 
+plot_grid(a,b)
 ```
 
-```{r}
-summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
-                      conf.interval=.95, .drop=TRUE) {
-    library(plyr)
-
-    # New version of length which can handle NA's: if na.rm==T, don't count them
-    length2 <- function (x, na.rm=FALSE) {
-        if (na.rm) sum(!is.na(x))
-        else       length(x)
-    }
-
-    # This does the summary. For each group's data frame, return a vector with
-    # N, mean, and sd
-    datac <- ddply(data, groupvars, .drop=.drop,
-      .fun = function(xx, col) {
-        c(N    = length2(xx[[col]], na.rm=na.rm),
-          mean = mean   (xx[[col]], na.rm=na.rm),
-          sd   = sd     (xx[[col]], na.rm=na.rm)
-        )
-      },
-      measurevar
-    )
-
-    # Rename the "mean" column    
-    names(datac)[4] <- measurevar
-
-    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
-
-    # Confidence interval multiplier for standard error
-    # Calculate t-statistic for confidence interval: 
-    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci <- datac$se * ciMult
-
-    return(datac)
-}
-```
-
+# Test difference in cell numbers
 ```{r}
 cell<-as.data.frame.matrix(table(olig$orig.ident, olig@active.ident))
 cell$trt<-as.factor(sapply(strsplit(rownames(cell),"_"),"[",2))
@@ -89,24 +64,30 @@ stat.test <- cell %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 
-cell<-summarySE(cell, measurevar="value", groupvars=c("trt","variable"))
-plotval<-cbind(cell, signif=stat.test$p.adj.signif)
-plotval$signif[plotval$trt!="FGF1"]<-NA
+cell %>% dplyr::group_by(trt, variable) %>% 
+  dplyr::summarise(mean=mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>% 
+  mutate(signif = stat.test$p.adj.signif) %>% 
+  mutate(signif = ifelse(trt == "FGF1", yes = NA, no = signif)) %>% ungroup() -> plotval
 write.csv(plotval, file="olig_ttest_padj.csv")
-c <- ggplot(plotval, aes(x = variable, y = value, fill = trt, label = signif)) + 
-    geom_bar(position=position_dodge(), stat="identity") + geom_text(aes(y = c(500,1200,300,250,200, NA,NA,NA,NA,NA))) +
-    geom_errorbar(aes(ymin=value-se, ymax=value+se),size=.3,width=.2,position=position_dodge(.9)) +
-    xlab(NULL) + scale_fill_manual(values=c("#000000","#999999")) +
-    ylab("Mean Number\n of Cells") +
-    theme_pubr(legend = "none") +
-    theme(axis.text.x = element_text(angle=45, hjust=1))
+
+plotval %>% mutate(variable = fct_relevel(variable, c("OPC","COP", "NFOL","MFOL","MOL1"))) %>% 
+  mutate(trt = fct_relevel(trt, c("Vehicle","FGF1")))-> plotval 
+
+ggplot(plotval, aes(x = variable, y = mean, fill = trt)) + 
+    geom_bar(position=position_dodge(), stat="identity") + 
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se),size=.3,width=.2,position=position_dodge(.9)) +
+    xlab(NULL) + scale_fill_manual(values=c("gray80","gray30")) +
+    ylab("Number of cells") +
+    ggpubr::theme_pubr(legend = "none") +
+    theme(axis.text.x = element_text(angle=45, hjust=1)) + 
+    geom_signif(y_position=c(plotval %>% dplyr::group_by(variable) %>% dplyr::summarise(max = max(mean)) %>% pull(max) + 50), 
+                xmin = c(seq(0.9,4.9, by = 1)), xmax=c(seq(1.1,5.1, by = 1)),
+                annotation=c(plotval %>% slice(6:10) %>% pull(signif) %>% as.character() %>% toupper())[c(1,4,5,3,2)], 
+                tip_length=0, size = 0.5, textsize = 3, color="black", vjust = -1) + coord_cartesian(clip="off") -> oligttest
+oligttest
 ```
 
-```{r, fig.width=12, fig.height=3}
-top <- plot_grid(b, a, c, scale=0.9, labels = "AUTO", nrow = 1, rel_widths = c(1,1,1.25), align="h", axis="tb")
-top
-```
-
+# Prep data for pseudotime analysis
 ```{r}
 cds <- as.CellDataSet(olig)
 cds <- estimateSizeFactors(cds)
@@ -114,9 +95,7 @@ cds <- estimateDispersions(cds)
 cds <- detectGenes(cds, min_expr = 0.1)
 fData(cds)$use_for_ordering <-
     fData(cds)$num_cells_expressed > 0.1 * ncol(cds)
-```
 
-```{r}
 cds <- reduceDimension(cds,
                               max_components = 2,
                               norm_method = 'log',
@@ -132,6 +111,7 @@ cds <- clusterCells(cds,
 plot_cell_clusters(cds, label_groups_by_cluster=FALSE,  color_cells_by = "Cluster")
 ```
 
+# Run monocle
 ```{r}
 olig_expressed_genes <-  row.names(subset(fData(cds), num_cells_expressed >= 10))
 
@@ -158,32 +138,58 @@ cds <-
 
 olig$pseudo <- cds$Pseudotime
 plot_cell_trajectory(cds,color_by = "predicted.id")
+ggsave(here("data/figures/supp/monocle_by_celltype.pdf"))
+plot_cell_trajectory(cds, markers = "Gpr17")
+ggsave(here("data/figures/supp/monocle_by_gpr17.pdf"))
+plot_cell_trajectory(cds, color_by = "Pseudotime")
+ggsave(here("data/figures/supp/monocle_by_pseudo.pdf"))
+plot_cell_trajectory(cds, color_by = "trt", alpha=0.5)
+ggsave(here("data/figures/supp/monocle_by_trt.pdf"))
 ```
 
-```{r}
-lib_info_with_pseudo <- pData(cds)
-t(monocle::reducedDimS(cds)) %>%
-    as.data.frame() %>%
-    select_(data_dim_1 = 1, data_dim_2 = 2) %>%
-    rownames_to_column("sample_name") %>%
-    mutate(sample_state) %>% 
-    left_join(lib_info_with_pseudo %>% rownames_to_column("sample_name"), by = "sample_name") %>%
-  arrange(Pseudotime) -> data_df
+# Plot pseudotime on umap plots
+```{r, fig.height=5, fig.width=7}
+olig_plot$pseudo <- olig$pseudo
+olig_plot$gpr17 <- as.numeric(olig@assays[["SCT"]]@data["Gpr17",])
 
-reduced_dim_coords <- reducedDimK(cds)
+ggplot(olig_plot, aes(UMAP_1, UMAP_2, colour = pseudo)) + 
+  geom_point(alpha = 0.5, size=.5) + ggsci::scale_color_material(name="Pseudotime", guide = guide_colorbar(title.position = "top"), palette = "blue-grey") +
+  ggpubr::theme_pubr() + xlab(NULL) + ylab(NULL) +
+  theme(legend.position = c(0.3,0.25), legend.direction =  "horizontal",legend.title = element_text(hjust=0.5), legend.background = element_blank()) -> olig_pseudo
 
-pseudo <- ggplot(data_df, aes(x=data_dim_1, y=data_dim_2, colour=Pseudotime)) + 
-  geom_point(size=0.5) + 
-  geom_point(data = data.frame(t(cds@reducedDimK)), aes(X1, X2), inherit.aes = F, size=0.2) + 
-  xlab("Dim 1") + ylab("Dim 2") +
-  theme_pubr(legend="right") + facet_wrap(.~trt)
+ggplot(olig_plot, aes(UMAP_1, UMAP_2, color = gpr17)) + 
+  geom_point(alpha = 0.75, size=.5) + ggsci::scale_color_material(name="Gpr17 Expression", palette = "deep-orange",
+                                                                 guide = guide_colorbar(title.position = "top")) +
+  ggpubr::theme_pubr() + xlab(NULL) + ylab(NULL) +
+  theme(legend.position = c(0.3,0.25), legend.direction =  "horizontal",legend.title = element_text(hjust=0.5), legend.background = element_blank()) -> olig_gpr17
+
+sc_olig <- cowplot::plot_grid(b, addSmallLegend(olig_pseudo), oligttest, addSmallLegend(olig_gpr17), ncol=2, labels="auto", scale=0.9, align="hv")
+sc_olig
 ```
 
-```{r}
-plot_grid(top, pseudo, ncol=1, labels = c("", "D"))
+```{r, fig.width=12, fig.height=8}
+readxl::read_xlsx(path = here("data/mouse_data/fig6/191118_Gpr17.xlsx"), range="A4:B10") %>%
+  reshape2::melt() %>% na.omit() -> gpr17
+
+gpr17 %>% dplyr::group_by(variable) %>% dplyr::summarise(mean=mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>%
+  ggplot(aes(x=variable, y=mean, fill=variable, color=variable)) + 
+  geom_col(width=1, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position=position_dodge(.9), size=1) +
+  geom_jitter(data = gpr17, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) +
+  #geom_text(position = position_dodge2(width=.9, preserve="single"), aes(y=value+se+1), face = "bold", size=8) + 
+  ylab("GPR17+ Cells Per mm²") + scale_fill_manual("Treatment", values=c("gray80","gray30")) + 
+  scale_color_manual("Treatment", values=c("gray80","gray30"))+ theme_classic() +
+  theme(legend.position = "none", legend.background = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank()) + 
+  geom_signif(y_position=max(gpr17$value), xmin=1.2, xmax=1.8,
+              annotation=c("*"), tip_length=0, size = 0.5, textsize = 6, color="black") + coord_cartesian(clip="off") -> gpr17_bp
+
+olig_val <- cowplot::plot_grid(ggplot() + theme_void(), gpr17_bp, nrow=1, scale=0.9, labels=c("e","f"), rel_widths = c(2,1))
+cowplot::plot_grid(sc_olig, olig_val, ncol=1, align="hv", rel_heights = c(1.75,1))
+#ggsave("figure_6.tiff", width=12, h=8, dpi=600, compression = "lzw")
 ```
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 detach("package:here", unload = T)
 library(here)
 save.image(file = here("data/glia/olig_alldata.RData"))
