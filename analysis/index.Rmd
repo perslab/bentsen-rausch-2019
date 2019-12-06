@@ -24,7 +24,7 @@ reproduceible on your computer.
 
 2. [Unmapped neuronal populations show a limited transcriptomic response to FGF1](supp1.Rmd)
 
-2. [FGF1 requires functional melanocortin signalling to normalize blood glucose levels](figure_2.html)
+3. [FGF1 requires functional melanocortin signalling to normalize blood glucose levels](figure_2.html)
 
 ## How does FGF1 effect glial populations of the hypothalamus
 
@@ -40,13 +40,14 @@ reproduceible on your computer.
 
 2. [WGCNA on astrocytes confirms snRNAseq findings](11_astro_wgcna.html) 
 
-#3. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
+3. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
 
-6. [Tanycytes activate specific gene programs across the 3rd ventricle](15_tany_wgcna_pseudo.html)
+4. [Tanycytes activate specific gene programs across the 3rd ventricle](15_tany_wgcna_pseudo.html)
 
-4. [FGF1 increases a pool of differentiating oligodendrocytes](13_olig_pseudotime.html)
+5. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
 
-#5. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
+6. [FGF1 increases a pool of differentiating oligodendrocytes](13_olig_pseudotime.html)
+
 
 ## Bulk RNA-seq reveals chronic effects of FGF1
 
@@ -54,5 +55,5 @@ reproduceible on your computer.
 
 # Credits 
 
-This project was led by [Dylan Rausch] (https://twitter.com/dylanrausch) and [Marie Bentsen] (https://cbmr.ku.dk/staff_overview/?pure=en%2Fpersons%2Fmarie-aare-bentsen(1f862ab6-010b-422f-b1aa-61b4a9557aa1)%2Fpublications.html) at the University of Copenhagen NNF CBMR (https://cbmr.ku.dk/) and University of Washington (https://endocrinology.uw.edu/)
+This project was led by [Dylan Rausch](https://twitter.com/dylanrausch) and [Marie Bentsen](https://cbmr.ku.dk/staff_overview/?pure=en%2Fpersons%2Fmarie-aare-bentsen(1f862ab6-010b-422f-b1aa-61b4a9557aa1)%2Fpublications.html) at the [University of Copenhagen NNF CBMR](https://cbmr.ku.dk/) and [University of Washington](https://endocrinology.uw.edu/)
 
