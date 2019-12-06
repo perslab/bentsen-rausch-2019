@@ -3,14 +3,14 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+# Load libraries
 ```{r}
 library(here)
 library(Seurat)
 library(tidyverse)
 library(future)
 library(princurve)
-
-#plan(multiprocess, workers=30)
+plan(multiprocess, workers=30)
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
 
@@ -26,7 +26,7 @@ tany %>%
   RunPCA(verbose=T) -> tany 
 ```
 
-#Load Campbell Data
+# Load Campbell Data
 ```{r load campbell data and subset to ventricular cells}
 path.data <- "/data/pub-perslab/campbell-nn-2017/geo/GSE93374_Merged_all_020816_DGE.txt.gz"
 path.metadata <- "/data/pub-perslab/campbell-nn-2017/geo/GSE93374_cell_metadata.txt.gz"
@@ -50,7 +50,7 @@ campvent<-RenameIdents(object = campvent, "s31" = "b2tany")
 campvent<-SCTransform(campvent)
 ```
 
-#Subset and Process Data
+# Subset and Process Data
 ```{r process subsetted data}
 tanlist <- list(camp = campvent, tany = tany)
 tan.features <- SelectIntegrationFeatures(object.list = tanlist, nfeatures = 3000)
@@ -64,6 +64,7 @@ predictions <- TransferData(anchorset = tan.anchors, refdata = campvent@active.i
 hist(predictions$prediction.score.max)
 ```
 
+# Transfer labels
 ```{r}
 tany <- AddMetaData(object = tany, metadata = predictions)
 tany_sub<-subset(tany, subset=prediction.score.max>0.5)
@@ -74,7 +75,7 @@ Idents(tany_sub)<-"predicted.id"
 DimPlot(tany_sub, reduction = "pca")
 ```
 
-```{r}
+```{r include=F, echo=F}
 saveRDS(tany_sub, here("data/glia/tany_labeled.RDS"))
 ```
 
