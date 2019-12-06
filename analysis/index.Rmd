@@ -22,7 +22,7 @@ reproduceible on your computer.
 
 1. [FGF1 acutely inhibits AgRP neurons](figure_1.html)
 
-2. [Unmapped neuronal populations show a limited transcriptomic response to FGF1](supp1.Rmd)
+2. [Unmapped neuronal populations show a limited transcriptomic response to FGF1](supp1.html)
 
 3. [FGF1 requires functional melanocortin signalling to normalize blood glucose levels](figure_2.html)
 
@@ -38,20 +38,20 @@ reproduceible on your computer.
 
 1. [Astrocytes and oligodendrocytes are the most responsive cell types at day 5](10_wc_pseudobulk.html) 
 
-2. [WGCNA on astrocytes confirms snRNAseq findings](11_astro_wgcna.html) 
+2. [WGCNA on astrocytes confirms snRNAseq findings](11_wc_astro_wgcna.html) 
 
 3. [Tanycyte label transfer from Campbell et al.](14_tanycyte_labeltransfer.html)
 
 4. [Tanycytes activate specific gene programs across the 3rd ventricle](15_tany_wgcna_pseudo.html)
 
-5. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_olig_labeltransfer.html)
+5. [Oligodendrocyte label transfer from Castelo-Branco et. al.](12_oligo_labeltransfer.html)
 
 6. [FGF1 increases a pool of differentiating oligodendrocytes](13_olig_pseudotime.html)
 
 
 ## Bulk RNA-seq reveals chronic effects of FGF1
 
-1. [FGF1 increases synaptic plasticity up to 42 days post treatment](13_olig_pseudotime.html)
+1. [FGF1 increases synaptic plasticity up to 42 days post treatment](figure_7.html)
 
 # Credits 
 
