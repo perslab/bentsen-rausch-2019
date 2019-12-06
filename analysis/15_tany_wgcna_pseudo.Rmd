@@ -3,10 +3,6 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-```{r include = FALSE}
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
-```
-
 # Load Libraries
 
 ```{r, warnings=F, message=F}
@@ -27,6 +23,13 @@ library(ggpubr)
 library(princurve)
 library(here)
 library(cowplot)
+library(tidygraph)
+library(ggraph)
+```
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source(here("code/sc_functions.R"))
 ```
 
 # Extract Cells for WGCNA
@@ -40,17 +43,18 @@ fgf.glia.wc %>%
 ```{r, fig.height=4, fig.width=3}
 pcembed <- as.matrix(Embeddings(ventric, reduction = "pca")[,c(1:2)])
 y <- principal_curve(pcembed)
-color <- as.factor(ventric$predicted.id)
-levels(color) <- c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3")
+# color <- as.factor(ventric$predicted.id)
+# levels(color) <- c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3")
 df = data.frame(y$s[order(y$lambda), ])
 colnames(df) = c("x", "y")
 points <- data.frame(id = ventric$predicted.id, Embeddings(ventric, reduction = "pca")[,c(1:2)])
 rand <- sample(nrow(points), 3000)
 princ_plot <- ggplot(data = df, aes(x, y)) +
   geom_point(data = points[rand,], aes(x=PC_1, y=PC_2, colour=factor(id)), size = 2, inherit.aes = F, alpha=0.5) + 
-  geom_line(size = 2, color = "black") + 
-  theme_pubr(legend = "none") + 
-  xlim(c(-20,10)) + coord_flip() + xlab("PC_1") + ylab("PC_2") + theme( axis.text.x = element_text(angle=45, hjust=1))
+  geom_line(arrow = arrow(length=unit(0.30,"cm"), ends="last", type = "closed"), size = 2, color = "orange") + 
+  ggpubr::theme_pubr(legend = "none") + 
+  ggsci::scale_color_jco() +
+  xlim(c(-20,10)) + coord_flip() + xlab("PC1") + ylab("PC2") +  theme_figure
 ventric$height <- y$lambda
 princ_plot
 ```
@@ -139,8 +143,8 @@ MEs = mergedMEs
 modulekME = signedKME(datExpr,MEs)
 ```
 
+# Type gene name, prints out gene names also in that module
 ```{r}
-#type gene name, prints out gene names also in that module
 modules<-MEs
 c_modules<-data.frame(moduleColors)
 row.names(c_modules)<-colnames(datExpr) #assign gene names as row names
@@ -158,7 +162,7 @@ lookup<-function(gene,network){return(network[names(network)[grep(gene,network)]
 nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)
 MEs = orderMEs(MEs)
-MEs %>% select(-MEgrey) -> MEs
+MEs %>% dplyr::select(-MEgrey) -> MEs
 var<-model.matrix(~0+ventric$trt)
 moduleTraitCor <- cor(MEs, var, use="p")
 cor<-moduleTraitCor[abs(moduleTraitCor[,1])>.2,]
@@ -169,7 +173,7 @@ ggplot(cor, aes(Var2, Var1)) + geom_tile(aes(fill = value),
                             high = "red", space = "Lab", name="Correlation \nStrength") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlab("Treatment") + ylab(NULL)
 ```
-
+# Get hubgenes
 ```{r}
 hubgenes<-lapply(seq_len(length(Network)), function(x) {
   dat<-modulekME[Network[[x]],]
@@ -186,43 +190,7 @@ d <- data.frame(gene = d,
 write_csv(d, path=here("output/glia/wgcna/wc_tany_wgcna_genemodules.csv"))
 ```
 
-#Function to calculate SEM and Average
-```{r}
-summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
-                      conf.interval=.95, .drop=TRUE) {
-    library(plyr)
-
-    # New version of length which can handle NA's: if na.rm==T, don't count them
-    length2 <- function (x, na.rm=FALSE) {
-        if (na.rm) sum(!is.na(x))
-        else       length(x)
-    }
-
-    # This does the summary. For each group's data frame, return a vector with
-    # N, mean, and sd
-    datac <- ddply(data, groupvars, .drop=.drop,
-      .fun = function(xx, col) {
-        c(N    = length2(xx[[col]], na.rm=na.rm),
-          mean = mean   (xx[[col]], na.rm=na.rm),
-          sd   = sd     (xx[[col]], na.rm=na.rm)
-        )
-      },
-      measurevar
-    )
-
-    # Rename the "mean" column    
-    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
-
-    # Confidence interval multiplier for standard error
-    # Calculate t-statistic for confidence interval: 
-    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci <- datac$se * ciMult
-
-    return(datac)
-}
-```
-
+# Linear regression
 ```{r, fig.height=20, fig.width=20}
 data<-data.frame(MEs, trt = ventric$trt, 
                  sample = as.factor(ventric$sample),
@@ -242,7 +210,8 @@ plot <- lapply(colnames(MEs), function(x) {
   x$type<-as.factor(data$type)
   x<-melt(x, id.vars=c("trt","bin","type"))
   x<-x[complete.cases(x),]
-  plotval <- summarySE(x, measurevar="value", groupvars = c("trt","bin"))
+  x %>% dplyr::group_by(trt, bin) %>%
+    dplyr::summarise(mean = mean(value), sd=sd(value), se = sd/sqrt(length(value))) ->plotval
   return(plotval)
 })
 
@@ -250,8 +219,8 @@ names(plot) <- colnames(MEs)
 plot_df <- bind_rows(plot, .id="id")
 ```
 
-
-```{r, fig.height=3, fig.width=7}
+# Plotting
+```{r, fig.height=12, fig.width=12}
 mod <- lapply(colnames(MEs)[grepl("^ME", colnames(MEs))], function(me) {
   tryCatch({
     mod <- lmer(data[[me]] ~ trt*bin + (1 | batch) + (1 | sample), data = data)
@@ -282,29 +251,59 @@ detach("package:here", unload = T)
 library(here)
 write_csv(as.data.frame(plotval_frame), path = here("output/glia/wgcna/wc_tany_pseudovent_linmod.csv"))
 
-mod_df %>% filter(p.adj<0.05) -> sig_df
+mod_df %>% dplyr::group_by(id) %>% 
+  dplyr::summarise(order = quantile(-log10(p.adj),.75)*(quantile(abs(estimate),.75))) %>% 
+  arrange(-order) %>% 
+  mutate(pubname = paste0("sc-tany-M",seq_len(length(order)))) %>% dplyr::select(1,3) -> rename
+write_csv(as.data.frame(rename), path = here("output/glia/wgcna/wc_tany_colortopubname.csv"))
+
+mod_df %>% filter(p.adj<0.05, estimate>0) -> sig_df
 sig_mods <- names(which(table(sig_df$id) > 5))
 height_type <- ggplot() + geom_density(data=data, aes(x=(-height), fill=type), inherit.aes = F, alpha=0.25) + coord_flip() + 
-  theme_pubr(legend = "none") + xlab("Pseudo-ventrivcle Height") + ylab(NULL) + theme(axis.text.x = element_blank(),  axis.text.y = element_blank())
-mod <- ggplot(plotval_frame[plotval_frame$id%in%c(sig_mods),], aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
+  theme_pubr(legend = "none") + xlab("Pseudo-ventricle Height") + ylab(NULL) + scale_fill_jco() + theme(axis.text.x = element_blank(),  axis.text.y = element_blank()) + theme_figure
+plotval_frame$pubname <- rename$pubname[match(plotval_frame$id, rename$id)]
+
+mod <- ggplot(plotval_frame, 
+              aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se, width=.1)) +
+  geom_line() + geom_point() + scale_color_manual(values=c("#000000","#999999")) +
+  geom_text(color="black",size=3,aes(y= mean + .5), position=position_dodge(.9), angle=90) +
+  coord_flip() +
+  facet_wrap(vars(pubname), scales="free", nrow=4) + theme_pubr() + ylab("Scaled ME Expression") +
+  xlab(NULL) +
+  theme(legend.position="none", axis.text.y = element_blank(), 
+        axis.text.x = element_text(angle=45, hjust=1)) + theme_figure
+mod
+ggsave(here("data/figures/supp/alltany_mods_pseudovent.pdf"), width = 12, h=12)
+
+mod_sig <- ggplot(plotval_frame[plotval_frame$id%in%c(sig_mods),], aes(x=(-as.numeric(as.character(bin))), y=mean, color=trt, label=signif)) + 
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se, width=.1)) +
   geom_line() + geom_point() + scale_color_manual(values=c("#000000","#999999")) +
   geom_text(color="black",size=3,aes(y= mean + .5), position=position_dodge(.9), angle=90) + coord_flip() +
-  facet_wrap(vars(id), scales="free", nrow=1) + theme_pubr() + ylab("Scaled ME Expression") + xlab(NULL) +
-  theme(legend.position="none", axis.text.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) 
+  facet_wrap(vars(pubname), scales="free", nrow=1) + theme_pubr() + ylab("Scaled ME Expression") + xlab(NULL) +
+  theme(legend.position="none", axis.text.y = element_blank(), axis.text.x = element_text(angle=45, hjust=1)) + theme_figure
 ```
-
+# UMAP plot
 ```{r}
 ventric_umap <- as.data.frame(Embeddings(ventric, reduction="umap"))
 ventric_umap$`Cell Type` <- ventric$predicted.id
-umap <- ggplot(ventric_umap, aes(x=UMAP_1, y=UMAP_2, color=`Cell Type`)) + geom_point(alpha=0.5) + theme_void() + theme(legend.position = "top")
+ggplot(ventric_umap, aes(x=UMAP_1, y=UMAP_2, color=`Cell Type`)) + 
+  geom_point(alpha=0.5) + xlab("UMAP1") + ylab("UMAP2") + ggpubr::theme_pubr() + 
+  ggsci::scale_color_jco(labels=c(expression(alpha[1]~Tanycyte), expression(alpha[2]~Tanycyte),
+                                  expression(beta[1]~Tanycyte), expression(beta[2]~Tanycyte))) +
+  coord_cartesian(clip="off") +
+  guides(color = guide_legend(override.aes = list(size=3))) +
+  theme(legend.position = c(0.93,0.2), legend.background = element_blank(), 
+        legend.title = element_blank(), legend.key.size = unit(0, 'lines')) -> umap
+umap
 ```
 
+# Arrange plot
 ```{r, fig.height=4, fig.width=12}
-tany_day5 <- plot_grid(umap, princ_plot, height_type, mod, rel_widths = c(2,1,1,2.5), align = "hv", axis="tb", nrow=1, scale=0.9)
+tany_day5 <- plot_grid(umap, princ_plot, height_type, ggplot() + theme_void(), mod_sig, rel_widths = c(2,1,1,1, 2), align = "hv", axis="tb", nrow=1, scale=0.9, labels=c("a","b","","","c"))
 tany_day5
 ```
-
+# Calculate GO term enrichment
 ```{r}
 goterms<-lapply(hubgenes[gsub(sig_mods,pattern = "ME",replacement = "")], function(x) { 
   x<-gprofiler(x, ordered_query = T, organism = "mmusculus", significant = T, custom_bg = colnames(datExpr),
@@ -322,3 +321,105 @@ goterms %>% bind_rows(.id="id") %>%
 write_csv(godat, path=here("output/glia/wgcna/wc_wgcna_tany_goterms.csv"))
 save.image(file = here("output/glia/wgcna/wc_tany_results.RData"))
 ```
+# Plot GO terms
+```{r}
+goterms[[1]] %>% 
+  select(domain, term.name, p.value, overlap.size) %>% arrange(p.value) %>% top_n(5, -p.value) %>%
+  mutate(x = fct_reorder(str_to_title(str_wrap(term.name,20)), -p.value)) %>% 
+  mutate(y = -log10(p.value)) %>%
+  ggplot(aes(x,y)) + 
+  geom_col(colour="black", width = 1, fill="gray80", size=1) +
+  theme_pubr(legend="none") + 
+  theme(axis.text.y = element_text(size=8)) +
+  scale_size(range = c(5,10)) + 
+  ggsci::scale_fill_lancet() +
+  coord_flip() +
+  xlab(NULL) + ylab(expression(bold(-log[10]~pvalue))) +
+  theme_figure -> tany_sc1
+tany_sc1
+
+goterms[[3]] %>% 
+  select(domain, term.name, p.value, overlap.size) %>% arrange(p.value) %>% top_n(5, -p.value) %>%
+  mutate(x = fct_reorder(str_to_title(str_wrap(term.name,20)), -p.value)) %>% 
+  mutate(y = -log10(p.value)) %>%
+  ggplot(aes(x,y)) + 
+  geom_col(colour="black", width = 1, fill="gray80", size=1) +
+  theme_pubr(legend="none") + 
+  theme(axis.text.y = element_text(size=8)) +
+  scale_size(range = c(5,10)) + 
+  ggsci::scale_fill_lancet() +
+  coord_flip() +
+  xlab(NULL) + ylab(expression(bold(-log[10]~pvalue))) +
+  theme_figure -> tany_sc3
+tany_sc3
+```
+# Gene network plots
+```{r}
+hubgenes <- lapply(seq_len(length(Network)), function(x) {
+  dat <- modulekME[Network[[x]], ]
+  dat <- dat[order(-dat[paste0("kME", names(Network)[x])]), ]
+  gene <- data.frame(gene=rownames(dat),kme=dat[,x]) 
+  return(gene)
+})
+
+
+names(hubgenes) <- names(Network)
+
+color <- c("darkgreen")
+lapply(color, function(col) {
+  maxsize <- 15
+  hubs <- data.frame(genes=hubgenes[[col]]$gene[1:maxsize], kme = hubgenes[[col]]$kme[1:maxsize], mod = rep(col,15))
+}) -> hub_plot 
+
+
+hub_plot <- lapply(hub_plot, function(x) {
+  adj[as.character(x$genes), as.character(x$genes)] %>% 
+  graph.adjacency(mode = "undirected", weighted = T, diag = FALSE) %>%
+  as_tbl_graph(g1) %>% upgrade_graph() %>% activate(nodes) %>% dplyr::mutate(mod=x$mod) %>%
+  dplyr::mutate(kme=x$kme)  %>% 
+  activate(edges)}
+)
+
+hub_plot[[1]] %>% activate(nodes) %>% mutate(color = ifelse(name == "Vim", yes="red", no = "black")) -> hub_plot
+
+set.seed("139")
+ggraph(hub_plot,  layout = 'kk') + 
+  geom_edge_link(color="darkgrey", aes(alpha = weight), show.legend = F)  + 
+  scale_edge_width(range = c(0.2, .5)) + geom_node_text(aes(label = name, color=color), fontface="bold", size=4, repel=T) +
+  geom_node_point(shape=21, alpha=0.5, fill="grey70", size=3) + scale_color_manual(values=c("gray0","red")) +
+  theme_graph() + theme(legend.position = "none", plot.title = element_text(hjust=0.5, vjust=1)) + 
+    coord_cartesian(clip = "off") -> genenet
+genenet
+```
+# Vimentin quantification
+```{r}
+readxl::read_xlsx(here("data/mouse_data/fig5/191118_Vim_quantification.xlsx"), range="A5:B9") %>%
+  reshape2::melt() -> vim
+
+vim %>% dplyr::group_by(variable) %>% dplyr::summarise(mean = mean(value), sd = sd(value), se = sd/sqrt(length(value))) %>%
+  ggplot(aes(x = variable, y = mean, fill = variable, color = variable)) + 
+  geom_col(width=1, alpha=0.75, colour="black", position="dodge") +
+  geom_errorbar(aes(x=variable, ymin = mean-se, ymax=mean+se), width=0.2, position = position_dodge(0.9)) + 
+  geom_jitter(data = vim, inherit.aes = F, aes(x=variable, y=value, fill=variable), 
+              alpha=0.5, shape=21, position = position_jitterdodge(.5)) + xlab(NULL) + 
+  geom_signif(y_position=c(7.5e6), xmin=c(1.2), xmax=c(1.8),
+              annotation=c("*"), tip_length=0, size = 0.5, textsize = 5, color="black") +
+  ylab(expression(bold(Volume~(mu*m^3)))) + scale_fill_manual(values=c("gray80","gray30"), name="") + 
+  scale_color_manual(values=c("gray80","gray30"), name="") +
+  theme_pubr() + theme(legend.position = "none", axis.text.x = element_text(angle=45,hjust=1)) + theme_figure -> vim_quant
+
+vim_plot <- cowplot::plot_grid(ggplot() + theme_void(), vim_quant, nrow=1, scale=0.8, labels=c("e"), rel_widths = c(2,1))
+```
+# Arrange bottom half of plot
+```{r, fig.width=12, fig.height=4}
+sc1 <- plot_grid(genenet, tany_sc1, scale=c(1,.8), labels="d")
+tany_bot <- plot_grid(sc1, vim_plot, rel_widths = c(1.25,1))
+tany_bot
+```
+
+# Arrange full figure
+```{r fig.width=12, fig.height=7}
+plot_grid(tany_day5, tany_bot, ncol=1, rel_heights = c(1.25,1))
+ggsave(filename = here("data/figures/fig5/fig5.tiff"), width = 12, h=7, compression="lzw")
+```
+
